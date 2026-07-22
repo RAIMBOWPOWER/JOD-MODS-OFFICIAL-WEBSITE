@@ -7,181 +7,252 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ====== ROOT ====== */
+        /* ==============================================================
+           ROOT & BASE
+           ============================================================== */
+        :root {
+            --primary: #e50914;
+            --primary-dark: #b20710;
+            --primary-glow: rgba(229, 9, 20, 0.4);
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-card: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --text-muted: #666666;
+            --border-color: rgba(255,255,255,0.05);
+            --shadow-color: rgba(0,0,0,0.6);
+            --radius: 16px;
+            --transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: #0a0a0a; 
-            color: #fff; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             min-height: 100vh;
             overflow-x: hidden;
         }
-        
-        /* ====== SCROLLBAR ====== */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #e50914, #ff6b6b); border-radius: 10px; }
-        
-        /* ====== LOGIN ANIMATION ====== */
+
+        /* ==============================================================
+           SCROLLBAR
+           ============================================================== */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--primary), #ff6b6b); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* ==============================================================
+           LOGIN OVERLAY
+           ============================================================== */
         .login-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.96);
-            z-index: 10000;
+            background: rgba(0,0,0,0.97);
+            z-index: 99999;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(30px);
         }
         .login-overlay.active { display: flex; }
-        
-        .login-container {
+
+        .login-wrapper {
             position: relative;
-            width: 420px; height: 520px;
-            background: linear-gradient(135deg, #1a1a1a, #2a1a1a);
-            border-radius: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 440px;
+            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+            border-radius: 32px;
+            padding: 50px 40px 40px;
+            border: 1px solid rgba(229,9,14,0.2);
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8), 0 0 80px rgba(229,9,14,0.05);
             overflow: hidden;
-            box-shadow: 0 30px 80px rgba(229,9,14,0.3);
-            border: 2px solid rgba(229,9,14,0.2);
         }
-        
-        .login-container::before {
+        .login-wrapper::before {
             content: '';
             position: absolute;
-            width: 600px; height: 600px;
-            background: conic-gradient(transparent, transparent, transparent, #e50914, #ff6b6b, transparent);
-            animation: animate 6s linear infinite;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, transparent, transparent, var(--primary), transparent, transparent);
+            animation: rotateBorder 8s linear infinite;
         }
-        .login-container::after {
+        .login-wrapper::after {
             content: '';
             position: absolute;
-            width: 600px; height: 600px;
-            background: conic-gradient(transparent, transparent, transparent, #ff6b6b, #e50914, transparent);
-            animation: animate 6s linear infinite;
-            animation-delay: -3s;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, transparent, transparent, #ff6b6b, transparent, transparent);
+            animation: rotateBorder 8s linear infinite;
+            animation-delay: -4s;
         }
-        @keyframes animate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        .login-box {
-            position: absolute;
-            inset: 5px;
-            background: rgba(10,10,10,0.95);
-            border-radius: 26px;
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .login-inner {
+            position: relative;
             z-index: 10;
-            padding: 50px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            background: rgba(10,10,10,0.95);
+            border-radius: 24px;
+            padding: 10px;
             backdrop-filter: blur(10px);
         }
-        .login-box .logo {
+
+        .login-box {
+            padding: 30px 20px 20px;
             text-align: center;
-            font-size: 2.2rem;
+        }
+        .login-box .logo {
+            font-size: 2.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #e50914, #ff6b6b);
+            background: linear-gradient(135deg, var(--primary), #ff6b6b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 5px;
         }
-        .login-box .logo i { -webkit-text-fill-color: #e50914; margin-right: 10px; }
-        .login-box .subtitle { text-align: center; color: #808080; margin-bottom: 30px; font-size: 0.9rem; }
-        .login-box .input-group { position: relative; margin-bottom: 20px; }
+        .login-box .logo i { -webkit-text-fill-color: var(--primary); margin-right: 12px; }
+        .login-box .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 30px; }
+        .login-box .input-group {
+            position: relative;
+            margin-bottom: 18px;
+            text-align: left;
+        }
+        .login-box .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
         .login-box .input-group input {
-            width: 100%; padding: 16px 20px;
+            width: 100%;
+            padding: 14px 18px;
             background: rgba(255,255,255,0.05);
             border: 2px solid rgba(255,255,255,0.08);
-            border-radius: 14px; color: #fff; font-size: 1rem;
-            transition: all 0.3s; outline: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s;
+            outline: none;
         }
         .login-box .input-group input:focus {
-            border-color: #e50914;
+            border-color: var(--primary);
             background: rgba(255,255,255,0.08);
-            box-shadow: 0 0 0 4px rgba(229,9,14,0.15);
+            box-shadow: 0 0 0 4px rgba(229,9,14,0.1);
         }
-        .login-box .input-group input::placeholder { color: #555; }
         .login-box .input-group .icon {
-            position: absolute; right: 18px; top: 50%;
-            transform: translateY(-50%);
-            color: #555;
+            position: absolute;
+            right: 16px;
+            bottom: 16px;
+            color: var(--text-muted);
         }
         .login-box .btn-login {
-            width: 100%; padding: 16px;
+            width: 100%;
+            padding: 16px;
             border-radius: 14px;
-            background: linear-gradient(135deg, #e50914, #b20710);
-            color: #fff; border: none; font-weight: 700; font-size: 1.1rem;
-            transition: all 0.3s; cursor: pointer;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            border: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            margin-top: 10px;
         }
-        .login-box .btn-login:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(229,9,14,0.4); }
-        .login-box .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+        .login-box .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(229,9,14,0.3);
+        }
+        .login-box .btn-login:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         .login-box .error-msg {
-            color: #e50914; text-align: center; margin-top: 12px; font-size: 0.85rem;
-            display: none; background: rgba(229,9,14,0.1); padding: 12px;
-            border-radius: 12px; border: 1px solid rgba(229,9,14,0.2);
+            color: var(--primary);
+            font-size: 0.85rem;
+            margin-top: 12px;
+            display: none;
+            background: rgba(229,9,14,0.1);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(229,9,14,0.2);
         }
         .login-box .success-msg {
-            color: #00d4aa; text-align: center; margin-top: 12px; font-size: 0.85rem;
-            display: none; background: rgba(0,212,170,0.1); padding: 12px;
-            border-radius: 12px; border: 1px solid rgba(0,212,170,0.2);
+            color: #00d4aa;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            display: none;
+            background: rgba(0,212,170,0.1);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(0,212,170,0.2);
         }
         .login-box .credentials-hint {
-            text-align: center; color: #808080; font-size: 0.75rem;
-            margin-top: 20px; padding: 12px;
+            margin-top: 20px;
+            padding: 12px;
             background: rgba(255,255,255,0.03);
-            border-radius: 12px; border: 1px dashed rgba(255,255,255,0.05);
+            border-radius: 12px;
+            border: 1px dashed rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            font-size: 0.75rem;
         }
-        .login-box .credentials-hint strong { color: #e50914; font-size: 0.9rem; }
-        
+        .login-box .credentials-hint strong { color: var(--primary); font-size: 0.9rem; }
+
         .falling-man {
             position: absolute;
-            font-size: 3.5rem;
-            animation: fallDown 3s ease-in forwards;
+            font-size: 4rem;
+            animation: fallDown 3.5s ease-in forwards;
             z-index: 5;
             pointer-events: none;
         }
         @keyframes fallDown {
-            0% { transform: translateY(-200px) rotate(0deg) scale(1); opacity: 1; }
-            100% { transform: translateY(450px) rotate(720deg) scale(0.5); opacity: 0; }
+            0% { transform: translateY(-300px) rotate(0deg) scale(1); opacity: 1; }
+            100% { transform: translateY(500px) rotate(720deg) scale(0.3); opacity: 0; }
         }
-        
-        /* ====== MODERN NAVBAR ====== */
+
+        /* ==============================================================
+           NAVBAR
+           ============================================================== */
         .navbar-premium {
             background: linear-gradient(180deg, rgba(0,0,0,0.98) 0%, transparent 100%);
-            padding: 18px 0;
+            padding: 16px 0;
             position: sticky;
             top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
+            z-index: 9999;
+            backdrop-filter: blur(20px);
         }
         .navbar-premium .brand {
             font-size: 2rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #e50914, #ff6b6b);
+            background: linear-gradient(135deg, var(--primary), #ff6b6b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-decoration: none;
         }
-        .navbar-premium .brand i { -webkit-text-fill-color: #e50914; margin-right: 10px; }
+        .navbar-premium .brand i { -webkit-text-fill-color: var(--primary); margin-right: 10px; }
         .navbar-premium .brand small {
             font-size: 0.6rem;
-            color: #808080;
-            font-weight: 400;
+            color: var(--text-muted);
             background: rgba(255,255,255,0.05);
-            padding: 2px 10px;
+            padding: 2px 12px;
             border-radius: 20px;
-            -webkit-text-fill-color: #808080;
+            -webkit-text-fill-color: var(--text-muted);
+            font-weight: 400;
         }
         .navbar-premium .nav-links a {
-            color: #808080;
+            color: var(--text-secondary);
             text-decoration: none;
             margin: 0 18px;
-            transition: 0.3s;
             font-size: 0.95rem;
-            cursor: pointer;
             font-weight: 500;
+            cursor: pointer;
             position: relative;
+            transition: 0.3s;
         }
         .navbar-premium .nav-links a::after {
             content: '';
@@ -190,14 +261,13 @@
             left: 0;
             width: 0%;
             height: 2px;
-            background: linear-gradient(90deg, #e50914, #ff6b6b);
+            background: linear-gradient(90deg, var(--primary), #ff6b6b);
             transition: 0.3s;
         }
         .navbar-premium .nav-links a:hover::after,
         .navbar-premium .nav-links a.active::after { width: 100%; }
         .navbar-premium .nav-links a:hover,
         .navbar-premium .nav-links a.active { color: #fff; }
-        
         .navbar-premium .user-badge {
             display: none;
             align-items: center;
@@ -211,7 +281,7 @@
             width: 34px;
             height: 34px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #e50914, #ff6b6b);
+            background: linear-gradient(135deg, var(--primary), #ff6b6b);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -219,18 +289,18 @@
             font-size: 0.9rem;
             color: #fff;
         }
-        
+
         .admin-trigger {
             position: fixed;
             bottom: 25px;
             right: 25px;
-            width: 50px;
-            height: 50px;
+            width: 52px;
+            height: 52px;
             background: rgba(229,9,14,0.15);
             border: 2px solid rgba(229,9,14,0.3);
             border-radius: 50%;
-            color: #e50914;
-            z-index: 999;
+            color: var(--primary);
+            z-index: 9998;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -239,25 +309,33 @@
             font-size: 1.3rem;
             backdrop-filter: blur(10px);
         }
-        .admin-trigger:hover { background: rgba(229,9,14,0.3); transform: scale(1.1) rotate(45deg); }
-        
-        /* ====== HERO ====== */
+        .admin-trigger:hover {
+            background: rgba(229,9,14,0.3);
+            transform: scale(1.1) rotate(45deg);
+            box-shadow: 0 0 40px rgba(229,9,14,0.2);
+        }
+
+        /* ==============================================================
+           HERO
+           ============================================================== */
         .hero-premium {
             padding: 80px 0 40px;
             text-align: center;
-            background: radial-gradient(ellipse at 50% 0%, rgba(229,9,14,0.08), transparent 70%);
+            background: radial-gradient(ellipse at 50% 0%, rgba(229,9,14,0.06), transparent 70%);
         }
         .hero-premium h1 {
-            font-size: 4rem;
+            font-size: 4.2rem;
             font-weight: 800;
             margin-bottom: 10px;
-            background: linear-gradient(135deg, #fff, #e50914);
+            background: linear-gradient(135deg, #fff 30%, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .hero-premium p { color: #808080; font-size: 1.2rem; max-width: 500px; margin: 0 auto; }
-        
-        /* ====== CATEGORY ROWS ====== */
+        .hero-premium p { color: var(--text-secondary); font-size: 1.2rem; max-width: 550px; margin: 0 auto; }
+
+        /* ==============================================================
+           CATEGORY ROWS
+           ============================================================== */
         .category-row { padding: 30px 0; }
         .category-row .section-title {
             font-size: 1.6rem;
@@ -267,7 +345,7 @@
             align-items: center;
             gap: 12px;
         }
-        .category-row .section-title i { color: #e50914; }
+        .category-row .section-title i { color: var(--primary); }
         .movie-scroll {
             display: flex;
             gap: 22px;
@@ -276,29 +354,31 @@
             scroll-behavior: smooth;
         }
         .movie-scroll::-webkit-scrollbar { height: 6px; }
-        .movie-scroll::-webkit-scrollbar-thumb { background: linear-gradient(90deg, #e50914, #ff6b6b); border-radius: 10px; }
-        
-        /* ====== MOVIE CARD - MODERN ====== */
+        .movie-scroll::-webkit-scrollbar-thumb { background: linear-gradient(90deg, var(--primary), #ff6b6b); border-radius: 10px; }
+
+        /* ==============================================================
+           MOVIE CARD
+           ============================================================== */
         .movie-card {
-            flex: 0 0 240px;
-            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
-            border-radius: 18px;
+            flex: 0 0 250px;
+            background: var(--bg-card);
+            border-radius: var(--radius);
             overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(255,255,255,0.05);
+            transition: all var(--transition);
+            border: 1px solid var(--border-color);
             cursor: pointer;
             position: relative;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
         .movie-card:hover {
-            transform: translateY(-12px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(229,9,14,0.2);
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 70px rgba(229,9,14,0.15);
             border-color: rgba(229,9,14,0.3);
             z-index: 10;
         }
         .movie-card .thumbnail {
             width: 100%;
-            height: 170px;
+            height: 180px;
             object-fit: cover;
             background: #2a2a2a;
             transition: 0.5s;
@@ -306,13 +386,13 @@
         .movie-card:hover .thumbnail { transform: scale(1.05); }
         .movie-card .thumbnail-placeholder {
             width: 100%;
-            height: 170px;
+            height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, #1a1a1a, #2a1a1a);
-            font-size: 3.5rem;
-            color: #e50914;
+            font-size: 4rem;
+            color: var(--primary);
         }
         .movie-card .card-body { padding: 16px 18px; }
         .movie-card .card-body h6 {
@@ -328,11 +408,11 @@
             justify-content: space-between;
             align-items: center;
             font-size: 0.7rem;
-            color: #808080;
+            color: var(--text-muted);
         }
         .movie-card .card-body .badge-category {
             background: linear-gradient(135deg, rgba(229,9,14,0.2), rgba(255,107,107,0.1));
-            color: #e50914;
+            color: var(--primary);
             padding: 3px 14px;
             border-radius: 20px;
             font-size: 0.65rem;
@@ -343,15 +423,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.8);
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             background: rgba(229,9,14,0.95);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all var(--transition);
             backdrop-filter: blur(5px);
             box-shadow: 0 10px 40px rgba(229,9,14,0.4);
         }
@@ -359,48 +439,94 @@
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
         }
-        .movie-card .play-overlay i { font-size: 1.8rem; color: #fff; }
-        
-        /* ====== VIDEO MODAL ====== */
+        .movie-card .play-overlay i { font-size: 2rem; color: #fff; }
+
+        /* ==============================================================
+           VIDEO MODAL - FULL SCREEN PLAYER
+           ============================================================== */
         .video-modal .modal-content {
-            background: #0a0a0a;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 24px;
-            overflow: hidden;
+            background: #000;
+            border: none;
+            border-radius: 0;
+            min-height: 100vh;
         }
         .video-modal .modal-header {
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding: 18px 24px;
-            background: rgba(0,0,0,0.5);
+            border: none;
+            padding: 20px 30px;
+            background: rgba(0,0,0,0.8);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            backdrop-filter: blur(10px);
         }
-        .video-modal .modal-header .btn-close { filter: invert(1); }
-        .video-modal .modal-body { padding: 0; background: #000; }
-        .video-modal video { 
-            width: 100%; 
-            max-height: 80vh; 
+        .video-modal .modal-header .modal-title {
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .video-modal .modal-header .btn-close {
+            filter: invert(1);
+            opacity: 0.8;
+        }
+        .video-modal .modal-header .btn-close:hover { opacity: 1; }
+        .video-modal .modal-body {
+            padding: 0;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .video-modal video {
+            width: 100%;
+            max-height: 100vh;
             background: #000;
             display: block;
         }
         .video-modal .modal-footer {
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding: 15px 24px;
-            background: rgba(0,0,0,0.5);
+            border: none;
+            padding: 15px 30px;
+            background: rgba(0,0,0,0.8);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            backdrop-filter: blur(10px);
         }
-        .video-modal .modal-footer .meta-info { color: #808080; font-size: 0.85rem; }
-        
-        /* ====== ADMIN PANEL ====== */
+        .video-modal .modal-footer .meta-info {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        .video-modal .modal-footer .btn-close-modal {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 8px 24px;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+        .video-modal .modal-footer .btn-close-modal:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* ==============================================================
+           ADMIN PANEL
+           ============================================================== */
         .admin-panel {
             display: none;
-            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
-            border-radius: 24px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius);
             padding: 30px;
             margin: 30px 0;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
         .admin-panel.active { display: block; }
         .admin-panel h3 {
-            color: #e50914;
+            color: var(--primary);
             font-weight: 700;
             margin-bottom: 25px;
             font-size: 1.8rem;
@@ -410,84 +536,115 @@
             background: rgba(255,255,255,0.05);
             border: 2px solid rgba(255,255,255,0.08);
             color: #fff;
-            border-radius: 14px;
+            border-radius: 12px;
             padding: 12px 16px;
             transition: 0.3s;
         }
         .admin-panel .form-control:focus {
             background: rgba(255,255,255,0.08);
-            border-color: #e50914;
+            border-color: var(--primary);
             color: #fff;
-            box-shadow: 0 0 0 4px rgba(229,9,14,0.15);
+            box-shadow: 0 0 0 4px rgba(229,9,14,0.1);
         }
+        .admin-panel .form-control::placeholder { color: var(--text-muted); }
         .admin-panel .upload-zone {
             border: 2px dashed rgba(229,9,14,0.2);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 35px 20px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
         }
         .admin-panel .upload-zone:hover {
-            border-color: #e50914;
+            border-color: var(--primary);
             background: rgba(229,9,14,0.05);
         }
-        .admin-panel .upload-zone i { font-size: 2.8rem; color: #e50914; margin-bottom: 12px; }
+        .admin-panel .upload-zone i { font-size: 3rem; color: var(--primary); margin-bottom: 12px; }
         .admin-panel .upload-zone .file-info {
             margin-top: 12px;
             padding: 10px;
             background: rgba(255,255,255,0.03);
-            border-radius: 12px;
+            border-radius: 8px;
             font-size: 0.9rem;
         }
         .admin-panel .btn-danger {
-            background: linear-gradient(135deg, #e50914, #b20710);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             border: none;
             padding: 12px 24px;
-            border-radius: 14px;
+            border-radius: 12px;
             color: #fff;
             transition: 0.3s;
             font-weight: 700;
             font-size: 1rem;
         }
-        .admin-panel .btn-danger:hover { transform: scale(1.02); box-shadow: 0 10px 30px rgba(229,9,14,0.3); }
+        .admin-panel .btn-danger:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(229,9,14,0.3);
+        }
         .admin-panel .btn-secondary-custom {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.08);
             padding: 12px 24px;
-            border-radius: 14px;
-            color: #808080;
+            border-radius: 12px;
+            color: var(--text-secondary);
             transition: 0.3s;
             font-weight: 600;
         }
         .admin-panel .btn-secondary-custom:hover { background: rgba(255,255,255,0.1); color: #fff; }
         .admin-panel .table { color: #fff; }
-        .admin-panel .table thead th { border-bottom: 1px solid rgba(255,255,255,0.05); color: #808080; font-weight: 600; }
-        .admin-panel .table tbody td { border-bottom: 1px solid rgba(255,255,255,0.03); vertical-align: middle; }
-        
+        .admin-panel .table thead th {
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+        .admin-panel .table tbody td {
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            vertical-align: middle;
+        }
+        .admin-panel .table tbody tr:hover { background: rgba(255,255,255,0.02); }
+
         .link-hint {
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 12px;
             padding: 12px 16px;
             font-size: 0.8rem;
-            color: #808080;
+            color: var(--text-secondary);
             margin-top: 8px;
         }
         .link-hint i { color: #00d4aa; margin-right: 8px; }
-        .link-hint code { 
-            color: #e50914; 
-            background: rgba(229,9,14,0.1); 
-            padding: 2px 10px; 
+        .link-hint code {
+            color: var(--primary);
+            background: rgba(229,9,14,0.1);
+            padding: 2px 10px;
             border-radius: 6px;
             font-size: 0.75rem;
         }
-        
+
+        .alert-premium {
+            background: rgba(229,9,14,0.05);
+            border: 1px solid rgba(229,9,14,0.1);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            padding: 16px 20px;
+        }
+        .alert-premium strong { color: var(--primary); }
+        .alert-premium code {
+            color: #00d4aa;
+            background: rgba(0,212,170,0.1);
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+        }
+
         .live-badge {
-            background: #e50914;
+            background: var(--primary);
             color: #fff;
             font-size: 0.55rem;
-            padding: 3px 12px;
+            padding: 3px 14px;
             border-radius: 20px;
             margin-left: 8px;
             animation: pulse 1.5s infinite;
@@ -499,56 +656,134 @@
             50% { opacity: 0.5; transform: scale(0.95); }
             100% { opacity: 1; transform: scale(1); }
         }
-        
-        .no-content { text-align: center; padding: 80px 0; color: #808080; grid-column: 1/-1; }
+
+        .no-content {
+            text-align: center;
+            padding: 80px 0;
+            color: var(--text-muted);
+            grid-column: 1/-1;
+        }
         .no-content i { font-size: 5rem; margin-bottom: 20px; opacity: 0.3; }
-        .toast-custom { background: #1a1a1a; border: 1px solid rgba(229,9,14,0.2); color: #fff; border-radius: 16px; }
-        .loading-container { display: none; text-align: center; padding: 60px 0; }
+        .no-content h5 { font-weight: 700; }
+
+        .toast-custom {
+            background: var(--bg-card);
+            border: 1px solid rgba(229,9,14,0.2);
+            color: #fff;
+            border-radius: 16px;
+        }
+
+        .loading-container {
+            display: none;
+            text-align: center;
+            padding: 60px 0;
+        }
         .loading-container .spinner {
             width: 50px;
             height: 50px;
             border: 3px solid rgba(229,9,14,0.1);
-            border-top-color: #e50914;
+            border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin: 0 auto;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        
-        .alert-premium {
-            background: rgba(229,9,14,0.05);
-            border: 1px solid rgba(229,9,14,0.1);
-            border-radius: 14px;
-            color: #ccc;
-            padding: 16px 20px;
+
+        /* ==============================================================
+           EDIT MODE
+           ============================================================== */
+        .edit-mode .movie-card {
+            border-color: rgba(0,212,170,0.3);
+            box-shadow: 0 0 30px rgba(0,212,170,0.05);
         }
-        .alert-premium strong { color: #e50914; }
-        .alert-premium code { color: #00d4aa; background: rgba(0,212,170,0.1); padding: 2px 10px; border-radius: 6px; }
-        
-        /* ====== RESPONSIVE ====== */
+        .edit-mode .movie-card:hover {
+            border-color: #00d4aa;
+            box-shadow: 0 0 50px rgba(0,212,170,0.1);
+        }
+        .edit-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #00d4aa;
+            color: #000;
+            font-size: 0.6rem;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            z-index: 5;
+            opacity: 0;
+            transition: 0.3s;
+        }
+        .edit-mode .edit-badge { opacity: 1; }
+
+        .edit-actions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 12px;
+            opacity: 0;
+            transition: 0.3s;
+            z-index: 10;
+        }
+        .edit-mode .movie-card:hover .edit-actions { opacity: 1; }
+        .edit-actions button {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.2rem;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .edit-actions .btn-edit {
+            background: #00d4aa;
+            color: #000;
+        }
+        .edit-actions .btn-edit:hover { transform: scale(1.1); }
+        .edit-actions .btn-delete {
+            background: var(--primary);
+            color: #fff;
+        }
+        .edit-actions .btn-delete:hover { transform: scale(1.1); }
+
+        /* ==============================================================
+           RESPONSIVE
+           ============================================================== */
+        @media (max-width: 992px) {
+            .movie-card { flex: 0 0 200px; }
+            .movie-card .thumbnail { height: 150px; }
+        }
         @media (max-width: 768px) {
-            .login-container { width: 95%; height: auto; min-height: 460px; }
-            .login-box { padding: 30px 20px; }
+            .login-wrapper { width: 95%; padding: 30px 20px; }
             .hero-premium h1 { font-size: 2.5rem; }
             .movie-card { flex: 0 0 170px; }
             .movie-card .thumbnail { height: 130px; }
             .navbar-premium .brand { font-size: 1.4rem; }
             .navbar-premium .nav-links a { margin: 0 10px; font-size: 0.8rem; }
             .admin-panel { padding: 20px; }
+            .video-modal .modal-header { padding: 12px 16px; }
+            .video-modal .modal-footer { padding: 12px 16px; flex-wrap: wrap; gap: 10px; }
         }
         @media (max-width: 480px) {
-            .movie-card { flex: 0 0 150px; }
+            .movie-card { flex: 0 0 140px; }
             .movie-card .thumbnail { height: 110px; }
             .hero-premium h1 { font-size: 2rem; }
+            .navbar-premium .nav-links a { margin: 0 6px; font-size: 0.7rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ====== MAIN APP ====== -->
+    <!-- ==============================================================
+    MAIN APP
+    ============================================================== -->
     <div class="main-app" id="mainApp">
 
-        <!-- Navbar -->
+        <!-- ==========================================================
+        NAVBAR
+        ========================================================== -->
         <nav class="navbar-premium">
             <div class="container">
                 <div class="d-flex justify-content-between align-items-center">
@@ -575,20 +810,26 @@
             </div>
         </nav>
 
-        <!-- Hidden Admin Trigger -->
+        <!-- ==========================================================
+        ADMIN TRIGGER
+        ========================================================== -->
         <button class="admin-trigger" onclick="showLogin()" title="Admin Access">
             <i class="fas fa-crown"></i>
         </button>
 
-        <!-- Hero -->
+        <!-- ==========================================================
+        HERO
+        ========================================================== -->
         <div class="hero-premium">
             <div class="container">
-                <h1>Watch <span style="color:#e50914;">What You Love</span></h1>
+                <h1>Watch <span style="color:var(--primary);">What You Love</span></h1>
                 <p>Premium content streaming platform. No downloads, just pure entertainment.</p>
             </div>
         </div>
 
-        <!-- Content -->
+        <!-- ==========================================================
+        CONTENT
+        ========================================================== -->
         <div class="container">
             <div class="loading-container" id="loadingContainer">
                 <div class="spinner"></div>
@@ -597,10 +838,19 @@
             <div id="contentContainer"></div>
         </div>
 
-        <!-- ====== ADMIN PANEL ====== -->
+        <!-- ==========================================================
+        ADMIN PANEL
+        ========================================================== -->
         <div class="container">
             <div class="admin-panel" id="adminPanel">
-                <h3><i class="fas fa-shield-alt"></i> Dashboard</h3>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3><i class="fas fa-shield-alt"></i> Dashboard</h3>
+                    <div>
+                        <button class="btn btn-secondary-custom btn-sm" onclick="toggleEditMode()" id="editModeBtn">
+                            <i class="fas fa-edit me-1"></i> Edit Mode
+                        </button>
+                    </div>
+                </div>
 
                 <div class="row g-4">
                     <div class="col-lg-7">
@@ -660,7 +910,7 @@
                             </div>
                             <div class="col-12">
                                 <div class="alert-premium">
-                                    <i class="fas fa-lightbulb me-2" style="color:#e50914;"></i>
+                                    <i class="fas fa-lightbulb me-2" style="color:var(--primary);"></i>
                                     <strong>Pro Tip:</strong> Archive.org links work best! Format: 
                                     <code>https://archive.org/download/ID/file.mp4</code>
                                 </div>
@@ -675,11 +925,11 @@
 
                     <div class="col-lg-5">
                         <div class="p-4 rounded" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);">
-                            <h6><i class="fas fa-chart-simple me-2" style="color:#e50914;"></i> Statistics</h6>
+                            <h6><i class="fas fa-chart-simple me-2" style="color:var(--primary);"></i> Statistics</h6>
                             <div class="row mt-3">
                                 <div class="col-6">
                                     <p class="text-muted mb-1">Total Items</p>
-                                    <h4 id="totalItems" style="color:#e50914;">0</h4>
+                                    <h4 id="totalItems" style="color:var(--primary);">0</h4>
                                 </div>
                                 <div class="col-6">
                                     <p class="text-muted mb-1">Last Updated</p>
@@ -724,23 +974,28 @@
             </div>
         </div>
 
-        <!-- ====== VIDEO MODAL ====== -->
-        <div class="modal fade video-modal" id="videoModal" tabindex="-1">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
+        <!-- ==========================================================
+        VIDEO MODAL
+        ========================================================== -->
+        <div class="modal fade video-modal" id="videoModal" tabindex="-1" data-bs-backdrop="static">
+            <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalTitle" style="color:#e50914;">Now Playing</h5>
+                        <h5 class="modal-title" id="modalTitle">
+                            <i class="fas fa-play-circle me-2" style="color:var(--primary);"></i>
+                            <span id="modalTitleText">Now Playing</span>
+                        </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body" id="modalBody">
                         <div id="playerContainer">
-                            <!-- Video will be injected here -->
+                            <!-- Video injected here -->
                         </div>
                     </div>
                     <div class="modal-footer">
                         <span class="meta-info" id="modalMeta"></span>
-                        <button class="btn btn-outline-secondary" data-bs-dismiss="modal" style="border-radius:50px; padding:8px 24px;">
-                            <i class="fas fa-times me-1"></i> Close
+                        <button class="btn btn-close-modal" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i> Close
                         </button>
                     </div>
                 </div>
@@ -749,37 +1004,45 @@
 
     </div>
 
-    <!-- ====== LOGIN OVERLAY ====== -->
+    <!-- ==============================================================
+    LOGIN OVERLAY
+    ============================================================== -->
     <div class="login-overlay" id="loginOverlay">
-        <div class="login-container">
+        <div class="login-wrapper">
             <div class="falling-man" id="fallingMan">🧑</div>
-            <div class="login-box">
-                <div class="logo"><i class="fas fa-crown"></i> JOD MODS</div>
-                <div class="subtitle">Staff Access Only</div>
-                <form id="loginForm">
-                    <div class="input-group">
-                        <input type="text" id="loginUsername" placeholder="Username" value="JOD" required>
-                        <span class="icon"><i class="fas fa-user"></i></span>
+            <div class="login-inner">
+                <div class="login-box">
+                    <div class="logo"><i class="fas fa-crown"></i> JOD MODS</div>
+                    <div class="subtitle">Staff Access Only</div>
+                    <form id="loginForm">
+                        <div class="input-group">
+                            <label>Username</label>
+                            <input type="text" id="loginUsername" placeholder="Enter username" value="JOD">
+                            <span class="icon"><i class="fas fa-user"></i></span>
+                        </div>
+                        <div class="input-group">
+                            <label>Password</label>
+                            <input type="password" id="loginPassword" placeholder="Enter password" value="MODS">
+                            <span class="icon"><i class="fas fa-lock"></i></span>
+                        </div>
+                        <button type="submit" class="btn-login" id="loginBtn">
+                            <i class="fas fa-sign-in-alt me-2"></i> Login
+                        </button>
+                        <div class="error-msg" id="loginError">❌ Invalid credentials! Try again.</div>
+                        <div class="success-msg" id="loginSuccess">✅ Login successful! Redirecting...</div>
+                    </form>
+                    <div class="credentials-hint">
+                        <strong>JOD</strong> / <strong>MODS</strong>
                     </div>
-                    <div class="input-group">
-                        <input type="password" id="loginPassword" placeholder="Password" value="MODS" required>
-                        <span class="icon"><i class="fas fa-lock"></i></span>
-                    </div>
-                    <button type="submit" class="btn-login" id="loginBtn">
-                        <i class="fas fa-sign-in-alt me-2"></i> Login
-                    </button>
-                    <div class="error-msg" id="loginError">❌ Invalid credentials! Try again.</div>
-                    <div class="success-msg" id="loginSuccess">✅ Login successful! Redirecting...</div>
-                </form>
-                <div class="credentials-hint">
-                    <strong>JOD</strong> / <strong>MODS</strong>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Toast -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index:9999;">
+    <!-- ==============================================================
+    TOAST
+    ============================================================== -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index:99999;">
         <div id="liveToast" class="toast toast-custom" role="alert">
             <div class="d-flex">
                 <div class="toast-body" id="toastMessage"></div>
@@ -788,11 +1051,14 @@
         </div>
     </div>
 
+    <!-- ==============================================================
+    SCRIPTS
+    ============================================================== -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
     </script>
     <script>
         // ==============================================================
-        // TELEGRAM CONFIG
+        // CONFIG
         // ==============================================================
         const TELEGRAM = {
             botToken: '8912679390:AAHjunC2scpFKPJr0QgwfGWdAOFaLhUhzwY',
@@ -802,11 +1068,9 @@
             }
         };
 
-        // ==============================================================
-        // AUTH
-        // ==============================================================
         const ADMIN_USERNAME = 'JOD';
         const ADMIN_PASSWORD = 'MODS';
+        const DB_KEY = 'jodmods_live_db';
 
         let currentUser = null;
         let contentItems = [];
@@ -814,7 +1078,8 @@
         let modalInstance = null;
         let selectedThumbnail = null;
         let isAdminMode = false;
-        const DB_KEY = 'jodmods_live_db';
+        let isEditMode = false;
+        let editingItemId = null;
 
         // ==============================================================
         // DATABASE
@@ -853,7 +1118,7 @@
             document.getElementById('loginSuccess').style.display = 'none';
             const man = document.getElementById('fallingMan');
             man.style.animation = 'none';
-            setTimeout(() => { man.style.animation = 'fallDown 3s ease-in forwards'; }, 100);
+            setTimeout(() => { man.style.animation = 'fallDown 3.5s ease-in forwards'; }, 100);
         }
 
         function hideLogin() {
@@ -903,6 +1168,8 @@
                 hideAdmin();
                 document.getElementById('userBadge').style.display = 'none';
                 document.getElementById('logoutBtn').style.display = 'none';
+                isEditMode = false;
+                document.getElementById('editModeBtn').textContent = 'Edit Mode';
                 showToast('Logged out');
             }
         }
@@ -928,6 +1195,106 @@
         function hideAdmin() {
             document.getElementById('adminPanel').classList.remove('active');
             isAdminMode = false;
+            isEditMode = false;
+            document.getElementById('editModeBtn').textContent = 'Edit Mode';
+            document.querySelector('.main-app').classList.remove('edit-mode');
+        }
+
+        // ==============================================================
+        // EDIT MODE
+        // ==============================================================
+        function toggleEditMode() {
+            if (!isAdmin()) {
+                showToast('Admin access required!', 'error');
+                return;
+            }
+            isEditMode = !isEditMode;
+            document.querySelector('.main-app').classList.toggle('edit-mode', isEditMode);
+            document.getElementById('editModeBtn').textContent = isEditMode ? 'Exit Edit' : 'Edit Mode';
+            if (isEditMode) {
+                showToast('✏️ Edit Mode ON - Click on any content to edit', 'info');
+                renderContent(currentFilter);
+            } else {
+                showToast('✏️ Edit Mode OFF', 'info');
+                renderContent(currentFilter);
+            }
+        }
+
+        // ==============================================================
+        // EDIT ITEM
+        // ==============================================================
+        function editItem(id) {
+            const item = contentItems.find(c => c.id === id);
+            if (!item) return;
+
+            editingItemId = id;
+            document.getElementById('mediaTitle').value = item.title || '';
+            document.getElementById('mediaEpisode').value = item.episode || '';
+            document.getElementById('mediaDesc').value = item.description || '';
+            document.getElementById('mediaCategory').value = item.category || 'General';
+            document.getElementById('mediaType').value = item.type || 'video';
+            document.getElementById('videoUrl').value = item.url || '';
+            document.getElementById('fileInfo').innerHTML = 'Current thumbnail saved';
+            document.getElementById('publishBtn').innerHTML = '<i class="fas fa-save me-2"></i> Update Content';
+            document.getElementById('publishBtn').onclick = function() { updateContent(id); };
+            showToast('✏️ Editing: ' + item.title, 'info');
+            document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ==============================================================
+        // UPDATE CONTENT
+        // ==============================================================
+        async function updateContent(id) {
+            const title = document.getElementById('mediaTitle').value.trim();
+            const episode = document.getElementById('mediaEpisode').value.trim();
+            const description = document.getElementById('mediaDesc').value.trim();
+            const category = document.getElementById('mediaCategory').value;
+            const mediaType = document.getElementById('mediaType').value;
+            const videoUrl = document.getElementById('videoUrl').value.trim();
+            const publishBtn = document.getElementById('publishBtn');
+
+            if (!title) { showToast('Please enter a title', 'warning'); return; }
+            if (!videoUrl) { showToast('Please paste a video URL', 'warning'); return; }
+
+            publishBtn.disabled = true;
+            publishBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Updating...';
+
+            try {
+                const index = contentItems.findIndex(c => c.id === id);
+                if (index === -1) { throw new Error('Item not found'); }
+
+                // If new thumbnail selected, upload it
+                let thumbnailUrl = contentItems[index].thumbnail;
+                if (selectedThumbnail) {
+                    thumbnailUrl = await uploadThumbnailToTelegram(selectedThumbnail, title) || thumbnailUrl;
+                }
+
+                contentItems[index] = {
+                    ...contentItems[index],
+                    title: title,
+                    episode: episode || '',
+                    description: description || '',
+                    category: category,
+                    type: mediaType,
+                    url: videoUrl,
+                    thumbnail: thumbnailUrl,
+                    timestamp: Date.now()
+                };
+
+                saveDatabase();
+                renderContent(currentFilter);
+                resetForm();
+                showToast('✅ Content updated successfully!');
+
+            } catch (error) {
+                console.error('Update error:', error);
+                showToast('❌ Failed to update: ' + error.message, 'error');
+            }
+
+            publishBtn.disabled = false;
+            publishBtn.innerHTML = '<i class="fas fa-upload me-2"></i> Publish Live';
+            publishBtn.onclick = function() { publishContent(); };
+            editingItemId = null;
         }
 
         // ==============================================================
@@ -1026,20 +1393,9 @@
             const videoUrl = document.getElementById('videoUrl').value.trim();
             const publishBtn = document.getElementById('publishBtn');
 
-            if (!title) {
-                showToast('Please enter a title', 'warning');
-                return;
-            }
-
-            if (!selectedThumbnail) {
-                showToast('Please select a thumbnail image', 'warning');
-                return;
-            }
-
-            if (!videoUrl) {
-                showToast('Please paste a video URL', 'warning');
-                return;
-            }
+            if (!title) { showToast('Please enter a title', 'warning'); return; }
+            if (!selectedThumbnail) { showToast('Please select a thumbnail image', 'warning'); return; }
+            if (!videoUrl) { showToast('Please paste a video URL', 'warning'); return; }
 
             publishBtn.disabled = true;
             publishBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Publishing Live...';
@@ -1063,17 +1419,8 @@
                 contentItems.unshift(newItem);
                 saveDatabase();
                 renderContent(currentFilter);
-
-                document.getElementById('mediaTitle').value = '';
-                document.getElementById('mediaEpisode').value = '';
-                document.getElementById('mediaDesc').value = '';
-                document.getElementById('videoUrl').value = '';
-                document.getElementById('thumbnailFile').value = '';
-                document.getElementById('fileInfo').innerHTML = 'No thumbnail selected';
-                selectedThumbnail = null;
-
+                resetForm();
                 showToast('✅ Content published LIVE!');
-                updateAdminList();
 
             } catch (error) {
                 console.error('Publish error:', error);
@@ -1082,6 +1429,19 @@
 
             publishBtn.disabled = false;
             publishBtn.innerHTML = '<i class="fas fa-upload me-2"></i> Publish Live';
+        }
+
+        function resetForm() {
+            document.getElementById('mediaTitle').value = '';
+            document.getElementById('mediaEpisode').value = '';
+            document.getElementById('mediaDesc').value = '';
+            document.getElementById('videoUrl').value = '';
+            document.getElementById('thumbnailFile').value = '';
+            document.getElementById('fileInfo').innerHTML = 'No thumbnail selected';
+            selectedThumbnail = null;
+            document.getElementById('publishBtn').innerHTML = '<i class="fas fa-upload me-2"></i> Publish Live';
+            document.getElementById('publishBtn').onclick = function() { publishContent(); };
+            editingItemId = null;
         }
 
         // ==============================================================
@@ -1199,8 +1559,7 @@
                 contentItems.filter(item => item.type === filter);
 
             if (filtered.length === 0) {
-                container.innerHTML =
-                    `
+                container.innerHTML = `
                             <div class="no-content">
                                 <i class="fas fa-film"></i>
                                 <h5 style="font-weight:700;">No content available</h5>
@@ -1229,7 +1588,18 @@
                 items.forEach(item => {
                     const thumbSrc = item.thumbnail || '';
                     html += `
-                                <div class="movie-card" onclick="openMedia('${item.id}')">
+                                <div class="movie-card" onclick="${isEditMode ? `editItem('${item.id}')` : `openMedia('${item.id}')`}">
+                                    ${isEditMode ? `<span class="edit-badge">✏️ EDIT</span>` : ''}
+                                    ${isEditMode ? `
+                                        <div class="edit-actions">
+                                            <button class="btn-edit" onclick="event.stopPropagation();editItem('${item.id}')">
+                                                <i class="fas fa-pen"></i>
+                                            </button>
+                                            <button class="btn-delete" onclick="event.stopPropagation();deleteItem('${item.id}')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    ` : ''}
                                     ${thumbSrc ? `
                                         <img class="thumbnail" src="${thumbSrc}" alt="${item.title}" loading="lazy">
                                     ` : item.type === 'video' ? `
@@ -1241,7 +1611,7 @@
                                             <i class="fas fa-file-alt"></i>
                                         </div>
                                     `}
-                                    ${item.type === 'video' ? `
+                                    ${!isEditMode && item.type === 'video' ? `
                                         <div class="play-overlay">
                                             <i class="fas fa-play"></i>
                                         </div>
@@ -1274,7 +1644,7 @@
         }
 
         // ==============================================================
-        // OPEN MEDIA - FIXED VIDEO PLAYER
+        // OPEN MEDIA - FULL SCREEN PLAYER
         // ==============================================================
         function openMedia(id) {
             const item = contentItems.find(c => c.id === id);
@@ -1284,11 +1654,14 @@
             }
 
             if (!modalInstance) {
-                modalInstance = new bootstrap.Modal(document.getElementById('videoModal'));
+                modalInstance = new bootstrap.Modal(document.getElementById('videoModal'), {
+                    backdrop: 'static',
+                    keyboard: true
+                });
             }
 
             const body = document.getElementById('modalBody');
-            const title = document.getElementById('modalTitle');
+            const title = document.getElementById('modalTitleText');
             const meta = document.getElementById('modalMeta');
 
             title.textContent = item.title || 'Content';
@@ -1298,27 +1671,24 @@
             if (item.description) metaText += ` · ${item.description}`;
             meta.textContent = metaText;
 
-            // VIDEO PLAYER - FIXED
+            // Full screen video player
             if (item.type === 'video') {
                 body.innerHTML = `
-                            <video id="mainVideo" controls autoplay style="width:100%;max-height:80vh;background:#000;display:block;">
+                            <video id="mainVideo" controls autoplay style="width:100%;max-height:100vh;background:#000;display:block;">
                                 <source src="${item.url}" type="video/mp4">
-                                Your browser does not support the video tag.
+                                <p>Your browser does not support the video tag.</p>
                             </video>
-                            <div class="text-center p-3" style="background:#0a0a0a;">
-                                <span class="text-muted small">🎬 ${item.title || 'Video'}</span>
-                            </div>
                         `;
             } else if (item.type === 'photo') {
                 body.innerHTML =
-                    `<img src="${item.url}" alt="${item.title}" style="width:100%;max-height:80vh;object-fit:contain;background:#000;">`;
+                    `<img src="${item.url}" alt="${item.title}" style="width:100%;max-height:100vh;object-fit:contain;background:#000;">`;
             } else {
                 body.innerHTML = `
-                            <div class="text-center p-5" style="background:#0a0a0a;">
-                                <i class="fas fa-file-alt" style="font-size:4rem;color:#e50914;"></i>
-                                <p class="mt-3">${item.title || 'Document'}</p>
+                            <div class="text-center p-5" style="background:#0a0a0a;min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                                <i class="fas fa-file-alt" style="font-size:5rem;color:var(--primary);"></i>
+                                <p class="mt-4" style="font-size:1.2rem;">${item.title || 'Document'}</p>
                                 <p class="text-muted small">Preview not available for documents</p>
-                                <a href="${item.url}" target="_blank" class="btn btn-outline-danger" style="border-radius:50px;padding:10px 30px;">
+                                <a href="${item.url}" target="_blank" class="btn btn-danger" style="border-radius:50px;padding:12px 40px;margin-top:20px;">
                                     <i class="fas fa-external-link-alt me-2"></i> Open Document
                                 </a>
                             </div>
@@ -1327,13 +1697,21 @@
 
             modalInstance.show();
 
-            // Auto-play video when modal is shown
+            // Auto-play when modal is shown
             document.getElementById('videoModal').addEventListener('shown.bs.modal', function() {
                 const video = document.getElementById('mainVideo');
                 if (video) {
                     video.play().catch(function(e) {
                         console.log('Auto-play prevented:', e);
                     });
+                }
+            });
+
+            // Pause when modal is hidden
+            document.getElementById('videoModal').addEventListener('hidden.bs.modal', function() {
+                const video = document.getElementById('mainVideo');
+                if (video) {
+                    video.pause();
                 }
             });
         }
@@ -1351,12 +1729,15 @@
 
             tbody.innerHTML = contentItems.map(item => `
                         <tr>
-                            <td>${item.title || 'Untitled'}</td>
+                            <td><strong>${item.title || 'Untitled'}</strong></td>
                             <td>${item.episode || '-'}</td>
                             <td><span class="badge bg-danger bg-opacity-25 text-danger">${item.type}</span></td>
                             <td>${item.category || 'General'}</td>
                             <td>
-                                <button class="btn btn-danger btn-sm" onclick="deleteItem('${item.id}')" style="border-radius:50px;">
+                                <button class="btn btn-sm btn-outline-danger" onclick="editItem('${item.id}')" style="border-radius:50px;margin-right:5px;">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteItem('${item.id}')" style="border-radius:50px;">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -1373,22 +1754,22 @@
         }
 
         function deleteItem(id) {
-            if (confirm('Delete this item?')) {
+            if (confirm('Delete this item permanently?')) {
                 contentItems = contentItems.filter(item => item.id !== id);
                 saveDatabase();
                 renderContent(currentFilter);
                 updateAdminList();
-                showToast('Item deleted');
+                showToast('🗑️ Item deleted');
             }
         }
 
         function clearAll() {
-            if (confirm('Clear all content?')) {
+            if (confirm('Clear all content permanently?')) {
                 contentItems = [];
                 saveDatabase();
                 renderContent(currentFilter);
                 updateAdminList();
-                showToast('All content cleared');
+                showToast('🗑️ All content cleared');
             }
         }
 
@@ -1408,6 +1789,7 @@
         // KEYBOARD SHORTCUTS
         // ==============================================================
         document.addEventListener('keydown', function(e) {
+            // Ctrl+Shift+A = Admin Login
             if (e.ctrlKey && e.shiftKey && e.key === 'A') {
                 e.preventDefault();
                 if (isAdmin()) {
@@ -1416,6 +1798,14 @@
                     showLogin();
                 }
             }
+            // Ctrl+Shift+E = Edit Mode
+            if (e.ctrlKey && e.shiftKey && e.key === 'E') {
+                e.preventDefault();
+                if (isAdmin()) {
+                    toggleEditMode();
+                }
+            }
+            // Escape = Close admin
             if (e.key === 'Escape' && isAdminMode) {
                 hideAdmin();
             }
@@ -1434,9 +1824,11 @@
 
         console.log('🎬 JOD MODS OTT - ULTIMATE EDITION');
         console.log('👤 Admin: JOD / MODS');
+        console.log('🔑 Login: Ctrl+Shift+A');
+        console.log('✏️ Edit Mode: Ctrl+Shift+E');
         console.log('📦 Single Database: No conflicts');
-        console.log('🎥 Video Player: Auto-play, Full HD');
-        console.log('🔗 Supports: Archive.org, Drive, Mega, Telegram, Vimeo');
+        console.log('🎥 Full Screen Video Player');
+        console.log('🔗 Supports: Any video URL');
     </script>
 </body>
 </html>
