@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOD MODS OTT - 2GB Upload</title>
+    <title>JOD MODS OTT</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -18,9 +18,10 @@
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* Login Animation */
+        /* ====== ORIGINAL LOGIN ANIMATION WITH FALLING MAN ====== */
         .login-overlay {
             display: none;
             position: fixed;
@@ -53,6 +54,7 @@
             border: 1px solid rgba(229, 9, 14, 0.2);
         }
 
+        /* Animated Border */
         .login-container::before {
             content: '';
             position: absolute;
@@ -210,7 +212,27 @@
             font-size: 0.9rem;
         }
 
-        /* Main App */
+        /* ====== FALLING MAN ANIMATION ====== */
+        .falling-man {
+            position: absolute;
+            font-size: 3rem;
+            animation: fallDown 3s ease-in forwards;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        @keyframes fallDown {
+            0% {
+                transform: translateY(-200px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(400px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* ====== MAIN APP ====== */
         .main-app {
             display: block;
             min-height: 100vh;
@@ -860,9 +882,12 @@
 
     </div>
 
-    <!-- LOGIN OVERLAY -->
+    <!-- ====== LOGIN OVERLAY WITH FALLING MAN ====== -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-container">
+            <!-- Falling Man Animation -->
+            <div class="falling-man" id="fallingMan">🧑</div>
+
             <div class="login-box">
                 <div class="logo">
                     <i class="fas fa-crown"></i> JOD MODS
@@ -929,14 +954,22 @@
         let selectedFile = null;
         let selectedThumbnail = null;
         let isAdminMode = false;
+        let telegramFileUrl = null;
 
         // ==============================================================
-        // LOGIN
+        // LOGIN WITH FALLING MAN
         // ==============================================================
         function showLogin() {
             document.getElementById('loginOverlay').classList.add('active');
             document.getElementById('loginError').style.display = 'none';
             document.getElementById('loginSuccess').style.display = 'none';
+
+            // Trigger falling man animation
+            const man = document.getElementById('fallingMan');
+            man.style.animation = 'none';
+            setTimeout(() => {
+                man.style.animation = 'fallDown 3s ease-in forwards';
+            }, 100);
         }
 
         function hideLogin() {
@@ -1095,116 +1128,81 @@
         });
 
         // ==============================================================
-        // CHUNKED UPLOAD TO TELEGRAM - FIXED FOR LARGE FILES
+        // UPLOAD TO TELEGRAM - SINGLE FILE (NOT CHUNKS)
         // ==============================================================
         async function uploadToTelegram(file, thumbnail, metadata) {
-            return new Promise((resolve, reject) => {
-                const CHUNK_SIZE = 45 * 1024 * 1024; // 45MB chunks
-                const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
-                let currentChunk = 0;
-                let uploadedSize = 0;
-                let startTime = Date.now();
+            try {
+                // First upload thumbnail
+                let thumbnailUrl = '';
+                if (thumbnail) {
+                    const thumbFormData = new FormData();
+                    thumbFormData.append('chat_id', TELEGRAM.channelId);
+                    thumbFormData.append('photo', thumbnail);
+                    thumbFormData.append('caption', '📸 Thumbnail: ' + metadata.title);
 
-                const progressBar = document.getElementById('uploadProgressBar');
-                const speedDisplay = document.getElementById('uploadSpeed');
-                const sizeDisplay = document.getElementById('uploadSize');
-                const timeDisplay = document.getElementById('uploadTime');
-                const statusText = document.getElementById('uploadStatus');
+                    const thumbResponse = await fetch(`${TELEGRAM.apiUrl}/sendPhoto`, {
+                        method: 'POST',
+                        body: thumbFormData
+                    });
+                    const thumbData = await thumbResponse.json();
 
-                const totalMB = (file.size / (1024 * 1024)).toFixed(1);
-
-                async function uploadChunk() {
-                    if (currentChunk >= totalChunks) {
-                        statusText.textContent = '✅ Upload complete!';
-                        resolve({ success: true });
-                        return;
-                    }
-
-                    const start = currentChunk * CHUNK_SIZE;
-                    const end = Math.min(start + CHUNK_SIZE, file.size);
-                    const chunk = file.slice(start, end);
-
-                    const formData = new FormData();
-
-                    // First chunk has metadata
-                    if (currentChunk === 0) {
-                        let caption = metadata.title;
-                        if (metadata.episode) caption += ` Ep${metadata.episode}`;
-                        if (metadata.description) caption += ` | ${metadata.description}`;
-                        if (metadata.category && metadata.category !== 'General') caption += ` [${metadata.category}]`;
-                        formData.append('caption', caption);
-                        formData.append('supports_streaming', 'true');
-
-                        if (thumbnail) {
-                            formData.append('thumb', thumbnail);
+                    if (thumbData.ok && thumbData.result.photo) {
+                        const fileId = thumbData.result.photo[thumbData.result.photo.length - 1].file_id;
+                        const fileInfo = await fetch(`${TELEGRAM.apiUrl}/getFile?file_id=${fileId}`);
+                        const fileData = await fileInfo.json();
+                        if (fileData.ok) {
+                            thumbnailUrl =
+                                `https://api.telegram.org/file/bot${TELEGRAM.botToken}/${fileData.result.file_path}`;
                         }
-                    }
-
-                    formData.append('chat_id', TELEGRAM.channelId);
-                    formData.append('document', chunk);
-
-                    // For first chunk, also send with metadata
-                    const endpoint = currentChunk === 0 ? 'sendDocument' : 'sendDocument';
-
-                    statusText.textContent = `Uploading chunk ${currentChunk + 1}/${totalChunks}...`;
-
-                    try {
-                        const response = await fetch(`${TELEGRAM.apiUrl}/${endpoint}`, {
-                            method: 'POST',
-                            body: formData
-                        });
-
-                        const data = await response.json();
-
-                        if (!data.ok) {
-                            // If error is "Bad Request: wrong file identifier/HTTP URL specified", ignore for chunks
-                            if (currentChunk > 0 && data.description && data.description.includes('wrong file')) {
-                                // Continue to next chunk
-                            } else {
-                                throw new Error(data.description || 'Upload failed');
-                            }
-                        }
-
-                        // Update progress
-                        uploadedSize += chunk.size;
-                        currentChunk++;
-
-                        const percent = (uploadedSize / file.size * 100);
-                        progressBar.style.width = percent + '%';
-                        progressBar.textContent = Math.round(percent) + '%';
-
-                        const uploadedMB = (uploadedSize / (1024 * 1024)).toFixed(1);
-                        sizeDisplay.textContent = `${uploadedMB} MB / ${totalMB} MB`;
-
-                        const elapsed = (Date.now() - startTime) / 1000;
-                        if (elapsed > 1) {
-                            const speed = (uploadedSize / elapsed) / (1024 * 1024);
-                            speedDisplay.textContent = speed.toFixed(1) + ' MB/s';
-
-                            if (speed > 0.1) {
-                                const remaining = (file.size - uploadedSize) / (speed * 1024 * 1024);
-                                if (remaining > 60) {
-                                    timeDisplay.textContent = Math.round(remaining / 60) + 'm';
-                                } else {
-                                    timeDisplay.textContent = Math.round(remaining) + 's';
-                                }
-                            }
-                        }
-
-                        // Wait before next chunk
-                        await new Promise(resolve => setTimeout(resolve, 500));
-
-                        // Continue with next chunk
-                        await uploadChunk();
-
-                    } catch (error) {
-                        reject(error);
                     }
                 }
 
-                // Start upload
-                uploadChunk();
-            });
+                // Upload main file using sendDocument
+                const formData = new FormData();
+                formData.append('chat_id', TELEGRAM.channelId);
+
+                let caption = metadata.title;
+                if (metadata.episode) caption += ` Ep${metadata.episode}`;
+                if (metadata.description) caption += ` | ${metadata.description}`;
+                if (metadata.category && metadata.category !== 'General') caption += ` [${metadata.category}]`;
+                formData.append('caption', caption);
+
+                formData.append('document', file);
+                formData.append('supports_streaming', 'true');
+
+                if (thumbnail) {
+                    formData.append('thumb', thumbnail);
+                }
+
+                const response = await fetch(`${TELEGRAM.apiUrl}/sendDocument`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (!data.ok) {
+                    throw new Error(data.description || 'Upload failed');
+                }
+
+                // Get file URL
+                let fileUrl = '';
+                if (data.result.document) {
+                    const fileId = data.result.document.file_id;
+                    const fileInfo = await fetch(`${TELEGRAM.apiUrl}/getFile?file_id=${fileId}`);
+                    const fileData = await fileInfo.json();
+                    if (fileData.ok) {
+                        fileUrl =
+                        `https://api.telegram.org/file/bot${TELEGRAM.botToken}/${fileData.result.file_path}`;
+                    }
+                }
+
+                return { success: true, url: fileUrl, thumbnail: thumbnailUrl };
+
+            } catch (error) {
+                console.error('Upload error:', error);
+                throw error;
+            }
         }
 
         // ==============================================================
@@ -1259,17 +1257,28 @@
                     type: mediaType
                 };
 
+                // Simulate progress for better UX
+                let progressVal = 0;
+                const progressInterval = setInterval(() => {
+                    progressVal += Math.random() * 3 + 1;
+                    if (progressVal > 90) progressVal = 90;
+                    progressBar.style.width = progressVal + '%';
+                    progressBar.textContent = Math.round(progressVal) + '%';
+                }, 300);
+
                 const result = await uploadToTelegram(selectedFile, thumbnailFile, metadata);
 
-                if (result.success) {
-                    // Get final URL from Telegram
-                    const finalUrl = URL.createObjectURL(selectedFile);
+                clearInterval(progressInterval);
+
+                if (result.success && result.url) {
+                    progressBar.style.width = '100%';
+                    progressBar.textContent = '100%';
 
                     const newItem = {
                         id: Date.now().toString(),
                         type: mediaType,
-                        url: finalUrl,
-                        thumbnail: URL.createObjectURL(thumbnailFile),
+                        url: result.url,
+                        thumbnail: result.thumbnail || '',
                         title: title,
                         description: description,
                         episode: episode || '',
@@ -1283,7 +1292,7 @@
                     renderContent(currentFilter);
 
                     status.innerHTML = '<span style="color:#00d4aa;"><i class="fas fa-check-circle me-1"></i> ✅ Uploaded successfully!</span>';
-                    showToast('✅ Content published!');
+                    showToast('✅ Content published to Telegram!');
 
                     // Reset
                     document.getElementById('mediaTitle').value = '';
@@ -1303,6 +1312,8 @@
                         uploadBtn.disabled = false;
                         uploadBtn.innerHTML = '<i class="fas fa-upload me-2"></i> Upload to Telegram';
                     }, 3000);
+                } else {
+                    throw new Error('No URL received from Telegram');
                 }
 
             } catch (error) {
@@ -1637,7 +1648,7 @@
 
         console.log('🎬 JOD MODS OTT loaded!');
         console.log('👤 Admin: JOD / MODS');
-        console.log('📦 Chunked upload: 45MB chunks, supports 2GB+ files');
+        console.log('📦 Single file upload to Telegram with thumbnail');
     </script>
 </body>
 </html>
