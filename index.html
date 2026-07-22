@@ -35,10 +35,10 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 40px;
-            height: 40px;
-            background: rgba(229, 9, 14, 0.1);
-            border: 1px solid rgba(229, 9, 14, 0.2);
+            width: 45px;
+            height: 45px;
+            background: rgba(229, 9, 14, 0.15);
+            border: 2px solid rgba(229, 9, 14, 0.3);
             border-radius: 50%;
             color: var(--primary);
             z-index: 9999;
@@ -47,11 +47,11 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
-            font-size: 0.8rem;
+            font-size: 1.2rem;
         }
         
         .hidden-admin-trigger:hover {
-            background: rgba(229, 9, 14, 0.2);
+            background: rgba(229, 9, 14, 0.3);
             transform: scale(1.1);
         }
         
@@ -155,6 +155,21 @@
             color: var(--text-muted);
             font-size: 1.5rem;
             cursor: pointer;
+        }
+        
+        .login-box .default-credentials {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .login-box .default-credentials strong {
+            color: var(--primary);
         }
         
         /* Navbar */
@@ -617,16 +632,16 @@
         <div class="subtitle">Staff Access Only</div>
         
         <form id="loginForm" onsubmit="return handleLogin(event)">
-            <input type="text" class="form-control" id="loginUsername" placeholder="Username" required>
-            <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
+            <input type="text" class="form-control" id="loginUsername" placeholder="Username" value="JOD" required>
+            <input type="password" class="form-control" id="loginPassword" placeholder="Password" value="MODS" required>
             <button type="submit" class="btn-login">
                 <i class="fas fa-sign-in-alt me-2"></i> Login
             </button>
             <div class="login-error" id="loginError">Invalid credentials! Try again.</div>
         </form>
         
-        <div class="mt-3 text-center text-muted" style="font-size:0.75rem;">
-            <p>Default: JOD / MODS</p>
+        <div class="default-credentials">
+            <strong>JOD</strong> / <strong>MODS</strong>
         </div>
     </div>
 </div>
@@ -758,7 +773,7 @@
                             <div class="mod-list" id="modList">
                                 <span class="text-muted small">No moderators added</span>
                             </div>
-                            <div class="mt-2 d-flex gap-2">
+                            <div class="mt-2 d-flex gap-2 flex-wrap">
                                 <input type="text" class="form-control form-control-sm" id="newModName" placeholder="Username" style="width:120px;">
                                 <input type="text" class="form-control form-control-sm" id="newModPass" placeholder="Password" style="width:120px;">
                                 <button class="btn btn-danger btn-sm" onclick="addModerator()">
@@ -847,9 +862,10 @@ const TELEGRAM = {
 };
 
 // ==============================================================
-// AUTH SYSTEM - Admin: JOD | Password: MODS
+// AUTH SYSTEM - FIXED
 // ==============================================================
-let USERS = {
+// Hardcoded users - No localStorage dependency for login
+const USERS = {
     admin: { password: 'MODS', role: 'admin', name: 'JOD' }
 };
 
@@ -861,32 +877,15 @@ let selectedFile = null;
 let selectedThumbnail = null;
 let isAdminMode = false;
 
-// Load users from localStorage
-function loadUsers() {
-    try {
-        const stored = localStorage.getItem('jodmods_users');
-        if (stored) {
-            USERS = JSON.parse(stored);
-        } else {
-            localStorage.setItem('jodmods_users', JSON.stringify(USERS));
-        }
-    } catch(e) {
-        USERS = { admin: { password: 'MODS', role: 'admin', name: 'JOD' } };
-    }
-}
-
-// Save users
-function saveUsers() {
-    localStorage.setItem('jodmods_users', JSON.stringify(USERS));
-    updateModList();
-}
-
 // ==============================================================
 // LOGIN FUNCTIONS - FIXED
 // ==============================================================
 function showLogin() {
     document.getElementById('loginOverlay').classList.add('active');
     document.getElementById('loginError').style.display = 'none';
+    // Pre-fill credentials
+    document.getElementById('loginUsername').value = 'JOD';
+    document.getElementById('loginPassword').value = 'MODS';
 }
 
 function hideLogin() {
@@ -899,26 +898,29 @@ function handleLogin(event) {
     const password = document.getElementById('loginPassword').value.trim();
     const errorEl = document.getElementById('loginError');
     
-    console.log('Login attempt:', username, password);
-    console.log('Available users:', USERS);
+    console.log('🔑 Login attempt:', username);
+    console.log('📦 Available users:', Object.keys(USERS));
     
-    // Check credentials
-    if (USERS[username] && USERS[username].password === password) {
+    // Check credentials - CASE INSENSITIVE for username
+    const userKey = Object.keys(USERS).find(key => key.toLowerCase() === username.toLowerCase());
+    
+    if (userKey && USERS[userKey].password === password) {
         currentUser = { 
-            username: username, 
-            ...USERS[username] 
+            username: userKey, 
+            ...USERS[userKey] 
         };
         errorEl.style.display = 'none';
         hideLogin();
         showAdmin();
-        showToast('Welcome ' + currentUser.name + '!');
-        console.log('Login successful:', currentUser);
+        showToast('✅ Welcome ' + currentUser.name + '!');
+        console.log('✅ Login successful:', currentUser);
+        return true;
     } else {
         errorEl.style.display = 'block';
-        errorEl.textContent = 'Invalid credentials! Try again.';
-        console.log('Login failed for:', username);
+        errorEl.textContent = '❌ Invalid credentials! Try again.';
+        console.log('❌ Login failed for:', username);
+        return false;
     }
-    return false;
 }
 
 function logout() {
@@ -936,6 +938,32 @@ function isAdmin() {
 
 function isModerator() {
     return currentUser && (currentUser.role === 'admin' || currentUser.role === 'moderator');
+}
+
+// ==============================================================
+// LOAD MODERATORS FROM LOCALSTORAGE
+// ==============================================================
+function loadModerators() {
+    try {
+        const stored = localStorage.getItem('jodmods_moderators');
+        if (stored) {
+            const mods = JSON.parse(stored);
+            mods.forEach(m => {
+                if (!USERS[m.username]) {
+                    USERS[m.username] = { password: m.password, role: 'moderator', name: m.name };
+                }
+            });
+        }
+    } catch(e) {
+        // Ignore
+    }
+}
+
+function saveModerators() {
+    const mods = Object.keys(USERS)
+        .filter(key => USERS[key].role === 'moderator')
+        .map(key => ({ username: key, password: USERS[key].password, name: USERS[key].name }));
+    localStorage.setItem('jodmods_moderators', JSON.stringify(mods));
 }
 
 // ==============================================================
@@ -1032,7 +1060,6 @@ document.addEventListener('DOMContentLoaded', function() {
         thumbInput.addEventListener('change', function(e) {
             if (this.files.length > 0) {
                 selectedThumbnail = this.files[0];
-                console.log('Thumbnail selected:', selectedThumbnail.name);
             }
         });
     }
@@ -1043,12 +1070,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // ==============================================================
 async function uploadToTelegram(file, thumbnail, metadata) {
     try {
-        console.log('Starting upload...', metadata);
-        
-        // First upload thumbnail
+        // Upload thumbnail first
         let thumbnailUrl = '';
         if (thumbnail) {
-            console.log('Uploading thumbnail...');
             const thumbFormData = new FormData();
             thumbFormData.append('chat_id', TELEGRAM.channelId);
             thumbFormData.append('photo', thumbnail);
@@ -1059,7 +1083,6 @@ async function uploadToTelegram(file, thumbnail, metadata) {
                 body: thumbFormData
             });
             const thumbData = await thumbResponse.json();
-            console.log('Thumbnail response:', thumbData);
             
             if (thumbData.ok && thumbData.result.photo) {
                 const fileId = thumbData.result.photo[thumbData.result.photo.length - 1].file_id;
@@ -1067,13 +1090,11 @@ async function uploadToTelegram(file, thumbnail, metadata) {
                 const fileData = await fileInfo.json();
                 if (fileData.ok) {
                     thumbnailUrl = `https://api.telegram.org/file/bot${TELEGRAM.botToken}/${fileData.result.file_path}`;
-                    console.log('Thumbnail URL:', thumbnailUrl);
                 }
             }
         }
         
-        // Now upload the main file
-        console.log('Uploading main file...');
+        // Upload main file
         const formData = new FormData();
         formData.append('chat_id', TELEGRAM.channelId);
         
@@ -1102,13 +1123,12 @@ async function uploadToTelegram(file, thumbnail, metadata) {
         });
         
         const data = await response.json();
-        console.log('Upload response:', data);
         
         if (!data.ok) {
             throw new Error(data.description || 'Upload failed');
         }
         
-        // Get the file URL
+        // Get file URL
         let fileUrl = '';
         let fileId = null;
         if (data.result.video) fileId = data.result.video.file_id;
@@ -1123,7 +1143,7 @@ async function uploadToTelegram(file, thumbnail, metadata) {
             }
         }
         
-        return { success: true, url: fileUrl, thumbnail: thumbnailUrl, data: data };
+        return { success: true, url: fileUrl, thumbnail: thumbnailUrl };
         
     } catch(error) {
         console.error('Upload error:', error);
@@ -1186,7 +1206,6 @@ async function handleUpload() {
             progressBar.textContent = Math.round(progressVal) + '%';
         }, 300);
         
-        // Upload to Telegram
         const result = await uploadToTelegram(selectedFile, thumbnailFile, metadata);
         
         clearInterval(progressInterval);
@@ -1194,7 +1213,6 @@ async function handleUpload() {
         progressBar.textContent = '100%';
         
         if (result.success && result.url) {
-            // Add to content
             const newItem = {
                 id: Date.now().toString(),
                 type: mediaType,
@@ -1239,7 +1257,6 @@ async function handleUpload() {
         progress.style.display = 'none';
         status.innerHTML = `<span style="color:var(--primary);">❌ Error: ${error.message}</span>`;
         showToast('❌ Upload failed: ' + error.message, 'error');
-        console.error('Upload error:', error);
     }
 }
 
@@ -1253,7 +1270,6 @@ async function syncContent() {
     try {
         const response = await fetch(`${TELEGRAM.apiUrl}/getUpdates?limit=50`);
         const data = await response.json();
-        console.log('Sync response:', data);
         
         if (data.ok && data.result) {
             const newItems = [];
@@ -1517,7 +1533,7 @@ function addModerator() {
         name: name
     };
     
-    saveUsers();
+    saveModerators();
     document.getElementById('newModName').value = '';
     document.getElementById('newModPass').value = '';
     showToast('✅ Moderator ' + name + ' added!');
@@ -1537,7 +1553,7 @@ function removeModerator(username) {
     
     if (confirm('Remove moderator ' + username + '?')) {
         delete USERS[username];
-        saveUsers();
+        saveModerators();
         showToast('Moderator ' + username + ' removed');
         updateModList();
     }
@@ -1643,7 +1659,7 @@ function showToast(message, type = 'info') {
 // ==============================================================
 // INIT
 // ==============================================================
-loadUsers();
+loadModerators();
 loadContent();
 renderContent('all');
 updateStats();
@@ -1656,8 +1672,8 @@ if (contentItems.length === 0) {
 
 console.log('🎬 JOD MODS OTT loaded successfully!');
 console.log('👤 Admin: JOD | Password: MODS');
-console.log('🔑 Admin access: Click crown icon or Ctrl+Shift+A');
-console.log('📦 Users stored:', USERS);
+console.log('🔑 Login: Click crown icon or Ctrl+Shift+A');
+console.log('📦 Available users:', Object.keys(USERS));
 
 // ==============================================================
 // KEYBOARD SHORTCUTS
