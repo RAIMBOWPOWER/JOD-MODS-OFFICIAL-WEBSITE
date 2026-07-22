@@ -1,244 +1,104 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
   <title>JOD MODS OTT · Premium</title>
-  <!-- Bootstrap 5 + Font Awesome 6 (CDN) -->
+  <!-- Bootstrap 5 + Font Awesome 6 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* ----- ROOT & RESET ----- */
+    /* ----- ROOT (Netflix/Hotstar inspired) ----- */
+    * { margin:0; padding:0; box-sizing:border-box; }
     :root {
       --primary: #e50914;
       --primary-dark: #b20710;
-      --primary-glow: rgba(229, 9, 20, 0.4);
-      --bg-primary: #0a0a0a;
-      --bg-secondary: #141414;
-      --bg-card: #1a1a1a;
-      --text-primary: #ffffff;
-      --text-secondary: #aaaaaa;
-      --text-muted: #666666;
-      --border-color: rgba(255,255,255,0.05);
-      --radius: 16px;
-      --transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --primary-glow: rgba(229,9,20,0.25);
+      --bg-body: #0f0f12;
+      --bg-surface: #14141d;
+      --bg-card: #1c1c24;
+      --text-main: #ffffff;
+      --text-secondary: #b0b0b8;
+      --text-muted: #6a6a72;
+      --border-subtle: rgba(255,255,255,0.06);
+      --radius-card: 14px;
+      --transition-smooth: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
-    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-      background: var(--bg-primary);
-      color: var(--text-primary);
+      background: var(--bg-body);
+      color: var(--text-main);
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
     }
-    ::-webkit-scrollbar { width:8px; height:8px; }
-    ::-webkit-scrollbar-track { background: var(--bg-primary); }
-    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--primary), #ff6b6b); border-radius:10px; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-body); }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--primary), #ff5a5a); border-radius: 12px; }
 
-    /* ----- LOGIN OVERLAY (glass + animated border) ----- */
-    .login-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.97);
-      z-index: 99999;
-      justify-content: center;
-      align-items: center;
-      backdrop-filter: blur(30px);
-    }
-    .login-overlay.active { display: flex; }
-    .login-wrapper {
-      position: relative;
-      width: 440px;
-      background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
-      border-radius: 32px;
-      padding: 50px 40px 40px;
-      border: 1px solid rgba(229,9,14,0.2);
-      box-shadow: 0 50px 100px rgba(0,0,0,0.8), 0 0 80px rgba(229,9,14,0.05);
-      overflow: hidden;
-    }
-    .login-wrapper::before, .login-wrapper::after {
-      content: '';
-      position: absolute;
-      top: -50%; left: -50%;
-      width: 200%; height: 200%;
-      animation: rotateBorder 8s linear infinite;
-    }
-    .login-wrapper::before {
-      background: conic-gradient(from 0deg, transparent, transparent, transparent, var(--primary), transparent, transparent);
-    }
-    .login-wrapper::after {
-      background: conic-gradient(from 0deg, transparent, transparent, transparent, #ff6b6b, transparent, transparent);
-      animation-delay: -4s;
-    }
-    @keyframes rotateBorder { 0%{transform:rotate(0deg)}100%{transform:rotate(360deg)} }
-    .login-inner {
-      position: relative;
-      z-index: 10;
-      background: rgba(10,10,10,0.95);
-      border-radius: 24px;
-      padding: 10px;
-      backdrop-filter: blur(10px);
-    }
-    .login-box {
-      padding: 30px 20px 20px;
-      text-align: center;
-    }
-    .login-box .logo {
-      font-size: 2.5rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--primary), #ff6b6b);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 5px;
-    }
-    .login-box .logo i { -webkit-text-fill-color: var(--primary); margin-right:12px; }
-    .login-box .subtitle { color: var(--text-muted); font-size:0.9rem; margin-bottom:30px; }
-    .login-box .input-group {
-      position: relative;
-      margin-bottom: 18px;
-      text-align: left;
-    }
-    .login-box .input-group label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .login-box .input-group input {
-      width: 100%;
-      padding: 14px 18px;
-      background: rgba(255,255,255,0.05);
-      border: 2px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      color: #fff;
-      font-size: 1rem;
-      transition: 0.3s;
-      outline: none;
-    }
-    .login-box .input-group input:focus {
-      border-color: var(--primary);
-      background: rgba(255,255,255,0.08);
-      box-shadow: 0 0 0 4px rgba(229,9,14,0.1);
-    }
-    .login-box .input-group .icon {
-      position: absolute;
-      right: 16px;
-      bottom: 16px;
-      color: var(--text-muted);
-    }
-    .login-box .btn-login {
-      width: 100%;
-      padding: 16px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: #fff;
-      border: none;
-      font-weight: 700;
-      font-size: 1.1rem;
-      transition: 0.3s;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .login-box .btn-login:hover { transform:translateY(-3px); box-shadow:0 15px 40px rgba(229,9,14,0.3); }
-    .login-box .btn-login:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
-    .login-box .error-msg, .login-box .success-msg {
-      font-size:0.85rem;
-      margin-top:12px;
-      padding:12px;
-      border-radius:12px;
-      display:none;
-    }
-    .login-box .error-msg { background:rgba(229,9,14,0.1); border:1px solid rgba(229,9,14,0.2); color:var(--primary); }
-    .login-box .success-msg { background:rgba(0,212,170,0.1); border:1px solid rgba(0,212,170,0.2); color:#00d4aa; }
-    .login-box .credentials-hint {
-      margin-top:20px;
-      padding:12px;
-      background:rgba(255,255,255,0.03);
-      border-radius:12px;
-      border:1px dashed rgba(255,255,255,0.05);
-      color:var(--text-muted);
-      font-size:0.75rem;
-    }
-    .login-box .credentials-hint strong { color:var(--primary); font-size:0.9rem; }
-    .falling-man {
-      position: absolute;
-      font-size: 4rem;
-      animation: fallDown 3.5s ease-in forwards;
-      z-index: 5;
-      pointer-events: none;
-    }
-    @keyframes fallDown {
-      0% { transform: translateY(-300px) rotate(0deg) scale(1); opacity:1; }
-      100% { transform: translateY(500px) rotate(720deg) scale(0.3); opacity:0; }
-    }
-
-    /* ----- NAVBAR ----- */
-    .navbar-premium {
-      background: linear-gradient(180deg, rgba(0,0,0,0.98) 0%, transparent 100%);
-      padding: 16px 0;
+    /* ----- GLASS HEADER ----- */
+    .glass-nav {
+      background: rgba(15,15,18,0.85);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding: 14px 0;
       position: sticky;
       top: 0;
-      z-index: 9999;
-      backdrop-filter: blur(20px);
+      z-index: 999;
+      transition: 0.2s;
     }
-    .navbar-premium .brand {
-      font-size: 2rem;
+    .brand-logo {
+      font-size: 1.9rem;
       font-weight: 800;
       background: linear-gradient(135deg, var(--primary), #ff6b6b);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       text-decoration: none;
+      letter-spacing: -0.5px;
     }
-    .navbar-premium .brand i { -webkit-text-fill-color: var(--primary); margin-right:10px; }
-    .navbar-premium .brand small {
-      font-size:0.6rem;
-      color:var(--text-muted);
-      background:rgba(255,255,255,0.05);
-      padding:2px 12px;
-      border-radius:20px;
-      -webkit-text-fill-color: var(--text-muted);
-      font-weight:400;
+    .brand-logo i { -webkit-text-fill-color: var(--primary); margin-right: 8px; }
+    .brand-logo small {
+      font-size: 0.6rem;
+      background: rgba(255,255,255,0.06);
+      padding: 2px 14px;
+      border-radius: 40px;
+      -webkit-text-fill-color: var(--text-secondary);
+      font-weight: 400;
+      margin-left: 6px;
     }
-    .navbar-premium .nav-links a {
+    .nav-link-custom {
       color: var(--text-secondary);
       text-decoration: none;
-      margin: 0 18px;
-      font-size: 0.95rem;
+      margin: 0 16px;
       font-weight: 500;
+      font-size: 0.95rem;
       cursor: pointer;
       position: relative;
-      transition: 0.3s;
+      transition: 0.2s;
     }
-    .navbar-premium .nav-links a::after {
+    .nav-link-custom::after {
       content: '';
       position: absolute;
-      bottom: -4px;
       left: 0;
-      width: 0%;
+      bottom: -4px;
+      width: 0;
       height: 2px;
-      background: linear-gradient(90deg, var(--primary), #ff6b6b);
+      background: var(--primary);
       transition: 0.3s;
     }
-    .navbar-premium .nav-links a:hover::after,
-    .navbar-premium .nav-links a.active::after { width: 100%; }
-    .navbar-premium .nav-links a:hover,
-    .navbar-premium .nav-links a.active { color: #fff; }
-    .navbar-premium .user-badge {
+    .nav-link-custom:hover::after, .nav-link-custom.active::after { width: 100%; }
+    .nav-link-custom:hover, .nav-link-custom.active { color: #fff; }
+    .user-badge {
       display: none;
       align-items: center;
       gap: 10px;
-      background: rgba(255,255,255,0.05);
-      padding: 6px 18px 6px 10px;
-      border-radius: 50px;
-      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      padding: 4px 16px 4px 8px;
+      border-radius: 60px;
+      border: 1px solid rgba(255,255,255,0.06);
     }
-    .navbar-premium .user-badge .avatar {
-      width: 34px;
-      height: 34px;
+    .avatar-circle {
+      width: 34px; height: 34px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--primary), #ff6b6b);
       display: flex;
@@ -249,13 +109,14 @@
       color: #fff;
     }
 
+    /* ----- ADMIN TRIGGER (floating) ----- */
     .admin-trigger {
       position: fixed;
-      bottom: 25px;
-      right: 25px;
-      width: 52px;
-      height: 52px;
-      background: rgba(229,9,14,0.15);
+      bottom: 28px;
+      right: 28px;
+      width: 56px;
+      height: 56px;
+      background: rgba(229,9,14,0.12);
       border: 2px solid rgba(229,9,14,0.3);
       border-radius: 50%;
       color: var(--primary);
@@ -265,455 +126,416 @@
       align-items: center;
       justify-content: center;
       transition: all 0.3s;
-      font-size: 1.3rem;
-      backdrop-filter: blur(10px);
+      font-size: 1.4rem;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
     }
     .admin-trigger:hover {
       background: rgba(229,9,14,0.3);
-      transform: scale(1.1) rotate(45deg);
-      box-shadow: 0 0 40px rgba(229,9,14,0.2);
+      transform: scale(1.08) rotate(8deg);
+      box-shadow: 0 0 40px rgba(229,9,14,0.15);
     }
 
-    /* ----- HERO ----- */
-    .hero-premium {
-      padding: 80px 0 40px;
-      text-align: center;
-      background: radial-gradient(ellipse at 50% 0%, rgba(229,9,14,0.06), transparent 70%);
+    /* ----- HERO BANNER (high-impact) ----- */
+    .hero-banner {
+      padding: 60px 0 30px;
+      background: radial-gradient(ellipse at 30% 20%, rgba(229,9,14,0.08), transparent 70%);
+      border-bottom: 1px solid var(--border-subtle);
     }
-    .hero-premium h1 {
-      font-size: 4.2rem;
+    .hero-banner h1 {
+      font-size: 4rem;
       font-weight: 800;
-      margin-bottom: 10px;
-      background: linear-gradient(135deg, #fff 30%, var(--primary));
+      line-height: 1.1;
+      background: linear-gradient(135deg, #fff 20%, var(--primary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .hero-premium p { color: var(--text-secondary); font-size:1.2rem; max-width:550px; margin:0 auto; }
+    .hero-banner p {
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      max-width: 520px;
+    }
+    .hero-buttons .btn-watch {
+      background: var(--primary);
+      border: none;
+      padding: 12px 40px;
+      border-radius: 60px;
+      font-weight: 700;
+      color: #fff;
+      transition: 0.3s;
+      box-shadow: 0 8px 24px rgba(229,9,14,0.3);
+    }
+    .hero-buttons .btn-watch:hover { transform: scale(1.04); background: var(--primary-dark); }
+    .hero-buttons .btn-more {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 12px 34px;
+      border-radius: 60px;
+      font-weight: 600;
+      color: #fff;
+      transition: 0.3s;
+    }
+    .hero-buttons .btn-more:hover { background: rgba(255,255,255,0.12); }
 
-    /* ----- CATEGORY ROWS / MOVIE SCROLL ----- */
-    .category-row { padding: 30px 0; }
-    .category-row .section-title {
+    /* ----- CATEGORY SHELVES (Netflix rows) ----- */
+    .category-row { padding: 28px 0; }
+    .section-title {
       font-size: 1.6rem;
       font-weight: 700;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       display: flex;
       align-items: center;
       gap: 12px;
     }
-    .category-row .section-title i { color: var(--primary); }
+    .section-title i { color: var(--primary); }
     .movie-scroll {
       display: flex;
-      gap: 22px;
+      gap: 24px;
       overflow-x: auto;
-      padding: 10px 0 25px;
+      padding: 12px 0 30px;
       scroll-behavior: smooth;
     }
     .movie-scroll::-webkit-scrollbar { height: 6px; }
-    .movie-scroll::-webkit-scrollbar-thumb { background: linear-gradient(90deg, var(--primary), #ff6b6b); border-radius:10px; }
+    .movie-scroll::-webkit-scrollbar-thumb { background: linear-gradient(90deg, var(--primary), #ff6b6b); border-radius: 12px; }
 
-    /* ----- MOVIE CARD ----- */
+    /* ----- MOVIE CARD (zoom + aspect ratio) ----- */
     .movie-card {
-      flex: 0 0 250px;
+      flex: 0 0 230px;
       background: var(--bg-card);
-      border-radius: var(--radius);
+      border-radius: var(--radius-card);
       overflow: hidden;
-      transition: all var(--transition);
-      border: 1px solid var(--border-color);
+      transition: all var(--transition-smooth);
+      border: 1px solid var(--border-subtle);
       cursor: pointer;
       position: relative;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
     }
     .movie-card:hover {
-      transform: translateY(-15px) scale(1.02);
-      box-shadow: 0 30px 70px rgba(229,9,14,0.15);
-      border-color: rgba(229,9,14,0.3);
+      transform: translateY(-14px) scale(1.02);
+      box-shadow: 0 28px 60px rgba(229,9,14,0.12);
+      border-color: rgba(229,9,14,0.25);
       z-index: 10;
     }
     .movie-card .thumbnail {
       width: 100%;
-      height: 180px;
+      height: 170px;
       object-fit: cover;
-      background: #2a2a2a;
-      transition: 0.5s;
+      background: #23232b;
+      transition: transform 0.5s;
     }
-    .movie-card:hover .thumbnail { transform: scale(1.05); }
-    .movie-card .thumbnail-placeholder {
-      width: 100%;
-      height: 180px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #1a1a1a, #2a1a1a);
-      font-size: 4rem;
+    .movie-card:hover .thumbnail { transform: scale(1.04); }
+    .movie-card .thumb-placeholder {
+      width: 100%; height: 170px;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #1c1c24, #2a1a1e);
+      font-size: 3.8rem;
       color: var(--primary);
     }
-    .movie-card .card-body { padding: 16px 18px; }
+    .movie-card .card-body { padding: 16px 16px 14px; }
     .movie-card .card-body h6 {
       font-weight: 700;
       font-size: 1rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
-    .movie-card .card-body .card-meta {
+    .movie-card .card-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 0.7rem;
       color: var(--text-muted);
     }
-    .movie-card .card-body .badge-category {
-      background: linear-gradient(135deg, rgba(229,9,14,0.2), rgba(255,107,107,0.1));
+    .movie-card .badge-cat {
+      background: rgba(229,9,14,0.15);
       color: var(--primary);
-      padding: 3px 14px;
-      border-radius: 20px;
-      font-size: 0.65rem;
+      padding: 2px 14px;
+      border-radius: 30px;
+      font-size: 0.6rem;
       font-weight: 600;
     }
     .movie-card .play-overlay {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.8);
-      width: 65px;
-      height: 65px;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0.7);
+      width: 60px; height: 60px;
       background: rgba(229,9,14,0.95);
       border-radius: 50%;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      align-items: center; justify-content: center;
       opacity: 0;
-      transition: all var(--transition);
-      backdrop-filter: blur(5px);
-      box-shadow: 0 10px 40px rgba(229,9,14,0.4);
+      transition: all var(--transition-smooth);
+      box-shadow: 0 8px 32px rgba(229,9,14,0.5);
     }
     .movie-card:hover .play-overlay {
       opacity: 1;
       transform: translate(-50%, -50%) scale(1);
     }
-    .movie-card .play-overlay i { font-size: 2rem; color: #fff; }
+    .movie-card .play-overlay i { font-size: 1.8rem; color: #fff; }
 
-    /* edit mode extras */
-    .edit-mode .movie-card { border-color: rgba(0,212,170,0.3); box-shadow: 0 0 30px rgba(0,212,170,0.05); }
-    .edit-mode .movie-card:hover { border-color: #00d4aa; box-shadow: 0 0 50px rgba(0,212,170,0.1); }
+    /* edit mode */
+    .edit-mode .movie-card { border-color: rgba(0,212,170,0.25); }
+    .edit-mode .movie-card:hover { border-color: #00d4aa; box-shadow: 0 0 40px rgba(0,212,170,0.06); }
     .edit-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: #00d4aa;
-      color: #000;
-      font-size: 0.6rem;
-      padding: 2px 12px;
-      border-radius: 20px;
-      font-weight: 700;
-      z-index: 5;
-      opacity: 0;
-      transition: 0.3s;
+      position: absolute; top: 10px; right: 10px;
+      background: #00d4aa; color: #000; font-size: 0.6rem;
+      padding: 2px 14px; border-radius: 30px; font-weight: 700;
+      opacity: 0; transition: 0.3s; z-index: 5;
     }
     .edit-mode .edit-badge { opacity: 1; }
     .edit-actions {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       display: flex;
-      gap: 12px;
+      gap: 14px;
       opacity: 0;
       transition: 0.3s;
       z-index: 10;
     }
     .edit-mode .movie-card:hover .edit-actions { opacity: 1; }
     .edit-actions button {
-      width: 45px; height:45px;
-      border-radius:50%;
-      border:none;
-      font-size:1.2rem;
-      transition:0.3s;
-      cursor:pointer;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: none;
+      font-size: 1.1rem;
+      transition: 0.2s;
+      cursor: pointer;
     }
-    .edit-actions .btn-edit { background:#00d4aa; color:#000; }
-    .edit-actions .btn-edit:hover { transform:scale(1.1); }
-    .edit-actions .btn-delete { background:var(--primary); color:#fff; }
-    .edit-actions .btn-delete:hover { transform:scale(1.1); }
+    .edit-actions .btn-edit { background: #00d4aa; color: #000; }
+    .edit-actions .btn-edit:hover { transform: scale(1.08); }
+    .edit-actions .btn-delete { background: var(--primary); color: #fff; }
+    .edit-actions .btn-delete:hover { transform: scale(1.08); }
 
-    /* ----- VIDEO MODAL (fullscreen) ----- */
+    /* ----- VIDEO MODAL (fullscreen, universal) ----- */
     .video-modal .modal-content {
-      background: #000;
+      background: #0a0a0c;
       border: none;
       border-radius: 0;
       min-height: 100vh;
     }
     .video-modal .modal-header {
       border: none;
-      padding: 20px 30px;
+      padding: 18px 28px;
+      background: rgba(0,0,0,0.75);
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+    }
+    .video-modal .modal-title { color: #fff; font-weight: 700; }
+    .video-modal .btn-close { filter: invert(1); opacity: 0.7; }
+    .video-modal .modal-body {
+      padding: 0;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .video-modal video {
+      width: 100%;
+      max-height: 100vh;
+      background: #000;
+      display: block;
+    }
+    .video-modal .modal-footer {
+      border: none;
+      padding: 16px 28px;
       background: rgba(0,0,0,0.8);
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      bottom: 0; left: 0; right: 0;
       z-index: 10;
       backdrop-filter: blur(10px);
     }
-    .video-modal .modal-header .modal-title { color:#fff; font-weight:700; font-size:1.1rem; }
-    .video-modal .modal-header .btn-close { filter:invert(1); opacity:0.8; }
-    .video-modal .modal-header .btn-close:hover { opacity:1; }
-    .video-modal .modal-body {
-      padding:0;
-      background:#000;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-height:100vh;
-    }
-    .video-modal video {
-      width:100%;
-      max-height:100vh;
-      background:#000;
-      display:block;
-    }
-    .video-modal .modal-footer {
-      border:none;
-      padding:15px 30px;
-      background:rgba(0,0,0,0.8);
-      position:absolute;
-      bottom:0;
-      left:0;
-      right:0;
-      z-index:10;
-      backdrop-filter:blur(10px);
-    }
-    .video-modal .modal-footer .meta-info { color:var(--text-secondary); font-size:0.85rem; }
+    .video-modal .modal-footer .meta-info { color: var(--text-secondary); font-size: 0.85rem; }
     .video-modal .modal-footer .btn-close-modal {
-      background:rgba(255,255,255,0.1);
-      border:1px solid rgba(255,255,255,0.1);
-      color:#fff;
-      padding:8px 24px;
-      border-radius:50px;
-      transition:0.3s;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #fff;
+      padding: 8px 28px;
+      border-radius: 60px;
+      transition: 0.3s;
     }
-    .video-modal .modal-footer .btn-close-modal:hover { background:rgba(255,255,255,0.2); }
+    .video-modal .modal-footer .btn-close-modal:hover { background: rgba(255,255,255,0.12); }
+    .video-modal .external-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 6px 18px;
+      border-radius: 40px;
+      border: 1px solid rgba(229,9,14,0.2);
+      transition: 0.3s;
+    }
+    .video-modal .external-link:hover { background: rgba(229,9,14,0.08); }
 
-    /* ----- ADMIN PANEL ----- */
+    /* ----- ADMIN PANEL (glass) ----- */
     .admin-panel {
       display: none;
-      background: var(--bg-secondary);
-      border-radius: var(--radius);
-      padding: 30px;
+      background: var(--bg-surface);
+      border-radius: 24px;
+      padding: 32px;
       margin: 30px 0;
-      border: 1px solid var(--border-color);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     }
     .admin-panel.active { display: block; }
-    .admin-panel h3 {
-      color: var(--primary);
-      font-weight: 700;
-      margin-bottom: 25px;
-      font-size: 1.8rem;
-    }
-    .admin-panel h3 i { margin-right: 12px; }
+    .admin-panel h3 { color: var(--primary); font-weight: 700; }
     .admin-panel .form-control {
-      background: rgba(255,255,255,0.05);
-      border: 2px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      border: 2px solid rgba(255,255,255,0.06);
       color: #fff;
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 12px 16px;
       transition: 0.3s;
     }
     .admin-panel .form-control:focus {
-      background: rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.07);
       border-color: var(--primary);
-      color: #fff;
-      box-shadow: 0 0 0 4px rgba(229,9,14,0.1);
+      box-shadow: 0 0 0 4px rgba(229,9,14,0.08);
     }
-    .admin-panel .form-control::placeholder { color: var(--text-muted); }
     .admin-panel .upload-zone {
       border: 2px dashed rgba(229,9,14,0.2);
-      border-radius: 12px;
-      padding: 35px 20px;
+      border-radius: 14px;
+      padding: 28px 16px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: 0.3s;
     }
-    .admin-panel .upload-zone:hover {
-      border-color: var(--primary);
-      background: rgba(229,9,14,0.05);
-    }
-    .admin-panel .upload-zone i { font-size: 3rem; color: var(--primary); margin-bottom: 12px; }
-    .admin-panel .upload-zone .file-info {
-      margin-top: 12px;
-      padding: 10px;
-      background: rgba(255,255,255,0.03);
-      border-radius: 8px;
-      font-size: 0.9rem;
-    }
+    .admin-panel .upload-zone:hover { border-color: var(--primary); background: rgba(229,9,14,0.03); }
+    .admin-panel .upload-zone i { font-size: 2.8rem; color: var(--primary); }
     .admin-panel .btn-danger {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       border: none;
-      padding: 12px 24px;
-      border-radius: 12px;
-      color: #fff;
-      transition: 0.3s;
+      padding: 12px 28px;
+      border-radius: 14px;
       font-weight: 700;
-      font-size: 1rem;
+      transition: 0.3s;
     }
-    .admin-panel .btn-danger:hover {
-      transform: scale(1.02);
-      box-shadow: 0 10px 30px rgba(229,9,14,0.3);
-    }
+    .admin-panel .btn-danger:hover { transform: scale(1.02); box-shadow: 0 8px 28px rgba(229,9,14,0.25); }
     .admin-panel .btn-secondary-custom {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 12px 24px;
-      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 10px 24px;
+      border-radius: 14px;
       color: var(--text-secondary);
       transition: 0.3s;
       font-weight: 600;
     }
-    .admin-panel .btn-secondary-custom:hover { background: rgba(255,255,255,0.1); color:#fff; }
+    .admin-panel .btn-secondary-custom:hover { background: rgba(255,255,255,0.08); color: #fff; }
     .admin-panel .table { color: #fff; }
     .admin-panel .table thead th {
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
       color: var(--text-muted);
       font-weight: 600;
-      text-transform: uppercase;
       font-size: 0.75rem;
-      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
     .admin-panel .table tbody td {
-      border-bottom: 1px solid rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.02);
       vertical-align: middle;
     }
     .admin-panel .table tbody tr:hover { background: rgba(255,255,255,0.02); }
 
     .link-hint {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
       border-radius: 12px;
-      padding: 12px 16px;
+      padding: 10px 16px;
       font-size: 0.8rem;
       color: var(--text-secondary);
-      margin-top: 8px;
     }
-    .link-hint i { color: #00d4aa; margin-right: 8px; }
     .link-hint code {
       color: var(--primary);
-      background: rgba(229,9,14,0.1);
-      padding: 2px 10px;
+      background: rgba(229,9,14,0.08);
+      padding: 2px 12px;
       border-radius: 6px;
-      font-size: 0.75rem;
     }
     .alert-premium {
-      background: rgba(229,9,14,0.05);
-      border: 1px solid rgba(229,9,14,0.1);
-      border-radius: 12px;
-      color: var(--text-secondary);
+      background: rgba(229,9,14,0.04);
+      border: 1px solid rgba(229,9,14,0.08);
+      border-radius: 14px;
       padding: 16px 20px;
+      color: var(--text-secondary);
     }
     .alert-premium strong { color: var(--primary); }
-    .alert-premium code {
-      color: #00d4aa;
-      background: rgba(0,212,170,0.1);
-      padding: 2px 10px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-    }
     .live-badge {
       background: var(--primary);
       color: #fff;
       font-size: 0.55rem;
-      padding: 3px 14px;
-      border-radius: 20px;
-      margin-left: 8px;
-      animation: pulse 1.5s infinite;
+      padding: 2px 16px;
+      border-radius: 40px;
+      margin-left: 6px;
+      animation: pulse 1.8s infinite;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
     }
-    @keyframes pulse {
-      0% { opacity:1; transform:scale(1); }
-      50% { opacity:0.5; transform:scale(0.95); }
-      100% { opacity:1; transform:scale(1); }
-    }
+    @keyframes pulse { 0%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.95)}100%{opacity:1;transform:scale(1)} }
 
     .no-content {
       text-align: center;
       padding: 80px 0;
       color: var(--text-muted);
-      grid-column: 1/-1;
     }
-    .no-content i { font-size: 5rem; margin-bottom: 20px; opacity: 0.3; }
-    .no-content h5 { font-weight: 700; }
+    .no-content i { font-size: 4.5rem; opacity: 0.2; margin-bottom: 20px; }
 
     .toast-custom {
       background: var(--bg-card);
-      border: 1px solid rgba(229,9,14,0.2);
+      border: 1px solid rgba(229,9,14,0.15);
+      border-radius: 20px;
       color: #fff;
-      border-radius: 16px;
     }
-    .loading-container {
-      display: none;
-      text-align: center;
-      padding: 60px 0;
-    }
-    .loading-container .spinner {
-      width: 50px; height:50px;
-      border:3px solid rgba(229,9,14,0.1);
-      border-top-color:var(--primary);
-      border-radius:50%;
-      animation:spin 0.8s linear infinite;
-      margin:0 auto;
-    }
-    @keyframes spin { to { transform:rotate(360deg); } }
 
     /* ----- RESPONSIVE ----- */
     @media (max-width: 992px) {
-      .movie-card { flex: 0 0 200px; }
-      .movie-card .thumbnail { height: 150px; }
+      .movie-card { flex: 0 0 190px; }
+      .movie-card .thumbnail { height: 140px; }
+      .hero-banner h1 { font-size: 3rem; }
     }
     @media (max-width: 768px) {
-      .login-wrapper { width: 95%; padding: 30px 20px; }
-      .hero-premium h1 { font-size: 2.5rem; }
-      .movie-card { flex: 0 0 170px; }
-      .movie-card .thumbnail { height: 130px; }
-      .navbar-premium .brand { font-size: 1.4rem; }
-      .navbar-premium .nav-links a { margin: 0 10px; font-size: 0.8rem; }
+      .movie-card { flex: 0 0 160px; }
+      .movie-card .thumbnail { height: 120px; }
+      .hero-banner h1 { font-size: 2.2rem; }
+      .brand-logo { font-size: 1.5rem; }
       .admin-panel { padding: 20px; }
       .video-modal .modal-header { padding: 12px 16px; }
-      .video-modal .modal-footer { padding: 12px 16px; flex-wrap: wrap; gap:10px; }
+      .video-modal .modal-footer { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
     }
     @media (max-width: 480px) {
-      .movie-card { flex: 0 0 140px; }
-      .movie-card .thumbnail { height: 110px; }
-      .hero-premium h1 { font-size: 2rem; }
-      .navbar-premium .nav-links a { margin: 0 6px; font-size: 0.7rem; }
+      .movie-card { flex: 0 0 130px; }
+      .movie-card .thumbnail { height: 100px; }
+      .hero-banner h1 { font-size: 1.8rem; }
+      .nav-link-custom { margin: 0 8px; font-size: 0.8rem; }
     }
   </style>
 </head>
 <body>
 
 <!-- ===== MAIN APP ===== -->
-<div class="main-app" id="mainApp">
+<div id="app">
 
-  <!-- NAVBAR -->
-  <nav class="navbar-premium">
+  <!-- GLASS NAV -->
+  <nav class="glass-nav">
     <div class="container">
       <div class="d-flex justify-content-between align-items-center">
-        <a href="#" class="brand">
+        <a href="#" class="brand-logo">
           <i class="fas fa-play-circle"></i> JOD MODS <small>OTT</small>
           <span class="live-badge">LIVE</span>
         </a>
         <div class="d-flex align-items-center gap-3">
           <div class="nav-links d-none d-sm-block">
-            <a class="active" onclick="filterMedia('all')">Home</a>
-            <a onclick="filterMedia('video')">Movies</a>
-            <a onclick="filterMedia('photo')">Photos</a>
+            <a class="nav-link-custom active" onclick="filterMedia('all')">Home</a>
+            <a class="nav-link-custom" onclick="filterMedia('video')">Movies</a>
+            <a class="nav-link-custom" onclick="filterMedia('photo')">Photos</a>
           </div>
           <div class="user-badge" id="userBadge">
-            <div class="avatar">A</div>
+            <div class="avatar-circle">J</div>
             <span id="userName">Admin</span>
             <span class="text-muted small" id="userRole">admin</span>
           </div>
-          <button class="btn btn-danger btn-sm" onclick="logout()" id="logoutBtn" style="display:none; border-radius:50px; padding:6px 16px;">
+          <button class="btn btn-outline-danger btn-sm" onclick="logout()" id="logoutBtn" style="display:none; border-radius:60px; padding:4px 18px;">
             <i class="fas fa-sign-out-alt"></i>
           </button>
         </div>
@@ -726,28 +548,35 @@
     <i class="fas fa-crown"></i>
   </button>
 
-  <!-- HERO -->
-  <div class="hero-premium">
+  <!-- HERO BANNER -->
+  <div class="hero-banner">
     <div class="container">
-      <h1>Watch <span style="color:var(--primary);">What You Love</span></h1>
-      <p>Premium content streaming platform. No downloads, just pure entertainment.</p>
+      <div class="row align-items-center">
+        <div class="col-md-7">
+          <h1>Stream <span style="color:var(--primary);">Premium</span> Content</h1>
+          <p>Curated movies, shows & photos — no downloads, just pure entertainment.</p>
+          <div class="hero-buttons d-flex flex-wrap gap-3 mt-4">
+            <button class="btn-watch"><i class="fas fa-play me-2"></i> Watch Now</button>
+            <button class="btn-more"><i class="fas fa-info-circle me-2"></i> More Info</button>
+          </div>
+        </div>
+        <div class="col-md-5 d-none d-md-block text-end">
+          <i class="fas fa-film" style="font-size:5rem; color:rgba(229,9,14,0.15);"></i>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- CONTENT -->
+  <!-- CONTENT SHELVES -->
   <div class="container">
-    <div class="loading-container" id="loadingContainer">
-      <div class="spinner"></div>
-      <p class="mt-3 text-muted">Loading content...</p>
-    </div>
     <div id="contentContainer"></div>
   </div>
 
   <!-- ADMIN PANEL -->
   <div class="container">
     <div class="admin-panel" id="adminPanel">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3><i class="fas fa-shield-alt"></i> Dashboard</h3>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3><i class="fas fa-shield-alt me-2"></i> Dashboard</h3>
         <div>
           <button class="btn btn-secondary-custom btn-sm" onclick="toggleEditMode()" id="editModeBtn">
             <i class="fas fa-edit me-1"></i> Edit Mode
@@ -759,7 +588,7 @@
           <div class="row g-3">
             <div class="col-md-6">
               <label class="form-label text-muted small fw-bold">Title *</label>
-              <input type="text" class="form-control" id="mediaTitle" placeholder="Enter movie title">
+              <input type="text" class="form-control" id="mediaTitle" placeholder="Title">
             </div>
             <div class="col-md-6">
               <label class="form-label text-muted small fw-bold">Episode</label>
@@ -767,44 +596,42 @@
             </div>
             <div class="col-12">
               <label class="form-label text-muted small fw-bold">Description</label>
-              <textarea class="form-control" id="mediaDesc" rows="2" placeholder="Brief description..."></textarea>
+              <textarea class="form-control" id="mediaDesc" rows="2" placeholder="Brief..."></textarea>
             </div>
             <div class="col-md-6">
               <label class="form-label text-muted small fw-bold">Category</label>
               <select class="form-control" id="mediaCategory">
-                <option value="General">General</option><option value="Action">Action</option><option value="Comedy">Comedy</option>
-                <option value="Drama">Drama</option><option value="Documentary">Documentary</option><option value="Horror">Horror</option>
-                <option value="Romance">Romance</option><option value="Sci-Fi">Sci-Fi</option><option value="Thriller">Thriller</option>
-                <option value="Animation">Animation</option>
+                <option>Action</option><option>Comedy</option><option>Drama</option><option>Documentary</option>
+                <option>Horror</option><option>Romance</option><option>Sci-Fi</option><option>Thriller</option>
+                <option>Animation</option><option>Trending</option><option>General</option>
               </select>
             </div>
             <div class="col-md-6">
               <label class="form-label text-muted small fw-bold">Type</label>
               <select class="form-control" id="mediaType">
-                <option value="video">Video</option><option value="photo">Photo</option><option value="document">Document</option>
+                <option value="video">Video</option><option value="photo">Photo</option>
               </select>
             </div>
             <div class="col-12">
               <label class="form-label text-muted small fw-bold">Thumbnail *</label>
               <div class="upload-zone" id="uploadZone">
                 <i class="fas fa-image"></i>
-                <p class="fw-bold">Click to select thumbnail</p>
+                <p class="fw-bold mt-2">Click to select thumbnail</p>
                 <div class="file-info" id="fileInfo">No thumbnail selected</div>
                 <input type="file" id="thumbnailFile" style="display:none" accept="image/*">
               </div>
             </div>
             <div class="col-12">
-              <label class="form-label text-muted small fw-bold">Video URL *</label>
-              <input type="url" class="form-control" id="videoUrl" placeholder="https://archive.org/download/movie/movie.mp4">
-              <div class="link-hint">
-                <i class="fas fa-info-circle"></i> 
-                Supports: <code>Archive.org</code> <code>Google Drive</code> <code>Mega.nz</code> <code>Telegram</code> <code>Vimeo</code> <code>Direct URL</code>
+              <label class="form-label text-muted small fw-bold">Video / Media URL *</label>
+              <input type="url" class="form-control" id="videoUrl" placeholder="https://archive.org/download/...">
+              <div class="link-hint mt-2">
+                <i class="fas fa-link me-1"></i> Supports: .mp4, .webm, .m3u8, YouTube, Vimeo, Google Drive, Telegram, Mega, Archive
               </div>
             </div>
             <div class="col-12">
               <div class="alert-premium">
                 <i class="fas fa-lightbulb me-2" style="color:var(--primary);"></i>
-                <strong>Pro Tip:</strong> Archive.org links work best! Format: 
+                <strong>Pro Tip:</strong> Archive.org links work best: 
                 <code>https://archive.org/download/ID/file.mp4</code>
               </div>
             </div>
@@ -816,7 +643,7 @@
           </div>
         </div>
         <div class="col-lg-5">
-          <div class="p-4 rounded" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);">
+          <div class="p-4 rounded" style="background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle);">
             <h6><i class="fas fa-chart-simple me-2" style="color:var(--primary);"></i> Statistics</h6>
             <div class="row mt-3">
               <div class="col-6">
@@ -834,10 +661,7 @@
               <button class="btn btn-secondary-custom btn-sm" onclick="hideAdmin()"><i class="fas fa-eye-slash me-1"></i> Hide Panel</button>
             </div>
             <hr class="border-secondary">
-            <div class="text-muted small">
-              <i class="fas fa-database me-1" style="color:#00d4aa;"></i> 
-              Status: <span id="dbStatus" style="color:#00d4aa;">● Connected</span>
-            </div>
+            <div class="text-muted small"><i class="fas fa-database me-1" style="color:#00d4aa;"></i> Status: <span style="color:#00d4aa;">● Connected</span></div>
           </div>
         </div>
       </div>
@@ -858,10 +682,7 @@
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalTitle">
-            <i class="fas fa-play-circle me-2" style="color:var(--primary);"></i>
-            <span id="modalTitleText">Now Playing</span>
-          </h5>
+          <h5 class="modal-title"><i class="fas fa-play-circle me-2" style="color:var(--primary);"></i> <span id="modalTitleText">Now Playing</span></h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body" id="modalBody">
@@ -869,37 +690,41 @@
         </div>
         <div class="modal-footer">
           <span class="meta-info" id="modalMeta"></span>
-          <button class="btn btn-close-modal" data-bs-dismiss="modal"><i class="fas fa-times me-2"></i> Close</button>
+          <a href="#" id="externalFallback" class="external-link" target="_blank"><i class="fas fa-external-link-alt me-1"></i> Open in External Player</a>
+          <button class="btn-close-modal" data-bs-dismiss="modal"><i class="fas fa-times me-2"></i> Close</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- LOGIN OVERLAY -->
-<div class="login-overlay" id="loginOverlay">
-  <div class="login-wrapper">
-    <div class="falling-man" id="fallingMan">🧑</div>
-    <div class="login-inner">
-      <div class="login-box">
-        <div class="logo"><i class="fas fa-crown"></i> JOD MODS</div>
-        <div class="subtitle">Staff Access Only</div>
+<!-- LOGIN OVERLAY (glass) -->
+<div class="login-overlay" id="loginOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.96); z-index:99999; backdrop-filter:blur(24px); justify-content:center; align-items:center;">
+  <div class="login-wrapper" style="position:relative; width:420px; background:linear-gradient(145deg,#1a1a22,#0e0e12); border-radius:36px; padding:40px 32px; border:1px solid rgba(229,9,14,0.15); box-shadow:0 60px 120px rgba(0,0,0,0.8);">
+    <div class="login-inner" style="position:relative; z-index:10;">
+      <div class="login-box" style="text-align:center;">
+        <div class="logo" style="font-size:2.6rem; font-weight:800; background:linear-gradient(135deg,var(--primary),#ff6b6b); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+          <i class="fas fa-crown" style="-webkit-text-fill-color:var(--primary);"></i> JOD MODS
+        </div>
+        <div class="subtitle" style="color:var(--text-muted); margin-bottom:28px;">Staff Access Only</div>
         <form id="loginForm">
-          <div class="input-group">
-            <label>Username</label>
-            <input type="text" id="loginUsername" placeholder="Enter username" value="JOD">
-            <span class="icon"><i class="fas fa-user"></i></span>
+          <div class="input-group" style="position:relative; margin-bottom:16px; text-align:left;">
+            <label style="display:block; font-size:0.75rem; font-weight:600; color:var(--text-secondary);">Username</label>
+            <input type="text" id="loginUsername" value="JOD" style="width:100%; padding:14px 18px; background:rgba(255,255,255,0.04); border:2px solid rgba(255,255,255,0.06); border-radius:14px; color:#fff; outline:none;">
           </div>
-          <div class="input-group">
-            <label>Password</label>
-            <input type="password" id="loginPassword" placeholder="Enter password" value="MODS">
-            <span class="icon"><i class="fas fa-lock"></i></span>
+          <div class="input-group" style="position:relative; margin-bottom:16px; text-align:left;">
+            <label style="display:block; font-size:0.75rem; font-weight:600; color:var(--text-secondary);">Password</label>
+            <input type="password" id="loginPassword" value="MODS" style="width:100%; padding:14px 18px; background:rgba(255,255,255,0.04); border:2px solid rgba(255,255,255,0.06); border-radius:14px; color:#fff; outline:none;">
           </div>
-          <button type="submit" class="btn-login" id="loginBtn"><i class="fas fa-sign-in-alt me-2"></i> Login</button>
-          <div class="error-msg" id="loginError">❌ Invalid credentials! Try again.</div>
-          <div class="success-msg" id="loginSuccess">✅ Login successful! Redirecting...</div>
+          <button type="submit" class="btn-login" style="width:100%; padding:16px; border-radius:14px; background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#fff; border:none; font-weight:700; font-size:1.1rem; transition:0.3s; cursor:pointer;">
+            <i class="fas fa-sign-in-alt me-2"></i> Login
+          </button>
+          <div class="error-msg" id="loginError" style="display:none; color:var(--primary); margin-top:12px; padding:10px; background:rgba(229,9,14,0.08); border-radius:12px;">❌ Invalid credentials</div>
+          <div class="success-msg" id="loginSuccess" style="display:none; color:#00d4aa; margin-top:12px; padding:10px; background:rgba(0,212,170,0.06); border-radius:12px;">✅ Login successful!</div>
         </form>
-        <div class="credentials-hint"><strong>JOD</strong> / <strong>MODS</strong></div>
+        <div class="credentials-hint" style="margin-top:20px; padding:12px; background:rgba(255,255,255,0.02); border-radius:14px; border:1px dashed rgba(255,255,255,0.04); color:var(--text-muted); font-size:0.8rem;">
+          <strong style="color:var(--primary);">JOD</strong> / <strong style="color:var(--primary);">MODS</strong>
+        </div>
       </div>
     </div>
   </div>
@@ -940,60 +765,42 @@
      DATABASE
      ============================================================== */
   function loadDatabase() {
-    try { 
-      const stored = localStorage.getItem(DB_KEY);
-      contentItems = stored ? JSON.parse(stored) : [];
-    } catch(e) { contentItems = []; }
+    try { const stored = localStorage.getItem(DB_KEY); contentItems = stored ? JSON.parse(stored) : []; } catch(e) { contentItems = []; }
     return contentItems;
   }
-  function saveDatabase() {
-    localStorage.setItem(DB_KEY, JSON.stringify(contentItems));
-    updateStats();
-    updateAdminList();
-  }
+  function saveDatabase() { localStorage.setItem(DB_KEY, JSON.stringify(contentItems)); updateStats(); updateAdminList(); }
 
   /* ==============================================================
      LOGIN
      ============================================================== */
   function showLogin() {
-    document.getElementById('loginOverlay').classList.add('active');
+    document.getElementById('loginOverlay').style.display = 'flex';
     document.getElementById('loginError').style.display = 'none';
     document.getElementById('loginSuccess').style.display = 'none';
-    const man = document.getElementById('fallingMan');
-    man.style.animation = 'none';
-    setTimeout(() => { man.style.animation = 'fallDown 3.5s ease-in forwards'; }, 100);
   }
-  function hideLogin() { document.getElementById('loginOverlay').classList.remove('active'); }
+  function hideLogin() { document.getElementById('loginOverlay').style.display = 'none'; }
 
   document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const username = document.getElementById('loginUsername').value.trim();
     const password = document.getElementById('loginPassword').value.trim();
     const errorMsg = document.getElementById('loginError'), successMsg = document.getElementById('loginSuccess');
-    const loginBtn = document.getElementById('loginBtn');
     errorMsg.style.display = 'none'; successMsg.style.display = 'none';
-
     if (username.toUpperCase() === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
       successMsg.style.display = 'block';
-      loginBtn.disabled = true;
-      loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Logging in...';
       currentUser = { username: ADMIN_USERNAME, name: 'Admin', role: 'admin' };
       setTimeout(() => {
         hideLogin();
         showAdmin();
         document.getElementById('userBadge').style.display = 'flex';
         document.getElementById('logoutBtn').style.display = 'block';
-        document.querySelector('.user-badge .avatar').textContent = 'J';
+        document.querySelector('.avatar-circle').textContent = 'J';
         document.getElementById('userName').textContent = 'Admin';
         document.getElementById('userRole').textContent = 'admin';
         showToast('✅ Welcome Admin!');
-        loginBtn.disabled = false;
-        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Login';
-      }, 1000);
+      }, 600);
     } else {
       errorMsg.style.display = 'block';
-      loginBtn.disabled = false;
-      loginBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i> Login';
     }
   });
 
@@ -1005,6 +812,7 @@
       document.getElementById('logoutBtn').style.display = 'none';
       isEditMode = false;
       document.getElementById('editModeBtn').textContent = 'Edit Mode';
+      document.querySelector('#app').classList.remove('edit-mode');
       showToast('Logged out');
     }
   }
@@ -1014,7 +822,7 @@
      ADMIN PANEL
      ============================================================== */
   function showAdmin() {
-    if (!isAdmin()) { showToast('Access denied! Admin only.', 'error'); return; }
+    if (!isAdmin()) { showToast('Access denied!', 'error'); return; }
     document.getElementById('adminPanel').classList.add('active');
     isAdminMode = true;
     updateAdminList();
@@ -1025,16 +833,15 @@
     isAdminMode = false;
     isEditMode = false;
     document.getElementById('editModeBtn').textContent = 'Edit Mode';
-    document.querySelector('.main-app').classList.remove('edit-mode');
+    document.querySelector('#app').classList.remove('edit-mode');
   }
   function toggleEditMode() {
     if (!isAdmin()) { showToast('Admin access required!', 'error'); return; }
     isEditMode = !isEditMode;
-    document.querySelector('.main-app').classList.toggle('edit-mode', isEditMode);
+    document.querySelector('#app').classList.toggle('edit-mode', isEditMode);
     document.getElementById('editModeBtn').textContent = isEditMode ? 'Exit Edit' : 'Edit Mode';
-    if (isEditMode) showToast('✏️ Edit Mode ON - Click on any content to edit', 'info');
-    else showToast('✏️ Edit Mode OFF', 'info');
     renderContent(currentFilter);
+    if (isEditMode) showToast('✏️ Edit Mode ON', 'info');
   }
 
   /* ==============================================================
@@ -1046,24 +853,23 @@
     const info = document.getElementById('fileInfo');
     if (zone) {
       zone.addEventListener('click', () => fileInput.click());
-      fileInput.addEventListener('change', function(e) {
+      fileInput.addEventListener('change', function() {
         if (this.files.length > 0) {
           selectedThumbnail = this.files[0];
           info.innerHTML = `<i class="fas fa-check-circle" style="color:#00d4aa;"></i> ${this.files[0].name}`;
         }
       });
-      zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor = '#e50914'; zone.style.background = 'rgba(229,9,14,0.05)'; });
-      zone.addEventListener('dragleave', e => { e.preventDefault(); zone.style.borderColor = 'rgba(229,9,14,0.2)'; zone.style.background = 'transparent'; });
+      zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor = '#e50914'; });
+      zone.addEventListener('dragleave', e => { e.preventDefault(); zone.style.borderColor = 'rgba(229,9,14,0.2)'; });
       zone.addEventListener('drop', function(e) {
         e.preventDefault();
-        this.style.borderColor = 'rgba(229,9,14,0.2)';
-        this.style.background = 'transparent';
         if (e.dataTransfer.files.length > 0) {
           const file = e.dataTransfer.files[0];
           selectedThumbnail = file;
           fileInput.files = e.dataTransfer.files;
           info.innerHTML = `<i class="fas fa-check-circle" style="color:#00d4aa;"></i> ${file.name}`;
         }
+        this.style.borderColor = 'rgba(229,9,14,0.2)';
       });
     }
   });
@@ -1087,7 +893,7 @@
   }
 
   /* ==============================================================
-     PUBLISH / UPDATE
+     PUBLISH (with full Telegram sync)
      ============================================================== */
   async function publishContent() {
     if (!isAdmin()) { showToast('Admin access required!', 'error'); return; }
@@ -1100,11 +906,11 @@
     const publishBtn = document.getElementById('publishBtn');
 
     if (!title) { showToast('Please enter a title', 'warning'); return; }
-    if (!selectedThumbnail) { showToast('Please select a thumbnail image', 'warning'); return; }
+    if (!selectedThumbnail) { showToast('Please select a thumbnail', 'warning'); return; }
     if (!videoUrl) { showToast('Please paste a video URL', 'warning'); return; }
 
     publishBtn.disabled = true;
-    publishBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Publishing Live...';
+    publishBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Publishing...';
 
     try {
       const thumbnailUrl = await uploadThumbnailToTelegram(selectedThumbnail, title);
@@ -1124,6 +930,17 @@
       saveDatabase();
       renderContent(currentFilter);
       resetForm();
+
+      // Telegram full caption sync
+      const caption = `🎬 *Title:* ${title}\n📌 *Category:* ${category}\n📺 *Episode:* ${episode || 'N/A'}\n🔗 *Stream Link:* ${videoUrl}\n📝 *Description:* ${description || 'N/A'}\n👤 *Uploaded By:* Admin\n⏰ *Timestamp:* ${new Date().toLocaleString()}`;
+      try {
+        await fetch(`${TELEGRAM.apiUrl}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: TELEGRAM.channelId, text: caption, parse_mode: 'Markdown' })
+        });
+      } catch(e) { console.warn('Telegram message sync failed:', e); }
+
       showToast('✅ Content published LIVE!');
     } catch(error) {
       console.error('Publish error:', error);
@@ -1168,19 +985,13 @@
       if (selectedThumbnail) {
         thumbnailUrl = await uploadThumbnailToTelegram(selectedThumbnail, title) || thumbnailUrl;
       }
-      contentItems[index] = {
-        ...contentItems[index],
-        title, episode: episode || '', description: description || '',
-        category, type: mediaType, url: videoUrl, thumbnail: thumbnailUrl,
-        timestamp: Date.now()
-      };
+      contentItems[index] = { ...contentItems[index], title, episode: episode || '', description: description || '', category, type: mediaType, url: videoUrl, thumbnail: thumbnailUrl, timestamp: Date.now() };
       saveDatabase();
       renderContent(currentFilter);
       resetForm();
-      showToast('✅ Content updated successfully!');
+      showToast('✅ Content updated!');
     } catch(error) {
-      console.error('Update error:', error);
-      showToast('❌ Failed to update: ' + error.message, 'error');
+      showToast('❌ Update failed: ' + error.message, 'error');
     }
     publishBtn.disabled = false;
     publishBtn.innerHTML = '<i class="fas fa-upload me-2"></i> Publish Live';
@@ -1211,7 +1022,7 @@
       saveDatabase();
       renderContent(currentFilter);
       updateAdminList();
-      showToast('🗑️ Item deleted');
+      showToast('🗑️ Deleted');
     }
   }
 
@@ -1221,18 +1032,18 @@
       saveDatabase();
       renderContent(currentFilter);
       updateAdminList();
-      showToast('🗑️ All content cleared');
+      showToast('🗑️ All cleared');
     }
   }
 
   /* ==============================================================
-     RENDER CONTENT
+     RENDER CONTENT (category shelves)
      ============================================================== */
   function renderContent(filter = 'all') {
     const container = document.getElementById('contentContainer');
     const filtered = filter === 'all' ? contentItems : contentItems.filter(item => item.type === filter);
     if (filtered.length === 0) {
-      container.innerHTML = `<div class="no-content"><i class="fas fa-film"></i><h5 style="font-weight:700;">No content available</h5><p class="text-muted">Check back later for new content</p></div>`;
+      container.innerHTML = `<div class="no-content"><i class="fas fa-film"></i><h5>No content available</h5><p class="text-muted">Check back later</p></div>`;
       return;
     }
     const categories = {};
@@ -1245,9 +1056,9 @@
         html += `<div class="movie-card" onclick="${isEditMode ? `editItem('${item.id}')` : `openMedia('${item.id}')`}">
           ${isEditMode ? `<span class="edit-badge">✏️ EDIT</span>` : ''}
           ${isEditMode ? `<div class="edit-actions"><button class="btn-edit" onclick="event.stopPropagation();editItem('${item.id}')"><i class="fas fa-pen"></i></button><button class="btn-delete" onclick="event.stopPropagation();deleteItem('${item.id}')"><i class="fas fa-trash"></i></button></div>` : ''}
-          ${thumbSrc ? `<img class="thumbnail" src="${thumbSrc}" alt="${item.title}" loading="lazy">` : item.type === 'video' ? `<video class="thumbnail" src="${item.url}" muted></video>` : item.type === 'photo' ? `<img class="thumbnail" src="${item.url}" alt="${item.title}" loading="lazy">` : `<div class="thumbnail-placeholder"><i class="fas fa-file-alt"></i></div>`}
+          ${thumbSrc ? `<img class="thumbnail" src="${thumbSrc}" alt="${item.title}" loading="lazy">` : item.type === 'video' ? `<video class="thumbnail" src="${item.url}" muted></video>` : item.type === 'photo' ? `<img class="thumbnail" src="${item.url}" alt="${item.title}" loading="lazy">` : `<div class="thumb-placeholder"><i class="fas fa-file-alt"></i></div>`}
           ${!isEditMode && item.type === 'video' ? `<div class="play-overlay"><i class="fas fa-play"></i></div>` : ''}
-          <div class="card-body"><h6>${item.title || 'Untitled'}</h6><div class="card-meta"><span>${item.episode ? 'Ep ' + item.episode : ''}</span><span class="badge-category">${item.category}</span></div></div>
+          <div class="card-body"><h6>${item.title || 'Untitled'}</h6><div class="card-meta"><span>${item.episode ? 'Ep '+item.episode : ''}</span><span class="badge-cat">${item.category}</span></div></div>
         </div>`;
       });
       html += `</div></div>`;
@@ -1258,12 +1069,12 @@
   function filterMedia(type) {
     currentFilter = type;
     renderContent(type);
-    document.querySelectorAll('.nav-links a').forEach(el => el.classList.remove('active'));
-    if (event) event.target.classList.add('active');
+    document.querySelectorAll('.nav-link-custom').forEach(el => el.classList.remove('active'));
+    if (event && event.target) event.target.classList.add('active');
   }
 
   /* ==============================================================
-     OPEN MEDIA (FULL SCREEN PLAYER)
+     OPEN MEDIA (Universal player with smart source handling)
      ============================================================== */
   function openMedia(id) {
     const item = contentItems.find(c => c.id === id);
@@ -1277,13 +1088,33 @@
     document.getElementById('modalMeta').textContent = metaText;
 
     const body = document.getElementById('modalBody');
-    if (item.type === 'video') {
-      body.innerHTML = `<video id="mainVideo" controls autoplay style="width:100%;max-height:100vh;background:#000;display:block;"><source src="${item.url}" type="video/mp4"></video>`;
-    } else if (item.type === 'photo') {
-      body.innerHTML = `<img src="${item.url}" alt="${item.title}" style="width:100%;max-height:100vh;object-fit:contain;background:#000;">`;
-    } else {
-      body.innerHTML = `<div class="text-center p-5" style="background:#0a0a0a;min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;"><i class="fas fa-file-alt" style="font-size:5rem;color:var(--primary);"></i><p class="mt-4" style="font-size:1.2rem;">${item.title || 'Document'}</p><p class="text-muted small">Preview not available for documents</p><a href="${item.url}" target="_blank" class="btn btn-danger" style="border-radius:50px;padding:12px 40px;margin-top:20px;"><i class="fas fa-external-link-alt me-2"></i> Open Document</a></div>`;
+    const url = item.url;
+    const externalLink = document.getElementById('externalFallback');
+    externalLink.href = url;
+
+    // Smart embed detection
+    let isEmbed = false;
+    const embedPatterns = [
+      /youtube\.com\/watch/i, /youtu\.be\//i, /vimeo\.com\//i,
+      /drive\.google\.com\/file\/d\//i, /telegram\.org\/embed/i,
+      /mega\.nz\/embed/i, /archive\.org\/embed/i
+    ];
+    for (let pat of embedPatterns) {
+      if (pat.test(url)) { isEmbed = true; break; }
     }
+
+    if (item.type === 'photo') {
+      body.innerHTML = `<img src="${url}" alt="${item.title}" style="width:100%;max-height:100vh;object-fit:contain;background:#000;">`;
+    } else if (isEmbed) {
+      // Embed via iframe
+      body.innerHTML = `<div style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;"><iframe src="${url}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" allowfullscreen></iframe></div>`;
+    } else if (url.match(/\.(mp4|webm|m3u8)(\?.*)?$/i)) {
+      body.innerHTML = `<video id="mainVideo" controls autoplay style="width:100%;max-height:100vh;background:#000;display:block;"><source src="${url}" type="video/mp4"></video>`;
+    } else {
+      // fallback: try video anyway or show embed
+      body.innerHTML = `<video id="mainVideo" controls autoplay style="width:100%;max-height:100vh;background:#000;display:block;"><source src="${url}" type="video/mp4"></video>`;
+    }
+
     modalInstance.show();
     document.getElementById('videoModal').addEventListener('shown.bs.modal', function() {
       const video = document.getElementById('mainVideo');
@@ -1305,16 +1136,14 @@
       <tr><td><strong>${item.title || 'Untitled'}</strong></td><td>${item.episode || '-'}</td>
       <td><span class="badge bg-danger bg-opacity-25 text-danger">${item.type}</span></td>
       <td>${item.category || 'General'}</td>
-      <td><button class="btn btn-sm btn-outline-danger" onclick="editItem('${item.id}')" style="border-radius:50px;margin-right:5px;"><i class="fas fa-edit"></i></button>
-      <button class="btn btn-sm btn-danger" onclick="deleteItem('${item.id}')" style="border-radius:50px;"><i class="fas fa-trash"></i></button></td></tr>
+      <td><button class="btn btn-sm btn-outline-danger" onclick="editItem('${item.id}')" style="border-radius:60px;margin-right:4px;"><i class="fas fa-edit"></i></button>
+      <button class="btn btn-sm btn-danger" onclick="deleteItem('${item.id}')" style="border-radius:60px;"><i class="fas fa-trash"></i></button></td></tr>
     `).join('');
   }
 
   function updateStats() {
     document.getElementById('totalItems').textContent = contentItems.length;
-    if (contentItems.length > 0) {
-      document.getElementById('lastUpdated').textContent = new Date(contentItems[0].timestamp).toLocaleString();
-    }
+    if (contentItems.length > 0) document.getElementById('lastUpdated').textContent = new Date(contentItems[0].timestamp).toLocaleString();
   }
 
   /* ==============================================================
@@ -1346,7 +1175,6 @@
   console.log('👤 Admin: JOD / MODS');
   console.log('🔑 Login: Ctrl+Shift+A');
   console.log('✏️ Edit Mode: Ctrl+Shift+E');
-  console.log('📦 Single Database · Full-screen player · Any URL');
 </script>
 </body>
 </html>
