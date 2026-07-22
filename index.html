@@ -224,12 +224,14 @@
         .movie-card:hover .play-overlay { opacity: 1; }
         .movie-card .play-overlay i { font-size: 1.5rem; color: #fff; }
         
+        /* ====== VIDEO MODAL - NO DOWNLOAD ====== */
         .video-modal .modal-content { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; }
         .video-modal .modal-header { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 20px; }
         .video-modal .modal-header .btn-close { filter: invert(1); }
         .video-modal .modal-body { padding: 0; }
         .video-modal video { width: 100%; max-height: 75vh; background: #000; }
         .video-modal .modal-footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 12px 20px; }
+        /* NO DOWNLOAD BUTTON - ONLY CLOSE */
         
         .no-content { text-align: center; padding: 60px 0; color: #808080; grid-column: 1/-1; }
         .no-content i { font-size: 4rem; margin-bottom: 15px; opacity: 0.3; }
@@ -270,12 +272,6 @@
             color: #fff; transition: 0.3s; font-weight: 600;
         }
         .admin-panel .btn-danger:hover { background: #b20710; transform: scale(1.02); }
-        .admin-panel .btn-success-custom {
-            background: #00d4aa; border: none;
-            padding: 8px 20px; border-radius: 20px;
-            color: #fff; transition: 0.3s; font-weight: 600;
-        }
-        .admin-panel .btn-success-custom:hover { background: #00b894; transform: scale(1.02); }
         .admin-panel .table { color: #ffffff; }
         .admin-panel .table thead th { border-bottom: 1px solid rgba(255,255,255,0.05); color: #808080; }
         .admin-panel .table tbody td { border-bottom: 1px solid rgba(255,255,255,0.03); vertical-align: middle; }
@@ -301,8 +297,8 @@
             color: #808080;
             margin-top: 5px;
         }
-        .link-hint i { color: #e50914; margin-right: 5px; }
-        .link-hint code { color: #00d4aa; background: rgba(0,212,170,0.1); padding: 2px 8px; border-radius: 4px; }
+        .link-hint i { color: #00d4aa; margin-right: 5px; }
+        .link-hint code { color: #e50914; background: rgba(229,9,14,0.1); padding: 2px 8px; border-radius: 4px; }
         
         @media (max-width: 768px) {
             .login-container { width: 95%; height: auto; min-height: 450px; }
@@ -424,18 +420,28 @@
                                     <input type="file" id="thumbnailFile" style="display:none" accept="image/*">
                                 </div>
                             </div>
-                            <!-- Video Link -->
+                            <!-- Telegram Video URL -->
                             <div class="col-12">
-                                <label class="form-label text-muted small">Video URL *</label>
+                                <label class="form-label text-muted small">Telegram Video URL *</label>
                                 <input type="url" class="form-control" id="videoUrl" 
-                                       placeholder="https://archive.org/download/movie-id/movie.mp4">
+                                       placeholder="https://api.telegram.org/file/botYOUR_TOKEN/path/to/video.mp4">
                                 <div class="link-hint">
                                     <i class="fas fa-info-circle"></i> 
-                                    Paste your video link from: 
-                                    <code>Archive.org</code> 
-                                    <code>Telegram</code> 
-                                    <code>Google Drive</code> 
-                                    <code>Mega.nz</code>
+                                    Paste your Telegram video direct link
+                                    <br>
+                                    <small>Format: <code>https://api.telegram.org/file/bot&lt;TOKEN&gt;/&lt;FILE_PATH&gt;</code></small>
+                                </div>
+                            </div>
+                            <!-- How to get link -->
+                            <div class="col-12">
+                                <div class="alert alert-secondary" style="background:#1a1a1a; border-color: #e50914; color: #ccc;">
+                                    <i class="fas fa-question-circle me-2"></i>
+                                    <strong>How to get Telegram video link:</strong>
+                                    <ol class="mt-2" style="font-size:0.85rem;">
+                                        <li>Upload video to your Telegram channel</li>
+                                        <li>Get file_id using: <code>https://api.telegram.org/botTOKEN/getUpdates</code></li>
+                                        <li>Use: <code>https://api.telegram.org/file/botTOKEN/file_path</code></li>
+                                    </ol>
                                 </div>
                             </div>
                             <!-- Submit Button -->
@@ -495,7 +501,7 @@
             </div>
         </div>
 
-        <!-- ====== VIDEO MODAL ====== -->
+        <!-- ====== VIDEO MODAL - NO DOWNLOAD ====== -->
         <div class="modal fade video-modal" id="videoModal" tabindex="-1">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
@@ -506,7 +512,10 @@
                     <div class="modal-body" id="modalBody"></div>
                     <div class="modal-footer">
                         <span class="meta-info" id="modalMeta"></span>
-                        <button class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                        <button class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-1"></i> Close
+                        </button>
+                        <!-- NO DOWNLOAD BUTTON -->
                     </div>
                 </div>
             </div>
@@ -557,7 +566,7 @@
     </script>
     <script>
         // ==============================================================
-        // TELEGRAM CONFIG - For Thumbnail Storage
+        // TELEGRAM CONFIG
         // ==============================================================
         const TELEGRAM = {
             botToken: '8912679390:AAHjunC2scpFKPJr0QgwfGWdAOFaLhUhzwY',
@@ -763,7 +772,7 @@
         }
 
         // ==============================================================
-        // PUBLISH CONTENT - MAIN FUNCTION
+        // PUBLISH CONTENT
         // ==============================================================
         async function publishContent() {
             if (!isAdmin()) {
@@ -791,15 +800,13 @@
             }
 
             if (!videoUrl) {
-                showToast('Please paste a video URL', 'warning');
+                showToast('Please paste a Telegram video URL', 'warning');
                 return;
             }
 
             // Validate URL
-            try {
-                new URL(videoUrl);
-            } catch (e) {
-                showToast('Invalid video URL! Please paste a valid link.', 'error');
+            if (!videoUrl.includes('api.telegram.org')) {
+                showToast('Please paste a valid Telegram video URL', 'error');
                 return;
             }
 
@@ -954,7 +961,7 @@
         }
 
         // ==============================================================
-        // RENDER CONTENT - USER VIEW
+        // RENDER CONTENT
         // ==============================================================
         function renderContent(filter = 'all') {
             const container = document.getElementById('contentContainer');
@@ -1038,7 +1045,7 @@
         }
 
         // ==============================================================
-        // OPEN MEDIA - USER VIEW
+        // OPEN MEDIA - NO DOWNLOAD
         // ==============================================================
         function openMedia(id) {
             const item = contentItems.find(c => c.id === id);
@@ -1173,7 +1180,8 @@
 
         console.log('🎬 JOD MODS OTT loaded!');
         console.log('👤 Admin: JOD / MODS');
-        console.log('📦 Thumbnail → Telegram | Video → External Link');
+        console.log('📦 Storage: Telegram (Unlimited)');
+        console.log('🚫 No Download, No Ads, No Watermark');
     </script>
 </body>
 </html>
