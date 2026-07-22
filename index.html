@@ -3,121 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOD MODS OTT - Premium</title>
+    <title>JOD MODS OTT · Premium</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ==============================================================
-           ROOT & BASE
+           ROOT & GLOBAL — NETFLIX INSPIRED
            ============================================================== */
         :root {
             --primary: #e50914;
             --primary-dark: #b20710;
-            --primary-glow: rgba(229, 9, 20, 0.4);
+            --primary-glow: rgba(229, 9, 20, 0.5);
             --bg-primary: #0a0a0a;
             --bg-secondary: #141414;
             --bg-card: #1a1a1a;
+            --bg-card-hover: #222;
             --text-primary: #ffffff;
-            --text-secondary: #aaaaaa;
-            --text-muted: #666666;
-            --border-color: rgba(255,255,255,0.05);
-            --shadow-color: rgba(0,0,0,0.6);
-            --radius: 16px;
-            --transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --text-secondary: #b3b3b3;
+            --text-muted: #6b6b6b;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --shadow-card: 0 20px 50px rgba(0, 0, 0, 0.7);
+            --transition-smooth: 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             background: var(--bg-primary);
             color: var(--text-primary);
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             min-height: 100vh;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         /* ==============================================================
-           SCROLLBAR
+           SCROLLBAR (NETFLIX STYLE)
            ============================================================== */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-primary); }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--primary), #ff6b6b); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary), #ff4d4d);
+            border-radius: 12px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
 
         /* ==============================================================
-           LOGIN OVERLAY
+           LOGIN OVERLAY (CINEMATIC)
            ============================================================== */
         .login-overlay {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.97);
-            z-index: 99999;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(24px);
+            z-index: 999999;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(30px);
         }
-        .login-overlay.active { display: flex; }
+        .login-overlay.active {
+            display: flex;
+        }
 
         .login-wrapper {
             position: relative;
             width: 440px;
-            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
-            border-radius: 32px;
-            padding: 50px 40px 40px;
-            border: 1px solid rgba(229,9,14,0.2);
-            box-shadow: 0 50px 100px rgba(0,0,0,0.8), 0 0 80px rgba(229,9,14,0.05);
+            max-width: 94%;
+            background: linear-gradient(145deg, #161616, #0c0c0c);
+            border-radius: 40px;
+            padding: 48px 36px 36px;
+            border: 1px solid rgba(229, 9, 14, 0.25);
+            box-shadow: 0 60px 120px rgba(0, 0, 0, 0.9), 0 0 100px rgba(229, 9, 14, 0.08);
             overflow: hidden;
         }
         .login-wrapper::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            inset: -60%;
             background: conic-gradient(from 0deg, transparent, transparent, transparent, var(--primary), transparent, transparent);
-            animation: rotateBorder 8s linear infinite;
+            animation: rotateBorder 10s linear infinite;
         }
         .login-wrapper::after {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            inset: -60%;
             background: conic-gradient(from 0deg, transparent, transparent, transparent, #ff6b6b, transparent, transparent);
-            animation: rotateBorder 8s linear infinite;
-            animation-delay: -4s;
+            animation: rotateBorder 10s linear infinite;
+            animation-delay: -5s;
         }
         @keyframes rotateBorder {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .login-inner {
             position: relative;
             z-index: 10;
-            background: rgba(10,10,10,0.95);
-            border-radius: 24px;
-            padding: 10px;
-            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 10, 0.92);
+            border-radius: 32px;
+            padding: 8px;
+            backdrop-filter: blur(12px);
         }
 
         .login-box {
-            padding: 30px 20px 20px;
+            padding: 28px 16px 16px;
             text-align: center;
         }
         .login-box .logo {
-            font-size: 2.5rem;
+            font-size: 2.6rem;
             font-weight: 800;
             background: linear-gradient(135deg, var(--primary), #ff6b6b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
         }
-        .login-box .logo i { -webkit-text-fill-color: var(--primary); margin-right: 12px; }
-        .login-box .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 30px; }
+        .login-box .logo i {
+            -webkit-text-fill-color: var(--primary);
+            margin-right: 10px;
+        }
+        .login-box .subtitle {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-bottom: 28px;
+        }
         .login-box .input-group {
             position: relative;
             margin-bottom: 18px;
@@ -125,28 +150,28 @@
         }
         .login-box .input-group label {
             display: block;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: var(--text-secondary);
-            margin-bottom: 6px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
         }
         .login-box .input-group input {
             width: 100%;
             padding: 14px 18px;
-            background: rgba(255,255,255,0.05);
-            border: 2px solid rgba(255,255,255,0.08);
-            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
             color: #fff;
             font-size: 1rem;
-            transition: all 0.3s;
+            transition: 0.3s;
             outline: none;
         }
         .login-box .input-group input:focus {
             border-color: var(--primary);
-            background: rgba(255,255,255,0.08);
-            box-shadow: 0 0 0 4px rgba(229,9,14,0.1);
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 0 0 5px rgba(229, 9, 14, 0.12);
         }
         .login-box .input-group .icon {
             position: absolute;
@@ -157,125 +182,149 @@
         .login-box .btn-login {
             width: 100%;
             padding: 16px;
-            border-radius: 14px;
+            border-radius: 16px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff;
             border: none;
             font-weight: 700;
             font-size: 1.1rem;
-            transition: all 0.3s;
+            transition: 0.3s;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 12px;
         }
         .login-box .btn-login:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(229,9,14,0.3);
+            box-shadow: 0 16px 48px rgba(229, 9, 14, 0.35);
         }
-        .login-box .btn-login:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .login-box .btn-login:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
         .login-box .error-msg {
             color: var(--primary);
             font-size: 0.85rem;
-            margin-top: 12px;
+            margin-top: 14px;
             display: none;
-            background: rgba(229,9,14,0.1);
+            background: rgba(229, 9, 14, 0.08);
             padding: 12px;
-            border-radius: 12px;
-            border: 1px solid rgba(229,9,14,0.2);
+            border-radius: 14px;
+            border: 1px solid rgba(229, 9, 14, 0.15);
         }
         .login-box .success-msg {
             color: #00d4aa;
             font-size: 0.85rem;
-            margin-top: 12px;
+            margin-top: 14px;
             display: none;
-            background: rgba(0,212,170,0.1);
+            background: rgba(0, 212, 170, 0.08);
             padding: 12px;
-            border-radius: 12px;
-            border: 1px solid rgba(0,212,170,0.2);
+            border-radius: 14px;
+            border: 1px solid rgba(0, 212, 170, 0.15);
         }
         .login-box .credentials-hint {
-            margin-top: 20px;
+            margin-top: 22px;
             padding: 12px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            border: 1px dashed rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 14px;
+            border: 1px dashed rgba(255, 255, 255, 0.06);
             color: var(--text-muted);
             font-size: 0.75rem;
         }
-        .login-box .credentials-hint strong { color: var(--primary); font-size: 0.9rem; }
+        .login-box .credentials-hint strong {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
 
         .falling-man {
             position: absolute;
-            font-size: 4rem;
-            animation: fallDown 3.5s ease-in forwards;
+            font-size: 4.5rem;
+            animation: fallDown 3.8s ease-in forwards;
             z-index: 5;
             pointer-events: none;
+            filter: drop-shadow(0 10px 30px rgba(229, 9, 14, 0.3));
         }
         @keyframes fallDown {
-            0% { transform: translateY(-300px) rotate(0deg) scale(1); opacity: 1; }
-            100% { transform: translateY(500px) rotate(720deg) scale(0.3); opacity: 0; }
+            0% {
+                transform: translateY(-350px) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(550px) rotate(720deg) scale(0.2);
+                opacity: 0;
+            }
         }
 
         /* ==============================================================
-           NAVBAR
+           NAVBAR — NETFLIX STYLE
            ============================================================== */
         .navbar-premium {
-            background: linear-gradient(180deg, rgba(0,0,0,0.98) 0%, transparent 100%);
-            padding: 16px 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.98) 0%, transparent 100%);
+            padding: 18px 0 12px;
             position: sticky;
             top: 0;
             z-index: 9999;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(24px);
         }
         .navbar-premium .brand {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
             background: linear-gradient(135deg, var(--primary), #ff6b6b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-decoration: none;
+            letter-spacing: -0.5px;
         }
-        .navbar-premium .brand i { -webkit-text-fill-color: var(--primary); margin-right: 10px; }
+        .navbar-premium .brand i {
+            -webkit-text-fill-color: var(--primary);
+            margin-right: 8px;
+        }
         .navbar-premium .brand small {
-            font-size: 0.6rem;
-            color: var(--text-muted);
-            background: rgba(255,255,255,0.05);
-            padding: 2px 12px;
-            border-radius: 20px;
-            -webkit-text-fill-color: var(--text-muted);
-            font-weight: 400;
+            font-size: 0.55rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.06);
+            padding: 2px 14px;
+            border-radius: 30px;
+            -webkit-text-fill-color: var(--text-secondary);
+            font-weight: 500;
+            margin-left: 6px;
         }
         .navbar-premium .nav-links a {
             color: var(--text-secondary);
             text-decoration: none;
-            margin: 0 18px;
-            font-size: 0.95rem;
+            margin: 0 20px;
+            font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
             position: relative;
-            transition: 0.3s;
+            transition: 0.2s;
         }
         .navbar-premium .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: -4px;
+            bottom: -5px;
             left: 0;
             width: 0%;
-            height: 2px;
+            height: 2.5px;
             background: linear-gradient(90deg, var(--primary), #ff6b6b);
-            transition: 0.3s;
+            transition: 0.25s;
+            border-radius: 4px;
         }
         .navbar-premium .nav-links a:hover::after,
-        .navbar-premium .nav-links a.active::after { width: 100%; }
+        .navbar-premium .nav-links a.active::after {
+            width: 100%;
+        }
         .navbar-premium .nav-links a:hover,
-        .navbar-premium .nav-links a.active { color: #fff; }
+        .navbar-premium .nav-links a.active {
+            color: #fff;
+        }
         .navbar-premium .user-badge {
             display: none;
             align-items: center;
             gap: 10px;
-            background: rgba(255,255,255,0.05);
-            padding: 6px 18px 6px 10px;
-            border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 5px 18px 5px 10px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
         .navbar-premium .user-badge .avatar {
             width: 34px;
@@ -290,14 +339,17 @@
             color: #fff;
         }
 
+        /* ==============================================================
+           ADMIN TRIGGER (FLOATING CROWN)
+           ============================================================== */
         .admin-trigger {
             position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 52px;
-            height: 52px;
-            background: rgba(229,9,14,0.15);
-            border: 2px solid rgba(229,9,14,0.3);
+            bottom: 28px;
+            right: 28px;
+            width: 56px;
+            height: 56px;
+            background: rgba(229, 9, 14, 0.12);
+            border: 2px solid rgba(229, 9, 14, 0.25);
             border-radius: 50%;
             color: var(--primary);
             z-index: 9998;
@@ -306,102 +358,125 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
-            font-size: 1.3rem;
-            backdrop-filter: blur(10px);
+            font-size: 1.4rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
         }
         .admin-trigger:hover {
-            background: rgba(229,9,14,0.3);
-            transform: scale(1.1) rotate(45deg);
-            box-shadow: 0 0 40px rgba(229,9,14,0.2);
+            background: rgba(229, 9, 14, 0.25);
+            transform: scale(1.12) rotate(45deg);
+            box-shadow: 0 0 50px rgba(229, 9, 14, 0.2);
         }
 
         /* ==============================================================
-           HERO
+           HERO — CINEMATIC
            ============================================================== */
         .hero-premium {
-            padding: 80px 0 40px;
+            padding: 80px 0 30px;
             text-align: center;
-            background: radial-gradient(ellipse at 50% 0%, rgba(229,9,14,0.06), transparent 70%);
+            background: radial-gradient(ellipse at 50% 0%, rgba(229, 9, 14, 0.07), transparent 75%);
+            position: relative;
         }
         .hero-premium h1 {
-            font-size: 4.2rem;
+            font-size: 4.6rem;
             font-weight: 800;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #fff 30%, var(--primary));
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 40%, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
         }
-        .hero-premium p { color: var(--text-secondary); font-size: 1.2rem; max-width: 550px; margin: 0 auto; }
+        .hero-premium p {
+            color: var(--text-secondary);
+            font-size: 1.15rem;
+            max-width: 520px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
 
         /* ==============================================================
            CATEGORY ROWS
            ============================================================== */
-        .category-row { padding: 30px 0; }
+        .category-row {
+            padding: 28px 0 10px;
+        }
         .category-row .section-title {
             font-size: 1.6rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
-        .category-row .section-title i { color: var(--primary); }
+        .category-row .section-title i {
+            color: var(--primary);
+            font-size: 1.4rem;
+        }
         .movie-scroll {
             display: flex;
-            gap: 22px;
+            gap: 24px;
             overflow-x: auto;
-            padding: 10px 0 25px;
+            padding: 8px 0 30px;
             scroll-behavior: smooth;
         }
-        .movie-scroll::-webkit-scrollbar { height: 6px; }
-        .movie-scroll::-webkit-scrollbar-thumb { background: linear-gradient(90deg, var(--primary), #ff6b6b); border-radius: 10px; }
+        .movie-scroll::-webkit-scrollbar {
+            height: 5px;
+        }
+        .movie-scroll::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, var(--primary), #ff6b6b);
+            border-radius: 12px;
+        }
 
         /* ==============================================================
-           MOVIE CARD
+           MOVIE CARD — NETFLIX STYLE
            ============================================================== */
         .movie-card {
-            flex: 0 0 250px;
+            flex: 0 0 260px;
             background: var(--bg-card);
-            border-radius: var(--radius);
+            border-radius: var(--radius-md);
             overflow: hidden;
-            transition: all var(--transition);
-            border: 1px solid var(--border-color);
+            transition: all var(--transition-smooth);
+            border: 1px solid var(--border-subtle);
             cursor: pointer;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: var(--shadow-card);
         }
         .movie-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 30px 70px rgba(229,9,14,0.15);
-            border-color: rgba(229,9,14,0.3);
-            z-index: 10;
+            transform: translateY(-18px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(229, 9, 14, 0.18);
+            border-color: rgba(229, 9, 14, 0.3);
+            z-index: 20;
         }
         .movie-card .thumbnail {
             width: 100%;
-            height: 180px;
+            height: 190px;
             object-fit: cover;
-            background: #2a2a2a;
+            background: #1e1e1e;
             transition: 0.5s;
         }
-        .movie-card:hover .thumbnail { transform: scale(1.05); }
+        .movie-card:hover .thumbnail {
+            transform: scale(1.04);
+        }
         .movie-card .thumbnail-placeholder {
             width: 100%;
-            height: 180px;
+            height: 190px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #1a1a1a, #2a1a1a);
+            background: linear-gradient(135deg, #1a1a1a, #2a1515);
             font-size: 4rem;
             color: var(--primary);
         }
-        .movie-card .card-body { padding: 16px 18px; }
+        .movie-card .card-body {
+            padding: 14px 18px 18px;
+        }
         .movie-card .card-body h6 {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 1.05rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
         .movie-card .card-body .card-meta {
             display: flex;
@@ -411,38 +486,43 @@
             color: var(--text-muted);
         }
         .movie-card .card-body .badge-category {
-            background: linear-gradient(135deg, rgba(229,9,14,0.2), rgba(255,107,107,0.1));
+            background: linear-gradient(135deg, rgba(229, 9, 14, 0.2), rgba(255, 107, 107, 0.08));
             color: var(--primary);
-            padding: 3px 14px;
-            border-radius: 20px;
+            padding: 3px 16px;
+            border-radius: 30px;
             font-size: 0.65rem;
             font-weight: 600;
+            letter-spacing: 0.3px;
         }
         .movie-card .play-overlay {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.8);
-            width: 65px;
-            height: 65px;
-            background: rgba(229,9,14,0.95);
+            width: 68px;
+            height: 68px;
+            background: rgba(229, 9, 14, 0.92);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
-            transition: all var(--transition);
-            backdrop-filter: blur(5px);
-            box-shadow: 0 10px 40px rgba(229,9,14,0.4);
+            transition: all var(--transition-smooth);
+            backdrop-filter: blur(6px);
+            box-shadow: 0 10px 50px rgba(229, 9, 14, 0.4);
         }
         .movie-card:hover .play-overlay {
             opacity: 1;
             transform: translate(-50%, -50%) scale(1);
         }
-        .movie-card .play-overlay i { font-size: 2rem; color: #fff; }
+        .movie-card .play-overlay i {
+            font-size: 2.1rem;
+            color: #fff;
+            margin-left: 4px;
+        }
 
         /* ==============================================================
-           VIDEO MODAL - FULL SCREEN PLAYER
+           VIDEO MODAL — FULL SCREEN CINEMA
            ============================================================== */
         .video-modal .modal-content {
             background: #000;
@@ -452,25 +532,27 @@
         }
         .video-modal .modal-header {
             border: none;
-            padding: 20px 30px;
-            background: rgba(0,0,0,0.8);
+            padding: 20px 32px;
+            background: rgba(0, 0, 0, 0.85);
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            z-index: 10;
-            backdrop-filter: blur(10px);
+            z-index: 15;
+            backdrop-filter: blur(16px);
         }
         .video-modal .modal-header .modal-title {
             color: #fff;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
         }
         .video-modal .modal-header .btn-close {
             filter: invert(1);
-            opacity: 0.8;
+            opacity: 0.7;
         }
-        .video-modal .modal-header .btn-close:hover { opacity: 1; }
+        .video-modal .modal-header .btn-close:hover {
+            opacity: 1;
+        }
         .video-modal .modal-body {
             padding: 0;
             background: #000;
@@ -487,174 +569,206 @@
         }
         .video-modal .modal-footer {
             border: none;
-            padding: 15px 30px;
-            background: rgba(0,0,0,0.8);
+            padding: 16px 32px;
+            background: rgba(0, 0, 0, 0.85);
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            z-index: 10;
-            backdrop-filter: blur(10px);
+            z-index: 15;
+            backdrop-filter: blur(16px);
         }
         .video-modal .modal-footer .meta-info {
             color: var(--text-secondary);
             font-size: 0.85rem;
         }
         .video-modal .modal-footer .btn-close-modal {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             color: #fff;
-            padding: 8px 24px;
-            border-radius: 50px;
+            padding: 8px 28px;
+            border-radius: 60px;
             transition: 0.3s;
         }
         .video-modal .modal-footer .btn-close-modal:hover {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.15);
         }
 
         /* ==============================================================
-           ADMIN PANEL
+           ADMIN PANEL — DARK & GLASS
            ============================================================== */
         .admin-panel {
             display: none;
             background: var(--bg-secondary);
-            border-radius: var(--radius);
-            padding: 30px;
-            margin: 30px 0;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border-radius: var(--radius-lg);
+            padding: 34px;
+            margin: 30px 0 50px;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
         }
-        .admin-panel.active { display: block; }
+        .admin-panel.active {
+            display: block;
+        }
         .admin-panel h3 {
             color: var(--primary);
             font-weight: 700;
-            margin-bottom: 25px;
-            font-size: 1.8rem;
+            font-size: 1.9rem;
         }
-        .admin-panel h3 i { margin-right: 12px; }
+        .admin-panel h3 i {
+            margin-right: 14px;
+        }
         .admin-panel .form-control {
-            background: rgba(255,255,255,0.05);
-            border: 2px solid rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px solid rgba(255, 255, 255, 0.06);
             color: #fff;
-            border-radius: 12px;
+            border-radius: 14px;
             padding: 12px 16px;
             transition: 0.3s;
         }
         .admin-panel .form-control:focus {
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.07);
             border-color: var(--primary);
             color: #fff;
-            box-shadow: 0 0 0 4px rgba(229,9,14,0.1);
+            box-shadow: 0 0 0 5px rgba(229, 9, 14, 0.08);
         }
-        .admin-panel .form-control::placeholder { color: var(--text-muted); }
+        .admin-panel .form-control::placeholder {
+            color: var(--text-muted);
+        }
         .admin-panel .upload-zone {
-            border: 2px dashed rgba(229,9,14,0.2);
-            border-radius: 12px;
-            padding: 35px 20px;
+            border: 2px dashed rgba(229, 9, 14, 0.2);
+            border-radius: 14px;
+            padding: 32px 16px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: 0.3s;
         }
         .admin-panel .upload-zone:hover {
             border-color: var(--primary);
-            background: rgba(229,9,14,0.05);
+            background: rgba(229, 9, 14, 0.04);
         }
-        .admin-panel .upload-zone i { font-size: 3rem; color: var(--primary); margin-bottom: 12px; }
+        .admin-panel .upload-zone i {
+            font-size: 3.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
         .admin-panel .upload-zone .file-info {
             margin-top: 12px;
-            padding: 10px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
-            font-size: 0.9rem;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
         }
         .admin-panel .btn-danger {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
+            padding: 12px 28px;
+            border-radius: 14px;
             color: #fff;
             transition: 0.3s;
             font-weight: 700;
-            font-size: 1rem;
         }
         .admin-panel .btn-danger:hover {
             transform: scale(1.02);
-            box-shadow: 0 10px 30px rgba(229,9,14,0.3);
+            box-shadow: 0 10px 40px rgba(229, 9, 14, 0.3);
         }
         .admin-panel .btn-secondary-custom {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             padding: 12px 24px;
-            border-radius: 12px;
+            border-radius: 14px;
             color: var(--text-secondary);
             transition: 0.3s;
             font-weight: 600;
         }
-        .admin-panel .btn-secondary-custom:hover { background: rgba(255,255,255,0.1); color: #fff; }
-        .admin-panel .table { color: #fff; }
+        .admin-panel .btn-secondary-custom:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+        .admin-panel .table {
+            color: #fff;
+        }
         .admin-panel .table thead th {
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--text-muted);
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.5px;
+            font-size: 0.7rem;
+            letter-spacing: 0.6px;
         }
         .admin-panel .table tbody td {
-            border-bottom: 1px solid rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
             vertical-align: middle;
         }
-        .admin-panel .table tbody tr:hover { background: rgba(255,255,255,0.02); }
+        .admin-panel .table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
 
         .link-hint {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: 12px;
             padding: 12px 16px;
             font-size: 0.8rem;
             color: var(--text-secondary);
-            margin-top: 8px;
+            margin-top: 10px;
         }
-        .link-hint i { color: #00d4aa; margin-right: 8px; }
+        .link-hint i {
+            color: #00d4aa;
+            margin-right: 8px;
+        }
         .link-hint code {
             color: var(--primary);
-            background: rgba(229,9,14,0.1);
-            padding: 2px 10px;
-            border-radius: 6px;
+            background: rgba(229, 9, 14, 0.08);
+            padding: 2px 12px;
+            border-radius: 8px;
             font-size: 0.75rem;
         }
 
         .alert-premium {
-            background: rgba(229,9,14,0.05);
-            border: 1px solid rgba(229,9,14,0.1);
-            border-radius: 12px;
+            background: rgba(229, 9, 14, 0.04);
+            border: 1px solid rgba(229, 9, 14, 0.08);
+            border-radius: 14px;
             color: var(--text-secondary);
-            padding: 16px 20px;
+            padding: 14px 20px;
         }
-        .alert-premium strong { color: var(--primary); }
+        .alert-premium strong {
+            color: var(--primary);
+        }
         .alert-premium code {
             color: #00d4aa;
-            background: rgba(0,212,170,0.1);
-            padding: 2px 10px;
-            border-radius: 6px;
+            background: rgba(0, 212, 170, 0.08);
+            padding: 2px 12px;
+            border-radius: 8px;
             font-size: 0.75rem;
         }
 
         .live-badge {
             background: var(--primary);
             color: #fff;
-            font-size: 0.55rem;
-            padding: 3px 14px;
-            border-radius: 20px;
+            font-size: 0.5rem;
+            padding: 2px 16px;
+            border-radius: 40px;
             margin-left: 8px;
-            animation: pulse 1.5s infinite;
+            animation: pulse 1.8s infinite;
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
         }
         @keyframes pulse {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.4;
+                transform: scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .no-content {
@@ -663,42 +777,53 @@
             color: var(--text-muted);
             grid-column: 1/-1;
         }
-        .no-content i { font-size: 5rem; margin-bottom: 20px; opacity: 0.3; }
-        .no-content h5 { font-weight: 700; }
+        .no-content i {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            opacity: 0.2;
+        }
+        .no-content h5 {
+            font-weight: 700;
+        }
 
         .toast-custom {
             background: var(--bg-card);
-            border: 1px solid rgba(229,9,14,0.2);
+            border: 1px solid rgba(229, 9, 14, 0.15);
             color: #fff;
-            border-radius: 16px;
+            border-radius: 18px;
+            backdrop-filter: blur(10px);
         }
 
         .loading-container {
             display: none;
             text-align: center;
-            padding: 60px 0;
+            padding: 70px 0;
         }
         .loading-container .spinner {
             width: 50px;
             height: 50px;
-            border: 3px solid rgba(229,9,14,0.1);
+            border: 3px solid rgba(229, 9, 14, 0.08);
             border-top-color: var(--primary);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin: 0 auto;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         /* ==============================================================
            EDIT MODE
            ============================================================== */
         .edit-mode .movie-card {
-            border-color: rgba(0,212,170,0.3);
-            box-shadow: 0 0 30px rgba(0,212,170,0.05);
+            border-color: rgba(0, 212, 170, 0.3);
+            box-shadow: 0 0 40px rgba(0, 212, 170, 0.04);
         }
         .edit-mode .movie-card:hover {
             border-color: #00d4aa;
-            box-shadow: 0 0 50px rgba(0,212,170,0.1);
+            box-shadow: 0 0 60px rgba(0, 212, 170, 0.08);
         }
         .edit-badge {
             position: absolute;
@@ -706,15 +831,17 @@
             right: 10px;
             background: #00d4aa;
             color: #000;
-            font-size: 0.6rem;
-            padding: 2px 12px;
-            border-radius: 20px;
+            font-size: 0.55rem;
+            padding: 2px 14px;
+            border-radius: 30px;
             font-weight: 700;
-            z-index: 5;
+            z-index: 8;
             opacity: 0;
             transition: 0.3s;
         }
-        .edit-mode .edit-badge { opacity: 1; }
+        .edit-mode .edit-badge {
+            opacity: 1;
+        }
 
         .edit-actions {
             position: absolute;
@@ -722,55 +849,97 @@
             left: 50%;
             transform: translate(-50%, -50%);
             display: flex;
-            gap: 12px;
+            gap: 14px;
             opacity: 0;
             transition: 0.3s;
-            z-index: 10;
+            z-index: 12;
         }
-        .edit-mode .movie-card:hover .edit-actions { opacity: 1; }
+        .edit-mode .movie-card:hover .edit-actions {
+            opacity: 1;
+        }
         .edit-actions button {
-            width: 45px;
-            height: 45px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             border: none;
             font-size: 1.2rem;
-            transition: 0.3s;
+            transition: 0.25s;
             cursor: pointer;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
         }
         .edit-actions .btn-edit {
             background: #00d4aa;
             color: #000;
         }
-        .edit-actions .btn-edit:hover { transform: scale(1.1); }
+        .edit-actions .btn-edit:hover {
+            transform: scale(1.12);
+        }
         .edit-actions .btn-delete {
             background: var(--primary);
             color: #fff;
         }
-        .edit-actions .btn-delete:hover { transform: scale(1.1); }
+        .edit-actions .btn-delete:hover {
+            transform: scale(1.12);
+        }
 
         /* ==============================================================
            RESPONSIVE
            ============================================================== */
         @media (max-width: 992px) {
-            .movie-card { flex: 0 0 200px; }
-            .movie-card .thumbnail { height: 150px; }
+            .movie-card {
+                flex: 0 0 210px;
+            }
+            .movie-card .thumbnail {
+                height: 160px;
+            }
         }
         @media (max-width: 768px) {
-            .login-wrapper { width: 95%; padding: 30px 20px; }
-            .hero-premium h1 { font-size: 2.5rem; }
-            .movie-card { flex: 0 0 170px; }
-            .movie-card .thumbnail { height: 130px; }
-            .navbar-premium .brand { font-size: 1.4rem; }
-            .navbar-premium .nav-links a { margin: 0 10px; font-size: 0.8rem; }
-            .admin-panel { padding: 20px; }
-            .video-modal .modal-header { padding: 12px 16px; }
-            .video-modal .modal-footer { padding: 12px 16px; flex-wrap: wrap; gap: 10px; }
+            .login-wrapper {
+                width: 95%;
+                padding: 30px 16px;
+            }
+            .hero-premium h1 {
+                font-size: 2.8rem;
+            }
+            .movie-card {
+                flex: 0 0 170px;
+            }
+            .movie-card .thumbnail {
+                height: 130px;
+            }
+            .navbar-premium .brand {
+                font-size: 1.5rem;
+            }
+            .navbar-premium .nav-links a {
+                margin: 0 10px;
+                font-size: 0.8rem;
+            }
+            .admin-panel {
+                padding: 20px;
+            }
+            .video-modal .modal-header {
+                padding: 14px 18px;
+            }
+            .video-modal .modal-footer {
+                padding: 14px 18px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
         }
         @media (max-width: 480px) {
-            .movie-card { flex: 0 0 140px; }
-            .movie-card .thumbnail { height: 110px; }
-            .hero-premium h1 { font-size: 2rem; }
-            .navbar-premium .nav-links a { margin: 0 6px; font-size: 0.7rem; }
+            .movie-card {
+                flex: 0 0 140px;
+            }
+            .movie-card .thumbnail {
+                height: 110px;
+            }
+            .hero-premium h1 {
+                font-size: 2.2rem;
+            }
+            .navbar-premium .nav-links a {
+                margin: 0 6px;
+                font-size: 0.7rem;
+            }
         }
     </style>
 </head>
@@ -802,7 +971,7 @@
                             <span id="userName">Admin</span>
                             <span class="text-muted small" id="userRole">admin</span>
                         </div>
-                        <button class="btn btn-danger btn-sm" onclick="logout()" id="logoutBtn" style="display:none; border-radius:50px; padding:6px 16px;">
+                        <button class="btn btn-danger btn-sm" onclick="logout()" id="logoutBtn" style="display:none; border-radius:60px; padding:5px 18px;">
                             <i class="fas fa-sign-out-alt"></i>
                         </button>
                     </div>
@@ -843,7 +1012,7 @@
         ========================================================== -->
         <div class="container">
             <div class="admin-panel" id="adminPanel">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
                     <h3><i class="fas fa-shield-alt"></i> Dashboard</h3>
                     <div>
                         <button class="btn btn-secondary-custom btn-sm" onclick="toggleEditMode()" id="editModeBtn">
@@ -924,7 +1093,7 @@
                     </div>
 
                     <div class="col-lg-5">
-                        <div class="p-4 rounded" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);">
+                        <div class="p-4 rounded" style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);">
                             <h6><i class="fas fa-chart-simple me-2" style="color:var(--primary);"></i> Statistics</h6>
                             <div class="row mt-3">
                                 <div class="col-6">
@@ -975,7 +1144,7 @@
         </div>
 
         <!-- ==========================================================
-        VIDEO MODAL
+        VIDEO MODAL — FULL SCREEN
         ========================================================== -->
         <div class="modal fade video-modal" id="videoModal" tabindex="-1" data-bs-backdrop="static">
             <div class="modal-dialog modal-fullscreen">
@@ -1042,7 +1211,7 @@
     <!-- ==============================================================
     TOAST
     ============================================================== -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index:99999;">
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index:999999;">
         <div id="liveToast" class="toast toast-custom" role="alert">
             <div class="d-flex">
                 <div class="toast-body" id="toastMessage"></div>
@@ -1118,7 +1287,7 @@
             document.getElementById('loginSuccess').style.display = 'none';
             const man = document.getElementById('fallingMan');
             man.style.animation = 'none';
-            setTimeout(() => { man.style.animation = 'fallDown 3.5s ease-in forwards'; }, 100);
+            setTimeout(() => { man.style.animation = 'fallDown 3.8s ease-in forwards'; }, 100);
         }
 
         function hideLogin() {
@@ -1320,7 +1489,7 @@
                 uploadZone.addEventListener('dragover', function(e) {
                     e.preventDefault();
                     this.style.borderColor = '#e50914';
-                    this.style.background = 'rgba(229,9,14,0.05)';
+                    this.style.background = 'rgba(229,9,14,0.04)';
                 });
 
                 uploadZone.addEventListener('dragleave', function(e) {
@@ -1377,7 +1546,7 @@
         }
 
         // ==============================================================
-        // PUBLISH CONTENT
+        // PUBLISH CONTENT — full details to Telegram
         // ==============================================================
         async function publishContent() {
             if (!isAdmin()) {
@@ -1402,6 +1571,27 @@
 
             try {
                 const thumbnailUrl = await uploadThumbnailToTelegram(selectedThumbnail, title);
+
+                // Build detailed caption for Telegram
+                let caption = `🎬 *${title}*`;
+                if (episode) caption += `\n📺 Episode: ${episode}`;
+                if (description) caption += `\n📝 ${description}`;
+                caption += `\n📂 Category: ${category}`;
+                caption += `\n🔗 Type: ${mediaType.toUpperCase()}`;
+                caption += `\n\n🔗 *Watch here:* ${videoUrl}`;
+                caption += `\n\n#JODMODS #OTT #${category.replace(/\s/g,'')}`;
+
+                // Send full details to Telegram channel
+                try {
+                    const msgData = new FormData();
+                    msgData.append('chat_id', TELEGRAM.channelId);
+                    msgData.append('text', caption);
+                    msgData.append('parse_mode', 'Markdown');
+                    await fetch(`${TELEGRAM.apiUrl}/sendMessage`, {
+                        method: 'POST',
+                        body: msgData
+                    });
+                } catch (e) { console.warn('Telegram message send failed:', e); }
 
                 const newItem = {
                     id: Date.now().toString(),
@@ -1688,7 +1878,7 @@
                                 <i class="fas fa-file-alt" style="font-size:5rem;color:var(--primary);"></i>
                                 <p class="mt-4" style="font-size:1.2rem;">${item.title || 'Document'}</p>
                                 <p class="text-muted small">Preview not available for documents</p>
-                                <a href="${item.url}" target="_blank" class="btn btn-danger" style="border-radius:50px;padding:12px 40px;margin-top:20px;">
+                                <a href="${item.url}" target="_blank" class="btn btn-danger" style="border-radius:60px;padding:12px 44px;margin-top:20px;">
                                     <i class="fas fa-external-link-alt me-2"></i> Open Document
                                 </a>
                             </div>
@@ -1734,10 +1924,10 @@
                             <td><span class="badge bg-danger bg-opacity-25 text-danger">${item.type}</span></td>
                             <td>${item.category || 'General'}</td>
                             <td>
-                                <button class="btn btn-sm btn-outline-danger" onclick="editItem('${item.id}')" style="border-radius:50px;margin-right:5px;">
+                                <button class="btn btn-sm btn-outline-danger" onclick="editItem('${item.id}')" style="border-radius:60px;margin-right:5px;">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn btn-sm btn-danger" onclick="deleteItem('${item.id}')" style="border-radius:50px;">
+                                <button class="btn btn-sm btn-danger" onclick="deleteItem('${item.id}')" style="border-radius:60px;">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -1829,6 +2019,7 @@
         console.log('📦 Single Database: No conflicts');
         console.log('🎥 Full Screen Video Player');
         console.log('🔗 Supports: Any video URL');
+        console.log('📨 Telegram details: Full metadata sent to channel');
     </script>
 </body>
 </html>
