@@ -30,26 +30,32 @@
         ::-webkit-scrollbar-track { background: var(--bg-dark); }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
         
-        /* ====== HIDDEN ADMIN TRIGGER ====== */
+        /* Hidden Admin Trigger */
         .hidden-admin-trigger {
             position: fixed;
-            bottom: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
-            background: transparent;
-            border: none;
-            color: transparent;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(229, 9, 14, 0.1);
+            border: 1px solid rgba(229, 9, 14, 0.2);
+            border-radius: 50%;
+            color: var(--primary);
             z-index: 9999;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 0.8rem;
         }
         
         .hidden-admin-trigger:hover {
-            background: rgba(229, 9, 20, 0.1);
-            border-radius: 50%;
+            background: rgba(229, 9, 14, 0.2);
+            transform: scale(1.1);
         }
         
-        /* ====== LOGIN OVERLAY ====== */
+        /* Login Overlay */
         .login-overlay {
             position: fixed;
             top: 0;
@@ -151,7 +157,7 @@
             cursor: pointer;
         }
         
-        /* ====== NAVBAR ====== */
+        /* Navbar */
         .navbar-premium {
             background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, transparent 100%);
             padding: 15px 0;
@@ -183,6 +189,7 @@
             margin: 0 15px;
             transition: 0.3s;
             font-size: 0.95rem;
+            cursor: pointer;
         }
         
         .navbar-premium .nav-links a:hover {
@@ -193,7 +200,7 @@
             color: white;
         }
         
-        /* ====== HERO ====== */
+        /* Hero */
         .hero-section {
             padding: 60px 0 30px;
             text-align: center;
@@ -217,7 +224,7 @@
             margin: 0 auto;
         }
         
-        /* ====== CATEGORY ROWS ====== */
+        /* Category Rows */
         .category-row {
             padding: 20px 0;
         }
@@ -247,7 +254,7 @@
         .movie-scroll::-webkit-scrollbar { height: 6px; }
         .movie-scroll::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
         
-        /* ====== MOVIE CARD ====== */
+        /* Movie Card */
         .movie-card {
             flex: 0 0 220px;
             background: var(--card-bg);
@@ -338,7 +345,7 @@
             color: white;
         }
         
-        /* ====== VIDEO MODAL ====== */
+        /* Video Modal */
         .video-modal .modal-content {
             background: var(--bg-dark);
             border: 1px solid rgba(255,255,255,0.05);
@@ -374,7 +381,7 @@
             font-size: 0.85rem;
         }
         
-        /* ====== LOADING ====== */
+        /* Loading */
         .loading-container {
             display: none;
             text-align: center;
@@ -395,14 +402,14 @@
             to { transform: rotate(360deg); }
         }
         
-        /* ====== TOAST ====== */
+        /* Toast */
         .toast-custom {
             background: var(--card-bg);
             border: 1px solid rgba(229, 9, 14, 0.2);
             color: white;
         }
         
-        /* ====== ADMIN PANEL ====== */
+        /* Admin Panel */
         .admin-panel {
             display: none;
             background: var(--card-bg);
@@ -510,6 +517,20 @@
             transform: scale(1.02);
         }
         
+        .admin-panel .btn-secondary-custom {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+            padding: 6px 18px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+        
+        .admin-panel .btn-secondary-custom:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
         .admin-panel .table {
             color: var(--text-light);
         }
@@ -543,7 +564,7 @@
             font-weight: 400;
         }
         
-        /* ====== NO CONTENT ====== */
+        /* No Content */
         .no-content {
             text-align: center;
             padding: 60px 0;
@@ -561,7 +582,7 @@
             color: var(--text-muted);
         }
         
-        /* ====== RESPONSIVE ====== */
+        /* Responsive */
         @media (max-width: 768px) {
             .hero-section h1 { font-size: 2.2rem; }
             .movie-card { flex: 0 0 160px; }
@@ -581,10 +602,12 @@
 </head>
 <body>
 
-<!-- ====== HIDDEN ADMIN TRIGGER ====== -->
-<button class="hidden-admin-trigger" onclick="showLogin()" title="Admin Access"></button>
+<!-- Hidden Admin Trigger -->
+<button class="hidden-admin-trigger" onclick="showLogin()" title="Admin Access">
+    <i class="fas fa-crown"></i>
+</button>
 
-<!-- ====== LOGIN OVERLAY ====== -->
+<!-- Login Overlay -->
 <div class="login-overlay" id="loginOverlay">
     <div class="login-box">
         <button class="close-login" onclick="hideLogin()">✕</button>
@@ -599,15 +622,19 @@
             <button type="submit" class="btn-login">
                 <i class="fas fa-sign-in-alt me-2"></i> Login
             </button>
-            <div class="login-error" id="loginError">Invalid credentials!</div>
+            <div class="login-error" id="loginError">Invalid credentials! Try again.</div>
         </form>
+        
+        <div class="mt-3 text-center text-muted" style="font-size:0.75rem;">
+            <p>Default: JOD / MODS</p>
+        </div>
     </div>
 </div>
 
-<!-- ====== MAIN APP ====== -->
+<!-- Main App -->
 <div id="mainApp">
 
-    <!-- ====== NAVBAR ====== -->
+    <!-- Navbar -->
     <nav class="navbar-premium">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
@@ -615,16 +642,16 @@
                     <i class="fas fa-play-circle"></i> JOD MODS <small>OTT</small>
                 </a>
                 <div class="nav-links">
-                    <a href="#" class="active">Home</a>
-                    <a href="#" onclick="filterMedia('video')">Movies</a>
-                    <a href="#" onclick="filterMedia('photo')">Photos</a>
-                    <a href="#" onclick="filterMedia('all')">All</a>
+                    <a class="active" onclick="filterMedia('all')">Home</a>
+                    <a onclick="filterMedia('video')">Movies</a>
+                    <a onclick="filterMedia('photo')">Photos</a>
+                    <a onclick="filterMedia('document')">Docs</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- ====== HERO ====== -->
+    <!-- Hero -->
     <section class="hero-section">
         <div class="container">
             <h1>Watch <span>What You Love</span></h1>
@@ -632,7 +659,7 @@
         </div>
     </section>
 
-    <!-- ====== CONTENT ====== -->
+    <!-- Content -->
     <div class="container">
         <div class="loading-container" id="loadingContainer">
             <div class="spinner"></div>
@@ -640,11 +667,11 @@
         </div>
         
         <div id="contentContainer">
-            <!-- Content will be rendered here -->
+            <!-- Content rendered here -->
         </div>
     </div>
 
-    <!-- ====== ADMIN PANEL ====== -->
+    <!-- Admin Panel -->
     <div class="container" id="adminContainer">
         <div class="admin-panel" id="adminPanel">
             <h3><i class="fas fa-shield-alt"></i> Admin Dashboard</h3>
@@ -684,7 +711,7 @@
                         </div>
                         <div class="col-12">
                             <label class="form-label text-muted small">Thumbnail Image *</label>
-                            <input type="file" class="form-control" id="thumbnailFile" accept="image/*" required>
+                            <input type="file" class="form-control" id="thumbnailFile" accept="image/*">
                         </div>
                         <div class="col-12">
                             <label class="form-label text-muted small">Media File *</label>
@@ -729,7 +756,7 @@
                         <div>
                             <h6 class="text-muted"><i class="fas fa-users me-2"></i> Moderators</h6>
                             <div class="mod-list" id="modList">
-                                <span class="text-muted small">No moderators added yet</span>
+                                <span class="text-muted small">No moderators added</span>
                             </div>
                             <div class="mt-2 d-flex gap-2">
                                 <input type="text" class="form-control form-control-sm" id="newModName" placeholder="Username" style="width:120px;">
@@ -742,11 +769,11 @@
                         
                         <hr class="border-secondary">
                         
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-2 flex-wrap">
                             <button class="btn btn-danger btn-sm" onclick="clearAll()">
                                 <i class="fas fa-trash me-1"></i> Clear Cache
                             </button>
-                            <button class="btn btn-danger btn-sm" onclick="hideAdmin()">
+                            <button class="btn btn-secondary-custom btn-sm" onclick="hideAdmin()">
                                 <i class="fas fa-eye-slash me-1"></i> Hide Panel
                             </button>
                             <button class="btn btn-danger btn-sm" onclick="logout()">
@@ -777,7 +804,7 @@
         </div>
     </div>
 
-    <!-- ====== VIDEO MODAL ====== -->
+    <!-- Video Modal -->
     <div class="modal fade video-modal" id="videoModal" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -796,7 +823,7 @@
 
 </div>
 
-<!-- ====== TOAST ====== -->
+<!-- Toast -->
 <div class="position-fixed bottom-0 end-0 p-3" style="z-index:9999;">
     <div id="liveToast" class="toast toast-custom" role="alert">
         <div class="d-flex">
@@ -841,7 +868,6 @@ function loadUsers() {
         if (stored) {
             USERS = JSON.parse(stored);
         } else {
-            // Save default admin
             localStorage.setItem('jodmods_users', JSON.stringify(USERS));
         }
     } catch(e) {
@@ -856,10 +882,11 @@ function saveUsers() {
 }
 
 // ==============================================================
-// LOGIN FUNCTIONS
+// LOGIN FUNCTIONS - FIXED
 // ==============================================================
 function showLogin() {
     document.getElementById('loginOverlay').classList.add('active');
+    document.getElementById('loginError').style.display = 'none';
 }
 
 function hideLogin() {
@@ -872,14 +899,24 @@ function handleLogin(event) {
     const password = document.getElementById('loginPassword').value.trim();
     const errorEl = document.getElementById('loginError');
     
+    console.log('Login attempt:', username, password);
+    console.log('Available users:', USERS);
+    
+    // Check credentials
     if (USERS[username] && USERS[username].password === password) {
-        currentUser = { username, ...USERS[username] };
+        currentUser = { 
+            username: username, 
+            ...USERS[username] 
+        };
         errorEl.style.display = 'none';
         hideLogin();
         showAdmin();
         showToast('Welcome ' + currentUser.name + '!');
+        console.log('Login successful:', currentUser);
     } else {
         errorEl.style.display = 'block';
+        errorEl.textContent = 'Invalid credentials! Try again.';
+        console.log('Login failed for:', username);
     }
     return false;
 }
@@ -889,6 +926,7 @@ function logout() {
         currentUser = null;
         hideAdmin();
         showToast('Logged out');
+        console.log('Logged out');
     }
 }
 
@@ -913,11 +951,13 @@ function showAdmin() {
     updateAdminList();
     updateStats();
     updateModList();
+    document.querySelector('.hidden-admin-trigger').innerHTML = '<i class="fas fa-eye"></i>';
 }
 
 function hideAdmin() {
     document.getElementById('adminPanel').classList.remove('active');
     isAdminMode = false;
+    document.querySelector('.hidden-admin-trigger').innerHTML = '<i class="fas fa-crown"></i>';
 }
 
 // ==============================================================
@@ -988,11 +1028,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Thumbnail selection
     if (thumbInput) {
         thumbInput.addEventListener('change', function(e) {
             if (this.files.length > 0) {
                 selectedThumbnail = this.files[0];
+                console.log('Thumbnail selected:', selectedThumbnail.name);
             }
         });
     }
@@ -1003,30 +1043,37 @@ document.addEventListener('DOMContentLoaded', function() {
 // ==============================================================
 async function uploadToTelegram(file, thumbnail, metadata) {
     try {
-        // First upload thumbnail to get URL
+        console.log('Starting upload...', metadata);
+        
+        // First upload thumbnail
         let thumbnailUrl = '';
         if (thumbnail) {
+            console.log('Uploading thumbnail...');
             const thumbFormData = new FormData();
             thumbFormData.append('chat_id', TELEGRAM.channelId);
             thumbFormData.append('photo', thumbnail);
-            thumbFormData.append('caption', '📸 Thumbnail for: ' + metadata.title);
+            thumbFormData.append('caption', '📸 Thumbnail: ' + metadata.title);
             
             const thumbResponse = await fetch(`${TELEGRAM.apiUrl}/sendPhoto`, {
                 method: 'POST',
                 body: thumbFormData
             });
             const thumbData = await thumbResponse.json();
+            console.log('Thumbnail response:', thumbData);
+            
             if (thumbData.ok && thumbData.result.photo) {
                 const fileId = thumbData.result.photo[thumbData.result.photo.length - 1].file_id;
                 const fileInfo = await fetch(`${TELEGRAM.apiUrl}/getFile?file_id=${fileId}`);
                 const fileData = await fileInfo.json();
                 if (fileData.ok) {
                     thumbnailUrl = `https://api.telegram.org/file/bot${TELEGRAM.botToken}/${fileData.result.file_path}`;
+                    console.log('Thumbnail URL:', thumbnailUrl);
                 }
             }
         }
         
         // Now upload the main file
+        console.log('Uploading main file...');
         const formData = new FormData();
         formData.append('chat_id', TELEGRAM.channelId);
         
@@ -1034,7 +1081,6 @@ async function uploadToTelegram(file, thumbnail, metadata) {
         if (metadata.episode) caption += ` Ep${metadata.episode}`;
         if (metadata.description) caption += ` | ${metadata.description}`;
         if (metadata.category && metadata.category !== 'General') caption += ` [${metadata.category}]`;
-        
         formData.append('caption', caption);
         
         const fileType = metadata.type || 'document';
@@ -1046,8 +1092,7 @@ async function uploadToTelegram(file, thumbnail, metadata) {
         formData.append(fieldName, file);
         formData.append('supports_streaming', 'true');
         
-        // Add thumbnail if we have one
-        if (thumbnailUrl) {
+        if (thumbnail) {
             formData.append('thumb', thumbnail);
         }
         
@@ -1057,6 +1102,8 @@ async function uploadToTelegram(file, thumbnail, metadata) {
         });
         
         const data = await response.json();
+        console.log('Upload response:', data);
+        
         if (!data.ok) {
             throw new Error(data.description || 'Upload failed');
         }
@@ -1130,7 +1177,7 @@ async function handleUpload() {
             type: mediaType
         };
         
-        // Simulate progress while uploading
+        // Simulate progress
         let progressVal = 0;
         const progressInterval = setInterval(() => {
             progressVal += Math.random() * 5 + 2;
@@ -1146,13 +1193,13 @@ async function handleUpload() {
         progressBar.style.width = '100%';
         progressBar.textContent = '100%';
         
-        if (result.success) {
+        if (result.success && result.url) {
             // Add to content
             const newItem = {
                 id: Date.now().toString(),
                 type: mediaType,
                 url: result.url,
-                thumbnail: result.thumbnail,
+                thumbnail: result.thumbnail || '',
                 title: title,
                 description: description,
                 episode: episode || '',
@@ -1165,7 +1212,7 @@ async function handleUpload() {
             saveContent();
             renderContent(currentFilter);
             
-            status.innerHTML = '<span style="color:var(--primary);"><i class="fas fa-check-circle me-1"></i> ✅ Uploaded to Telegram successfully!</span>';
+            status.innerHTML = '<span style="color:var(--primary);"><i class="fas fa-check-circle me-1"></i> ✅ Uploaded successfully!</span>';
             showToast('✅ Content published to Telegram!');
             
             // Reset
@@ -1184,12 +1231,15 @@ async function handleUpload() {
                 progressBar.textContent = '0%';
                 status.innerHTML = '';
             }, 3000);
+        } else {
+            throw new Error('No URL received from Telegram');
         }
         
     } catch(error) {
         progress.style.display = 'none';
         status.innerHTML = `<span style="color:var(--primary);">❌ Error: ${error.message}</span>`;
         showToast('❌ Upload failed: ' + error.message, 'error');
+        console.error('Upload error:', error);
     }
 }
 
@@ -1203,6 +1253,7 @@ async function syncContent() {
     try {
         const response = await fetch(`${TELEGRAM.apiUrl}/getUpdates?limit=50`);
         const data = await response.json();
+        console.log('Sync response:', data);
         
         if (data.ok && data.result) {
             const newItems = [];
@@ -1220,7 +1271,6 @@ async function syncContent() {
                     if (msg.video) {
                         type = 'video';
                         fileId = msg.video.file_id;
-                        // Get thumbnail if available
                         if (msg.video.thumb) {
                             const thumbInfo = await fetch(`${TELEGRAM.apiUrl}/getFile?file_id=${msg.video.thumb.file_id}`);
                             const thumbData = await thumbInfo.json();
@@ -1231,7 +1281,6 @@ async function syncContent() {
                     } else if (msg.photo) {
                         type = 'photo';
                         fileId = msg.photo[msg.photo.length - 1].file_id;
-                        // Photo itself is the thumbnail
                         const thumbInfo = await fetch(`${TELEGRAM.apiUrl}/getFile?file_id=${fileId}`);
                         const thumbData = await thumbInfo.json();
                         if (thumbData.ok) {
@@ -1259,7 +1308,6 @@ async function syncContent() {
                         }
                     }
                     
-                    // Only add if we have a valid URL
                     if (fileUrl) {
                         newItems.push({
                             id: update.update_id.toString(),
@@ -1339,7 +1387,6 @@ function renderContent(filter = 'all') {
         return;
     }
     
-    // Group by category
     const categories = {};
     filtered.forEach(item => {
         if (!categories[item.category]) categories[item.category] = [];
@@ -1399,6 +1446,8 @@ function renderContent(filter = 'all') {
 function filterMedia(type) {
     currentFilter = type;
     renderContent(type);
+    document.querySelectorAll('.nav-links a').forEach(el => el.classList.remove('active'));
+    event.target.classList.add('active');
 }
 
 // ==============================================================
@@ -1605,6 +1654,11 @@ if (contentItems.length === 0) {
     setTimeout(syncContent, 1000);
 }
 
+console.log('🎬 JOD MODS OTT loaded successfully!');
+console.log('👤 Admin: JOD | Password: MODS');
+console.log('🔑 Admin access: Click crown icon or Ctrl+Shift+A');
+console.log('📦 Users stored:', USERS);
+
 // ==============================================================
 // KEYBOARD SHORTCUTS
 // ==============================================================
@@ -1625,10 +1679,6 @@ document.addEventListener('keydown', function(e) {
         hideAdmin();
     }
 });
-
-console.log('🎬 JOD MODS OTT loaded successfully!');
-console.log('👤 Admin: JOD | Password: MODS');
-console.log('🔑 Admin access: Click bottom-right corner or Ctrl+Shift+A');
 </script>
 </body>
 </html>
