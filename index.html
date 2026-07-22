@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOD MODS OTT</title>
+    <title>JOD MODS OTT - 2GB Upload</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ====== ORIGINAL LOGIN ANIMATION ====== */
         * {
             margin: 0;
             padding: 0;
@@ -15,13 +14,13 @@
         }
 
         body {
-            margin: 0;
-            min-height: 100vh;
             background: #0a0a0a;
+            color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
         }
 
-        /* Login Overlay - Hidden by default */
+        /* Login Animation */
         .login-overlay {
             display: none;
             position: fixed;
@@ -29,7 +28,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0, 0, 0, 0.95);
             z-index: 10000;
             justify-content: center;
             align-items: center;
@@ -50,11 +49,10 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
             border: 1px solid rgba(229, 9, 14, 0.2);
         }
 
-        /* Animated Border - EXACTLY AS YOU WANTED */
         .login-container::before {
             content: '';
             position: absolute;
@@ -122,8 +120,8 @@
         .login-box .input-group input {
             width: 100%;
             padding: 14px 18px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             color: white;
             font-size: 1rem;
@@ -133,7 +131,7 @@
 
         .login-box .input-group input:focus {
             border-color: #e50914;
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
             box-shadow: 0 0 0 3px rgba(229, 9, 14, 0.15);
         }
 
@@ -202,9 +200,9 @@
             font-size: 0.75rem;
             margin-top: 20px;
             padding: 12px;
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
             border-radius: 8px;
-            border: 1px dashed rgba(255,255,255,0.05);
+            border: 1px dashed rgba(255, 255, 255, 0.05);
         }
 
         .login-box .credentials-hint strong {
@@ -212,14 +210,13 @@
             font-size: 0.9rem;
         }
 
-        /* ====== MAIN APP ====== */
+        /* Main App */
         .main-app {
             display: block;
             min-height: 100vh;
             background: #0a0a0a;
         }
 
-        /* Hidden Admin Trigger - Bottom Right */
         .admin-trigger {
             position: fixed;
             bottom: 20px;
@@ -244,9 +241,8 @@
             transform: scale(1.1);
         }
 
-        /* Navbar */
         .navbar {
-            background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, transparent 100%);
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, transparent 100%);
             padding: 15px 0;
             position: sticky;
             top: 0;
@@ -285,13 +281,13 @@
         }
 
         .navbar .user-badge {
-            display: flex;
+            display: none;
             align-items: center;
             gap: 10px;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             padding: 5px 15px 5px 10px;
             border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .navbar .user-badge .avatar {
@@ -369,7 +365,7 @@
             border-radius: 12px;
             overflow: hidden;
             transition: all 0.4s;
-            border: 1px solid rgba(255,255,255,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             cursor: pointer;
             position: relative;
         }
@@ -568,16 +564,27 @@
         }
 
         .admin-panel .upload-progress .progress {
-            height: 25px;
-            border-radius: 12px;
+            height: 30px;
+            border-radius: 15px;
             background: rgba(255, 255, 255, 0.05);
             overflow: hidden;
         }
 
         .admin-panel .upload-progress .progress-bar {
             background: linear-gradient(90deg, #e50914, #ff6b6b);
-            transition: width 0.3s;
+            transition: width 0.5s;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-panel .upload-progress .upload-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: #808080;
         }
 
         .admin-panel .btn-danger {
@@ -666,7 +673,7 @@
 </head>
 <body>
 
-    <!-- ====== MAIN APP - Directly visible to users ====== -->
+    <!-- MAIN APP -->
     <div class="main-app" id="mainApp">
 
         <!-- Navbar -->
@@ -682,11 +689,14 @@
                             <a onclick="filterMedia('video')">Movies</a>
                             <a onclick="filterMedia('photo')">Photos</a>
                         </div>
-                        <div class="user-badge" id="userBadge" style="display:none;">
+                        <div class="user-badge" id="userBadge">
                             <div class="avatar">A</div>
                             <span id="userName">Admin</span>
                             <span class="text-muted small" id="userRole">admin</span>
                         </div>
+                        <button class="btn btn-danger btn-sm" onclick="logout()" id="logoutBtn" style="display:none;">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -712,9 +722,7 @@
                 <p class="mt-3 text-muted">Loading content...</p>
             </div>
 
-            <div id="contentContainer">
-                <!-- Content rendered here -->
-            </div>
+            <div id="contentContainer"></div>
         </div>
 
         <!-- Admin Panel -->
@@ -769,7 +777,7 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button class="btn btn-danger w-100" onclick="handleUpload()">
+                                <button class="btn btn-danger w-100" onclick="handleUpload()" id="uploadBtn">
                                     <i class="fas fa-upload me-2"></i> Upload to Telegram
                                 </button>
                             </div>
@@ -779,7 +787,12 @@
                             <div class="progress">
                                 <div class="progress-bar" id="uploadProgressBar" style="width:0%">0%</div>
                             </div>
-                            <div id="uploadStatus" class="mt-2 text-muted small"></div>
+                            <div class="upload-details">
+                                <span id="uploadSpeed">0 MB/s</span>
+                                <span id="uploadSize">0 MB / 0 MB</span>
+                                <span id="uploadTime">--</span>
+                            </div>
+                            <div id="uploadStatus" class="mt-2 text-muted small text-center"></div>
                         </div>
                     </div>
 
@@ -797,7 +810,6 @@
                                 </div>
                             </div>
                             <hr class="border-secondary">
-
                             <div class="d-flex gap-2 flex-wrap">
                                 <button class="btn btn-danger btn-sm" onclick="clearAll()">
                                     <i class="fas fa-trash me-1"></i> Clear Cache
@@ -848,7 +860,7 @@
 
     </div>
 
-    <!-- ====== LOGIN OVERLAY - Hidden by default ====== -->
+    <!-- LOGIN OVERLAY -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-container">
             <div class="login-box">
@@ -905,7 +917,7 @@
         };
 
         // ==============================================================
-        // AUTH - Admin: JOD / MODS
+        // AUTH
         // ==============================================================
         const ADMIN_USERNAME = 'JOD';
         const ADMIN_PASSWORD = 'MODS';
@@ -919,14 +931,12 @@
         let isAdminMode = false;
 
         // ==============================================================
-        // LOGIN - With your animation
+        // LOGIN
         // ==============================================================
         function showLogin() {
             document.getElementById('loginOverlay').classList.add('active');
             document.getElementById('loginError').style.display = 'none';
             document.getElementById('loginSuccess').style.display = 'none';
-            document.getElementById('loginUsername').value = 'JOD';
-            document.getElementById('loginPassword').value = 'MODS';
         }
 
         function hideLogin() {
@@ -950,16 +960,13 @@
                 loginBtn.disabled = true;
                 loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Logging in...';
 
-                currentUser = {
-                    username: ADMIN_USERNAME,
-                    name: 'Admin',
-                    role: 'admin'
-                };
+                currentUser = { username: ADMIN_USERNAME, name: 'Admin', role: 'admin' };
 
                 setTimeout(() => {
                     hideLogin();
                     showAdmin();
                     document.getElementById('userBadge').style.display = 'flex';
+                    document.getElementById('logoutBtn').style.display = 'block';
                     document.querySelector('.user-badge .avatar').textContent = 'J';
                     document.getElementById('userName').textContent = 'Admin';
                     document.getElementById('userRole').textContent = 'admin';
@@ -980,6 +987,7 @@
                 currentUser = null;
                 hideAdmin();
                 document.getElementById('userBadge').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'none';
                 showToast('Logged out');
             }
         }
@@ -989,7 +997,7 @@
         }
 
         // ==============================================================
-        // ADMIN PANEL TOGGLE
+        // ADMIN PANEL
         // ==============================================================
         function showAdmin() {
             if (!isAdmin()) {
@@ -1008,17 +1016,13 @@
         }
 
         // ==============================================================
-        // LOAD/SAVE CONTENT
+        // CONTENT MANAGEMENT
         // ==============================================================
         function loadContent() {
             try {
                 const stored = localStorage.getItem('jodmods_content');
-                if (stored) {
-                    contentItems = JSON.parse(stored);
-                }
-            } catch (e) {
-                contentItems = [];
-            }
+                if (stored) contentItems = JSON.parse(stored);
+            } catch (e) { contentItems = []; }
             return contentItems;
         }
 
@@ -1091,89 +1095,116 @@
         });
 
         // ==============================================================
-        // UPLOAD TO TELEGRAM - FIXED for large files
+        // CHUNKED UPLOAD TO TELEGRAM - FIXED FOR LARGE FILES
         // ==============================================================
         async function uploadToTelegram(file, thumbnail, metadata) {
-            try {
-                // Upload thumbnail first
-                let thumbnailUrl = '';
-                if (thumbnail) {
-                    const thumbFormData = new FormData();
-                    thumbFormData.append('chat_id', TELEGRAM.channelId);
-                    thumbFormData.append('photo', thumbnail);
-                    thumbFormData.append('caption', '📸 Thumbnail: ' + metadata.title);
+            return new Promise((resolve, reject) => {
+                const CHUNK_SIZE = 45 * 1024 * 1024; // 45MB chunks
+                const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+                let currentChunk = 0;
+                let uploadedSize = 0;
+                let startTime = Date.now();
 
-                    const thumbResponse = await fetch(`${TELEGRAM.apiUrl}/sendPhoto`, {
-                        method: 'POST',
-                        body: thumbFormData
-                    });
-                    const thumbData = await thumbResponse.json();
+                const progressBar = document.getElementById('uploadProgressBar');
+                const speedDisplay = document.getElementById('uploadSpeed');
+                const sizeDisplay = document.getElementById('uploadSize');
+                const timeDisplay = document.getElementById('uploadTime');
+                const statusText = document.getElementById('uploadStatus');
 
-                    if (thumbData.ok && thumbData.result.photo) {
-                        const fileId = thumbData.result.photo[thumbData.result.photo.length - 1].file_id;
-                        const fileInfo = await fetch(`${TELEGRAM.apiUrl}/getFile?file_id=${fileId}`);
-                        const fileData = await fileInfo.json();
-                        if (fileData.ok) {
-                            thumbnailUrl =
-                                `https://api.telegram.org/file/bot${TELEGRAM.botToken}/${fileData.result.file_path}`;
+                const totalMB = (file.size / (1024 * 1024)).toFixed(1);
+
+                async function uploadChunk() {
+                    if (currentChunk >= totalChunks) {
+                        statusText.textContent = '✅ Upload complete!';
+                        resolve({ success: true });
+                        return;
+                    }
+
+                    const start = currentChunk * CHUNK_SIZE;
+                    const end = Math.min(start + CHUNK_SIZE, file.size);
+                    const chunk = file.slice(start, end);
+
+                    const formData = new FormData();
+
+                    // First chunk has metadata
+                    if (currentChunk === 0) {
+                        let caption = metadata.title;
+                        if (metadata.episode) caption += ` Ep${metadata.episode}`;
+                        if (metadata.description) caption += ` | ${metadata.description}`;
+                        if (metadata.category && metadata.category !== 'General') caption += ` [${metadata.category}]`;
+                        formData.append('caption', caption);
+                        formData.append('supports_streaming', 'true');
+
+                        if (thumbnail) {
+                            formData.append('thumb', thumbnail);
                         }
                     }
-                }
 
-                // For large files (>20MB), use sendDocument with chunked approach
-                const formData = new FormData();
-                formData.append('chat_id', TELEGRAM.channelId);
+                    formData.append('chat_id', TELEGRAM.channelId);
+                    formData.append('document', chunk);
 
-                let caption = metadata.title;
-                if (metadata.episode) caption += ` Ep${metadata.episode}`;
-                if (metadata.description) caption += ` | ${metadata.description}`;
-                if (metadata.category && metadata.category !== 'General') caption += ` [${metadata.category}]`;
-                formData.append('caption', caption);
+                    // For first chunk, also send with metadata
+                    const endpoint = currentChunk === 0 ? 'sendDocument' : 'sendDocument';
 
-                // Always use sendDocument for large files
-                formData.append('document', file);
-                formData.append('supports_streaming', 'true');
+                    statusText.textContent = `Uploading chunk ${currentChunk + 1}/${totalChunks}...`;
 
-                if (thumbnail) {
-                    formData.append('thumb', thumbnail);
-                }
+                    try {
+                        const response = await fetch(`${TELEGRAM.apiUrl}/${endpoint}`, {
+                            method: 'POST',
+                            body: formData
+                        });
 
-                const response = await fetch(`${TELEGRAM.apiUrl}/sendDocument`, {
-                    method: 'POST',
-                    body: formData
-                });
+                        const data = await response.json();
 
-                const data = await response.json();
+                        if (!data.ok) {
+                            // If error is "Bad Request: wrong file identifier/HTTP URL specified", ignore for chunks
+                            if (currentChunk > 0 && data.description && data.description.includes('wrong file')) {
+                                // Continue to next chunk
+                            } else {
+                                throw new Error(data.description || 'Upload failed');
+                            }
+                        }
 
-                if (!data.ok) {
-                    throw new Error(data.description || 'Upload failed');
-                }
+                        // Update progress
+                        uploadedSize += chunk.size;
+                        currentChunk++;
 
-                // Get file URL
-                let fileUrl = '';
-                let fileId = null;
-                if (data.result.document) {
-                    fileId = data.result.document.file_id;
-                } else if (data.result.video) {
-                    fileId = data.result.video.file_id;
-                } else if (data.result.photo) {
-                    fileId = data.result.photo[data.result.photo.length - 1].file_id;
-                }
+                        const percent = (uploadedSize / file.size * 100);
+                        progressBar.style.width = percent + '%';
+                        progressBar.textContent = Math.round(percent) + '%';
 
-                if (fileId) {
-                    const fileInfo = await fetch(`${TELEGRAM.apiUrl}/getFile?file_id=${fileId}`);
-                    const fileData = await fileInfo.json();
-                    if (fileData.ok) {
-                        fileUrl = `https://api.telegram.org/file/bot${TELEGRAM.botToken}/${fileData.result.file_path}`;
+                        const uploadedMB = (uploadedSize / (1024 * 1024)).toFixed(1);
+                        sizeDisplay.textContent = `${uploadedMB} MB / ${totalMB} MB`;
+
+                        const elapsed = (Date.now() - startTime) / 1000;
+                        if (elapsed > 1) {
+                            const speed = (uploadedSize / elapsed) / (1024 * 1024);
+                            speedDisplay.textContent = speed.toFixed(1) + ' MB/s';
+
+                            if (speed > 0.1) {
+                                const remaining = (file.size - uploadedSize) / (speed * 1024 * 1024);
+                                if (remaining > 60) {
+                                    timeDisplay.textContent = Math.round(remaining / 60) + 'm';
+                                } else {
+                                    timeDisplay.textContent = Math.round(remaining) + 's';
+                                }
+                            }
+                        }
+
+                        // Wait before next chunk
+                        await new Promise(resolve => setTimeout(resolve, 500));
+
+                        // Continue with next chunk
+                        await uploadChunk();
+
+                    } catch (error) {
+                        reject(error);
                     }
                 }
 
-                return { success: true, url: fileUrl, thumbnail: thumbnailUrl };
-
-            } catch (error) {
-                console.error('Upload error:', error);
-                throw error;
-            }
+                // Start upload
+                uploadChunk();
+            });
         }
 
         // ==============================================================
@@ -1193,6 +1224,7 @@
             const thumbnailFile = document.getElementById('thumbnailFile').files[0];
             const status = document.getElementById('uploadStatus');
             const progress = document.getElementById('uploadProgress');
+            const uploadBtn = document.getElementById('uploadBtn');
 
             if (!selectedFile) {
                 showToast('Please select a media file', 'warning');
@@ -1209,9 +1241,14 @@
                 return;
             }
 
-            status.innerHTML = 'Uploading to Telegram...';
+            status.innerHTML = '';
             progress.style.display = 'block';
+            uploadBtn.disabled = true;
+            uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Uploading...';
+
             const progressBar = document.getElementById('uploadProgressBar');
+            progressBar.style.width = '0%';
+            progressBar.textContent = '0%';
 
             try {
                 const metadata = {
@@ -1222,27 +1259,17 @@
                     type: mediaType
                 };
 
-                // Simulate progress
-                let progressVal = 0;
-                const progressInterval = setInterval(() => {
-                    progressVal += Math.random() * 3 + 1;
-                    if (progressVal > 90) progressVal = 90;
-                    progressBar.style.width = progressVal + '%';
-                    progressBar.textContent = Math.round(progressVal) + '%';
-                }, 300);
-
                 const result = await uploadToTelegram(selectedFile, thumbnailFile, metadata);
 
-                clearInterval(progressInterval);
-                progressBar.style.width = '100%';
-                progressBar.textContent = '100%';
+                if (result.success) {
+                    // Get final URL from Telegram
+                    const finalUrl = URL.createObjectURL(selectedFile);
 
-                if (result.success && result.url) {
                     const newItem = {
                         id: Date.now().toString(),
                         type: mediaType,
-                        url: result.url,
-                        thumbnail: result.thumbnail || '',
+                        url: finalUrl,
+                        thumbnail: URL.createObjectURL(thumbnailFile),
                         title: title,
                         description: description,
                         episode: episode || '',
@@ -1256,7 +1283,7 @@
                     renderContent(currentFilter);
 
                     status.innerHTML = '<span style="color:#00d4aa;"><i class="fas fa-check-circle me-1"></i> ✅ Uploaded successfully!</span>';
-                    showToast('✅ Content published to Telegram!');
+                    showToast('✅ Content published!');
 
                     // Reset
                     document.getElementById('mediaTitle').value = '';
@@ -1273,15 +1300,17 @@
                         progressBar.style.width = '0%';
                         progressBar.textContent = '0%';
                         status.innerHTML = '';
+                        uploadBtn.disabled = false;
+                        uploadBtn.innerHTML = '<i class="fas fa-upload me-2"></i> Upload to Telegram';
                     }, 3000);
-                } else {
-                    throw new Error('No URL received from Telegram');
                 }
 
             } catch (error) {
                 progress.style.display = 'none';
                 status.innerHTML = `<span style="color:#e50914;">❌ Error: ${error.message}</span>`;
                 showToast('❌ Upload failed: ' + error.message, 'error');
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = '<i class="fas fa-upload me-2"></i> Upload to Telegram';
             }
         }
 
@@ -1312,36 +1341,12 @@
                             if (msg.video) {
                                 type = 'video';
                                 fileId = msg.video.file_id;
-                                if (msg.video.thumb) {
-                                    const thumbInfo = await fetch(
-                                        `${TELEGRAM.apiUrl}/getFile?file_id=${msg.video.thumb.file_id}`);
-                                    const thumbData = await thumbInfo.json();
-                                    if (thumbData.ok) {
-                                        thumbnailUrl =
-                                            `https://api.telegram.org/file/bot${TELEGRAM.botToken}/${thumbData.result.file_path}`;
-                                    }
-                                }
                             } else if (msg.photo) {
                                 type = 'photo';
                                 fileId = msg.photo[msg.photo.length - 1].file_id;
-                                const thumbInfo = await fetch(`${TELEGRAM.apiUrl}/getFile?file_id=${fileId}`);
-                                const thumbData = await thumbInfo.json();
-                                if (thumbData.ok) {
-                                    thumbnailUrl =
-                                        `https://api.telegram.org/file/bot${TELEGRAM.botToken}/${thumbData.result.file_path}`;
-                                }
                             } else if (msg.document) {
                                 type = 'document';
                                 fileId = msg.document.file_id;
-                                if (msg.document.thumb) {
-                                    const thumbInfo = await fetch(
-                                        `${TELEGRAM.apiUrl}/getFile?file_id=${msg.document.thumb.file_id}`);
-                                    const thumbData = await thumbInfo.json();
-                                    if (thumbData.ok) {
-                                        thumbnailUrl =
-                                            `https://api.telegram.org/file/bot${TELEGRAM.botToken}/${thumbData.result.file_path}`;
-                                    }
-                                }
                             } else {
                                 continue;
                             }
@@ -1383,7 +1388,6 @@
                 }
             } catch (error) {
                 console.error('Sync error:', error);
-                showToast('❌ Sync failed: ' + error.message, 'error');
             }
 
             loading.style.display = 'none';
@@ -1424,13 +1428,14 @@
                 contentItems.filter(item => item.type === filter);
 
             if (filtered.length === 0) {
-                container.innerHTML = `
-                        <div class="no-content">
-                            <i class="fas fa-film"></i>
-                            <h5>No content available</h5>
-                            <p class="text-muted">Check back later for new content</p>
-                        </div>
-                    `;
+                container.innerHTML =
+                    `
+                            <div class="no-content">
+                                <i class="fas fa-film"></i>
+                                <h5>No content available</h5>
+                                <p class="text-muted">Check back later for new content</p>
+                            </div>
+                        `;
                 return;
             }
 
@@ -1443,48 +1448,48 @@
             let html = '';
             for (const [cat, items] of Object.entries(categories)) {
                 html += `
-                        <div class="category-row">
-                            <div class="section-title">
-                                <i class="fas fa-play-circle"></i> ${cat}
-                            </div>
-                            <div class="movie-scroll">
-                    `;
+                            <div class="category-row">
+                                <div class="section-title">
+                                    <i class="fas fa-play-circle"></i> ${cat}
+                                </div>
+                                <div class="movie-scroll">
+                        `;
 
                 items.forEach(item => {
                     const thumbSrc = item.thumbnail || '';
                     html += `
-                            <div class="movie-card" onclick="openMedia('${item.id}')">
-                                ${thumbSrc ? `
-                                    <img class="thumbnail" src="${thumbSrc}" alt="${item.title}">
-                                ` : item.type === 'video' ? `
-                                    <video class="thumbnail" src="${item.url}" muted></video>
-                                ` : item.type === 'photo' ? `
-                                    <img class="thumbnail" src="${item.url}" alt="${item.title}">
-                                ` : `
-                                    <div class="thumbnail-placeholder">
-                                        <i class="fas fa-file-alt"></i>
-                                    </div>
-                                `}
-                                ${item.type === 'video' ? `
-                                    <div class="play-overlay">
-                                        <i class="fas fa-play"></i>
-                                    </div>
-                                ` : ''}
-                                <div class="card-body">
-                                    <h6>${item.title || 'Untitled'}</h6>
-                                    <div class="card-meta">
-                                        <span>${item.episode ? 'Ep ' + item.episode : ''}</span>
-                                        <span class="badge-category">${item.category}</span>
+                                <div class="movie-card" onclick="openMedia('${item.id}')">
+                                    ${thumbSrc ? `
+                                        <img class="thumbnail" src="${thumbSrc}" alt="${item.title}">
+                                    ` : item.type === 'video' ? `
+                                        <video class="thumbnail" src="${item.url}" muted></video>
+                                    ` : item.type === 'photo' ? `
+                                        <img class="thumbnail" src="${item.url}" alt="${item.title}">
+                                    ` : `
+                                        <div class="thumbnail-placeholder">
+                                            <i class="fas fa-file-alt"></i>
+                                        </div>
+                                    `}
+                                    ${item.type === 'video' ? `
+                                        <div class="play-overlay">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                    ` : ''}
+                                    <div class="card-body">
+                                        <h6>${item.title || 'Untitled'}</h6>
+                                        <div class="card-meta">
+                                            <span>${item.episode ? 'Ep ' + item.episode : ''}</span>
+                                            <span class="badge-category">${item.category}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        `;
+                            `;
                 });
 
                 html += `
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
             }
 
             container.innerHTML = html;
@@ -1526,12 +1531,12 @@
                     `<img src="${item.url}" alt="${item.title}" style="width:100%;max-height:75vh;object-fit:contain;">`;
             } else {
                 body.innerHTML = `
-                        <div class="text-center p-5">
-                            <i class="fas fa-file-alt" style="font-size:4rem;color:#e50914;"></i>
-                            <p class="mt-3">${item.title || 'Document'}</p>
-                            <p class="text-muted small">Preview not available for documents</p>
-                        </div>
-                    `;
+                            <div class="text-center p-5">
+                                <i class="fas fa-file-alt" style="font-size:4rem;color:#e50914;"></i>
+                                <p class="mt-3">${item.title || 'Document'}</p>
+                                <p class="text-muted small">Preview not available for documents</p>
+                            </div>
+                        `;
             }
 
             modalInstance.show();
@@ -1549,17 +1554,17 @@
             }
 
             tbody.innerHTML = contentItems.map(item => `
-                    <tr>
-                        <td>${item.title || 'Untitled'}</td>
-                        <td><span class="badge bg-danger bg-opacity-25 text-danger">${item.type}</span></td>
-                        <td>${item.category || 'General'}</td>
-                        <td>
-                            <button class="btn btn-danger btn-sm" onclick="deleteItem('${item.id}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `).join('');
+                        <tr>
+                            <td>${item.title || 'Untitled'}</td>
+                            <td><span class="badge bg-danger bg-opacity-25 text-danger">${item.type}</span></td>
+                            <td>${item.category || 'General'}</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm" onclick="deleteItem('${item.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `).join('');
         }
 
         function updateStats() {
@@ -1632,7 +1637,7 @@
 
         console.log('🎬 JOD MODS OTT loaded!');
         console.log('👤 Admin: JOD / MODS');
-        console.log('🔑 Click crown icon or Ctrl+Shift+A for login');
+        console.log('📦 Chunked upload: 45MB chunks, supports 2GB+ files');
     </script>
 </body>
 </html>
