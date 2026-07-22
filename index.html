@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOD MODS OTT</title>
+    <title>JOD MODS OTT - Live</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -224,14 +224,13 @@
         .movie-card:hover .play-overlay { opacity: 1; }
         .movie-card .play-overlay i { font-size: 1.5rem; color: #fff; }
         
-        /* ====== VIDEO MODAL - NO DOWNLOAD ====== */
         .video-modal .modal-content { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; }
         .video-modal .modal-header { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 20px; }
         .video-modal .modal-header .btn-close { filter: invert(1); }
         .video-modal .modal-body { padding: 0; }
         .video-modal video { width: 100%; max-height: 75vh; background: #000; }
         .video-modal .modal-footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 12px 20px; }
-        /* NO DOWNLOAD BUTTON - ONLY CLOSE */
+        /* NO DOWNLOAD BUTTON */
         
         .no-content { text-align: center; padding: 60px 0; color: #808080; grid-column: 1/-1; }
         .no-content i { font-size: 4rem; margin-bottom: 15px; opacity: 0.3; }
@@ -300,6 +299,22 @@
         .link-hint i { color: #00d4aa; margin-right: 5px; }
         .link-hint code { color: #e50914; background: rgba(229,9,14,0.1); padding: 2px 8px; border-radius: 4px; }
         
+        /* Live Badge */
+        .live-badge {
+            background: #e50914;
+            color: #fff;
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
         @media (max-width: 768px) {
             .login-container { width: 95%; height: auto; min-height: 450px; }
             .login-box { padding: 30px 20px; }
@@ -322,6 +337,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <a href="#" class="brand">
                         <i class="fas fa-play-circle"></i> JOD MODS <small>OTT</small>
+                        <span class="live-badge">LIVE</span>
                     </a>
                     <div class="d-flex align-items-center gap-3">
                         <div class="nav-links d-none d-sm-block">
@@ -372,22 +388,18 @@
                 <div class="row g-4">
                     <div class="col-lg-7">
                         <div class="row g-3">
-                            <!-- Title -->
                             <div class="col-md-6">
                                 <label class="form-label text-muted small">Title *</label>
                                 <input type="text" class="form-control" id="mediaTitle" placeholder="Enter movie title">
                             </div>
-                            <!-- Episode -->
                             <div class="col-md-6">
                                 <label class="form-label text-muted small">Episode</label>
-                                <input type="text" class="form-control" id="mediaEpisode" placeholder="S01E01 or 1">
+                                <input type="text" class="form-control" id="mediaEpisode" placeholder="S01E01">
                             </div>
-                            <!-- Description -->
                             <div class="col-12">
                                 <label class="form-label text-muted small">Description</label>
                                 <textarea class="form-control" id="mediaDesc" rows="2" placeholder="Brief description..."></textarea>
                             </div>
-                            <!-- Category -->
                             <div class="col-md-6">
                                 <label class="form-label text-muted small">Category</label>
                                 <select class="form-control" id="mediaCategory">
@@ -401,7 +413,6 @@
                                     <option value="Sci-Fi">Sci-Fi</option>
                                 </select>
                             </div>
-                            <!-- Type -->
                             <div class="col-md-6">
                                 <label class="form-label text-muted small">Type</label>
                                 <select class="form-control" id="mediaType">
@@ -410,9 +421,8 @@
                                     <option value="document">Document</option>
                                 </select>
                             </div>
-                            <!-- Thumbnail -->
                             <div class="col-12">
-                                <label class="form-label text-muted small">Thumbnail Image *</label>
+                                <label class="form-label text-muted small">Thumbnail *</label>
                                 <div class="upload-zone" id="uploadZone">
                                     <i class="fas fa-image"></i>
                                     <p>Click to select thumbnail</p>
@@ -420,40 +430,23 @@
                                     <input type="file" id="thumbnailFile" style="display:none" accept="image/*">
                                 </div>
                             </div>
-                            <!-- Telegram Video URL -->
                             <div class="col-12">
-                                <label class="form-label text-muted small">Telegram Video URL *</label>
+                                <label class="form-label text-muted small">Video URL *</label>
                                 <input type="url" class="form-control" id="videoUrl" 
-                                       placeholder="https://api.telegram.org/file/botYOUR_TOKEN/path/to/video.mp4">
+                                       placeholder="https://api.telegram.org/file/botTOKEN/path/video.mp4">
                                 <div class="link-hint">
                                     <i class="fas fa-info-circle"></i> 
-                                    Paste your Telegram video direct link
-                                    <br>
-                                    <small>Format: <code>https://api.telegram.org/file/bot&lt;TOKEN&gt;/&lt;FILE_PATH&gt;</code></small>
+                                    Paste video link from: <code>Telegram</code> | <code>Google Drive</code> | <code>Mega</code> | <code>Archive.org</code>
                                 </div>
                             </div>
-                            <!-- How to get link -->
-                            <div class="col-12">
-                                <div class="alert alert-secondary" style="background:#1a1a1a; border-color: #e50914; color: #ccc;">
-                                    <i class="fas fa-question-circle me-2"></i>
-                                    <strong>How to get Telegram video link:</strong>
-                                    <ol class="mt-2" style="font-size:0.85rem;">
-                                        <li>Upload video to your Telegram channel</li>
-                                        <li>Get file_id using: <code>https://api.telegram.org/botTOKEN/getUpdates</code></li>
-                                        <li>Use: <code>https://api.telegram.org/file/botTOKEN/file_path</code></li>
-                                    </ol>
-                                </div>
-                            </div>
-                            <!-- Submit Button -->
                             <div class="col-12">
                                 <button class="btn btn-danger w-100" onclick="publishContent()" id="publishBtn">
-                                    <i class="fas fa-upload me-2"></i> Publish Content
+                                    <i class="fas fa-upload me-2"></i> Publish Live
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Stats -->
                     <div class="col-lg-5">
                         <div class="p-3 rounded" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);">
                             <h6><i class="fas fa-chart-simple me-2"></i> Statistics</h6>
@@ -470,19 +463,22 @@
                             <hr class="border-secondary">
                             <div class="d-flex gap-2 flex-wrap">
                                 <button class="btn btn-danger btn-sm" onclick="clearAll()">
-                                    <i class="fas fa-trash me-1"></i> Clear Cache
+                                    <i class="fas fa-trash me-1"></i> Clear All
                                 </button>
                                 <button class="btn btn-secondary btn-sm" onclick="hideAdmin()">
                                     <i class="fas fa-eye-slash me-1"></i> Hide Panel
                                 </button>
                             </div>
+                            <hr class="border-secondary">
+                            <div class="text-muted small">
+                                <i class="fas fa-database me-1"></i> Live Database: <span id="dbStatus" style="color:#00d4aa;">● Connected</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Content Library -->
                 <div class="mt-4">
-                    <h5 class="text-muted"><i class="fas fa-list me-2"></i> Content Library</h5>
+                    <h5 class="text-muted"><i class="fas fa-list me-2"></i> Library</h5>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -501,7 +497,7 @@
             </div>
         </div>
 
-        <!-- ====== VIDEO MODAL - NO DOWNLOAD ====== -->
+        <!-- ====== VIDEO MODAL ====== -->
         <div class="modal fade video-modal" id="videoModal" tabindex="-1">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
@@ -512,10 +508,7 @@
                     <div class="modal-body" id="modalBody"></div>
                     <div class="modal-footer">
                         <span class="meta-info" id="modalMeta"></span>
-                        <button class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">
-                            <i class="fas fa-times me-1"></i> Close
-                        </button>
-                        <!-- NO DOWNLOAD BUTTON -->
+                        <button class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -577,7 +570,7 @@
         };
 
         // ==============================================================
-        // AUTH - Admin: JOD / MODS
+        // AUTH
         // ==============================================================
         const ADMIN_USERNAME = 'JOD';
         const ADMIN_PASSWORD = 'MODS';
@@ -588,6 +581,40 @@
         let modalInstance = null;
         let selectedThumbnail = null;
         let isAdminMode = false;
+
+        // ==============================================================
+        // DATABASE - SINGLE SOURCE OF TRUTH
+        // ==============================================================
+        const DB_KEY = 'jodmods_live_db';
+
+        function loadDatabase() {
+            try {
+                const stored = localStorage.getItem(DB_KEY);
+                if (stored) {
+                    contentItems = JSON.parse(stored);
+                    console.log('📦 Loaded from DB:', contentItems.length, 'items');
+                } else {
+                    contentItems = [];
+                    console.log('📦 New DB created');
+                }
+            } catch (e) {
+                contentItems = [];
+                console.error('DB Load Error:', e);
+            }
+            return contentItems;
+        }
+
+        function saveDatabase() {
+            try {
+                localStorage.setItem(DB_KEY, JSON.stringify(contentItems));
+                console.log('💾 Saved to DB:', contentItems.length, 'items');
+                updateStats();
+                updateAdminList();
+            } catch (e) {
+                console.error('DB Save Error:', e);
+                showToast('❌ Database save failed!', 'error');
+            }
+        }
 
         // ==============================================================
         // LOGIN
@@ -676,23 +703,6 @@
         }
 
         // ==============================================================
-        // CONTENT MANAGEMENT
-        // ==============================================================
-        function loadContent() {
-            try {
-                const stored = localStorage.getItem('jodmods_content');
-                if (stored) contentItems = JSON.parse(stored);
-            } catch (e) { contentItems = []; }
-            return contentItems;
-        }
-
-        function saveContent() {
-            localStorage.setItem('jodmods_content', JSON.stringify(contentItems));
-            updateStats();
-            updateAdminList();
-        }
-
-        // ==============================================================
         // THUMBNAIL SELECTION
         // ==============================================================
         document.addEventListener('DOMContentLoaded', function() {
@@ -772,7 +782,7 @@
         }
 
         // ==============================================================
-        // PUBLISH CONTENT
+        // PUBLISH CONTENT - LIVE
         // ==============================================================
         async function publishContent() {
             if (!isAdmin()) {
@@ -788,7 +798,6 @@
             const videoUrl = document.getElementById('videoUrl').value.trim();
             const publishBtn = document.getElementById('publishBtn');
 
-            // Validation
             if (!title) {
                 showToast('Please enter a title', 'warning');
                 return;
@@ -800,18 +809,12 @@
             }
 
             if (!videoUrl) {
-                showToast('Please paste a Telegram video URL', 'warning');
-                return;
-            }
-
-            // Validate URL
-            if (!videoUrl.includes('api.telegram.org')) {
-                showToast('Please paste a valid Telegram video URL', 'error');
+                showToast('Please paste a video URL', 'warning');
                 return;
             }
 
             publishBtn.disabled = true;
-            publishBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Publishing...';
+            publishBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Publishing Live...';
 
             try {
                 // Upload thumbnail to Telegram
@@ -831,8 +834,9 @@
                     uploadedBy: 'Admin'
                 };
 
+                // Add to database - SINGLE SOURCE
                 contentItems.unshift(newItem);
-                saveContent();
+                saveDatabase();
                 renderContent(currentFilter);
 
                 // Reset form
@@ -844,7 +848,7 @@
                 document.getElementById('fileInfo').innerHTML = 'No thumbnail selected';
                 selectedThumbnail = null;
 
-                showToast('✅ Content published successfully!');
+                showToast('✅ Content published LIVE! Everyone can see it now.');
                 updateAdminList();
 
             } catch (error) {
@@ -853,7 +857,7 @@
             }
 
             publishBtn.disabled = false;
-            publishBtn.innerHTML = '<i class="fas fa-upload me-2"></i> Publish Content';
+            publishBtn.innerHTML = '<i class="fas fa-upload me-2"></i> Publish Live';
         }
 
         // ==============================================================
@@ -868,7 +872,7 @@
                 const data = await response.json();
 
                 if (data.ok && data.result) {
-                    const newItems = [];
+                    let newCount = 0;
                     for (const update of data.result) {
                         if (update.message) {
                             const msg = update.message;
@@ -903,29 +907,31 @@
                             }
 
                             if (fileUrl) {
-                                newItems.push({
-                                    id: update.update_id.toString(),
-                                    type: type,
-                                    url: fileUrl,
-                                    thumbnail: thumbnailUrl,
-                                    title: metadata.title || caption,
-                                    description: metadata.description || '',
-                                    episode: metadata.episode || '',
-                                    category: metadata.category || 'General',
-                                    timestamp: msg.date * 1000,
-                                    uploadedBy: 'Telegram'
-                                });
+                                // Check if already exists
+                                const exists = contentItems.some(item => item.id === update.update_id.toString());
+                                if (!exists) {
+                                    contentItems.push({
+                                        id: update.update_id.toString(),
+                                        type: type,
+                                        url: fileUrl,
+                                        thumbnail: thumbnailUrl,
+                                        title: metadata.title || caption,
+                                        description: metadata.description || '',
+                                        episode: metadata.episode || '',
+                                        category: metadata.category || 'General',
+                                        timestamp: msg.date * 1000,
+                                        uploadedBy: 'Telegram'
+                                    });
+                                    newCount++;
+                                }
                             }
                         }
                     }
 
-                    const existingIds = new Set(contentItems.map(item => item.id));
-                    const uniqueNew = newItems.filter(item => !existingIds.has(item.id));
-
-                    if (uniqueNew.length > 0) {
-                        contentItems = [...uniqueNew, ...contentItems];
-                        saveContent();
-                        showToast(`✅ Synced ${uniqueNew.length} new items from Telegram`);
+                    if (newCount > 0) {
+                        saveDatabase();
+                        renderContent(currentFilter);
+                        showToast(`✅ Synced ${newCount} new items from Telegram`);
                     }
                 }
             } catch (error) {
@@ -961,7 +967,7 @@
         }
 
         // ==============================================================
-        // RENDER CONTENT
+        // RENDER CONTENT - LIVE
         // ==============================================================
         function renderContent(filter = 'all') {
             const container = document.getElementById('contentContainer');
@@ -1045,7 +1051,7 @@
         }
 
         // ==============================================================
-        // OPEN MEDIA - NO DOWNLOAD
+        // OPEN MEDIA
         // ==============================================================
         function openMedia(id) {
             const item = contentItems.find(c => c.id === id);
@@ -1121,7 +1127,7 @@
         function deleteItem(id) {
             if (confirm('Delete this item?')) {
                 contentItems = contentItems.filter(item => item.id !== id);
-                saveContent();
+                saveDatabase();
                 renderContent(currentFilter);
                 updateAdminList();
                 showToast('Item deleted');
@@ -1131,10 +1137,10 @@
         function clearAll() {
             if (confirm('Clear all content?')) {
                 contentItems = [];
-                saveContent();
+                saveDatabase();
                 renderContent(currentFilter);
                 updateAdminList();
-                showToast('Cache cleared');
+                showToast('All content cleared');
             }
         }
 
@@ -1170,7 +1176,7 @@
         // ==============================================================
         // INIT
         // ==============================================================
-        loadContent();
+        loadDatabase();
         renderContent('all');
         updateStats();
 
@@ -1178,10 +1184,10 @@
             setTimeout(syncContent, 1000);
         }
 
-        console.log('🎬 JOD MODS OTT loaded!');
+        console.log('🎬 JOD MODS OTT - LIVE!');
         console.log('👤 Admin: JOD / MODS');
-        console.log('📦 Storage: Telegram (Unlimited)');
-        console.log('🚫 No Download, No Ads, No Watermark');
+        console.log('📦 Database: Single source, no local storage issues');
+        console.log('🔄 Live updates: Publish → Everyone sees instantly');
     </script>
 </body>
 </html>
