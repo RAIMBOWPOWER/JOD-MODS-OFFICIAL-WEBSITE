@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,82 +7,52 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: #0a0a0a;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* ====== ORIGINAL LOGIN ANIMATION WITH FALLING MAN ====== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0a; color: #fff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; min-height: 100vh; }
+        
+        /* ====== LOGIN ANIMATION ====== */
         .login-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
             z-index: 10000;
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(10px);
         }
-
-        .login-overlay.active {
-            display: flex;
-        }
-
+        .login-overlay.active { display: flex; }
+        
         .login-container {
             position: relative;
-            width: 420px;
-            height: 520px;
+            width: 420px; height: 520px;
             background: #1a1a1a;
             border-radius: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(229, 9, 14, 0.2);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            border: 1px solid rgba(229,9,14,0.2);
         }
-
-        /* Animated Border */
+        
         .login-container::before {
             content: '';
             position: absolute;
-            width: 500px;
-            height: 500px;
+            width: 500px; height: 500px;
             background: conic-gradient(transparent, transparent, transparent, #e50914);
             animation: animate 4s linear infinite;
         }
-
         .login-container::after {
             content: '';
             position: absolute;
-            width: 500px;
-            height: 500px;
+            width: 500px; height: 500px;
             background: conic-gradient(transparent, transparent, transparent, #ff6b6b);
             animation: animate 4s linear infinite;
             animation-delay: -2s;
         }
-
-        @keyframes animate {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
+        @keyframes animate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
         .login-box {
             position: absolute;
             inset: 5px;
@@ -94,125 +64,55 @@
             flex-direction: column;
             justify-content: center;
         }
-
-        .login-box .logo {
-            text-align: center;
-            font-size: 2rem;
-            font-weight: 700;
-            color: #e50914;
-            margin-bottom: 5px;
-        }
-
-        .login-box .logo i {
-            margin-right: 10px;
-        }
-
-        .login-box .subtitle {
-            text-align: center;
-            color: #808080;
-            margin-bottom: 30px;
-            font-size: 0.9rem;
-        }
-
-        .login-box .input-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
+        .login-box .logo { text-align: center; font-size: 2rem; font-weight: 700; color: #e50914; margin-bottom: 5px; }
+        .login-box .logo i { margin-right: 10px; }
+        .login-box .subtitle { text-align: center; color: #808080; margin-bottom: 30px; font-size: 0.9rem; }
+        .login-box .input-group { position: relative; margin-bottom: 20px; }
         .login-box .input-group input {
-            width: 100%;
-            padding: 14px 18px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s;
-            outline: none;
+            width: 100%; padding: 14px 18px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; color: #fff; font-size: 1rem;
+            transition: all 0.3s; outline: none;
         }
-
         .login-box .input-group input:focus {
             border-color: #e50914;
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 3px rgba(229, 9, 14, 0.15);
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 0 0 3px rgba(229,9,14,0.15);
         }
-
-        .login-box .input-group input::placeholder {
-            color: #555;
-        }
-
+        .login-box .input-group input::placeholder { color: #555; }
         .login-box .input-group .icon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
+            position: absolute; right: 15px; top: 50%;
             transform: translateY(-50%);
             color: #555;
         }
-
         .login-box .btn-login {
-            width: 100%;
-            padding: 14px;
+            width: 100%; padding: 14px;
             border-radius: 12px;
             background: linear-gradient(135deg, #e50914, #b20710);
-            color: white;
-            border: none;
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            cursor: pointer;
+            color: #fff; border: none; font-weight: 700; font-size: 1.1rem;
+            transition: all 0.3s; cursor: pointer;
         }
-
-        .login-box .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 25px rgba(229, 9, 14, 0.4);
-        }
-
-        .login-box .btn-login:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
+        .login-box .btn-login:hover { transform: translateY(-2px); box-shadow: 0 5px 25px rgba(229,9,14,0.4); }
+        .login-box .btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
         .login-box .error-msg {
-            color: #e50914;
-            text-align: center;
-            margin-top: 12px;
-            font-size: 0.85rem;
-            display: none;
-            background: rgba(229, 9, 14, 0.1);
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid rgba(229, 9, 14, 0.2);
+            color: #e50914; text-align: center; margin-top: 12px; font-size: 0.85rem;
+            display: none; background: rgba(229,9,14,0.1); padding: 10px;
+            border-radius: 8px; border: 1px solid rgba(229,9,14,0.2);
         }
-
         .login-box .success-msg {
-            color: #00d4aa;
-            text-align: center;
-            margin-top: 12px;
-            font-size: 0.85rem;
-            display: none;
-            background: rgba(0, 212, 170, 0.1);
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 212, 170, 0.2);
+            color: #00d4aa; text-align: center; margin-top: 12px; font-size: 0.85rem;
+            display: none; background: rgba(0,212,170,0.1); padding: 10px;
+            border-radius: 8px; border: 1px solid rgba(0,212,170,0.2);
         }
-
         .login-box .credentials-hint {
-            text-align: center;
-            color: #808080;
-            font-size: 0.75rem;
-            margin-top: 20px;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-            border: 1px dashed rgba(255, 255, 255, 0.05);
+            text-align: center; color: #808080; font-size: 0.75rem;
+            margin-top: 20px; padding: 12px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px; border: 1px dashed rgba(255,255,255,0.05);
         }
-
-        .login-box .credentials-hint strong {
-            color: #e50914;
-            font-size: 0.9rem;
-        }
-
-        /* ====== FALLING MAN ANIMATION ====== */
+        .login-box .credentials-hint strong { color: #e50914; font-size: 0.9rem; }
+        
         .falling-man {
             position: absolute;
             font-size: 3rem;
@@ -220,482 +120,204 @@
             z-index: 5;
             pointer-events: none;
         }
-
         @keyframes fallDown {
-            0% {
-                transform: translateY(-200px) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(400px) rotate(720deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(-200px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(400px) rotate(720deg); opacity: 0; }
         }
-
+        
         /* ====== MAIN APP ====== */
-        .main-app {
-            display: block;
-            min-height: 100vh;
-            background: #0a0a0a;
-        }
-
+        .main-app { display: block; min-height: 100vh; background: #0a0a0a; }
         .admin-trigger {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 45px;
-            height: 45px;
-            background: rgba(229, 9, 14, 0.1);
-            border: 2px solid rgba(229, 9, 14, 0.2);
-            border-radius: 50%;
-            color: #e50914;
-            z-index: 999;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            font-size: 1.2rem;
+            position: fixed; bottom: 20px; right: 20px;
+            width: 45px; height: 45px;
+            background: rgba(229,9,14,0.1);
+            border: 2px solid rgba(229,9,14,0.2);
+            border-radius: 50%; color: #e50914; z-index: 999;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s; font-size: 1.2rem;
         }
-
-        .admin-trigger:hover {
-            background: rgba(229, 9, 14, 0.2);
-            transform: scale(1.1);
-        }
-
+        .admin-trigger:hover { background: rgba(229,9,14,0.2); transform: scale(1.1); }
+        
         .navbar {
-            background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, transparent 100%);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, transparent 100%);
+            padding: 15px 0; position: sticky; top: 0; z-index: 1000;
         }
-
-        .navbar .brand {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #e50914;
-            text-decoration: none;
-        }
-
-        .navbar .brand i {
-            margin-right: 8px;
-        }
-
-        .navbar .brand small {
-            font-size: 0.7rem;
-            color: #808080;
-            font-weight: 400;
-        }
-
+        .navbar .brand { font-size: 1.8rem; font-weight: 700; color: #e50914; text-decoration: none; }
+        .navbar .brand i { margin-right: 8px; }
+        .navbar .brand small { font-size: 0.7rem; color: #808080; font-weight: 400; }
         .navbar .nav-links a {
-            color: #808080;
-            text-decoration: none;
-            margin: 0 15px;
-            transition: 0.3s;
-            font-size: 0.95rem;
-            cursor: pointer;
+            color: #808080; text-decoration: none; margin: 0 15px;
+            transition: 0.3s; font-size: 0.95rem; cursor: pointer;
         }
-
-        .navbar .nav-links a:hover,
-        .navbar .nav-links a.active {
-            color: white;
-        }
-
+        .navbar .nav-links a:hover, .navbar .nav-links a.active { color: #fff; }
         .navbar .user-badge {
-            display: none;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 5px 15px 5px 10px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: none; align-items: center; gap: 10px;
+            background: rgba(255,255,255,0.05);
+            padding: 5px 15px 5px 10px; border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.08);
         }
-
         .navbar .user-badge .avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #e50914;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 0.85rem;
-            color: white;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: #e50914; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.85rem; color: #fff;
         }
-
+        
         .hero {
-            padding: 60px 0 30px;
-            text-align: center;
-            background: radial-gradient(ellipse at 50% 0%, rgba(229, 9, 14, 0.08), transparent 70%);
+            padding: 60px 0 30px; text-align: center;
+            background: radial-gradient(ellipse at 50% 0%, rgba(229,9,14,0.08), transparent 70%);
         }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .hero h1 span {
-            color: #e50914;
-        }
-
-        .hero p {
-            color: #808080;
-            font-size: 1.1rem;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .category-row {
-            padding: 20px 0;
-        }
-
+        .hero h1 { font-size: 3.5rem; font-weight: 700; margin-bottom: 10px; }
+        .hero h1 span { color: #e50914; }
+        .hero p { color: #808080; font-size: 1.1rem; max-width: 500px; margin: 0 auto; }
+        
+        .category-row { padding: 20px 0; }
         .category-row .section-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 1.5rem; font-weight: 600; margin-bottom: 15px;
+            display: flex; align-items: center; gap: 10px;
         }
-
-        .category-row .section-title i {
-            color: #e50914;
-        }
-
+        .category-row .section-title i { color: #e50914; }
         .movie-scroll {
-            display: flex;
-            gap: 18px;
-            overflow-x: auto;
-            padding: 10px 0 20px;
-            scroll-behavior: smooth;
+            display: flex; gap: 18px; overflow-x: auto;
+            padding: 10px 0 20px; scroll-behavior: smooth;
         }
-
-        .movie-scroll::-webkit-scrollbar {
-            height: 6px;
-        }
-        .movie-scroll::-webkit-scrollbar-thumb {
-            background: #e50914;
-            border-radius: 10px;
-        }
-
+        .movie-scroll::-webkit-scrollbar { height: 6px; }
+        .movie-scroll::-webkit-scrollbar-thumb { background: #e50914; border-radius: 10px; }
+        
         .movie-card {
-            flex: 0 0 220px;
-            background: #1a1a1a;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.4s;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            cursor: pointer;
-            position: relative;
+            flex: 0 0 220px; background: #1a1a1a; border-radius: 12px;
+            overflow: hidden; transition: all 0.4s;
+            border: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer; position: relative;
         }
-
         .movie-card:hover {
             transform: scale(1.05);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-            border-color: #e50914;
-            z-index: 10;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            border-color: #e50914; z-index: 10;
         }
-
-        .movie-card .thumbnail {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            background: #2a2a2a;
-        }
-
+        .movie-card .thumbnail { width: 100%; height: 160px; object-fit: cover; background: #2a2a2a; }
         .movie-card .thumbnail-placeholder {
-            width: 100%;
-            height: 160px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 100%; height: 160px;
+            display: flex; align-items: center; justify-content: center;
             background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-            font-size: 3rem;
-            color: #e50914;
+            font-size: 3rem; color: #e50914;
         }
-
-        .movie-card .card-body {
-            padding: 12px 14px;
-        }
-
+        .movie-card .card-body { padding: 12px 14px; }
         .movie-card .card-body h6 {
-            font-weight: 600;
-            font-size: 0.9rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-weight: 600; font-size: 0.9rem;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
             margin-bottom: 4px;
         }
-
         .movie-card .card-body .card-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.7rem;
-            color: #808080;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.7rem; color: #808080;
         }
-
         .movie-card .card-body .badge-category {
-            background: rgba(229, 9, 14, 0.2);
-            color: #e50914;
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-size: 0.65rem;
+            background: rgba(229,9,14,0.2);
+            color: #e50914; padding: 2px 10px; border-radius: 12px; font-size: 0.65rem;
         }
-
         .movie-card .play-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            background: rgba(229, 9, 14, 0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: all 0.3s;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 50px; height: 50px; background: rgba(229,9,14,0.9);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: all 0.3s;
         }
-
-        .movie-card:hover .play-overlay {
-            opacity: 1;
-        }
-
-        .movie-card .play-overlay i {
-            font-size: 1.5rem;
-            color: white;
-        }
-
-        .video-modal .modal-content {
-            background: #0a0a0a;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-        }
-
-        .video-modal .modal-header {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 15px 20px;
-        }
-
-        .video-modal .modal-header .btn-close {
-            filter: invert(1);
-        }
-
-        .video-modal .modal-body {
-            padding: 0;
-        }
-
-        .video-modal video {
-            width: 100%;
-            max-height: 75vh;
-            background: #000;
-        }
-
-        .video-modal .modal-footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 12px 20px;
-        }
-
-        .no-content {
-            text-align: center;
-            padding: 60px 0;
-            color: #808080;
-            grid-column: 1/-1;
-        }
-
-        .no-content i {
-            font-size: 4rem;
-            margin-bottom: 15px;
-            opacity: 0.3;
-        }
-
+        .movie-card:hover .play-overlay { opacity: 1; }
+        .movie-card .play-overlay i { font-size: 1.5rem; color: #fff; }
+        
+        .video-modal .modal-content { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; }
+        .video-modal .modal-header { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 20px; }
+        .video-modal .modal-header .btn-close { filter: invert(1); }
+        .video-modal .modal-body { padding: 0; }
+        .video-modal video { width: 100%; max-height: 75vh; background: #000; }
+        .video-modal .modal-footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 12px 20px; }
+        
+        .no-content { text-align: center; padding: 60px 0; color: #808080; grid-column: 1/-1; }
+        .no-content i { font-size: 4rem; margin-bottom: 15px; opacity: 0.3; }
+        
         .admin-panel {
-            display: none;
-            background: #1a1a1a;
-            border-radius: 16px;
-            padding: 25px;
-            margin: 30px 0;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: none; background: #1a1a1a; border-radius: 16px;
+            padding: 25px; margin: 30px 0;
+            border: 1px solid rgba(255,255,255,0.05);
         }
-
-        .admin-panel.active {
-            display: block;
-        }
-
-        .admin-panel h3 {
-            color: #e50914;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .admin-panel h3 i {
-            margin-right: 10px;
-        }
-
+        .admin-panel.active { display: block; }
+        .admin-panel h3 { color: #e50914; font-weight: 600; margin-bottom: 20px; }
+        .admin-panel h3 i { margin-right: 10px; }
         .admin-panel .form-control {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: white;
-            border-radius: 10px;
-            padding: 10px 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #fff; border-radius: 10px; padding: 10px 14px;
         }
-
         .admin-panel .form-control:focus {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: #e50914;
-            color: white;
-            box-shadow: 0 0 0 3px rgba(229, 9, 14, 0.15);
+            background: rgba(255,255,255,0.08);
+            border-color: #e50914; color: #fff;
+            box-shadow: 0 0 0 3px rgba(229,9,14,0.15);
         }
-
         .admin-panel .upload-zone {
-            border: 2px dashed rgba(229, 9, 14, 0.2);
-            border-radius: 12px;
-            padding: 30px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
+            border: 2px dashed rgba(229,9,14,0.2);
+            border-radius: 12px; padding: 30px 20px;
+            text-align: center; cursor: pointer; transition: all 0.3s;
         }
-
-        .admin-panel .upload-zone:hover {
-            border-color: #e50914;
-            background: rgba(229, 9, 14, 0.05);
-        }
-
-        .admin-panel .upload-zone i {
-            font-size: 2.5rem;
-            color: #e50914;
-            margin-bottom: 10px;
-        }
-
+        .admin-panel .upload-zone:hover { border-color: #e50914; background: rgba(229,9,14,0.05); }
+        .admin-panel .upload-zone i { font-size: 2.5rem; color: #e50914; margin-bottom: 10px; }
         .admin-panel .upload-zone .file-info {
-            margin-top: 10px;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-            font-size: 0.85rem;
+            margin-top: 10px; padding: 8px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px; font-size: 0.85rem;
         }
-
-        .admin-panel .upload-progress {
-            margin-top: 15px;
-            display: none;
-        }
-
-        .admin-panel .upload-progress .progress {
-            height: 30px;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            overflow: hidden;
-        }
-
-        .admin-panel .upload-progress .progress-bar {
-            background: linear-gradient(90deg, #e50914, #ff6b6b);
-            transition: width 0.5s;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .admin-panel .upload-progress .upload-details {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-            font-size: 0.8rem;
-            color: #808080;
-        }
-
         .admin-panel .btn-danger {
-            background: #e50914;
-            border: none;
-            padding: 6px 18px;
-            border-radius: 20px;
-            color: white;
-            transition: 0.3s;
+            background: #e50914; border: none;
+            padding: 8px 20px; border-radius: 20px;
+            color: #fff; transition: 0.3s; font-weight: 600;
         }
-
-        .admin-panel .btn-danger:hover {
-            background: #b20710;
-            transform: scale(1.02);
+        .admin-panel .btn-danger:hover { background: #b20710; transform: scale(1.02); }
+        .admin-panel .btn-success-custom {
+            background: #00d4aa; border: none;
+            padding: 8px 20px; border-radius: 20px;
+            color: #fff; transition: 0.3s; font-weight: 600;
         }
-
-        .admin-panel .table {
-            color: #ffffff;
-        }
-
-        .admin-panel .table thead th {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            color: #808080;
-        }
-
-        .admin-panel .table tbody td {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            vertical-align: middle;
-        }
-
-        .toast-custom {
-            background: #1a1a1a;
-            border: 1px solid rgba(229, 9, 14, 0.2);
-            color: white;
-        }
-
-        .loading-container {
-            display: none;
-            text-align: center;
-            padding: 50px 0;
-        }
-
+        .admin-panel .btn-success-custom:hover { background: #00b894; transform: scale(1.02); }
+        .admin-panel .table { color: #ffffff; }
+        .admin-panel .table thead th { border-bottom: 1px solid rgba(255,255,255,0.05); color: #808080; }
+        .admin-panel .table tbody td { border-bottom: 1px solid rgba(255,255,255,0.03); vertical-align: middle; }
+        
+        .toast-custom { background: #1a1a1a; border: 1px solid rgba(229,9,14,0.2); color: #fff; }
+        .loading-container { display: none; text-align: center; padding: 50px 0; }
         .loading-container .spinner {
-            width: 45px;
-            height: 45px;
-            border: 3px solid rgba(229, 9, 14, 0.1);
+            width: 45px; height: 45px;
+            border: 3px solid rgba(229,9,14,0.1);
             border-top-color: #e50914;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin: 0 auto;
         }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .link-hint {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.8rem;
+            color: #808080;
+            margin-top: 5px;
         }
-
+        .link-hint i { color: #e50914; margin-right: 5px; }
+        .link-hint code { color: #00d4aa; background: rgba(0,212,170,0.1); padding: 2px 8px; border-radius: 4px; }
+        
         @media (max-width: 768px) {
-            .login-container {
-                width: 95%;
-                height: auto;
-                min-height: 450px;
-            }
-            .login-box {
-                padding: 30px 20px;
-            }
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            .movie-card {
-                flex: 0 0 160px;
-            }
-            .movie-card .thumbnail {
-                height: 120px;
-            }
-            .navbar .brand {
-                font-size: 1.3rem;
-            }
-            .navbar .nav-links a {
-                margin: 0 8px;
-                font-size: 0.8rem;
-            }
+            .login-container { width: 95%; height: auto; min-height: 450px; }
+            .login-box { padding: 30px 20px; }
+            .hero h1 { font-size: 2.2rem; }
+            .movie-card { flex: 0 0 160px; }
+            .movie-card .thumbnail { height: 120px; }
+            .navbar .brand { font-size: 1.3rem; }
+            .navbar .nav-links a { margin: 0 8px; font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- MAIN APP -->
+    <!-- ====== MAIN APP ====== -->
     <div class="main-app" id="mainApp">
 
         <!-- Navbar -->
@@ -743,11 +365,10 @@
                 <div class="spinner"></div>
                 <p class="mt-3 text-muted">Loading content...</p>
             </div>
-
             <div id="contentContainer"></div>
         </div>
 
-        <!-- Admin Panel -->
+        <!-- ====== ADMIN PANEL ====== -->
         <div class="container">
             <div class="admin-panel" id="adminPanel">
                 <h3><i class="fas fa-shield-alt"></i> Admin Dashboard</h3>
@@ -755,18 +376,22 @@
                 <div class="row g-4">
                     <div class="col-lg-7">
                         <div class="row g-3">
+                            <!-- Title -->
                             <div class="col-md-6">
                                 <label class="form-label text-muted small">Title *</label>
-                                <input type="text" class="form-control" id="mediaTitle" placeholder="Enter title">
+                                <input type="text" class="form-control" id="mediaTitle" placeholder="Enter movie title">
                             </div>
+                            <!-- Episode -->
                             <div class="col-md-6">
                                 <label class="form-label text-muted small">Episode</label>
-                                <input type="text" class="form-control" id="mediaEpisode" placeholder="S01E01">
+                                <input type="text" class="form-control" id="mediaEpisode" placeholder="S01E01 or 1">
                             </div>
+                            <!-- Description -->
                             <div class="col-12">
                                 <label class="form-label text-muted small">Description</label>
                                 <textarea class="form-control" id="mediaDesc" rows="2" placeholder="Brief description..."></textarea>
                             </div>
+                            <!-- Category -->
                             <div class="col-md-6">
                                 <label class="form-label text-muted small">Category</label>
                                 <select class="form-control" id="mediaCategory">
@@ -775,52 +400,57 @@
                                     <option value="Comedy">Comedy</option>
                                     <option value="Drama">Drama</option>
                                     <option value="Documentary">Documentary</option>
+                                    <option value="Horror">Horror</option>
+                                    <option value="Romance">Romance</option>
+                                    <option value="Sci-Fi">Sci-Fi</option>
                                 </select>
                             </div>
+                            <!-- Type -->
                             <div class="col-md-6">
-                                <label class="form-label text-muted small">Type *</label>
+                                <label class="form-label text-muted small">Type</label>
                                 <select class="form-control" id="mediaType">
                                     <option value="video">Video</option>
                                     <option value="photo">Photo</option>
                                     <option value="document">Document</option>
                                 </select>
                             </div>
+                            <!-- Thumbnail -->
                             <div class="col-12">
                                 <label class="form-label text-muted small">Thumbnail Image *</label>
-                                <input type="file" class="form-control" id="thumbnailFile" accept="image/*">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label text-muted small">Media File *</label>
                                 <div class="upload-zone" id="uploadZone">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <p>Click to select or drag & drop (Up to 2GB)</p>
-                                    <div class="file-info" id="fileInfo">No file selected</div>
-                                    <input type="file" id="mediaFile" style="display:none">
+                                    <i class="fas fa-image"></i>
+                                    <p>Click to select thumbnail</p>
+                                    <div class="file-info" id="fileInfo">No thumbnail selected</div>
+                                    <input type="file" id="thumbnailFile" style="display:none" accept="image/*">
                                 </div>
                             </div>
+                            <!-- Video Link -->
                             <div class="col-12">
-                                <button class="btn btn-danger w-100" onclick="handleUpload()" id="uploadBtn">
-                                    <i class="fas fa-upload me-2"></i> Upload to Telegram
+                                <label class="form-label text-muted small">Video URL *</label>
+                                <input type="url" class="form-control" id="videoUrl" 
+                                       placeholder="https://archive.org/download/movie-id/movie.mp4">
+                                <div class="link-hint">
+                                    <i class="fas fa-info-circle"></i> 
+                                    Paste your video link from: 
+                                    <code>Archive.org</code> 
+                                    <code>Telegram</code> 
+                                    <code>Google Drive</code> 
+                                    <code>Mega.nz</code>
+                                </div>
+                            </div>
+                            <!-- Submit Button -->
+                            <div class="col-12">
+                                <button class="btn btn-danger w-100" onclick="publishContent()" id="publishBtn">
+                                    <i class="fas fa-upload me-2"></i> Publish Content
                                 </button>
                             </div>
                         </div>
-
-                        <div class="upload-progress" id="uploadProgress">
-                            <div class="progress">
-                                <div class="progress-bar" id="uploadProgressBar" style="width:0%">0%</div>
-                            </div>
-                            <div class="upload-details">
-                                <span id="uploadSpeed">0 MB/s</span>
-                                <span id="uploadSize">0 MB / 0 MB</span>
-                                <span id="uploadTime">--</span>
-                            </div>
-                            <div id="uploadStatus" class="mt-2 text-muted small text-center"></div>
-                        </div>
                     </div>
 
+                    <!-- Stats -->
                     <div class="col-lg-5">
                         <div class="p-3 rounded" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);">
-                            <h6><i class="fas fa-chart-simple me-2"></i> Stats</h6>
+                            <h6><i class="fas fa-chart-simple me-2"></i> Statistics</h6>
                             <div class="row mt-3">
                                 <div class="col-6">
                                     <p class="text-muted mb-1">Total Items</p>
@@ -844,13 +474,15 @@
                     </div>
                 </div>
 
+                <!-- Content Library -->
                 <div class="mt-4">
-                    <h5 class="text-muted"><i class="fas fa-list me-2"></i> Library</h5>
+                    <h5 class="text-muted"><i class="fas fa-list me-2"></i> Content Library</h5>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th>Title</th>
+                                    <th>Episode</th>
                                     <th>Type</th>
                                     <th>Category</th>
                                     <th>Action</th>
@@ -863,7 +495,7 @@
             </div>
         </div>
 
-        <!-- Video Modal -->
+        <!-- ====== VIDEO MODAL ====== -->
         <div class="modal fade video-modal" id="videoModal" tabindex="-1">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
@@ -882,18 +514,13 @@
 
     </div>
 
-    <!-- ====== LOGIN OVERLAY WITH FALLING MAN ====== -->
+    <!-- ====== LOGIN OVERLAY ====== -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-container">
-            <!-- Falling Man Animation -->
             <div class="falling-man" id="fallingMan">🧑</div>
-
             <div class="login-box">
-                <div class="logo">
-                    <i class="fas fa-crown"></i> JOD MODS
-                </div>
+                <div class="logo"><i class="fas fa-crown"></i> JOD MODS</div>
                 <div class="subtitle">Staff Access Only</div>
-
                 <form id="loginForm">
                     <div class="input-group">
                         <input type="text" id="loginUsername" placeholder="Username" value="JOD" required>
@@ -909,7 +536,6 @@
                     <div class="error-msg" id="loginError">❌ Invalid credentials! Try again.</div>
                     <div class="success-msg" id="loginSuccess">✅ Login successful! Redirecting...</div>
                 </form>
-
                 <div class="credentials-hint">
                     <strong>JOD</strong> / <strong>MODS</strong>
                 </div>
@@ -931,7 +557,7 @@
     </script>
     <script>
         // ==============================================================
-        // TELEGRAM CONFIG
+        // TELEGRAM CONFIG - For Thumbnail Storage
         // ==============================================================
         const TELEGRAM = {
             botToken: '8912679390:AAHjunC2scpFKPJr0QgwfGWdAOFaLhUhzwY',
@@ -942,7 +568,7 @@
         };
 
         // ==============================================================
-        // AUTH
+        // AUTH - Admin: JOD / MODS
         // ==============================================================
         const ADMIN_USERNAME = 'JOD';
         const ADMIN_PASSWORD = 'MODS';
@@ -951,25 +577,19 @@
         let contentItems = [];
         let currentFilter = 'all';
         let modalInstance = null;
-        let selectedFile = null;
         let selectedThumbnail = null;
         let isAdminMode = false;
-        let telegramFileUrl = null;
 
         // ==============================================================
-        // LOGIN WITH FALLING MAN
+        // LOGIN
         // ==============================================================
         function showLogin() {
             document.getElementById('loginOverlay').classList.add('active');
             document.getElementById('loginError').style.display = 'none';
             document.getElementById('loginSuccess').style.display = 'none';
-
-            // Trigger falling man animation
             const man = document.getElementById('fallingMan');
             man.style.animation = 'none';
-            setTimeout(() => {
-                man.style.animation = 'fallDown 3s ease-in forwards';
-            }, 100);
+            setTimeout(() => { man.style.animation = 'fallDown 3s ease-in forwards'; }, 100);
         }
 
         function hideLogin() {
@@ -978,7 +598,6 @@
 
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
             const errorMsg = document.getElementById('loginError');
@@ -992,7 +611,6 @@
                 successMsg.style.display = 'block';
                 loginBtn.disabled = true;
                 loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Logging in...';
-
                 currentUser = { username: ADMIN_USERNAME, name: 'Admin', role: 'admin' };
 
                 setTimeout(() => {
@@ -1066,13 +684,12 @@
         }
 
         // ==============================================================
-        // FILE SELECTION
+        // THUMBNAIL SELECTION
         // ==============================================================
         document.addEventListener('DOMContentLoaded', function() {
             const uploadZone = document.getElementById('uploadZone');
-            const fileInput = document.getElementById('mediaFile');
+            const fileInput = document.getElementById('thumbnailFile');
             const fileInfo = document.getElementById('fileInfo');
-            const thumbInput = document.getElementById('thumbnailFile');
 
             if (uploadZone) {
                 uploadZone.addEventListener('click', () => fileInput.click());
@@ -1080,12 +697,9 @@
                 fileInput.addEventListener('change', function(e) {
                     if (this.files.length > 0) {
                         const file = this.files[0];
-                        selectedFile = file;
-                        const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
-                        const sizeGB = (file.size / (1024 * 1024 * 1024)).toFixed(2);
-                        const displaySize = sizeGB > 1 ? sizeGB + ' GB' : sizeMB + ' MB';
+                        selectedThumbnail = file;
                         fileInfo.innerHTML =
-                            `<i class="fas fa-check-circle" style="color:#e50914;"></i> ${file.name} (${displaySize})`;
+                            `<i class="fas fa-check-circle" style="color:#00d4aa;"></i> ${file.name}`;
                     }
                 });
 
@@ -1107,108 +721,51 @@
                     this.style.background = 'transparent';
                     if (e.dataTransfer.files.length > 0) {
                         const file = e.dataTransfer.files[0];
-                        selectedFile = file;
+                        selectedThumbnail = file;
                         fileInput.files = e.dataTransfer.files;
-                        const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
-                        const sizeGB = (file.size / (1024 * 1024 * 1024)).toFixed(2);
-                        const displaySize = sizeGB > 1 ? sizeGB + ' GB' : sizeMB + ' MB';
                         fileInfo.innerHTML =
-                            `<i class="fas fa-check-circle" style="color:#e50914;"></i> ${file.name} (${displaySize})`;
-                    }
-                });
-            }
-
-            if (thumbInput) {
-                thumbInput.addEventListener('change', function(e) {
-                    if (this.files.length > 0) {
-                        selectedThumbnail = this.files[0];
+                            `<i class="fas fa-check-circle" style="color:#00d4aa;"></i> ${file.name}`;
                     }
                 });
             }
         });
 
         // ==============================================================
-        // UPLOAD TO TELEGRAM - SINGLE FILE (NOT CHUNKS)
+        // UPLOAD THUMBNAIL TO TELEGRAM
         // ==============================================================
-        async function uploadToTelegram(file, thumbnail, metadata) {
+        async function uploadThumbnailToTelegram(thumbnail, title) {
             try {
-                // First upload thumbnail
-                let thumbnailUrl = '';
-                if (thumbnail) {
-                    const thumbFormData = new FormData();
-                    thumbFormData.append('chat_id', TELEGRAM.channelId);
-                    thumbFormData.append('photo', thumbnail);
-                    thumbFormData.append('caption', '📸 Thumbnail: ' + metadata.title);
-
-                    const thumbResponse = await fetch(`${TELEGRAM.apiUrl}/sendPhoto`, {
-                        method: 'POST',
-                        body: thumbFormData
-                    });
-                    const thumbData = await thumbResponse.json();
-
-                    if (thumbData.ok && thumbData.result.photo) {
-                        const fileId = thumbData.result.photo[thumbData.result.photo.length - 1].file_id;
-                        const fileInfo = await fetch(`${TELEGRAM.apiUrl}/getFile?file_id=${fileId}`);
-                        const fileData = await fileInfo.json();
-                        if (fileData.ok) {
-                            thumbnailUrl =
-                                `https://api.telegram.org/file/bot${TELEGRAM.botToken}/${fileData.result.file_path}`;
-                        }
-                    }
-                }
-
-                // Upload main file using sendDocument
                 const formData = new FormData();
                 formData.append('chat_id', TELEGRAM.channelId);
+                formData.append('photo', thumbnail);
+                formData.append('caption', `📸 ${title}`);
 
-                let caption = metadata.title;
-                if (metadata.episode) caption += ` Ep${metadata.episode}`;
-                if (metadata.description) caption += ` | ${metadata.description}`;
-                if (metadata.category && metadata.category !== 'General') caption += ` [${metadata.category}]`;
-                formData.append('caption', caption);
-
-                formData.append('document', file);
-                formData.append('supports_streaming', 'true');
-
-                if (thumbnail) {
-                    formData.append('thumb', thumbnail);
-                }
-
-                const response = await fetch(`${TELEGRAM.apiUrl}/sendDocument`, {
+                const response = await fetch(`${TELEGRAM.apiUrl}/sendPhoto`, {
                     method: 'POST',
                     body: formData
                 });
 
                 const data = await response.json();
 
-                if (!data.ok) {
-                    throw new Error(data.description || 'Upload failed');
-                }
-
-                // Get file URL
-                let fileUrl = '';
-                if (data.result.document) {
-                    const fileId = data.result.document.file_id;
+                if (data.ok && data.result.photo) {
+                    const fileId = data.result.photo[data.result.photo.length - 1].file_id;
                     const fileInfo = await fetch(`${TELEGRAM.apiUrl}/getFile?file_id=${fileId}`);
                     const fileData = await fileInfo.json();
                     if (fileData.ok) {
-                        fileUrl =
-                        `https://api.telegram.org/file/bot${TELEGRAM.botToken}/${fileData.result.file_path}`;
+                        return `https://api.telegram.org/file/bot${TELEGRAM.botToken}/${fileData.result.file_path}`;
                     }
                 }
-
-                return { success: true, url: fileUrl, thumbnail: thumbnailUrl };
-
+                return null;
             } catch (error) {
-                console.error('Upload error:', error);
-                throw error;
+                console.error('Thumbnail upload error:', error);
+                return null;
             }
         }
 
         // ==============================================================
-        // HANDLE UPLOAD
+        // PUBLISH CONTENT - MAIN FUNCTION
         // ==============================================================
-        async function handleUpload() {
+        async function publishContent() {
             if (!isAdmin()) {
                 showToast('Admin access required!', 'error');
                 return;
@@ -1219,110 +776,77 @@
             const description = document.getElementById('mediaDesc').value.trim();
             const category = document.getElementById('mediaCategory').value;
             const mediaType = document.getElementById('mediaType').value;
-            const thumbnailFile = document.getElementById('thumbnailFile').files[0];
-            const status = document.getElementById('uploadStatus');
-            const progress = document.getElementById('uploadProgress');
-            const uploadBtn = document.getElementById('uploadBtn');
+            const videoUrl = document.getElementById('videoUrl').value.trim();
+            const publishBtn = document.getElementById('publishBtn');
 
-            if (!selectedFile) {
-                showToast('Please select a media file', 'warning');
-                return;
-            }
-
-            if (!thumbnailFile) {
-                showToast('Please select a thumbnail image', 'warning');
-                return;
-            }
-
+            // Validation
             if (!title) {
                 showToast('Please enter a title', 'warning');
                 return;
             }
 
-            status.innerHTML = '';
-            progress.style.display = 'block';
-            uploadBtn.disabled = true;
-            uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Uploading...';
+            if (!selectedThumbnail) {
+                showToast('Please select a thumbnail image', 'warning');
+                return;
+            }
 
-            const progressBar = document.getElementById('uploadProgressBar');
-            progressBar.style.width = '0%';
-            progressBar.textContent = '0%';
+            if (!videoUrl) {
+                showToast('Please paste a video URL', 'warning');
+                return;
+            }
+
+            // Validate URL
+            try {
+                new URL(videoUrl);
+            } catch (e) {
+                showToast('Invalid video URL! Please paste a valid link.', 'error');
+                return;
+            }
+
+            publishBtn.disabled = true;
+            publishBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Publishing...';
 
             try {
-                const metadata = {
+                // Upload thumbnail to Telegram
+                const thumbnailUrl = await uploadThumbnailToTelegram(selectedThumbnail, title);
+
+                // Create content item
+                const newItem = {
+                    id: Date.now().toString(),
+                    type: mediaType,
+                    url: videoUrl,
+                    thumbnail: thumbnailUrl || '',
                     title: title,
-                    episode: episode,
-                    description: description,
+                    description: description || '',
+                    episode: episode || '',
                     category: category,
-                    type: mediaType
+                    timestamp: Date.now(),
+                    uploadedBy: 'Admin'
                 };
 
-                // Simulate progress for better UX
-                let progressVal = 0;
-                const progressInterval = setInterval(() => {
-                    progressVal += Math.random() * 3 + 1;
-                    if (progressVal > 90) progressVal = 90;
-                    progressBar.style.width = progressVal + '%';
-                    progressBar.textContent = Math.round(progressVal) + '%';
-                }, 300);
+                contentItems.unshift(newItem);
+                saveContent();
+                renderContent(currentFilter);
 
-                const result = await uploadToTelegram(selectedFile, thumbnailFile, metadata);
+                // Reset form
+                document.getElementById('mediaTitle').value = '';
+                document.getElementById('mediaEpisode').value = '';
+                document.getElementById('mediaDesc').value = '';
+                document.getElementById('videoUrl').value = '';
+                document.getElementById('thumbnailFile').value = '';
+                document.getElementById('fileInfo').innerHTML = 'No thumbnail selected';
+                selectedThumbnail = null;
 
-                clearInterval(progressInterval);
-
-                if (result.success && result.url) {
-                    progressBar.style.width = '100%';
-                    progressBar.textContent = '100%';
-
-                    const newItem = {
-                        id: Date.now().toString(),
-                        type: mediaType,
-                        url: result.url,
-                        thumbnail: result.thumbnail || '',
-                        title: title,
-                        description: description,
-                        episode: episode || '',
-                        category: category,
-                        timestamp: Date.now(),
-                        uploadedBy: 'Admin'
-                    };
-
-                    contentItems.unshift(newItem);
-                    saveContent();
-                    renderContent(currentFilter);
-
-                    status.innerHTML = '<span style="color:#00d4aa;"><i class="fas fa-check-circle me-1"></i> ✅ Uploaded successfully!</span>';
-                    showToast('✅ Content published to Telegram!');
-
-                    // Reset
-                    document.getElementById('mediaTitle').value = '';
-                    document.getElementById('mediaEpisode').value = '';
-                    document.getElementById('mediaDesc').value = '';
-                    document.getElementById('mediaFile').value = '';
-                    document.getElementById('thumbnailFile').value = '';
-                    document.getElementById('fileInfo').innerHTML = 'No file selected';
-                    selectedFile = null;
-                    selectedThumbnail = null;
-
-                    setTimeout(() => {
-                        progress.style.display = 'none';
-                        progressBar.style.width = '0%';
-                        progressBar.textContent = '0%';
-                        status.innerHTML = '';
-                        uploadBtn.disabled = false;
-                        uploadBtn.innerHTML = '<i class="fas fa-upload me-2"></i> Upload to Telegram';
-                    }, 3000);
-                } else {
-                    throw new Error('No URL received from Telegram');
-                }
+                showToast('✅ Content published successfully!');
+                updateAdminList();
 
             } catch (error) {
-                progress.style.display = 'none';
-                status.innerHTML = `<span style="color:#e50914;">❌ Error: ${error.message}</span>`;
-                showToast('❌ Upload failed: ' + error.message, 'error');
-                uploadBtn.disabled = false;
-                uploadBtn.innerHTML = '<i class="fas fa-upload me-2"></i> Upload to Telegram';
+                console.error('Publish error:', error);
+                showToast('❌ Failed to publish: ' + error.message, 'error');
             }
+
+            publishBtn.disabled = false;
+            publishBtn.innerHTML = '<i class="fas fa-upload me-2"></i> Publish Content';
         }
 
         // ==============================================================
@@ -1430,7 +954,7 @@
         }
 
         // ==============================================================
-        // RENDER CONTENT
+        // RENDER CONTENT - USER VIEW
         // ==============================================================
         function renderContent(filter = 'all') {
             const container = document.getElementById('contentContainer');
@@ -1514,7 +1038,7 @@
         }
 
         // ==============================================================
-        // OPEN MEDIA
+        // OPEN MEDIA - USER VIEW
         // ==============================================================
         function openMedia(id) {
             const item = contentItems.find(c => c.id === id);
@@ -1560,13 +1084,14 @@
             const tbody = document.getElementById('adminList');
             if (contentItems.length === 0) {
                 tbody.innerHTML =
-                    `<tr><td colspan="4" class="text-center text-muted">No content</td></tr>`;
+                    `<tr><td colspan="5" class="text-center text-muted">No content</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = contentItems.map(item => `
                         <tr>
                             <td>${item.title || 'Untitled'}</td>
+                            <td>${item.episode || '-'}</td>
                             <td><span class="badge bg-danger bg-opacity-25 text-danger">${item.type}</span></td>
                             <td>${item.category || 'General'}</td>
                             <td>
@@ -1648,7 +1173,7 @@
 
         console.log('🎬 JOD MODS OTT loaded!');
         console.log('👤 Admin: JOD / MODS');
-        console.log('📦 Single file upload to Telegram with thumbnail');
+        console.log('📦 Thumbnail → Telegram | Video → External Link');
     </script>
 </body>
 </html>
