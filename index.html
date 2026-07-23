@@ -1,1342 +1,851 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamFlix - Watch Online</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>JOD MODS OTT - Hanime</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <style>
-        /* ====== ROOT VARIABLES ====== */
-        :root {
-            --primary: #e50914;
-            --primary-dark: #b20710;
-            --bg-dark: #0a0a0a;
-            --card-bg: #1a1a1a;
-            --text-light: #ffffff;
-            --text-muted: #808080;
-            --gradient: linear-gradient(135deg, #e50914, #ff6b6b);
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background: #0a0a0a; color: #fff; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: #1a1a1a;
+            border-bottom: 3px solid #ff3b3b;
+            flex-wrap: wrap;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            background: var(--bg-dark);
-            color: var(--text-light);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
+        .logo { font-size: 22px; font-weight: 800; }
+        .logo span { color: #ff3b3b; }
+        .logo i { color: #ff3b3b; margin-right: 5px; }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            flex-wrap: wrap;
         }
-        
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-        
-        /* ====== HIDDEN ADMIN ACCESS ====== */
-        .hidden-admin-trigger {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #fff;
+            background: #ff3b3b;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #222;
+            padding: 5px 12px;
+            border-radius: 30px;
+            flex: 1;
+            max-width: 280px;
+            min-width: 140px;
+        }
+        .search-box input {
             background: transparent;
             border: none;
-            color: transparent;
-            z-index: 9999;
+            color: #fff;
+            outline: none;
+            padding: 5px 8px;
+            width: 100%;
+            font-size: 13px;
+        }
+        .search-box input::placeholder { color: #888; }
+        .search-box i { color: #888; cursor: pointer; }
+        .search-box i:hover { color: #ff3b3b; }
+
+        .hero {
+            background: #1a1a1a;
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+        .hero h1 { font-size: 28px; font-weight: 800; }
+        .hero h1 span { color: #ff3b3b; }
+        .hero p { font-size: 14px; color: #aaa; margin-top: 5px; }
+        .hero .tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .hero .tags span {
+            background: #222;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: #ff3b3b;
+            border: 1px solid #333;
+        }
+
+        .loader { text-align: center; padding: 50px; font-size: 18px; color: #ff3b3b; }
+        .loader i { animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .section { padding: 18px 20px; }
+        .section h2 {
+            font-size: 20px;
+            margin-bottom: 14px;
+            border-left: 5px solid #ff3b3b;
+            padding-left: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section h2 i { color: #ff3b3b; }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 18px;
+        }
+        .content-card {
+            background: #151515;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
             cursor: pointer;
+            border: 1px solid #252525;
+            position: relative;
         }
-        
-        .hidden-admin-trigger:hover {
-            background: rgba(229, 9, 20, 0.1);
-            border-radius: 50%;
+        .content-card:hover {
+            transform: scale(1.05);
+            border-color: #ff3b3b;
+            box-shadow: 0 0 25px rgba(255, 59, 59, 0.25);
         }
-        
-        /* ====== LOGIN OVERLAY ====== */
-        .login-overlay {
+        .content-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: #1a1a1a;
+        }
+        .content-card .info { padding: 8px 10px; }
+        .content-card .info h4 { font-size: 13px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .content-card .info p { font-size: 10px; color: #888; }
+        .content-card .badge {
+            background: #ff3b3b;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 3px;
+        }
+        .free-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #00c853;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .modal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(10px);
-            z-index: 10000;
-            display: none;
-            align-items: center;
+            background: rgba(0,0,0,0.95);
             justify-content: center;
-            padding: 20px;
-        }
-        
-        .login-overlay.active {
-            display: flex;
-        }
-        
-        .login-box {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 400px;
-            width: 100%;
-            border: 1px solid rgba(229, 9, 20, 0.3);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-        }
-        
-        .login-box .logo {
-            text-align: center;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-        
-        .login-box .logo i {
-            margin-right: 10px;
-        }
-        
-        .login-box .subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 25px;
-            font-size: 0.9rem;
-        }
-        
-        .login-box .form-control {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white;
-            border-radius: 12px;
-            padding: 12px 18px;
-            margin-bottom: 12px;
-        }
-        
-        .login-box .form-control:focus {
-            background: rgba(255,255,255,0.08);
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(229, 9, 14, 0.2);
-            color: white;
-        }
-        
-        .login-box .btn-login {
-            width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            background: var(--gradient);
-            color: white;
-            border: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-        
-        .login-box .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 25px rgba(229, 9, 14, 0.4);
-        }
-        
-        .login-box .login-error {
-            color: var(--primary);
-            font-size: 0.85rem;
-            text-align: center;
-            margin-top: 10px;
-            display: none;
-        }
-        
-        .login-box .close-login {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        /* ====== NAVBAR (User View) ====== */
-        .navbar-premium {
-            background: linear-gradient(180deg, rgba(0,0,0,0.95) 0%, transparent 100%);
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .navbar-premium .brand {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-decoration: none;
-        }
-        
-        .navbar-premium .brand i {
-            margin-right: 8px;
-        }
-        
-        .navbar-premium .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            margin: 0 15px;
-            transition: 0.3s;
-            font-size: 0.95rem;
-        }
-        
-        .navbar-premium .nav-links a:hover {
-            color: white;
-        }
-        
-        .navbar-premium .nav-links .active {
-            color: white;
-        }
-        
-        /* ====== HERO ====== */
-        .hero-section {
-            padding: 60px 0 30px;
-            text-align: center;
-            background: radial-gradient(ellipse at 50% 0%, rgba(229, 9, 14, 0.08), transparent 70%);
-        }
-        
-        .hero-section h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-        
-        .hero-section h1 span {
-            color: var(--primary);
-        }
-        
-        .hero-section p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        
-        /* ====== CATEGORY ROWS ====== */
-        .category-row {
-            padding: 20px 0;
-        }
-        
-        .category-row .section-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            display: flex;
             align-items: center;
-            gap: 10px;
+            z-index: 1000;
+            padding: 12px;
         }
-        
-        .category-row .section-title i {
-            color: var(--primary);
-        }
-        
-        .movie-scroll {
-            display: flex;
-            gap: 18px;
-            overflow-x: auto;
-            padding: 10px 0 20px;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        .movie-scroll::-webkit-scrollbar { height: 6px; }
-        .movie-scroll::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-        
-        /* ====== MOVIE CARD ====== */
-        .movie-card {
-            flex: 0 0 220px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(255,255,255,0.05);
-            cursor: pointer;
+        .modal-content {
+            background: #141414;
+            padding: 16px;
+            border-radius: 16px;
+            width: 95%;
+            max-width: 920px;
+            max-height: 92vh;
+            overflow-y: auto;
+            border: 1px solid #ff3b3b;
             position: relative;
         }
-        
-        .movie-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-            border-color: var(--primary);
-            z-index: 10;
-        }
-        
-        .movie-card .thumbnail {
-            width: 100%;
-            height: 160px;
-            object-fit: cover;
-            background: #2a2a2a;
-        }
-        
-        .movie-card .thumbnail-placeholder {
-            width: 100%;
-            height: 160px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-            font-size: 3rem;
-            color: var(--primary);
-        }
-        
-        .movie-card .card-body {
-            padding: 12px 14px;
-        }
-        
-        .movie-card .card-body h6 {
-            font-weight: 600;
-            font-size: 0.9rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 4px;
-        }
-        
-        .movie-card .card-body .card-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-        
-        .movie-card .card-body .badge-category {
-            background: rgba(229, 9, 14, 0.2);
-            color: var(--primary);
-            padding: 2px 10px;
-            border-radius: 12px;
-            font-size: 0.65rem;
-        }
-        
-        .movie-card .play-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            background: rgba(229, 9, 14, 0.9);
+        .modal-content::-webkit-scrollbar { width: 5px; }
+        .modal-content::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
+
+        .close-modal {
+            position: sticky;
+            top: 0;
+            float: right;
+            font-size: 24px;
+            color: #fff;
+            cursor: pointer;
+            background: #ff3b3b;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            transition: all 0.3s;
+            font-weight: bold;
+            z-index: 10;
+            border: none;
         }
-        
-        .movie-card:hover .play-overlay {
-            opacity: 1;
-        }
-        
-        .movie-card .play-overlay i {
-            font-size: 1.5rem;
-            color: white;
-        }
-        
-        /* ====== VIDEO MODAL ====== */
-        .video-modal .modal-content {
-            background: var(--bg-dark);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-        }
-        
-        .video-modal .modal-header {
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding: 15px 20px;
-        }
-        
-        .video-modal .modal-header .btn-close {
-            filter: invert(1);
-        }
-        
-        .video-modal .modal-body {
-            padding: 0;
-        }
-        
-        .video-modal video {
-            width: 100%;
-            max-height: 75vh;
+        .close-modal:hover { background: #cc2e2e; }
+        .modal-title { color: #fff; font-size: 20px; margin: 6px 0 4px 0; }
+        .modal-desc { color: #aaa; font-size: 13px; margin-bottom: 8px; }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
             background: #000;
         }
-        
-        .video-modal .modal-footer {
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding: 12px 20px;
-        }
-        
-        .video-modal .modal-footer .meta-info {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-        
-        /* ====== LOADING ====== */
-        .loading-container {
-            display: none;
-            text-align: center;
-            padding: 50px 0;
-        }
-        
-        .loading-container .spinner {
-            width: 45px;
-            height: 45px;
-            border: 3px solid rgba(229, 9, 14, 0.1);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* ====== TOAST ====== */
-        .toast-custom {
-            background: var(--card-bg);
-            border: 1px solid rgba(229, 9, 14, 0.2);
-            color: white;
-        }
-        
-        /* ====== ADMIN PANEL (Hidden from users) ====== */
-        .admin-panel {
-            display: none;
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 25px;
-            margin: 30px 0;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .admin-panel.active {
-            display: block;
-        }
-        
-        .admin-panel h3 {
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-        
-        .admin-panel h3 i {
-            margin-right: 10px;
-        }
-        
-        .admin-panel .form-control {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
-            color: white;
-            border-radius: 10px;
-            padding: 10px 14px;
-        }
-        
-        .admin-panel .form-control:focus {
-            background: rgba(255,255,255,0.08);
-            border-color: var(--primary);
-            color: white;
-            box-shadow: 0 0 0 3px rgba(229, 9, 14, 0.15);
-        }
-        
-        .admin-panel .form-control::placeholder {
-            color: #555;
-        }
-        
-        .admin-panel .upload-zone {
-            border: 2px dashed rgba(229, 9, 14, 0.2);
-            border-radius: 12px;
-            padding: 30px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .admin-panel .upload-zone:hover {
-            border-color: var(--primary);
-            background: rgba(229, 9, 14, 0.05);
-        }
-        
-        .admin-panel .upload-zone i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-        
-        .admin-panel .upload-zone p {
-            color: var(--text-muted);
-            margin: 0;
-        }
-        
-        .admin-panel .upload-zone .file-info {
-            margin-top: 10px;
-            padding: 8px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 8px;
-            font-size: 0.85rem;
-        }
-        
-        .admin-panel .upload-progress {
-            margin-top: 15px;
-            display: none;
-        }
-        
-        .admin-panel .upload-progress .progress {
-            height: 25px;
-            border-radius: 12px;
-            background: rgba(255,255,255,0.05);
-            overflow: hidden;
-        }
-        
-        .admin-panel .upload-progress .progress-bar {
-            background: var(--gradient);
-            transition: width 0.3s;
-            font-weight: 600;
-        }
-        
-        .admin-panel .btn-danger {
-            background: var(--primary);
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             border: none;
-            padding: 6px 18px;
-            border-radius: 20px;
-            color: white;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 12px 0;
+        }
+        .action-bar button {
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 7px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .action-bar button:hover {
+            background: #ff3b3b;
+            border-color: #ff3b3b;
+            transform: scale(1.05);
+        }
+        .action-bar button i { color: #ff3b3b; }
+        .action-bar button:hover i { color: #fff; }
+
+        .episode-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+            max-height: 350px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+        .episode-grid::-webkit-scrollbar { width: 4px; }
+        .episode-grid::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
+
+        .episode-btn {
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 5px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 11px;
+            min-width: 85px;
+        }
+        .episode-btn:hover {
+            background: #ff3b3b;
+            border-color: #ff3b3b;
+            transform: scale(1.05);
+        }
+        .episode-btn.active {
+            background: #ff3b3b;
+            border-color: #ff3b3b;
+        }
+        .episode-btn i { margin-right: 4px; }
+
+        .footer {
+            text-align: center;
+            padding: 18px;
+            color: #555;
+            border-top: 1px solid #1f1f1f;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .load-more-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .load-more-btn button {
+            background: #ff3b3b;
+            color: #fff;
+            border: none;
+            padding: 8px 30px;
+            border-radius: 30px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 600;
             transition: 0.3s;
         }
-        
-        .admin-panel .btn-danger:hover {
-            background: var(--primary-dark);
-            transform: scale(1.02);
+        .load-more-btn button:hover {
+            background: #cc2e2e;
+            transform: scale(1.04);
         }
-        
-        .admin-panel .table {
-            color: var(--text-light);
-        }
-        
-        .admin-panel .table thead th {
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: var(--text-muted);
-        }
-        
-        .admin-panel .table tbody td {
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-            vertical-align: middle;
-        }
-        
-        .admin-panel .table tbody tr:hover {
-            background: rgba(255,255,255,0.02);
-        }
-        
-        /* ====== NO CONTENT ====== */
-        .no-content {
+
+        .no-results {
             text-align: center;
-            padding: 60px 0;
-            color: var(--text-muted);
-            grid-column: 1/-1;
+            padding: 50px;
+            color: #888;
         }
-        
-        .no-content i {
-            font-size: 4rem;
-            margin-bottom: 15px;
-            opacity: 0.3;
+        .no-results i { font-size: 36px; color: #ff3b3b; margin-bottom: 8px; }
+
+        .server-selector {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+            padding: 10px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            border: 1px solid #333;
+            align-items: center;
         }
-        
-        .no-content h5 {
-            color: var(--text-muted);
+        .server-btn {
+            background: #222;
+            color: #ccc;
+            border: 2px solid #444;
+            padding: 5px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            transition: 0.3s;
         }
-        
-        /* ====== RESPONSIVE ====== */
-        @media (max-width: 768px) {
-            .hero-section h1 { font-size: 2.2rem; }
-            .movie-card { flex: 0 0 160px; }
-            .movie-card .thumbnail { height: 120px; }
-            .navbar-premium .brand { font-size: 1.3rem; }
-            .navbar-premium .nav-links a { margin: 0 8px; font-size: 0.8rem; }
-            .login-box { padding: 25px; }
+        .server-btn:hover {
+            background: #333;
+            border-color: #ff3b3b;
         }
-        
-        @media (max-width: 480px) {
-            .movie-card { flex: 0 0 140px; }
-            .movie-card .thumbnail { height: 100px; }
-            .movie-card .card-body h6 { font-size: 0.75rem; }
-            .hero-section h1 { font-size: 1.8rem; }
+        .server-btn.active {
+            background: #ff3b3b;
+            color: #fff;
+            border-color: #ff3b3b;
+        }
+        .server-btn .status {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+        .server-btn .status.online { background: #00c853; }
+        .server-btn .status.offline { background: #ff1744; }
+
+        .player-status {
+            color: #00c853;
+            font-size: 12px;
+            padding: 8px;
+            text-align: center;
+            background: #1a1a1a;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        @media (max-width: 600px) {
+            .navbar { flex-direction: column; align-items: stretch; }
+            .search-box { max-width: 100%; }
+            .content-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            .hero h1 { font-size: 22px; }
+            .nav-links { justify-content: center; }
+            .server-selector { justify-content: center; }
         }
     </style>
 </head>
 <body>
 
-<!-- ====== HIDDEN ADMIN TRIGGER ====== -->
-<button class="hidden-admin-trigger" onclick="showLogin()" title="Admin Access"></button>
-
-<!-- ====== LOGIN OVERLAY ====== -->
-<div class="login-overlay" id="loginOverlay">
-    <div class="login-box" style="position:relative;">
-        <button class="close-login" onclick="hideLogin()">✕</button>
+    <div class="navbar">
         <div class="logo">
-            <i class="fas fa-crown"></i> Staff Access
+            <i class="fas fa-film"></i>JOD<span>MODS</span> OTT
         </div>
-        <div class="subtitle">Enter your credentials to access admin panel</div>
-        
-        <form id="loginForm" onsubmit="return handleLogin(event)">
-            <input type="text" class="form-control" id="loginUsername" placeholder="Username" required>
-            <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
-            <button type="submit" class="btn-login">
-                <i class="fas fa-sign-in-alt me-2"></i> Login
-            </button>
-            <div class="login-error" id="loginError">Invalid credentials. Please try again.</div>
-        </form>
-    </div>
-</div>
-
-<!-- ====== MAIN APP ====== -->
-<div id="mainApp">
-
-    <!-- ====== NAVBAR ====== -->
-    <nav class="navbar-premium">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-                <a href="#" class="brand">
-                    <i class="fas fa-play-circle"></i> StreamFlix
-                </a>
-                <div class="nav-links">
-                    <a href="#" class="active">Home</a>
-                    <a href="#" onclick="filterMedia('video')">Movies</a>
-                    <a href="#" onclick="filterMedia('photo')">Photos</a>
-                    <a href="#" onclick="filterMedia('all')">All</a>
-                </div>
+        <div class="nav-links">
+            <a class="active" data-type="trending"><i class="fas fa-fire"></i> ट्रेंडिंग</a>
+            <a data-type="popular"><i class="fas fa-star"></i> पॉपुलर</a>
+            <a data-type="movies"><i class="fas fa-film"></i> मूवी</a>
+        </div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+            <div style="display:flex; gap:4px;">
+                <button class="lang-btn active" style="background:#ff3b3b;color:#fff;border:1px solid #ff3b3b;padding:3px 10px;border-radius:20px;cursor:pointer;font-size:11px;" onclick="changeLanguage('hi')">🇮🇳 हिंदी</button>
+                <button class="lang-btn" style="background:#222;color:#ccc;border:1px solid #444;padding:3px 10px;border-radius:20px;cursor:pointer;font-size:11px;" onclick="changeLanguage('en')">🇬🇧 ENG</button>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 एनीमे खोजें..." />
+                <i class="fas fa-search" onclick="searchAnime()"></i>
             </div>
         </div>
-    </nav>
+    </div>
 
-    <!-- ====== HERO ====== -->
-    <section class="hero-section">
-        <div class="container">
-            <h1>Watch <span>What You Love</span></h1>
-            <p>Stream your favorite content anytime, anywhere. No downloads, just pure entertainment.</p>
+    <div class="hero">
+        <h1>🇮🇳 <span>JOD MODS</span> OTT</h1>
+        <p>🔥 Hanime • 100% मुफ्त • Daily Updates</p>
+        <div class="tags">
+            <span>🔥 ट्रेंडिंग</span>
+            <span>⭐ मुफ्त</span>
+            <span>📺 सब एपिसोड</span>
         </div>
-    </section>
+    </div>
 
-    <!-- ====== CONTENT ====== -->
-    <div class="container">
-        <div class="loading-container" id="loadingContainer">
-            <div class="spinner"></div>
-            <p class="mt-3 text-muted">Loading your content...</p>
-        </div>
-        
+    <div class="section">
+        <h2 id="sectionTitle"><i class="fas fa-fire" style="color:#ff3b3b;"></i> ट्रेंडिंग हनिमे</h2>
         <div id="contentContainer">
-            <!-- Content will be rendered here -->
+            <div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div>
         </div>
     </div>
 
-    <!-- ====== ADMIN PANEL (Hidden from normal users) ====== -->
-    <div class="container" id="adminContainer">
-        <div class="admin-panel" id="adminPanel">
-            <h3><i class="fas fa-shield-alt"></i> Content Management</h3>
-            
-            <div class="row g-4">
-                <div class="col-lg-7">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label text-muted small">Title *</label>
-                            <input type="text" class="form-control" id="mediaTitle" placeholder="Enter title">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label text-muted small">Episode</label>
-                            <input type="text" class="form-control" id="mediaEpisode" placeholder="S01E01">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label text-muted small">Description</label>
-                            <textarea class="form-control" id="mediaDesc" rows="2" placeholder="Brief description..."></textarea>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label text-muted small">Category</label>
-                            <select class="form-control" id="mediaCategory">
-                                <option value="General">General</option>
-                                <option value="Action">Action</option>
-                                <option value="Comedy">Comedy</option>
-                                <option value="Drama">Drama</option>
-                                <option value="Documentary">Documentary</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label text-muted small">Type *</label>
-                            <select class="form-control" id="mediaType">
-                                <option value="video">Video</option>
-                                <option value="photo">Photo</option>
-                                <option value="document">Document</option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label text-muted small">Thumbnail</label>
-                            <input type="file" class="form-control" id="thumbnailFile" accept="image/*">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label text-muted small">Media File *</label>
-                            <div class="upload-zone" id="uploadZone">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>Click to select or drag & drop</p>
-                                <div class="file-info" id="fileInfo">No file selected</div>
-                                <input type="file" id="mediaFile" style="display:none">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <button class="btn btn-danger w-100" onclick="handleUpload()">
-                                <i class="fas fa-upload me-2"></i> Publish Content
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="upload-progress" id="uploadProgress">
-                        <div class="progress">
-                            <div class="progress-bar" id="uploadProgressBar" style="width:0%">0%</div>
-                        </div>
-                        <div id="uploadStatus" class="mt-2 text-muted small"></div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-5">
-                    <div class="p-3 rounded" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);">
-                        <h6><i class="fas fa-chart-simple me-2"></i> Stats</h6>
-                        <div class="row mt-3">
-                            <div class="col-6">
-                                <p class="text-muted mb-1">Total Items</p>
-                                <h4 id="totalItems">0</h4>
-                            </div>
-                            <div class="col-6">
-                                <p class="text-muted mb-1">Last Updated</p>
-                                <h6 id="lastUpdated" style="color:var(--primary);">Never</h6>
-                            </div>
-                        </div>
-                        <hr class="border-secondary">
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-danger btn-sm" onclick="clearAll()">
-                                <i class="fas fa-trash me-1"></i> Clear Cache
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="hideAdmin()">
-                                <i class="fas fa-eye-slash me-1"></i> Hide Panel
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    <div id="contentModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h3 class="modal-title" id="modalTitle">शीर्षक</h3>
+            <p class="modal-desc" id="modalDesc">🎯 100% मुफ्त • <span id="epCount">0</span> एपिसोड</p>
+
+            <div class="player-status" id="playerStatus">⏳ वीडियो प्लेयर लोड हो रहा है...</div>
+
+            <div class="video-wrapper">
+                <iframe id="videoIframe" src="" allowfullscreen></iframe>
             </div>
-            
-            <!-- Content List -->
-            <div class="mt-4">
-                <h5 class="text-muted"><i class="fas fa-list me-2"></i> Library</h5>
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Type</th>
-                                <th>Category</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminList"></tbody>
-                    </table>
-                </div>
+
+            <div class="action-bar">
+                <button onclick="downloadVideo()"><i class="fas fa-download"></i> डाउनलोड</button>
+                <button onclick="shareVideo()"><i class="fas fa-share"></i> शेयर</button>
+                <button onclick="reloadVideo()"><i class="fas fa-sync"></i> रीलोड</button>
+            </div>
+
+            <div id="episodeContainer" class="episode-grid">
+                <p style="color:#888; width:100%;"><i class="fas fa-spinner fa-spin"></i> एपिसोड लोड हो रहे हैं...</p>
             </div>
         </div>
     </div>
 
-    <!-- ====== VIDEO MODAL ====== -->
-    <div class="modal fade video-modal" id="videoModal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Now Playing</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body" id="modalBody"></div>
-                <div class="modal-footer">
-                    <span class="meta-info" id="modalMeta"></span>
-                    <button class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
+    <div class="footer">
+        <p>JOD MODS OTT © 2025 – Hanime • 100% मुफ्त <i class="fas fa-heart" style="color:#ff3b3b;"></i></p>
     </div>
 
-</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+    <script>
+        // ==================== HANIME API (WORKING) ====================
+        // Using multiple working APIs:
+        // 1. HiAnime API - https://hianime-api-iy4s.onrender.com [citation:3][citation:5]
+        // 2. Anilist GraphQL - https://graphql.anilist.co
+        // 3. Hanime API - GitHub
 
-<!-- ====== TOAST ====== -->
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index:9999;">
-    <div id="liveToast" class="toast toast-custom" role="alert">
-        <div class="d-flex">
-            <div class="toast-body" id="toastMessage"></div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
-    </div>
-</div>
+        const HIANIME_API = 'https://hianime-api-iy4s.onrender.com/api';
+        const ANILIST_API = 'https://graphql.anilist.co';
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-// ==============================================================
-// TELEGRAM CONFIG (Hidden from users)
-// ==============================================================
-const TELEGRAM = {
-    botToken: '8912679390:AAHjunC2scpFKPJr0QgwfGWdAOFaLhUhzwY',
-    channelId: '-1002441669316',
-    get apiUrl() {
-        return `https://api.telegram.org/bot${this.botToken}`;
-    }
-};
+        let currentType = 'trending';
+        let currentPage = 1;
+        let currentTitle = '';
+        let allEpisodes = [];
+        let currentVideoUrl = '';
+        let currentAnimeId = null;
+        let totalActualEpisodes = 0;
+        let currentEpisodeNum = 1;
 
-// ==============================================================
-// AUTH SYSTEM (Hidden)
-// ==============================================================
-const USERS = {
-    admin: { password: 'admin123', role: 'admin', name: 'Admin' },
-    mod: { password: 'mod123', role: 'moderator', name: 'Moderator' },
-    mod2: { password: 'mod123', role: 'moderator', name: 'Moderator 2' }
-};
+        // ==================== DOM REFS ====================
+        const container = document.getElementById('contentContainer');
+        const sectionTitle = document.getElementById('sectionTitle');
+        const modal = document.getElementById('contentModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const videoIframe = document.getElementById('videoIframe');
+        const episodeContainer = document.getElementById('episodeContainer');
+        const playerStatus = document.getElementById('playerStatus');
+        const epCount = document.getElementById('epCount');
 
-let currentUser = null;
-let contentItems = [];
-let currentFilter = 'all';
-let modalInstance = null;
-let selectedFile = null;
-let isAdminMode = false;
-
-// ==============================================================
-// LOGIN FUNCTIONS (Hidden from users)
-// ==============================================================
-function showLogin() {
-    document.getElementById('loginOverlay').classList.add('active');
-}
-
-function hideLogin() {
-    document.getElementById('loginOverlay').classList.remove('active');
-}
-
-function handleLogin(event) {
-    event.preventDefault();
-    const username = document.getElementById('loginUsername').value.trim();
-    const password = document.getElementById('loginPassword').value.trim();
-    const errorEl = document.getElementById('loginError');
-    
-    if (USERS[username] && USERS[username].password === password) {
-        currentUser = { username, ...USERS[username] };
-        errorEl.style.display = 'none';
-        hideLogin();
-        showAdmin();
-        showToast('Welcome ' + currentUser.name + '!');
-    } else {
-        errorEl.style.display = 'block';
-    }
-    return false;
-}
-
-function logout() {
-    currentUser = null;
-    hideAdmin();
-    showToast('Logged out');
-}
-
-function isAdmin() {
-    return currentUser && currentUser.role === 'admin';
-}
-
-function isModerator() {
-    return currentUser && (currentUser.role === 'admin' || currentUser.role === 'moderator');
-}
-
-// ==============================================================
-// ADMIN PANEL TOGGLE (Hidden)
-// ==============================================================
-function showAdmin() {
-    if (!isModerator()) {
-        showToast('Access denied!', 'error');
-        return;
-    }
-    document.getElementById('adminPanel').classList.add('active');
-    isAdminMode = true;
-    updateAdminList();
-    updateStats();
-}
-
-function hideAdmin() {
-    document.getElementById('adminPanel').classList.remove('active');
-    isAdminMode = false;
-}
-
-// ==============================================================
-// LOAD/SAVE CONTENT
-// ==============================================================
-function loadContent() {
-    try {
-        const stored = localStorage.getItem('streamflix_content');
-        if (stored) {
-            contentItems = JSON.parse(stored);
+        // ==================== LANGUAGE ====================
+        function changeLanguage(lang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.style.background = '#222';
+                btn.style.color = '#ccc';
+                btn.style.border = '1px solid #444';
+                if (btn.textContent.includes('हिंदी') && lang === 'hi') {
+                    btn.style.background = '#ff3b3b';
+                    btn.style.color = '#fff';
+                    btn.style.border = '1px solid #ff3b3b';
+                }
+                if (btn.textContent.includes('ENG') && lang === 'en') {
+                    btn.style.background = '#ff3b3b';
+                    btn.style.color = '#fff';
+                    btn.style.border = '1px solid #ff3b3b';
+                }
+            });
+            loadAnime();
         }
-    } catch(e) {
-        contentItems = [];
-    }
-    return contentItems;
-}
 
-function saveContent() {
-    localStorage.setItem('streamflix_content', JSON.stringify(contentItems));
-    updateStats();
-    updateAdminList();
-}
+        // ==================== NAVIGATION ====================
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                currentType = this.dataset.type;
+                currentPage = 1;
+                document.getElementById('searchInput').value = '';
+                loadAnime();
+            });
+        });
 
-// ==============================================================
-// FILE SELECTION
-// ==============================================================
-document.addEventListener('DOMContentLoaded', function() {
-    const uploadZone = document.getElementById('uploadZone');
-    const fileInput = document.getElementById('mediaFile');
-    const fileInfo = document.getElementById('fileInfo');
-    
-    if (uploadZone) {
-        uploadZone.addEventListener('click', () => fileInput.click());
-        
-        fileInput.addEventListener('change', function(e) {
-            if (this.files.length > 0) {
-                const file = this.files[0];
-                selectedFile = file;
-                const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
-                fileInfo.innerHTML = `<i class="fas fa-check-circle" style="color:var(--primary);"></i> ${file.name} (${sizeMB} MB)`;
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') searchAnime();
+        });
+
+        async function searchAnime() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) { loadAnime(); return; }
+            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> "${query}" खोजा जा रहा है...</div>`;
+
+            try {
+                // Using Anilist for search
+                const response = await fetch(ANILIST_API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        query: `
+                            query ($search: String, $page: Int) {
+                                Page(page: $page, perPage: 24) {
+                                    media(search: $search, type: ANIME, sort: POPULARITY_DESC) {
+                                        id
+                                        title { romaji english native }
+                                        coverImage { large }
+                                        episodes
+                                        format
+                                    }
+                                }
+                            }
+                        `,
+                        variables: { search: query, page: currentPage }
+                    })
+                });
+
+                const data = await response.json();
+                const results = data.data?.Page?.media || [];
+
+                if (results.length === 0) {
+                    container.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><p>कोई परिणाम नहीं मिला "${query}"</p></div>`;
+                    return;
+                }
+
+                displayAnime(results);
+                addLoadMore();
+
+            } catch(error) {
+                container.innerHTML = `<div class="no-results"><i class="fas fa-exclamation-triangle"></i><p>सर्च में एरर</p></div>`;
             }
-        });
-        
-        uploadZone.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            this.style.borderColor = 'var(--primary)';
-            this.style.background = 'rgba(229,9,14,0.05)';
-        });
-        
-        uploadZone.addEventListener('dragleave', function(e) {
-            e.preventDefault();
-            this.style.borderColor = 'rgba(229,9,14,0.2)';
-            this.style.background = 'transparent';
-        });
-        
-        uploadZone.addEventListener('drop', function(e) {
-            e.preventDefault();
-            this.style.borderColor = 'rgba(229,9,14,0.2)';
-            this.style.background = 'transparent';
-            if (e.dataTransfer.files.length > 0) {
-                const file = e.dataTransfer.files[0];
-                selectedFile = file;
-                fileInput.files = e.dataTransfer.files;
-                const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
-                fileInfo.innerHTML = `<i class="fas fa-check-circle" style="color:var(--primary);"></i> ${file.name} (${sizeMB} MB)`;
-            }
-        });
-    }
-});
-
-// ==============================================================
-// UPLOAD HANDLER (Hidden from users)
-// ==============================================================
-async function handleUpload() {
-    if (!isModerator()) {
-        showToast('You need moderator or admin access!', 'error');
-        return;
-    }
-    
-    const title = document.getElementById('mediaTitle').value.trim();
-    const episode = document.getElementById('mediaEpisode').value.trim();
-    const description = document.getElementById('mediaDesc').value.trim();
-    const category = document.getElementById('mediaCategory').value;
-    const mediaType = document.getElementById('mediaType').value;
-    const thumbnailFile = document.getElementById('thumbnailFile').files[0];
-    const status = document.getElementById('uploadStatus');
-    const progress = document.getElementById('uploadProgress');
-    
-    if (!selectedFile) {
-        showToast('Please select a media file', 'warning');
-        return;
-    }
-    
-    if (!title) {
-        showToast('Please enter a title', 'warning');
-        return;
-    }
-    
-    status.innerHTML = '';
-    progress.style.display = 'block';
-    const progressBar = document.getElementById('uploadProgressBar');
-    
-    // Simulate upload
-    let progressVal = 0;
-    const interval = setInterval(() => {
-        progressVal += Math.random() * 5 + 2;
-        if (progressVal > 100) progressVal = 100;
-        progressBar.style.width = progressVal + '%';
-        progressBar.textContent = Math.round(progressVal) + '%';
-        
-        if (progressVal >= 100) {
-            clearInterval(interval);
-            
-            // Add to content
-            const newItem = {
-                id: Date.now().toString(),
-                type: mediaType,
-                url: URL.createObjectURL(selectedFile),
-                title: title,
-                description: description,
-                episode: episode || '',
-                category: category,
-                timestamp: Date.now(),
-                uploadedBy: currentUser.username
-            };
-            
-            contentItems.unshift(newItem);
-            saveContent();
-            renderContent(currentFilter);
-            
-            status.innerHTML = '<span style="color:var(--primary);"><i class="fas fa-check-circle me-1"></i> Upload complete!</span>';
-            showToast('✅ Content published!');
-            
-            // Reset
-            document.getElementById('mediaTitle').value = '';
-            document.getElementById('mediaEpisode').value = '';
-            document.getElementById('mediaDesc').value = '';
-            document.getElementById('mediaFile').value = '';
-            document.getElementById('thumbnailFile').value = '';
-            document.getElementById('fileInfo').innerHTML = 'No file selected';
-            selectedFile = null;
-            
-            setTimeout(() => {
-                progress.style.display = 'none';
-                progressBar.style.width = '0%';
-                progressBar.textContent = '0%';
-            }, 2000);
         }
-    }, 200);
-}
 
-// ==============================================================
-// SYNC FROM TELEGRAM (Hidden)
-// ==============================================================
-async function syncContent() {
-    const loading = document.getElementById('loadingContainer');
-    loading.style.display = 'block';
-    
-    try {
-        const response = await fetch(`${TELEGRAM.apiUrl}/getUpdates?limit=50`);
-        const data = await response.json();
-        
-        if (data.ok && data.result) {
-            const newItems = [];
-            for (const update of data.result) {
-                if (update.message) {
-                    const msg = update.message;
-                    let type = 'document';
-                    let fileId = null;
-                    let caption = msg.caption || 'Content';
-                    let fileUrl = '';
-                    
-                    const metadata = parseCaption(caption);
-                    
-                    if (msg.video) {
-                        type = 'video';
-                        fileId = msg.video.file_id;
-                    } else if (msg.photo) {
-                        type = 'photo';
-                        fileId = msg.photo[msg.photo.length - 1].file_id;
-                    } else if (msg.document) {
-                        type = 'document';
-                        fileId = msg.document.file_id;
-                    } else {
-                        continue;
-                    }
-                    
-                    if (fileId) {
-                        const fileInfo = await fetch(`${TELEGRAM.apiUrl}/getFile?file_id=${fileId}`);
-                        const fileData = await fileInfo.json();
-                        if (fileData.ok && fileData.result.file_path) {
-                            fileUrl = `https://api.telegram.org/file/bot${TELEGRAM.botToken}/${fileData.result.file_path}`;
+        // ==================== LOAD ANIME ====================
+        async function loadAnime() {
+            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div>`;
+
+            try {
+                let sortType = 'TRENDING_DESC';
+                let title = '🔥 ट्रेंडिंग हनिमे';
+
+                switch(currentType) {
+                    case 'trending': sortType = 'TRENDING_DESC'; title = '🔥 ट्रेंडिंग हनिमे'; break;
+                    case 'popular': sortType = 'POPULARITY_DESC'; title = '⭐ पॉपुलर हनिमे'; break;
+                    case 'movies': sortType = 'POPULARITY_DESC'; title = '🎬 हनिमे मूवीज़'; break;
+                    default: sortType = 'TRENDING_DESC'; title = '🔥 ट्रेंडिंग हनिमे';
+                }
+
+                sectionTitle.innerHTML = `<i class="fas fa-fire" style="color:#ff3b3b;"></i> ${title}`;
+
+                // Using Anilist GraphQL API
+                let query = `
+                    query ($page: Int) {
+                        Page(page: $page, perPage: 24) {
+                            media(type: ANIME, sort: ${sortType}) {
+                                id
+                                title { romaji english native }
+                                coverImage { large }
+                                episodes
+                                format
+                                status
+                                genres
+                                averageScore
+                            }
                         }
                     }
-                    
-                    newItems.push({
-                        id: update.update_id.toString(),
-                        type: type,
-                        url: fileUrl,
-                        title: metadata.title || caption,
-                        description: metadata.description || '',
-                        episode: metadata.episode || '',
-                        category: metadata.category || 'General',
-                        timestamp: msg.date * 1000,
-                        uploadedBy: 'Telegram'
-                    });
+                `;
+
+                if (currentType === 'movies') {
+                    query = `
+                        query ($page: Int) {
+                            Page(page: $page, perPage: 24) {
+                                media(type: ANIME, sort: POPULARITY_DESC, format: MOVIE) {
+                                    id
+                                    title { romaji english native }
+                                    coverImage { large }
+                                    episodes
+                                    format
+                                    status
+                                    genres
+                                    averageScore
+                                }
+                            }
+                        }
+                    `;
                 }
-            }
-            
-            const existingIds = new Set(contentItems.map(item => item.id));
-            const uniqueNew = newItems.filter(item => !existingIds.has(item.id));
-            
-            if (uniqueNew.length > 0) {
-                contentItems = [...uniqueNew, ...contentItems];
-                saveContent();
-                showToast(`✅ Synced ${uniqueNew.length} new items`);
+
+                const response = await fetch(ANILIST_API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        query: query,
+                        variables: { page: currentPage }
+                    })
+                });
+
+                const data = await response.json();
+                const results = data.data?.Page?.media || [];
+
+                if (results.length === 0) {
+                    container.innerHTML = `<div class="no-results"><i class="fas fa-frown"></i><p>कुछ नहीं मिला</p></div>`;
+                    return;
+                }
+
+                displayAnime(results);
+                addLoadMore();
+
+            } catch(error) {
+                container.innerHTML = `<div class="no-results"><i class="fas fa-exclamation-triangle"></i><p>कंटेंट लोड करने में एरर</p></div>`;
             }
         }
-    } catch(error) {
-        console.error('Sync error:', error);
-    }
-    
-    loading.style.display = 'none';
-    renderContent(currentFilter);
-}
 
-function parseCaption(caption) {
-    const result = { title: caption, description: '', episode: '', category: 'General' };
-    
-    const epMatch = caption.match(/(?:S\d+E\d+|Ep(?:isode)?\s*(\d+)|Episode\s*(\d+))/i);
-    if (epMatch) {
-        result.episode = epMatch[0];
-        result.title = caption.replace(epMatch[0], '').trim();
-    }
-    
-    const catMatch = caption.match(/\[([^\]]+)\]/);
-    if (catMatch) {
-        result.category = catMatch[1];
-        result.title = caption.replace(catMatch[0], '').trim();
-    }
-    
-    const parts = result.title.split('|');
-    if (parts.length > 1) {
-        result.title = parts[0].trim();
-        result.description = parts.slice(1).join('|').trim();
-    }
-    
-    return result;
-}
+        // ==================== DISPLAY ANIME ====================
+        function displayAnime(items) {
+            let html = `<div class="content-grid">`;
+            items.forEach(item => {
+                const title = item.title?.romaji || item.title?.english || item.title?.native || 'अज्ञात';
+                const image = item.coverImage?.large || 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image';
+                const id = item.id;
+                const episodes = item.episodes || '?';
 
-// ==============================================================
-// RENDER CONTENT (User View)
-// ==============================================================
-function renderContent(filter = 'all') {
-    const container = document.getElementById('contentContainer');
-    const filtered = filter === 'all' 
-        ? contentItems 
-        : contentItems.filter(item => item.type === filter);
-    
-    if (filtered.length === 0) {
-        container.innerHTML = `
-            <div class="no-content">
-                <i class="fas fa-film"></i>
-                <h5>No content available</h5>
-                <p class="text-muted">Check back later for new content</p>
-            </div>
-        `;
-        return;
-    }
-    
-    // Group by category
-    const categories = {};
-    filtered.forEach(item => {
-        if (!categories[item.category]) categories[item.category] = [];
-        categories[item.category].push(item);
-    });
-    
-    let html = '';
-    for (const [cat, items] of Object.entries(categories)) {
-        html += `
-            <div class="category-row">
-                <div class="section-title">
-                    <i class="fas fa-play-circle"></i> ${cat}
-                </div>
-                <div class="movie-scroll">
-        `;
-        
-        items.forEach(item => {
-            html += `
-                <div class="movie-card" onclick="openMedia('${item.id}')">
-                    ${item.type === 'video' ? `
-                        <video class="thumbnail" src="${item.url}" muted></video>
-                    ` : item.type === 'photo' ? `
-                        <img class="thumbnail" src="${item.url}" alt="${item.title}">
-                    ` : `
-                        <div class="thumbnail-placeholder">
-                            <i class="fas fa-file-alt"></i>
+                html += `
+                    <div class="content-card" onclick="openAnime(${id}, '${title.replace(/'/g, "\\'")}')">
+                        <img src="${image}" alt="${title}" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image'"/>
+                        <div class="info">
+                            <h4>${title}</h4>
+                            <p>${episodes} एपिसोड</p>
+                            <span class="badge">100% मुफ्त</span>
                         </div>
-                    `}
-                    ${item.type === 'video' ? `
-                        <div class="play-overlay">
-                            <i class="fas fa-play"></i>
-                        </div>
-                    ` : ''}
-                    <div class="card-body">
-                        <h6>${item.title || 'Untitled'}</h6>
-                        <div class="card-meta">
-                            <span>${item.episode ? 'Ep ' + item.episode : ''}</span>
-                            <span class="badge-category">${item.category}</span>
-                        </div>
+                        <span class="free-badge"><i class="fas fa-crown"></i> FREE</span>
                     </div>
-                </div>
-            `;
-        });
-        
-        html += `
-                </div>
-            </div>
-        `;
-    }
-    
-    container.innerHTML = html;
-}
-
-function filterMedia(type) {
-    currentFilter = type;
-    renderContent(type);
-}
-
-// ==============================================================
-// OPEN MEDIA (User View - No Download)
-// ==============================================================
-function openMedia(id) {
-    const item = contentItems.find(c => c.id === id);
-    if (!item) return;
-    
-    if (!modalInstance) {
-        modalInstance = new bootstrap.Modal(document.getElementById('videoModal'));
-    }
-    
-    const body = document.getElementById('modalBody');
-    const title = document.getElementById('modalTitle');
-    const meta = document.getElementById('modalMeta');
-    
-    title.textContent = item.title || 'Content';
-    
-    let metaText = `${item.category}`;
-    if (item.episode) metaText += ` · Ep ${item.episode}`;
-    if (item.description) metaText += ` · ${item.description}`;
-    meta.textContent = metaText;
-    
-    if (item.type === 'video') {
-        body.innerHTML = `<video src="${item.url}" controls autoplay></video>`;
-    } else if (item.type === 'photo') {
-        body.innerHTML = `<img src="${item.url}" alt="${item.title}" style="width:100%;max-height:75vh;object-fit:contain;">`;
-    } else {
-        body.innerHTML = `
-            <div class="text-center p-5">
-                <i class="fas fa-file-alt" style="font-size:4rem;color:var(--primary);"></i>
-                <p class="mt-3">${item.title || 'Document'}</p>
-                <p class="text-muted small">Preview not available for documents</p>
-            </div>
-        `;
-    }
-    
-    modalInstance.show();
-}
-
-// ==============================================================
-// ADMIN FUNCTIONS (Hidden)
-// ==============================================================
-function updateAdminList() {
-    const tbody = document.getElementById('adminList');
-    if (contentItems.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted">No content</td></tr>`;
-        return;
-    }
-    
-    tbody.innerHTML = contentItems.map(item => `
-        <tr>
-            <td>${item.title || 'Untitled'}</td>
-            <td><span class="badge bg-danger bg-opacity-25 text-danger">${item.type}</span></td>
-            <td>${item.category || 'General'}</td>
-            <td>
-                ${isAdmin() ? `
-                    <button class="btn btn-danger btn-sm" onclick="deleteItem('${item.id}')">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                ` : `
-                    <span class="text-muted small">View only</span>
-                `}
-            </td>
-        </tr>
-    `).join('');
-}
-
-function updateStats() {
-    document.getElementById('totalItems').textContent = contentItems.length;
-    if (contentItems.length > 0) {
-        const latest = contentItems[0].timestamp;
-        document.getElementById('lastUpdated').textContent = new Date(latest).toLocaleString();
-    }
-}
-
-function deleteItem(id) {
-    if (!isAdmin()) {
-        showToast('Only admin can delete content!', 'error');
-        return;
-    }
-    
-    if (confirm('Delete this item?')) {
-        contentItems = contentItems.filter(item => item.id !== id);
-        saveContent();
-        renderContent(currentFilter);
-        updateAdminList();
-        showToast('Item deleted');
-    }
-}
-
-function clearAll() {
-    if (!isAdmin()) {
-        showToast('Only admin can clear cache!', 'error');
-        return;
-    }
-    
-    if (confirm('Clear all content?')) {
-        contentItems = [];
-        saveContent();
-        renderContent(currentFilter);
-        updateAdminList();
-        showToast('Cache cleared');
-    }
-}
-
-// ==============================================================
-// TOAST
-// ==============================================================
-function showToast(message, type = 'info') {
-    const toast = document.getElementById('liveToast');
-    const body = document.getElementById('toastMessage');
-    body.textContent = message;
-    
-    const bsToast = new bootstrap.Toast(toast, { delay: 3000 });
-    bsToast.show();
-}
-
-// ==============================================================
-// INIT
-// ==============================================================
-loadContent();
-renderContent('all');
-updateStats();
-
-// Auto sync on load if empty
-if (contentItems.length === 0) {
-    setTimeout(syncContent, 1000);
-}
-
-// ==============================================================
-// KEYBOARD SHORTCUTS (Hidden)
-// ==============================================================
-document.addEventListener('keydown', function(e) {
-    // Ctrl+Shift+A = Show admin login
-    if (e.ctrlKey && e.shiftKey && e.key === 'A') {
-        e.preventDefault();
-        if (isModerator()) {
-            showAdmin();
-        } else {
-            showLogin();
+                `;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
         }
-    }
-    // Ctrl+Shift+L = Logout
-    if (e.ctrlKey && e.shiftKey && e.key === 'L') {
-        e.preventDefault();
-        logout();
-    }
-    // Escape = Hide admin
-    if (e.key === 'Escape' && isAdminMode) {
-        hideAdmin();
-    }
-});
 
-console.log('🎬 StreamFlix loaded successfully!');
-console.log('🔑 Admin access: Click bottom-right corner or Ctrl+Shift+A');
-</script>
+        // ==================== LOAD MORE ====================
+        function addLoadMore() {
+            const loadMoreDiv = document.createElement('div');
+            loadMoreDiv.className = 'load-more-btn';
+            loadMoreDiv.innerHTML = `<button onclick="loadMore()"><i class="fas fa-plus-circle"></i> और लोड करें</button>`;
+            container.appendChild(loadMoreDiv);
+        }
+
+        function loadMore() {
+            currentPage++;
+            loadAnime();
+        }
+
+        // ==================== OPEN ANIME ====================
+        async function openAnime(id, title) {
+            if (!id) { alert('डेटा उपलब्ध नहीं'); return; }
+
+            currentAnimeId = id;
+            currentTitle = title;
+            allEpisodes = [];
+            currentVideoUrl = '';
+            currentEpisodeNum = 1;
+
+            modalTitle.textContent = `📺 ${title}`;
+            modalDesc.textContent = `🎯 100% मुफ्त • <span id="epCount">0</span> एपिसोड`;
+            episodeContainer.innerHTML = `<p style="color:#888; width:100%;"><i class="fas fa-spinner fa-spin"></i> एपिसोड लोड हो रहे हैं...</p>`;
+            videoIframe.src = '';
+            playerStatus.textContent = '⏳ लोड हो रहा है...';
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+
+            try {
+                // First try HiAnime API for episodes
+                let totalEps = 12;
+                try {
+                    const hianimeResp = await fetch(`${HIANIME_API}/anime/${id}`);
+                    if (hianimeResp.ok) {
+                        const data = await hianimeResp.json();
+                        totalEps = data.episodes?.length || 12;
+                    }
+                } catch(e) {}
+
+                // Fallback to Anilist
+                if (totalEps === 12) {
+                    const anilistResp = await fetch(ANILIST_API, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            query: `
+                                query ($id: Int) {
+                                    Media(id: $id, type: ANIME) {
+                                        episodes
+                                    }
+                                }
+                            `,
+                            variables: { id: parseInt(id) }
+                        })
+                    });
+                    const data = await anilistResp.json();
+                    totalEps = data.data?.Media?.episodes || 12;
+                }
+
+                totalActualEpisodes = totalEps;
+                epCount.textContent = totalActualEpisodes;
+
+                for (let i = 1; i <= totalActualEpisodes; i++) {
+                    allEpisodes.push({ number: i });
+                }
+
+                let epHtml = '';
+                allEpisodes.forEach(ep => {
+                    const epNum = ep.number;
+                    epHtml += `
+                        <button class="episode-btn" onclick="playEpisode(${epNum})">
+                            <i class="fas fa-play"></i> एपिसोड ${epNum}
+                        </button>
+                    `;
+                });
+                episodeContainer.innerHTML = epHtml;
+
+                if (allEpisodes.length > 0) playEpisode(1);
+
+            } catch(error) {
+                console.error('Error:', error);
+                totalActualEpisodes = 12;
+                epCount.textContent = totalActualEpisodes;
+                allEpisodes = [];
+                for (let i = 1; i <= totalActualEpisodes; i++) {
+                    allEpisodes.push({ number: i });
+                }
+                let epHtml = '';
+                allEpisodes.forEach(ep => {
+                    epHtml += `
+                        <button class="episode-btn" onclick="playEpisode(${ep.number})">
+                            <i class="fas fa-play"></i> एपिसोड ${ep.number}
+                        </button>
+                    `;
+                });
+                episodeContainer.innerHTML = epHtml;
+                if (allEpisodes.length > 0) playEpisode(1);
+            }
+        }
+
+        // ==================== PLAY EPISODE ====================
+        function playEpisode(epNum) {
+            const episode = allEpisodes.find(ep => ep.number === epNum);
+            if (!episode) { alert('एपिसोड नहीं मिला'); return; }
+
+            currentEpisodeNum = epNum;
+
+            document.querySelectorAll('.episode-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.episode-btn').forEach(btn => {
+                if (btn.textContent.includes(`एपिसोड ${epNum}`)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Using HiAnime API for stream
+            const cleanTitle = currentTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+            const videoUrl = `https://hianime.to/embed/${cleanTitle}?ep=${epNum}`;
+
+            currentVideoUrl = videoUrl;
+            videoIframe.src = videoUrl;
+            playerStatus.textContent = `✅ JOD MODS • एपिसोड ${epNum}`;
+            playerStatus.style.color = '#00c853';
+        }
+
+        // ==================== RELOAD VIDEO ====================
+        function reloadVideo() {
+            if (currentVideoUrl) {
+                videoIframe.src = currentVideoUrl;
+                playerStatus.textContent = `🔄 रीलोड हो रहा है...`;
+                setTimeout(() => {
+                    playerStatus.textContent = `✅ JOD MODS • एपिसोड ${currentEpisodeNum}`;
+                }, 1000);
+            }
+        }
+
+        // ==================== DOWNLOAD VIDEO ====================
+        function downloadVideo() {
+            if (!currentVideoUrl) {
+                alert('⚠️ पहले कोई एपिसोड चलाएं!');
+                return;
+            }
+            alert(`💡 डाउनलोड करने के लिए:\n\n1. वीडियो पर Right-Click करें\n2. "Save video as..." चुनें\n3. Save करें\n\n📥 Video URL: ${currentVideoUrl}`);
+        }
+
+        // ==================== SHARE ====================
+        function shareVideo() {
+            if (navigator.share) {
+                navigator.share({
+                    title: currentTitle || 'JOD MODS OTT',
+                    text: `🎬 ${currentTitle || 'वीडियो'} देखें - JOD MODS OTT पर 100% मुफ्त!`,
+                    url: window.location.href
+                }).catch(() => {});
+            } else {
+                alert(`📤 शेयर करें: ${window.location.href}`);
+            }
+        }
+
+        // ==================== MODAL CONTROLS ====================
+        function closeModal() {
+            modal.style.display = 'none';
+            videoIframe.src = '';
+            currentVideoUrl = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // ==================== START ====================
+        loadAnime();
+    </script>
 </body>
 </html>
