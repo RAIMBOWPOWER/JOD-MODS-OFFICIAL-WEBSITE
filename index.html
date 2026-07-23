@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>JOD MODS OTT - ऐडमिन पैनल</title>
+    <title>JOD MODS OTT - होम</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
@@ -12,7 +12,6 @@
         ::-webkit-scrollbar-track { background: #1a1a1a; }
         ::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
 
-        /* ===== MAIN PAGE STYLES ===== */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -376,7 +375,7 @@
             background: #cc2e2e;
         }
 
-        /* ===== ADMIN PANEL PAGE (hidden by default) ===== */
+        /* ===== ADMIN PAGE ===== */
         #adminPage {
             display: none;
             position: fixed;
@@ -488,6 +487,7 @@
             flex: 1;
             min-width: 120px;
         }
+        .admin-login input::placeholder { color: #666; }
         .admin-login button {
             background: #ff3b3b;
             color: #fff;
@@ -588,23 +588,6 @@
             background: #cc2e2e;
         }
 
-        .info-box {
-            background: #1a0a0a;
-            border-left: 4px solid #ff3b3b;
-            padding: 10px 14px;
-            margin: 8px 0;
-            border-radius: 6px;
-        }
-        .info-box strong { color: #ff3b3b; }
-        .info-box .example {
-            color: #00c853;
-            font-family: monospace;
-            font-size: 12px;
-            display: block;
-            margin-top: 4px;
-        }
-
-        /* Content list in admin */
         .admin-content-list {
             margin-top: 20px;
             border-top: 1px solid #333;
@@ -706,7 +689,7 @@
         </div>
     </div>
 
-    <!-- ===== ADMIN PAGE (overlay) ===== -->
+    <!-- ===== ADMIN PAGE ===== -->
     <div id="adminPage">
         <div class="admin-header">
             <h2><i class="fas fa-user-shield"></i> ऐडमिन पैनल - JOD MODS</h2>
@@ -715,8 +698,8 @@
 
         <div class="admin-panel">
             <div class="admin-login">
-                <input type="text" id="adminUser" placeholder="यूजरनेम" value="JOD">
-                <input type="password" id="adminPass" placeholder="पासवर्ड" value="MODS">
+                <input type="text" id="adminUser" placeholder="यूजरनेम">
+                <input type="password" id="adminPass" placeholder="पासवर्ड">
                 <button onclick="adminLogin()"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
                 <span id="adminStatus" class="admin-status"></span>
             </div>
@@ -728,7 +711,7 @@
                     <input type="text" id="adminTitle" placeholder="टाइटल (जैसे: नारुतो शिप्पुडेन)" style="flex:2;min-width:180px;">
                     <input type="text" id="adminType" placeholder="टाइप: movie / series" style="flex:1;min-width:100px;" value="series">
                     <input type="number" id="adminEpisodes" placeholder="कुल एपिसोड" style="flex:1;min-width:80px;" value="12">
-                    <input type="text" id="adminEditId" placeholder="एडिट ID (ऑटो)" style="flex:1;min-width:120px;background:#111;color:#888;" readonly>
+                    <input type="text" id="adminEditId" placeholder="एडिट ID" style="flex:1;min-width:120px;background:#111;color:#888;" readonly>
                 </div>
 
                 <div class="drop-area" id="dropArea">
@@ -736,15 +719,6 @@
                     <p style="color:#aaa;font-size:13px;">थंबनेल ड्रैग & ड्रॉप करें या क्लिक करें</p>
                     <input type="file" id="fileInput" accept="image/*" style="display:none;" multiple>
                     <div class="preview-container" id="previewContainer"></div>
-                </div>
-
-                <div class="info-box">
-                    <strong>⚠️ वीडियो लिंक कैसे डालें?</strong>
-                    <p style="color:#aaa;font-size:12px;margin-top:4px;">
-                        ✅ <strong>सही:</strong> https://yourwebsite.com/video.mp4 (डायरेक्ट वीडियो)
-                        <span class="example">✅ <strong>सही:</strong> https://www.youtube.com/embed/VIDEO_ID (एम्बेड)</span>
-                        <span class="example" style="color:#ff6b6b;">❌ <strong>गलत:</strong> https://yourwebsite.com/video-page (वेबपेज)</span>
-                    </p>
                 </div>
 
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
@@ -766,7 +740,6 @@
                     <button onclick="adminClearForm()" style="background:#666;"><i class="fas fa-undo"></i> क्लियर</button>
                 </div>
 
-                <!-- Content List -->
                 <div class="admin-content-list">
                     <h3><i class="fas fa-list"></i> आपका कंटेंट</h3>
                     <div id="adminContentList">
@@ -799,10 +772,8 @@
             </div>
 
             <div class="action-bar">
-                <button onclick="downloadVideo()"><i class="fas fa-download"></i> डाउनलोड</button>
                 <button onclick="shareVideo()"><i class="fas fa-share"></i> शेयर</button>
                 <button onclick="reloadVideo()"><i class="fas fa-sync"></i> रीलोड</button>
-                <button onclick="copyVideoLink()"><i class="fas fa-link"></i> लिंक कॉपी</button>
             </div>
 
             <div id="episodeContainer" class="episode-grid">
@@ -864,8 +835,10 @@
                 document.getElementById('adminStatus').textContent = '✅ लॉगिन सफल';
                 document.getElementById('adminStatus').style.color = '#00c853';
                 loadAdminContentList();
+                document.getElementById('adminUser').value = '';
+                document.getElementById('adminPass').value = '';
             } else {
-                alert('❌ गलत यूजरनेम या पासवर्ड! (यूजरनेम: JOD, पासवर्ड: MODS)');
+                alert('❌ गलत यूजरनेम या पासवर्ड!');
             }
         }
 
@@ -996,21 +969,9 @@
                 videoToUse = uploadedVideo;
             }
 
-            // Check video link
-            if (videoToUse && !videoToUse.startsWith('data:video/')) {
-                const isDirectVideo = videoToUse.match(/\.(mp4|webm|mkv|mov|avi|flv|wmv|m4v|3gp)$/i);
-                const isEmbed = videoToUse.includes('/embed/') || videoToUse.includes('youtube.com') || videoToUse.includes('vimeo.com');
-                if (!isDirectVideo && !isEmbed) {
-                    if (!confirm('⚠️ यह लिंक डायरेक्ट वीडियो या embed नहीं लगता।\nक्या आपको यकीन है?\n\n' + videoToUse)) {
-                        return;
-                    }
-                }
-            }
-
             let customList = getCustomAnimeList();
 
             if (editId) {
-                // Edit existing
                 const index = customList.findIndex(a => a.id === editId);
                 if (index !== -1) {
                     customList[index] = {
@@ -1025,7 +986,6 @@
                     };
                 }
             } else {
-                // Add new
                 const newAnime = {
                     id: 'custom_' + Date.now(),
                     title: { romaji: title, english: title },
@@ -1086,14 +1046,12 @@
             document.getElementById('adminEditId').value = item.id;
             editingId = item.id;
 
-            // Clear previews
             uploadedImages = [];
             uploadedVideo = null;
             isVideoUploaded = false;
             updatePreview();
             updateVideoPreview();
 
-            // Scroll to form
             document.querySelector('.admin-panel').scrollIntoView({ behavior: 'smooth' });
         }
 
@@ -1380,12 +1338,6 @@
             const isDirectVideo = videoUrl.match(/\.(mp4|webm|mkv|mov|avi|flv|wmv|m4v|3gp)$/i) || videoUrl.includes('blob:');
             const isEmbed = videoUrl.includes('/embed/') || videoUrl.includes('youtube.com') || videoUrl.includes('vimeo.com');
 
-            if (!isDataVideo && !isDirectVideo && !isEmbed) {
-                if (!confirm('⚠️ यह लिंक डायरेक्ट वीडियो या embed नहीं लगता।\n\n' + videoUrl + '\n\nक्या आप फिर भी खोलना चाहते हैं?')) {
-                    return;
-                }
-            }
-
             if (isDataVideo || isDirectVideo) {
                 iframeWrapper.style.display = 'none';
                 videoPlayerWrapper.style.display = 'block';
@@ -1419,21 +1371,6 @@
             }, 1000);
         }
 
-        function downloadVideo() {
-            if (!currentVideoUrl) { alert('⚠️ पहले कोई एपिसोड चलाएं!'); return; }
-            const isDirect = currentVideoUrl.startsWith('data:video/') || currentVideoUrl.match(/\.(mp4|webm|mkv|mov|avi)$/i) || currentVideoUrl.includes('blob:');
-            if (isDirect) {
-                const link = document.createElement('a');
-                link.href = currentVideoUrl;
-                link.download = `${currentTitle}_episode_${currentEpisodeNum}.mp4`;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                return;
-            }
-            alert(`💡 डाउनलोड: वीडियो पर Right-Click → "Save video as..."\n\n📥 ${currentVideoUrl}`);
-        }
-
         function shareVideo() {
             if (navigator.share) {
                 navigator.share({
@@ -1444,19 +1381,6 @@
             } else {
                 alert(`📤 शेयर करें: ${window.location.href}`);
             }
-        }
-
-        function copyVideoLink() {
-            if (!currentVideoUrl) { alert('⚠️ कोई वीडियो नहीं चल रहा!'); return; }
-            if (currentVideoUrl.startsWith('data:video/')) {
-                alert('⚠️ यह अपलोड की गई वीडियो है, लिंक कॉपी नहीं कर सकते।');
-                return;
-            }
-            navigator.clipboard.writeText(currentVideoUrl).then(() => {
-                alert('✅ वीडियो लिंक कॉपी हो गया!');
-            }).catch(() => {
-                prompt('यह लिंक कॉपी करें:', currentVideoUrl);
-            });
         }
 
         function closeModal() {
