@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>JOD MODS OTT - Premium</title>
+    <title>JOD MODS OTT - Firebase</title>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <style>
         /* ===== RESET & BASE ===== */
@@ -18,7 +23,6 @@
         ::-webkit-scrollbar-track { background: #1a1a1a; }
         ::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
 
-        /* ===== ANIMATED BG ===== */
         #bgCanvas {
             position: fixed;
             top: 0;
@@ -29,7 +33,6 @@
             pointer-events: none;
         }
 
-        /* ===== GLOW TEXT ===== */
         .glow-text {
             animation: glowPulse 3s ease-in-out infinite;
         }
@@ -38,7 +41,6 @@
             50% { text-shadow: 0 0 25px rgba(255,59,59,0.5), 0 0 50px rgba(255,59,59,0.2); }
         }
 
-        /* ===== NAVBAR ===== */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -134,7 +136,6 @@
             align-items: center;
         }
 
-        /* ===== MODERN AUTH BUTTONS ===== */
         .auth-btn-modern {
             padding: 8px 22px;
             border-radius: 25px;
@@ -232,7 +233,6 @@
             box-shadow: 0 6px 25px rgba(255,59,59,0.4);
         }
 
-        /* ===== HERO ===== */
         .hero {
             background: linear-gradient(180deg, rgba(26,26,26,0.3) 0%, rgba(10,10,10,0.9) 100%);
             padding: 30px 20px;
@@ -293,7 +293,6 @@
             transform: translateY(-2px);
         }
 
-        /* ===== CONTENT ===== */
         .section { padding: 16px 20px; }
         .section h2 {
             font-size: 20px;
@@ -444,7 +443,6 @@
             50% { transform: scale(1.1); opacity: 1; }
         }
 
-        /* ===== STATS ON CARD ===== */
         .card-stats {
             display: flex;
             gap: 12px;
@@ -464,7 +462,6 @@
         .card-stats .likes-icon { color: #ff3b3b; }
         .card-stats .liked { color: #ff3b3b; }
 
-        /* ===== LOADER ===== */
         .loader { 
             text-align: center; 
             padding: 60px 20px; 
@@ -479,7 +476,26 @@
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* ===== MODERN LOGIN MODAL ===== */
+        .empty-state { text-align: center; padding: 60px 20px; }
+        .empty-state i { font-size: 60px; color: #ff3b3b; margin-bottom: 16px; display: block; }
+        .empty-state h3 { font-size: 22px; color: #fff; margin-bottom: 8px; }
+        .empty-state p { color: #888; font-size: 14px; }
+        .empty-state .upload-hint {
+            margin-top: 12px;
+            padding: 12px 20px;
+            background: rgba(255,59,59,0.1);
+            border: 1px solid rgba(255,59,59,0.2);
+            border-radius: 10px;
+            display: inline-block;
+            color: #ffa500;
+            font-size: 13px;
+        }
+        .empty-state .upload-hint i { font-size: 16px; display: inline; color: #ff3b3b; }
+
+        .no-results { text-align: center; padding: 60px 20px; color: #888; }
+        .no-results i { font-size: 40px; color: #ff3b3b; display: block; margin-bottom: 12px; }
+
+        /* ===== AUTH MODAL ===== */
         .auth-modal {
             display: none;
             position: fixed;
@@ -1020,7 +1036,6 @@
         }
         .action-bar button i { color: #ff3b3b; }
 
-        /* ===== LIKE BUTTON IN MODAL ===== */
         .like-section {
             display: flex;
             align-items: center;
@@ -1467,7 +1482,6 @@
             box-shadow: 0 6px 25px rgba(255,165,0,0.4);
         }
 
-        /* ===== ADMIN STATS ===== */
         .admin-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -1616,7 +1630,6 @@
             transform: scale(1.05);
         }
 
-        /* ===== MOD LIST ===== */
         .mod-list {
             margin-top: 12px;
             border-top: 1px solid #2a2a2a;
@@ -1661,7 +1674,6 @@
             transform: scale(1.05);
         }
 
-        /* ===== FOOTER ===== */
         .footer {
             text-align: center;
             padding: 20px;
@@ -1671,15 +1683,6 @@
             font-size: 13px;
         }
 
-        .empty-state { text-align: center; padding: 60px 20px; }
-        .empty-state i { font-size: 60px; color: #ff3b3b; margin-bottom: 16px; display: block; }
-        .empty-state h3 { font-size: 22px; color: #fff; margin-bottom: 8px; }
-        .empty-state p { color: #888; font-size: 14px; }
-
-        .no-results { text-align: center; padding: 60px 20px; color: #888; }
-        .no-results i { font-size: 40px; color: #ff3b3b; display: block; margin-bottom: 12px; }
-
-        /* ===== TOAST ===== */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -1711,7 +1714,20 @@
         .toast.info { border-color: #ffa500; }
         .toast.info i { color: #ffa500; }
 
-        /* ===== RESPONSIVE ===== */
+        .firebase-status {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 10px;
+            color: #444;
+            z-index: 999;
+            background: rgba(0,0,0,0.7);
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+        .firebase-status.connected { color: #00c853; }
+        .firebase-status.disconnected { color: #ff3b3b; }
+
         @media (max-width: 768px) {
             .navbar { 
                 flex-direction: column; 
@@ -1756,6 +1772,9 @@
         <span id="toastMessage">सफल!</span>
     </div>
 
+    <!-- ===== FIREBASE STATUS ===== -->
+    <div class="firebase-status" id="firebaseStatus">⏳ Connecting...</div>
+
     <!-- ===== MAIN PAGE ===== -->
     <div id="mainPage">
         <div class="navbar">
@@ -1786,12 +1805,12 @@
 
         <div class="hero">
             <h1 class="glow-text">🇮🇳 <span>JOD MODS</span> OTT</h1>
-            <p>🔥 सिर्फ ऐडमिन/मॉड कंटेंट • 100% मुफ्त • प्रीमियम अनुभव</p>
+            <p>🔥 सिर्फ ऐडमिन/मॉड कंटेंट • 100% मुफ्त • Cloud Sync</p>
             <div class="tags">
                 <span>🔥 ऐडमिन कंटेंट</span>
                 <span>⭐ 100% मुफ्त</span>
                 <span>📺 अपनी मर्जी का</span>
-                <span>🚀 फास्ट प्लेयर</span>
+                <span>☁️ Cloud Sync</span>
             </div>
         </div>
 
@@ -1802,7 +1821,7 @@
 
         <div class="section">
             <h2 id="sectionTitle"><i class="fas fa-fire" style="color:#ff3b3b;"></i> सभी कंटेंट</h2>
-            <div id="contentContainer"><div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div></div>
+            <div id="contentContainer"><div class="loader"><i class="fas fa-spinner"></i> कंटेंट लोड हो रहा है...</div></div>
         </div>
 
         <div class="comments-section">
@@ -1816,11 +1835,11 @@
         </div>
 
         <div class="footer">
-            <p>JOD MODS OTT © 2025 – सिर्फ ऐडमिन/मॉड कंटेंट <i class="fas fa-heart" style="color:#ff3b3b;"></i></p>
+            <p>JOD MODS OTT © 2025 – Powered by Firebase <i class="fas fa-heart" style="color:#ff3b3b;"></i></p>
         </div>
     </div>
 
-    <!-- ===== MODERN AUTH MODAL ===== -->
+    <!-- ===== AUTH MODALS ===== -->
     <div class="auth-modal" id="authModal">
         <div class="auth-modal-content">
             <div class="auth-modal-header">
@@ -1885,7 +1904,6 @@
                         <i class="fas fa-check-circle form-icon"></i>
                     </div>
                     
-                    <!-- Security Question -->
                     <div class="form-group">
                         <select id="regSecurityQuestion">
                             <option value="">🔒 सुरक्षा प्रश्न चुनें</option>
@@ -1903,7 +1921,7 @@
                         <i class="fas fa-question-circle form-icon"></i>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="regSecurityAnswer" placeholder="सुरक्षा प्रश्न का उत्तर (जो आपको याद रहे)" />
+                        <input type="text" id="regSecurityAnswer" placeholder="सुरक्षा प्रश्न का उत्तर" />
                         <i class="fas fa-key form-icon"></i>
                     </div>
 
@@ -1989,7 +2007,6 @@
             <button class="close-admin" onclick="closeAdminPage()"><i class="fas fa-times"></i> बंद करें</button>
         </div>
         <div class="admin-panel">
-            <!-- Admin Stats -->
             <div class="admin-stats" id="adminStats">
                 <div class="stat-card">
                     <span class="stat-icon"><i class="fas fa-users"></i></span>
@@ -2042,7 +2059,6 @@
                     <button onclick="adminResetAll()" style="background:#cc2e2e;"><i class="fas fa-power-off"></i> सबको लॉगआउट</button>
                 </div>
 
-                <!-- Mod Section -->
                 <div id="modSection" style="display:none; margin-top:20px; border-top: 2px solid #ffa500; padding-top:18px;">
                     <h3 style="color:#ffa500;"><i class="fas fa-user-cog"></i> मॉडरेटर मैनेजमेंट</h3>
                     <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
@@ -2070,7 +2086,6 @@
             <h3 class="modal-title" id="modalTitle">शीर्षक</h3>
             <div class="player-status" id="playerStatus">⏳ प्लेयर लोड हो रहा है...</div>
             
-            <!-- Like & Views Section -->
             <div class="like-section">
                 <button class="like-btn" id="likeBtn" onclick="toggleLike()">
                     <i class="fas fa-heart"></i>
@@ -2102,6 +2117,34 @@
     </div>
 
     <script>
+        // ==================== FIREBASE INIT ====================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBHSkj3rblPDC4VjogG6LPrmiCn5GvF6-Q",
+            authDomain: "jod-mods-65b69.firebaseapp.com",
+            projectId: "jod-mods-65b69",
+            storageBucket: "jod-mods-65b69.firebasestorage.app",
+            messagingSenderId: "1080112266898",
+            appId: "1:1080112266898:web:9381441664163fb38a304b",
+            measurementId: "G-3TJQQ8513X"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Firebase connection status
+        const fbStatus = document.getElementById('firebaseStatus');
+        const connectedRef = database.ref('.info/connected');
+        connectedRef.on('value', (snap) => {
+            if (snap.val() === true) {
+                fbStatus.textContent = '☁️ Firebase Connected';
+                fbStatus.className = 'firebase-status connected';
+            } else {
+                fbStatus.textContent = '⚠️ Firebase Disconnected';
+                fbStatus.className = 'firebase-status disconnected';
+            }
+        });
+
         // ==================== TOAST ====================
         let toastTimeout;
 
@@ -2196,10 +2239,9 @@
         let isModLoggedIn = false;
         let currentAdminUser = null;
         let forgotStep = 1;
-        let currentContentData = null;
+        let allContentData = {};
 
         const container = document.getElementById('contentContainer');
-        const sectionTitle = document.getElementById('sectionTitle');
         const modal = document.getElementById('contentModal');
         const modalTitle = document.getElementById('modalTitle');
         const videoIframe = document.getElementById('videoIframe');
@@ -2210,103 +2252,118 @@
         const episodeContainer = document.getElementById('episodeContainer');
         const playerStatus = document.getElementById('playerStatus');
 
-        // ==================== VIEWS & LIKES SYSTEM ====================
-        function getContentStats() {
-            return JSON.parse(localStorage.getItem('jodmods_content_stats') || '{}');
+        // ==================== FIREBASE CRUD ====================
+        // CONTENT: Save to Firebase
+        function saveContentToFirebase(contentId, data) {
+            return database.ref('content/' + contentId).set(data);
         }
 
-        function saveContentStats(stats) {
-            localStorage.setItem('jodmods_content_stats', JSON.stringify(stats));
+        // CONTENT: Delete from Firebase
+        function deleteContentFromFirebase(contentId) {
+            return database.ref('content/' + contentId).remove();
         }
 
-        function getContentViews(contentId) {
-            const stats = getContentStats();
-            return stats[contentId]?.views || 0;
+        // CONTENT: Get all content (real-time)
+        function listenContent(callback) {
+            database.ref('content').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    allContentData = data;
+                    callback(data);
+                } else {
+                    allContentData = {};
+                    callback({});
+                }
+            });
         }
 
-        function getContentLikes(contentId) {
-            const stats = getContentStats();
-            return stats[contentId]?.likes || 0;
+        // ==================== VIEWS & LIKES (Firebase) ====================
+        function getContentStatsFromFirebase(contentId) {
+            return new Promise((resolve) => {
+                database.ref('stats/' + contentId).once('value', (snapshot) => {
+                    resolve(snapshot.val() || { views: 0, likes: 0, likedUsers: [] });
+                });
+            });
         }
 
-        function getContentLikedUsers(contentId) {
-            const stats = getContentStats();
-            return stats[contentId]?.likedUsers || [];
+        function saveContentStatsToFirebase(contentId, stats) {
+            return database.ref('stats/' + contentId).set(stats);
         }
 
-        function addView(contentId) {
+        async function getContentViews(contentId) {
+            const stats = await getContentStatsFromFirebase(contentId);
+            return stats.views || 0;
+        }
+
+        async function getContentLikes(contentId) {
+            const stats = await getContentStatsFromFirebase(contentId);
+            return stats.likes || 0;
+        }
+
+        async function addViewToFirebase(contentId) {
             if (!currentUser) return;
-            const stats = getContentStats();
-            if (!stats[contentId]) stats[contentId] = { views: 0, likes: 0, likedUsers: [] };
-            
-            // Check if user already viewed (session based)
+            const stats = await getContentStatsFromFirebase(contentId);
             const sessionKey = 'viewed_' + contentId;
             if (sessionStorage.getItem(sessionKey)) return;
-            
-            stats[contentId].views = (stats[contentId].views || 0) + 1;
+            stats.views = (stats.views || 0) + 1;
             sessionStorage.setItem(sessionKey, 'true');
-            saveContentStats(stats);
+            await saveContentStatsToFirebase(contentId, stats);
             updateAdminStats();
+            return stats;
         }
 
-        function toggleLike(contentId) {
+        async function toggleLikeOnFirebase(contentId) {
             if (!currentUser) {
                 showToast('info', '🔐 लाइक करने के लिए लॉगिन करें!');
                 openUserAuth('login');
                 return;
             }
-            
-            const stats = getContentStats();
-            if (!stats[contentId]) stats[contentId] = { views: 0, likes: 0, likedUsers: [] };
-            
+            const stats = await getContentStatsFromFirebase(contentId);
             const userEmail = currentUser.email;
-            const likedUsers = stats[contentId].likedUsers || [];
+            const likedUsers = stats.likedUsers || [];
             const index = likedUsers.indexOf(userEmail);
             
             if (index > -1) {
-                // Unlike
                 likedUsers.splice(index, 1);
-                stats[contentId].likes = Math.max(0, (stats[contentId].likes || 0) - 1);
+                stats.likes = Math.max(0, (stats.likes || 0) - 1);
                 showToast('info', '❤️ लाइक हटा दिया');
             } else {
-                // Like
                 likedUsers.push(userEmail);
-                stats[contentId].likes = (stats[contentId].likes || 0) + 1;
+                stats.likes = (stats.likes || 0) + 1;
                 showToast('success', '❤️ लाइक कर दिया!');
             }
-            
-            stats[contentId].likedUsers = likedUsers;
-            saveContentStats(stats);
+            stats.likedUsers = likedUsers;
+            await saveContentStatsToFirebase(contentId, stats);
             updateLikeUI(contentId);
             updateAdminStats();
+            return stats;
         }
 
-        function isContentLiked(contentId) {
+        async function isContentLiked(contentId) {
             if (!currentUser) return false;
-            const stats = getContentStats();
-            const likedUsers = stats[contentId]?.likedUsers || [];
+            const stats = await getContentStatsFromFirebase(contentId);
+            const likedUsers = stats.likedUsers || [];
             return likedUsers.includes(currentUser.email);
         }
 
-        function updateLikeUI(contentId) {
+        async function updateLikeUI(contentId) {
             const likeBtn = document.getElementById('likeBtn');
             const likeCount = document.getElementById('likeCount');
             if (!likeBtn) return;
             
-            const likes = getContentLikes(contentId);
-            const liked = isContentLiked(contentId);
+            const stats = await getContentStatsFromFirebase(contentId);
+            const liked = await isContentLiked(contentId);
             
-            likeCount.textContent = likes;
+            likeCount.textContent = stats.likes || 0;
             if (liked) {
                 likeBtn.classList.add('liked');
             } else {
                 likeBtn.classList.remove('liked');
             }
             
-            // Update view count
             const viewCount = document.getElementById('viewCount');
             if (viewCount) {
-                viewCount.textContent = getContentViews(contentId);
+                viewCount.textContent = stats.views || 0;
             }
         }
 
@@ -2367,14 +2424,12 @@
             const pass = document.getElementById('loginPass').value.trim();
             const error = document.getElementById('loginError');
             const success = document.getElementById('loginSuccess');
-
             if (!email || !pass) {
                 error.textContent = '⚠️ ईमेल और पासवर्ड दोनों जरूरी हैं!';
                 error.classList.add('show');
                 success.classList.remove('show');
                 return;
             }
-
             const users = getUsers();
             const user = users.find(u => u.email === email && u.password === pass);
             if (!user) {
@@ -2383,13 +2438,11 @@
                 success.classList.remove('show');
                 return;
             }
-
             setCurrentUser(user);
             success.textContent = '✅ लॉगिन सफल!';
             success.classList.add('show');
             error.classList.remove('show');
             showToast('success', '🎉 स्वागत है ' + user.name + '!');
-
             setTimeout(() => {
                 closeUserAuth();
                 renderComments();
@@ -2399,7 +2452,6 @@
                     pendingOpenAnime = null;
                     setTimeout(() => openAnime(id, title), 300);
                 }
-                loadAnime();
                 updateAdminStats();
             }, 600);
         }
@@ -2414,7 +2466,6 @@
             const terms = document.getElementById('termsCheck').checked;
             const error = document.getElementById('regError');
             const success = document.getElementById('regSuccess');
-
             if (!name || !email || !pass || !confirm) {
                 error.textContent = '⚠️ सभी फील्ड भरें!';
                 error.classList.add('show');
@@ -2451,7 +2502,6 @@
                 success.classList.remove('show');
                 return;
             }
-
             const users = getUsers();
             if (users.find(u => u.email === email)) {
                 error.textContent = '❌ यह ईमेल पहले से रजिस्टर है!';
@@ -2459,15 +2509,9 @@
                 success.classList.remove('show');
                 return;
             }
-
             const questionText = document.getElementById('regSecurityQuestion').options[document.getElementById('regSecurityQuestion').selectedIndex].text;
-
             users.push({ 
-                name, 
-                email, 
-                password: pass, 
-                isAdmin: false, 
-                isMod: false,
+                name, email, password: pass, isAdmin: false, isMod: false,
                 securityQuestion: questionText,
                 securityQuestionKey: securityQuestion,
                 securityAnswer: securityAnswer.toLowerCase().trim()
@@ -2477,7 +2521,6 @@
             success.classList.add('show');
             error.classList.remove('show');
             showToast('success', '🎉 रजिस्टर सफल! अब लॉगिन करें');
-
             setTimeout(() => {
                 document.getElementById('regName').value = '';
                 document.getElementById('regEmail').value = '';
@@ -2519,7 +2562,6 @@
                 setCurrentUser(null);
                 renderComments();
                 loadHistory();
-                loadAnime();
                 showToast('info', '👋 आप लॉगआउट हो गए!');
             }
         }
@@ -2549,41 +2591,33 @@
             const email = document.getElementById('forgotEmail').value.trim();
             const error = document.getElementById('forgotError');
             const success = document.getElementById('forgotSuccess');
-            
             error.classList.remove('show');
             success.classList.remove('show');
-
             if (!email) {
                 error.textContent = '⚠️ कृपया ईमेल डालें!';
                 error.classList.add('show');
                 return;
             }
-
             const users = getUsers();
             const user = users.find(u => u.email === email);
-            
             if (!user) {
                 error.textContent = '❌ यह ईमेल रजिस्टर नहीं है!';
                 error.classList.add('show');
                 return;
             }
-
             if (!user.securityQuestion) {
-                error.textContent = '❌ इस अकाउंट के लिए सुरक्षा प्रश्न सेट नहीं है। कृपया admin से संपर्क करें।';
+                error.textContent = '❌ इस अकाउंट के लिए सुरक्षा प्रश्न सेट नहीं है।';
                 error.classList.add('show');
                 return;
             }
-
             document.getElementById('displaySecurityQuestion').textContent = '❓ ' + user.securityQuestion;
             document.getElementById('securityQuestionBox').classList.add('show');
             document.getElementById('securityAnswerGroup').style.display = 'block';
             document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-check"></i> सत्यापित करें';
             forgotStep = 2;
-            
             document.getElementById('forgotStepBtn').dataset.email = email;
             error.classList.remove('show');
             success.classList.remove('show');
-            
             showToast('info', '🔐 अपने सुरक्षा प्रश्न का उत्तर दें');
         }
 
@@ -2592,31 +2626,25 @@
             const answer = document.getElementById('forgotSecurityAnswer').value.trim().toLowerCase();
             const error = document.getElementById('forgotError');
             const success = document.getElementById('forgotSuccess');
-            
             error.classList.remove('show');
             success.classList.remove('show');
-
             if (!answer) {
                 error.textContent = '⚠️ कृपया सुरक्षा उत्तर दें!';
                 error.classList.add('show');
                 return;
             }
-
             const users = getUsers();
             const user = users.find(u => u.email === email);
-            
             if (!user) {
                 error.textContent = '❌ यूजर नहीं मिला!';
                 error.classList.add('show');
                 return;
             }
-
             if (user.securityAnswer !== answer) {
-                error.textContent = '❌ गलत उत्तर! कृपया सही उत्तर दें।';
+                error.textContent = '❌ गलत उत्तर!';
                 error.classList.add('show');
                 return;
             }
-
             document.getElementById('newPasswordGroup').style.display = 'block';
             document.getElementById('confirmPasswordGroup').style.display = 'block';
             document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-save"></i> पासवर्ड बदलें';
@@ -2631,46 +2659,36 @@
             const confirmPass = document.getElementById('forgotConfirmPassword').value.trim();
             const error = document.getElementById('forgotError');
             const success = document.getElementById('forgotSuccess');
-            
             error.classList.remove('show');
             success.classList.remove('show');
-
             if (!newPass || !confirmPass) {
                 error.textContent = '⚠️ दोनों पासवर्ड फील्ड भरें!';
                 error.classList.add('show');
                 return;
             }
-
             if (newPass.length < 6) {
                 error.textContent = '❌ पासवर्ड कम से कम 6 अक्षर का होना चाहिए!';
                 error.classList.add('show');
                 return;
             }
-
             if (newPass !== confirmPass) {
                 error.textContent = '❌ पासवर्ड मैच नहीं कर रहे!';
                 error.classList.add('show');
                 return;
             }
-
             const users = getUsers();
             const userIndex = users.findIndex(u => u.email === email);
-            
             if (userIndex === -1) {
                 error.textContent = '❌ यूजर नहीं मिला!';
                 error.classList.add('show');
                 return;
             }
-
             users[userIndex].password = newPass;
             saveUsers(users);
-            
-            success.textContent = '✅ पासवर्ड सफलतापूर्वक बदल दिया गया! अब आप लॉगिन कर सकते हैं।';
+            success.textContent = '✅ पासवर्ड बदल दिया गया!';
             success.classList.add('show');
             error.classList.remove('show');
-            
             showToast('success', '🔑 पासवर्ड बदल दिया गया!');
-            
             setTimeout(() => {
                 closeForgotPassword();
                 document.getElementById('loginEmail').value = email;
@@ -2682,19 +2700,6 @@
             if (forgotStep === 1) forgotPasswordStep1();
             else if (forgotStep === 2) forgotPasswordStep2();
             else if (forgotStep === 3) forgotPasswordStep3();
-        });
-
-        document.getElementById('forgotEmail').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && forgotStep === 1) forgotPasswordStep1();
-        });
-        document.getElementById('forgotSecurityAnswer').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && forgotStep === 2) forgotPasswordStep2();
-        });
-        document.getElementById('forgotNewPassword').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && forgotStep === 3) forgotPasswordStep3();
-        });
-        document.getElementById('forgotConfirmPassword').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && forgotStep === 3) forgotPasswordStep3();
         });
 
         // ==================== ADMIN/MOD AUTH ====================
@@ -2717,7 +2722,6 @@
             const user = document.getElementById('adminUserInput').value.trim();
             const pass = document.getElementById('adminPassInput').value.trim();
             const error = document.getElementById('adminAuthError');
-
             if (user === 'JOD' && pass === 'ARYAN') {
                 isAdminLoggedIn = true;
                 isModLoggedIn = false;
@@ -2733,7 +2737,6 @@
                 error.textContent = '';
                 return;
             }
-
             const mods = getModerators();
             const foundMod = mods.find(m => m.username === user && m.password === pass);
             if (foundMod) {
@@ -2750,7 +2753,6 @@
                 error.textContent = '';
                 return;
             }
-
             error.textContent = '❌ गलत यूजरनेम या पासवर्ड!';
             showToast('error', '❌ गलत यूजरनेम या पासवर्ड!');
         }
@@ -2764,7 +2766,6 @@
             showToast('info', '🔒 पैनल बंद हो गया');
         }
 
-        // ===== MODERATOR MANAGEMENT =====
         function addModerator() {
             if (!isAdminLoggedIn) { showToast('error', '❌ केवल ऐडमिन ही मॉड जोड़ सकता है!'); return; }
             const username = document.getElementById('modUsername').value.trim();
@@ -2826,21 +2827,21 @@
         }
 
         // ==================== ADMIN STATS ====================
-        function updateAdminStats() {
+        async function updateAdminStats() {
             if (!isAdminLoggedIn && !isModLoggedIn) return;
             
             const users = getUsers();
             document.getElementById('statUsers').textContent = users.length;
             
-            const list = getCustomAnimeList();
-            document.getElementById('statContent').textContent = list.length;
+            const contentList = Object.keys(allContentData);
+            document.getElementById('statContent').textContent = contentList.length;
             
-            const stats = getContentStats();
             let totalViews = 0, totalLikes = 0;
-            Object.keys(stats).forEach(key => {
-                totalViews += stats[key].views || 0;
-                totalLikes += stats[key].likes || 0;
-            });
+            for (let id of contentList) {
+                const stats = await getContentStatsFromFirebase(id);
+                totalViews += stats.views || 0;
+                totalLikes += stats.likes || 0;
+            }
             document.getElementById('statViews').textContent = totalViews;
             document.getElementById('statLikes').textContent = totalLikes;
         }
@@ -2893,9 +2894,6 @@
         }
 
         // ==================== ADMIN: CRUD ====================
-        function getCustomAnimeList() { return JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]'); }
-        function saveCustomAnimeList(list) { localStorage.setItem('jodmods_custom_anime', JSON.stringify(list)); }
-
         function adminAddAnime() {
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ पहले ऐडमिन या मॉड लॉगिन करें!'); return; }
             const title = document.getElementById('adminTitle').value.trim();
@@ -2907,41 +2905,46 @@
             if (!title) { showToast('error', '⚠️ टाइटल जरूरी है!'); return; }
 
             let image = uploadedImages.length > 0 ? uploadedImages[0] : 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=' + encodeURIComponent(title);
-            let list = getCustomAnimeList();
-
+            
             if (editId) {
-                const idx = list.findIndex(a => a.id === editId);
-                if (idx !== -1) {
-                    list[idx] = { ...list[idx], title: { romaji: title, english: title }, coverImage: { large: image }, episodes, type, episodeLinks: links ? links.split(',').map(s => s.trim()) : [], defaultVideo };
+                // Edit existing content
+                const data = {
+                    title: { romaji: title, english: title },
+                    coverImage: { large: image },
+                    episodes: episodes,
+                    type: type,
+                    episodeLinks: links ? links.split(',').map(s => s.trim()) : [],
+                    defaultVideo: defaultVideo,
+                    addedBy: currentAdminUser === 'admin' ? 'admin' : 'mod',
+                    lastEdited: Date.now()
+                };
+                saveContentToFirebase(editId, data).then(() => {
                     showToast('success', '✅ कंटेंट अपडेट हो गया!');
-                }
-            } else {
-                const newId = 'custom_' + Date.now();
-                list.push({ 
-                    id: newId, 
-                    title: { romaji: title, english: title }, 
-                    coverImage: { large: image }, 
-                    episodes, 
-                    type, 
-                    custom: true, 
-                    episodeLinks: links ? links.split(',').map(s => s.trim()) : [], 
-                    defaultVideo, 
-                    adminAdded: true, 
-                    addedBy: currentAdminUser === 'admin' ? 'admin' : 'mod' 
+                    adminClearForm();
+                    loadAdminContentList();
                 });
-                // Initialize stats for this content
-                const stats = getContentStats();
-                if (!stats[newId]) {
-                    stats[newId] = { views: 0, likes: 0, likedUsers: [] };
-                    saveContentStats(stats);
-                }
-                showToast('success', '✅ नया कंटेंट सेव हो गया!');
+            } else {
+                // New content
+                const newId = 'content_' + Date.now();
+                const data = {
+                    id: newId,
+                    title: { romaji: title, english: title },
+                    coverImage: { large: image },
+                    episodes: episodes,
+                    type: type,
+                    episodeLinks: links ? links.split(',').map(s => s.trim()) : [],
+                    defaultVideo: defaultVideo,
+                    addedBy: currentAdminUser === 'admin' ? 'admin' : 'mod',
+                    createdAt: Date.now()
+                };
+                saveContentToFirebase(newId, data).then(() => {
+                    // Initialize stats
+                    saveContentStatsToFirebase(newId, { views: 0, likes: 0, likedUsers: [] });
+                    showToast('success', '✅ नया कंटेंट सेव हो गया!');
+                    adminClearForm();
+                    loadAdminContentList();
+                });
             }
-            saveCustomAnimeList(list);
-            adminClearForm();
-            loadAdminContentList();
-            loadAnime();
-            updateAdminStats();
         }
 
         function adminClearForm() {
@@ -2959,31 +2962,25 @@
         function adminDeleteItem(id) {
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ पहले लॉगिन करें!'); return; }
             if (isModLoggedIn) {
-                const list = getCustomAnimeList();
-                const item = list.find(a => a.id === id);
+                const item = allContentData[id];
                 if (item && item.addedBy === 'admin') {
                     showToast('error', '⚠️ मॉड ऐडमिन का कंटेंट नहीं हटा सकता!');
                     return;
                 }
             }
             if (!confirm('क्या आप यह कंटेंट हटाना चाहते हैं?')) return;
-            let list = getCustomAnimeList();
-            list = list.filter(a => a.id !== id);
-            saveCustomAnimeList(list);
-            // Remove stats
-            const stats = getContentStats();
-            delete stats[id];
-            saveContentStats(stats);
-            loadAdminContentList();
-            loadAnime();
-            updateAdminStats();
-            showToast('success', '✅ कंटेंट हटा दिया गया!');
+            deleteContentFromFirebase(id).then(() => {
+                // Delete stats too
+                database.ref('stats/' + id).remove();
+                showToast('success', '✅ कंटेंट हटा दिया गया!');
+                loadAdminContentList();
+                updateAdminStats();
+            });
         }
 
         function adminEditItem(id) {
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ पहले लॉगिन करें!'); return; }
-            const list = getCustomAnimeList();
-            const item = list.find(a => a.id === id);
+            const item = allContentData[id];
             if (!item) return;
             if (isModLoggedIn && item.addedBy === 'admin') {
                 showToast('error', '⚠️ मॉड ऐडमिन का कंटेंट एडिट नहीं कर सकता!');
@@ -2994,7 +2991,7 @@
             document.getElementById('adminEpisodes').value = item.episodes || 12;
             document.getElementById('adminEpisodeLinks').value = (item.episodeLinks || []).join(', ');
             document.getElementById('adminVideoLink').value = item.defaultVideo || '';
-            document.getElementById('adminEditId').value = item.id;
+            document.getElementById('adminEditId').value = id;
             uploadedImages = [];
             updatePreview();
             document.querySelector('.admin-panel').scrollIntoView({ behavior: 'smooth' });
@@ -3002,30 +2999,30 @@
         }
 
         function loadAdminContentList() {
-            const list = getCustomAnimeList();
             const container = document.getElementById('adminContentList');
+            const list = Object.values(allContentData);
             if (list.length === 0) {
                 container.innerHTML = '<p style="color:#888; padding:12px;">कोई कंटेंट नहीं।</p>';
                 return;
             }
             let html = '';
-            list.forEach(item => {
+            list.forEach(async (item) => {
                 const title = item.title?.romaji || item.title?.english || 'अज्ञात';
                 const img = item.coverImage?.large || 'https://via.placeholder.com/40x40/1a1a1a/ff3b3b?text=N';
                 const addedBy = item.addedBy === 'admin' ? '👑 ऐडमिन' : '🛠️ मॉड';
                 const canEdit = isAdminLoggedIn || (isModLoggedIn && item.addedBy !== 'admin');
-                const views = getContentViews(item.id);
-                const likes = getContentLikes(item.id);
+                const id = item.id || Object.keys(allContentData).find(key => allContentData[key] === item);
+                const stats = await getContentStatsFromFirebase(id);
                 html += `
                     <div class="content-item">
                         <div class="item-info">
                             <img src="${img}" alt="${title}" loading="lazy">
                             <span><strong>${title}</strong> (${item.type || 'series'}) - ${item.episodes} एपिसोड <span style="color:#888;font-size:11px;">${addedBy}</span></span>
-                            <span style="color:#888;font-size:10px;"><i class="fas fa-eye" style="color:#ffa500;"></i> ${views} <i class="fas fa-heart" style="color:#ff3b3b;margin-left:6px;"></i> ${likes}</span>
+                            <span style="color:#888;font-size:10px;"><i class="fas fa-eye" style="color:#ffa500;"></i> ${stats.views || 0} <i class="fas fa-heart" style="color:#ff3b3b;margin-left:6px;"></i> ${stats.likes || 0}</span>
                         </div>
                         <div class="item-actions">
-                            ${canEdit ? `<button class="edit-btn" onclick="adminEditItem('${item.id}')"><i class="fas fa-edit"></i> एडिट</button>` : ''}
-                            ${canEdit ? `<button class="del-btn" onclick="adminDeleteItem('${item.id}')"><i class="fas fa-trash"></i> हटाएँ</button>` : ''}
+                            ${canEdit ? `<button class="edit-btn" onclick="adminEditItem('${id}')"><i class="fas fa-edit"></i> एडिट</button>` : ''}
+                            ${canEdit ? `<button class="del-btn" onclick="adminDeleteItem('${id}')"><i class="fas fa-trash"></i> हटाएँ</button>` : ''}
                         </div>
                     </div>
                 `;
@@ -3198,52 +3195,58 @@
             const query = document.getElementById('searchInput').value.trim();
             if (!query) { loadAnime(); return; }
             container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> "${query}" खोजा जा रहा है...</div>`;
-            const list = getCustomAnimeList();
+            const list = Object.values(allContentData);
             const results = list.filter(a => a.title.romaji.toLowerCase().includes(query.toLowerCase()) || a.title.english.toLowerCase().includes(query.toLowerCase()));
             if (results.length === 0) { container.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><p>कोई परिणाम नहीं मिला</p></div>`; return; }
             displayAnime(results);
         }
 
         function loadAnime() {
-            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div>`;
-            const list = getCustomAnimeList();
+            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> कंटेंट लोड हो रहा है...</div>`;
+            const list = Object.values(allContentData);
             let filtered = list;
             if (currentType === 'movies') filtered = list.filter(a => a.type === 'movie' || a.type === 'Movie');
             else if (currentType === 'series') filtered = list.filter(a => a.type === 'series' || a.type === 'Series' || !a.type);
             if (filtered.length === 0) {
-                container.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><h3>कोई कंटेंट नहीं</h3><p>ऐडमिन/मॉड कंटेंट जोड़ें।</p></div>`;
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-folder-open"></i>
+                        <h3>कोई कंटेंट नहीं</h3>
+                        <p>अभी तक कोई मूवी या सीरीज अपलोड नहीं हुई है।</p>
+                        <div class="upload-hint">
+                            <i class="fas fa-user-shield"></i> ऐडमिन/मॉड लॉगिन करके कंटेंट अपलोड करें
+                        </div>
+                    </div>
+                `;
                 return;
             }
             displayAnime(filtered);
         }
 
-        function displayAnime(items) {
+        async function displayAnime(items) {
             let html = `<div class="content-grid">`;
             const history = getHistory();
             const watchedIds = history.map(h => h.animeId);
-            const isLoggedIn = !!currentUser;
-            items.forEach(item => {
+            for (let item of items) {
                 const title = item.title?.romaji || item.title?.english || item.title?.native || 'अज्ञात';
                 const image = item.coverImage?.large || 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image';
-                const id = item.id || 'custom_' + Date.now();
+                const id = item.id || 'content_' + Date.now();
                 const episodes = item.episodes || '?';
                 const isWatched = watchedIds.includes(id);
                 const isModContent = item.addedBy === 'mod';
-                const views = getContentViews(id);
-                const likes = getContentLikes(id);
-                const liked = isContentLiked(id);
+                const stats = await getContentStatsFromFirebase(id);
+                const liked = await isContentLiked(id);
                 
                 html += `
-                    <div class="content-card" onclick="${isLoggedIn ? `openAnime('${id}', '${title.replace(/'/g, "\\'")}')` : `showLoginRequiredForAnime('${id}', '${title.replace(/'/g, "\\'")}')`}">
+                    <div class="content-card" onclick="openAnime('${id}', '${title.replace(/'/g, "\\'")}')">
                         <img src="${image}" alt="${title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image'"/>
-                        ${!isLoggedIn ? `<div class="lock-overlay"><i class="fas fa-lock"></i></div>` : ''}
                         <div class="info">
                             <h4>${title}</h4>
                             <p>${episodes} एपिसोड</p>
                             <span class="badge">100% मुफ्त</span>
                             <div class="card-stats">
-                                <span><i class="fas fa-eye views-icon"></i> ${views}</span>
-                                <span><i class="fas fa-heart ${liked ? 'liked' : ''}" style="color:${liked ? '#ff3b3b' : '#888'}"></i> ${likes}</span>
+                                <span><i class="fas fa-eye views-icon"></i> ${stats.views || 0}</span>
+                                <span><i class="fas fa-heart ${liked ? 'liked' : ''}" style="color:${liked ? '#ff3b3b' : '#888'}"></i> ${stats.likes || 0}</span>
                             </div>
                         </div>
                         <span class="free-badge"><i class="fas fa-crown"></i> FREE</span>
@@ -3251,20 +3254,19 @@
                         ${isWatched ? '<span class="watched-badge"><i class="fas fa-check-circle"></i> देखा</span>' : ''}
                     </div>
                 `;
-            });
+            }
             html += `</div>`;
             container.innerHTML = html;
         }
 
-        function showLoginRequiredForAnime(id, title) {
-            pendingOpenAnime = { id, title };
-            showToast('info', '🔐 कृपया पहले लॉगिन करें!');
-            openUserAuth('login');
-        }
-
         // ==================== VIDEO PLAYER ====================
         async function openAnime(id, title) {
-            if (!currentUser) { showLoginRequiredForAnime(id, title); return; }
+            if (!currentUser) {
+                pendingOpenAnime = { id, title };
+                showToast('info', '🔐 वीडियो देखने के लिए लॉगिन करें!');
+                openUserAuth('login');
+                return;
+            }
             if (!id) { showToast('error', '❌ डेटा उपलब्ध नहीं'); return; }
 
             currentAnimeId = id;
@@ -3284,19 +3286,17 @@
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
 
-            // Add view
-            addView(id);
-            updateLikeUI(id);
+            await addViewToFirebase(id);
+            await updateLikeUI(id);
 
             try {
-                const list = getCustomAnimeList();
-                let customAnime = list.find(a => a.id === id || a.title.romaji === title || a.title.english === title);
+                const item = allContentData[id];
                 let totalEps = 12, episodeLinks = [], defaultVideo = '';
-                if (customAnime) {
-                    totalEps = customAnime.episodes || 12;
-                    episodeLinks = customAnime.episodeLinks || [];
-                    defaultVideo = customAnime.defaultVideo || '';
-                    currentCustomAnime = customAnime;
+                if (item) {
+                    totalEps = item.episodes || 12;
+                    episodeLinks = item.episodeLinks || [];
+                    defaultVideo = item.defaultVideo || '';
+                    currentCustomAnime = item;
                 } else { currentCustomAnime = null; totalEps = 12; }
 
                 let mainVideo = defaultVideo || '';
@@ -3388,12 +3388,10 @@
             }
         }
 
-        function toggleLike() {
+        async function toggleLike() {
             if (!currentAnimeId) return;
-            toggleLike(currentAnimeId);
-            // Update card stats if modal is open
-            updateLikeUI(currentAnimeId);
-            // Reload content to update card stats
+            await toggleLikeOnFirebase(currentAnimeId);
+            await updateLikeUI(currentAnimeId);
             loadAnime();
         }
 
@@ -3429,7 +3427,6 @@
             iframeWrapper.style.display = 'block';
             currentVideoUrl = '';
             document.body.style.overflow = 'auto';
-            // Update admin stats
             updateAdminStats();
         }
 
@@ -3445,15 +3442,20 @@
         });
 
         // ==================== INIT ====================
-        if (!localStorage.getItem('jodmods_initialized')) {
-            localStorage.setItem('jodmods_hide_default', 'true');
-            localStorage.setItem('jodmods_initialized', 'true');
-        }
+        // Listen for real-time content updates from Firebase
+        listenContent((data) => {
+            allContentData = data;
+            loadAnime();
+            if (isAdminLoggedIn || isModLoggedIn) {
+                loadAdminContentList();
+                updateAdminStats();
+            }
+        });
+
         currentUser = getCurrentUser();
         updateUI();
         renderComments();
         loadHistory();
-        loadAnime();
         updateAdminStats();
 
         const users = getUsers();
@@ -3471,6 +3473,9 @@
             saveUsers(users);
         }
         if (isAdminLoggedIn) loadModeratorList();
+
+        console.log('✅ JOD MODS OTT with Firebase Loaded!');
+        console.log('📊 Firebase Connected!');
     </script>
 </body>
 </html>
