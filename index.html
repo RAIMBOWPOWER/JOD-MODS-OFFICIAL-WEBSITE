@@ -133,10 +133,9 @@
 
         .content-card {
             background: rgba(21,21,21,0.9); border-radius: 14px; overflow: hidden;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer; border: 1px solid #252525; position: relative; backdrop-filter: blur(4px);
+            transition: 0.3s ease; cursor: pointer; border: 1px solid #252525; position: relative; backdrop-filter: blur(4px);
         }
-        .content-card:hover { transform: translateY(-8px) scale(1.02); border-color: #ff3b3b; box-shadow: 0 12px 40px rgba(255,59,59,0.15); }
+        .content-card:hover { transform: translateY(-6px); border-color: #ff3b3b; box-shadow: 0 12px 40px rgba(255,59,59,0.15); }
         .content-card img { width: 100%; height: 220px; object-fit: cover; background: #1a1a1a; transition: 0.3s; }
         .content-card:hover img { transform: scale(1.05); }
         .content-card .info {
@@ -1005,16 +1004,15 @@
             </div>
 
             <div id="videoPlayerContainer">
-                <div class="video-wrapper" id="iframeWrapper"><iframe id="videoIframe" src="" allowfullscreen></iframe></div>
+                <div class="video-wrapper" id="iframeWrapper"><iframe id="videoIframe" src="" allow="fullscreen" allowfullscreen></iframe></div>
                 <div class="custom-video-player" id="videoPlayerWrapper" style="display:none;">
-                    <video id="customVideoPlayer" controls autoplay>
-                        <source id="videoSource" src="" type="video/mp4">
-                    </video>
+                    <video id="customVideoPlayer" controls autoplay playsinline webkit-playsinline></video>
                 </div>
             </div>
             <div class="action-bar">
                 <button onclick="shareVideo()"><i class="fas fa-share"></i> शेयर</button>
                 <button onclick="reloadVideo()"><i class="fas fa-sync"></i> रीलोड</button>
+                <button onclick="toggleFullScreen()"><i class="fas fa-expand"></i> फुल स्क्रीन</button>
             </div>
             <div id="episodeContainer" class="episode-grid">
                 <p style="color:#888; width:100%;"><i class="fas fa-spinner fa-spin"></i> एपिसोड लोड हो रहे हैं...</p>
@@ -1044,7 +1042,6 @@
             if (snap.val() === true) {
                 fbStatus.textContent = '☁️ Firebase Connected ✅';
                 fbStatus.className = 'firebase-status connected';
-                showToast('success', '🔥 Firebase Connected!');
             } else {
                 fbStatus.textContent = '⚠️ Firebase Disconnected ❌';
                 fbStatus.className = 'firebase-status disconnected';
@@ -1064,7 +1061,23 @@
             toastMsg.textContent = message;
             toast.classList.add('show');
             clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // ==================== FULL SCREEN ====================
+        function toggleFullScreen() {
+            const container = document.querySelector('.modal-content');
+            if (!document.fullscreenElement) {
+                container.requestFullscreen().catch(err => {
+                    // If fullscreen fails, try video element
+                    const video = document.getElementById('customVideoPlayer');
+                    if (video && video.requestFullscreen) {
+                        video.requestFullscreen();
+                    }
+                });
+            } else {
+                document.exitFullscreen();
+            }
         }
 
         // ==================== BG CANVAS ====================
@@ -1087,10 +1100,10 @@
                 reset() {
                     this.x = Math.random() * w;
                     this.y = Math.random() * h;
-                    this.size = Math.random() * 3 + 1;
-                    this.speedX = (Math.random() - 0.5) * 0.5;
-                    this.speedY = (Math.random() - 0.5) * 0.5;
-                    this.opacity = Math.random() * 0.4 + 0.1;
+                    this.size = Math.random() * 2.5 + 1;
+                    this.speedX = (Math.random() - 0.5) * 0.4;
+                    this.speedY = (Math.random() - 0.5) * 0.4;
+                    this.opacity = Math.random() * 0.3 + 0.1;
                     this.color = colors[Math.floor(Math.random() * colors.length)];
                     this.pulse = Math.random() * Math.PI * 2;
                 }
@@ -1112,14 +1125,14 @@
                     ctx.globalAlpha = opacity;
                     ctx.fill();
                     ctx.shadowColor = this.color;
-                    ctx.shadowBlur = 12;
+                    ctx.shadowBlur = 8;
                     ctx.fill();
                     ctx.shadowBlur = 0;
                     ctx.globalAlpha = 1;
                 }
             }
 
-            for (let i = 0; i < 60; i++) particles.push(new Particle());
+            for (let i = 0; i < 40; i++) particles.push(new Particle());
 
             function animate() {
                 ctx.clearRect(0, 0, w, h);
@@ -1150,7 +1163,6 @@
         const modalTitle = document.getElementById('modalTitle');
         const videoIframe = document.getElementById('videoIframe');
         const customVideoPlayer = document.getElementById('customVideoPlayer');
-        const videoSource = document.getElementById('videoSource');
         const videoPlayerWrapper = document.getElementById('videoPlayerWrapper');
         const iframeWrapper = document.getElementById('iframeWrapper');
         const episodeContainer = document.getElementById('episodeContainer');
@@ -1213,7 +1225,7 @@
 
         async function toggleLikeOnFirebase(contentId) {
             if (!currentUser) {
-                showToast('info', '🔐 लाइक के लिए लॉगिन करें!');
+                showToast('info', '🔐 लाइक के लिए लॉगिन!');
                 openUserAuth('login');
                 return;
             }
@@ -1225,11 +1237,11 @@
             if (index > -1) {
                 likedUsers.splice(index, 1);
                 stats.likes = Math.max(0, (stats.likes || 0) - 1);
-                showToast('info', '❤️ लाइक हटा दिया');
+                showToast('info', '❤️ लाइक हटा');
             } else {
                 likedUsers.push(userEmail);
                 stats.likes = (stats.likes || 0) + 1;
-                showToast('success', '❤️ लाइक कर दिया!');
+                showToast('success', '❤️ लाइक!');
             }
             stats.likedUsers = likedUsers;
             await saveContentStatsToFirebase(contentId, stats);
@@ -1303,7 +1315,7 @@
         }
 
         function openUserAuth(mode) {
-            if (currentUser) { showToast('info', 'आप पहले से लॉगिन हैं!'); return; }
+            if (currentUser) { showToast('info', 'पहले से लॉगिन!'); return; }
             document.getElementById('authModal').classList.add('active');
             if (mode === 'register') switchAuthTab('register');
             else switchAuthTab('login');
@@ -1340,7 +1352,7 @@
             success.textContent = '✅ लॉगिन सफल!';
             success.classList.add('show');
             error.classList.remove('show');
-            showToast('success', '🎉 स्वागत है ' + user.name + '!');
+            showToast('success', '🎉 स्वागत है!');
             setTimeout(() => {
                 closeUserAuth();
                 renderComments();
@@ -1351,7 +1363,7 @@
                     setTimeout(() => openAnime(id, title), 300);
                 }
                 updateAdminStats();
-            }, 500);
+            }, 400);
         }
 
         function submitUserRegister() {
@@ -1377,7 +1389,7 @@
                 return;
             }
             if (pass.length < 6) {
-                error.textContent = '❌ पासवर्ड 6+ अक्षर!';
+                error.textContent = '❌ 6+ अक्षर!';
                 error.classList.add('show');
                 success.classList.remove('show');
                 return;
@@ -1389,20 +1401,20 @@
                 return;
             }
             if (!securityAnswer || securityAnswer.length < 2) {
-                error.textContent = '⚠️ सुरक्षा उत्तर भरें!';
+                error.textContent = '⚠️ सुरक्षा उत्तर!';
                 error.classList.add('show');
                 success.classList.remove('show');
                 return;
             }
             if (!terms) {
-                error.textContent = '⚠️ नियमों से सहमत हों!';
+                error.textContent = '⚠️ नियम मानें!';
                 error.classList.add('show');
                 success.classList.remove('show');
                 return;
             }
             const users = getUsers();
             if (users.find(u => u.email === email)) {
-                error.textContent = '❌ यह ईमेल पहले से रजिस्टर है!';
+                error.textContent = '❌ ईमेल पहले से रजिस्टर!';
                 error.classList.add('show');
                 success.classList.remove('show');
                 return;
@@ -1415,10 +1427,10 @@
                 securityAnswer: securityAnswer.toLowerCase().trim()
             });
             saveUsers(users);
-            success.textContent = '✅ रजिस्टर सफल! अब लॉगिन करें';
+            success.textContent = '✅ रजिस्टर सफल!';
             success.classList.add('show');
             error.classList.remove('show');
-            showToast('success', '🎉 रजिस्टर सफल!');
+            showToast('success', '🎉 रजिस्टर!');
             setTimeout(() => {
                 document.getElementById('regName').value = '';
                 document.getElementById('regEmail').value = '';
@@ -1431,7 +1443,7 @@
                 document.getElementById('loginPass').value = pass;
                 success.classList.remove('show');
                 updateAdminStats();
-            }, 1000);
+            }, 800);
         }
 
         function updateUI() {
@@ -1460,7 +1472,7 @@
                 setCurrentUser(null);
                 renderComments();
                 loadHistory();
-                showToast('info', '👋 लॉगआउट हो गए!');
+                showToast('info', '👋 लॉगआउट!');
             }
         }
 
@@ -1499,12 +1511,12 @@
             const users = getUsers();
             const user = users.find(u => u.email === email);
             if (!user) {
-                error.textContent = '❌ यह ईमेल रजिस्टर नहीं!';
+                error.textContent = '❌ रजिस्टर नहीं!';
                 error.classList.add('show');
                 return;
             }
             if (!user.securityQuestion) {
-                error.textContent = '❌ सुरक्षा प्रश्न सेट नहीं!';
+                error.textContent = '❌ सुरक्षा प्रश्न नहीं!';
                 error.classList.add('show');
                 return;
             }
@@ -1516,7 +1528,7 @@
             document.getElementById('forgotStepBtn').dataset.email = email;
             error.classList.remove('show');
             success.classList.remove('show');
-            showToast('info', '🔐 सुरक्षा प्रश्न का उत्तर दें');
+            showToast('info', '🔐 सुरक्षा उत्तर दें');
         }
 
         function forgotPasswordStep2() {
@@ -1534,7 +1546,7 @@
             const users = getUsers();
             const user = users.find(u => u.email === email);
             if (!user) {
-                error.textContent = '❌ यूजर नहीं मिला!';
+                error.textContent = '❌ यूजर नहीं!';
                 error.classList.add('show');
                 return;
             }
@@ -1570,14 +1582,14 @@
                 return;
             }
             if (newPass !== confirmPass) {
-                error.textContent = '❌ पासवर्ड मैच नहीं!';
+                error.textContent = '❌ मैच नहीं!';
                 error.classList.add('show');
                 return;
             }
             const users = getUsers();
             const userIndex = users.findIndex(u => u.email === email);
             if (userIndex === -1) {
-                error.textContent = '❌ यूजर नहीं मिला!';
+                error.textContent = '❌ यूजर नहीं!';
                 error.classList.add('show');
                 return;
             }
@@ -1586,12 +1598,12 @@
             success.textContent = '✅ पासवर्ड बदल दिया!';
             success.classList.add('show');
             error.classList.remove('show');
-            showToast('success', '🔑 पासवर्ड बदल दिया!');
+            showToast('success', '🔑 पासवर्ड बदला!');
             setTimeout(() => {
                 closeForgotPassword();
                 document.getElementById('loginEmail').value = email;
                 document.getElementById('loginPass').value = newPass;
-            }, 1000);
+            }, 800);
         }
 
         document.getElementById('forgotStepBtn').addEventListener('click', function() {
@@ -1631,7 +1643,7 @@
                 loadAdminContentList();
                 loadModeratorList();
                 updateAdminStats();
-                showToast('success', '👑 ऐडमिन लॉगिन सफल!');
+                showToast('success', '👑 ऐडमिन!');
                 error.textContent = '';
                 return;
             }
@@ -1647,12 +1659,12 @@
                 document.getElementById('modSection').style.display = 'none';
                 loadAdminContentList();
                 updateAdminStats();
-                showToast('success', '🛠️ मॉड लॉगिन सफल!');
+                showToast('success', '🛠️ मॉड!');
                 error.textContent = '';
                 return;
             }
-            error.textContent = '❌ गलत यूजरनेम या पासवर्ड!';
-            showToast('error', '❌ गलत लॉगिन!');
+            error.textContent = '❌ गलत!';
+            showToast('error', '❌ गलत!');
         }
 
         function closeAdminPage() {
@@ -1661,7 +1673,7 @@
             isAdminLoggedIn = false;
             isModLoggedIn = false;
             currentAdminUser = null;
-            showToast('info', '🔒 पैनल बंद');
+            showToast('info', '🔒 बंद');
         }
 
         function addModerator() {
@@ -1670,23 +1682,23 @@
             const password = document.getElementById('modPassword').value.trim();
             if (!username || !password) { showToast('error', '⚠️ दोनों भरें!'); return; }
             const mods = getModerators();
-            if (mods.find(m => m.username === username)) { showToast('error', '❌ यूजरनेम मौजूद!'); return; }
+            if (mods.find(m => m.username === username)) { showToast('error', '❌ मौजूद!'); return; }
             mods.push({ username, password });
             saveModerators(mods);
             document.getElementById('modUsername').value = '';
             document.getElementById('modPassword').value = '';
             loadModeratorList();
-            showToast('success', '✅ मॉड जोड़ दिया!');
+            showToast('success', '✅ मॉड जोड़ा!');
         }
 
         function removeModerator(username) {
             if (!isAdminLoggedIn) { showToast('error', '❌ केवल ऐडमिन!'); return; }
-            if (!confirm('मॉड हटाएं?')) return;
+            if (!confirm('हटाएं?')) return;
             let mods = getModerators();
             mods = mods.filter(m => m.username !== username);
             saveModerators(mods);
             loadModeratorList();
-            showToast('success', '✅ मॉड हटा दिया!');
+            showToast('success', '✅ हटा!');
         }
 
         function loadModeratorList() {
@@ -1714,8 +1726,8 @@
         }
 
         function adminResetAll() {
-            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ लॉगिन करें!'); return; }
-            if (!confirm('सभी लॉगआउट?')) return;
+            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ लॉगिन!'); return; }
+            if (!confirm('सब लॉगआउट?')) return;
             localStorage.removeItem('jodmods_current_user');
             currentUser = null;
             updateUI();
@@ -1727,13 +1739,10 @@
         // ==================== ADMIN STATS ====================
         async function updateAdminStats() {
             if (!isAdminLoggedIn && !isModLoggedIn) return;
-            
             const users = getUsers();
             document.getElementById('statUsers').textContent = users.length;
-            
             const contentList = Object.keys(allContentData);
             document.getElementById('statContent').textContent = contentList.length;
-            
             let totalViews = 0, totalLikes = 0;
             for (let id of contentList) {
                 const stats = await getContentStatsFromFirebase(id);
@@ -1793,14 +1802,14 @@
 
         // ==================== ADMIN CRUD ====================
         function adminAddAnime() {
-            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ लॉगिन करें!'); return; }
+            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ लॉगिन!'); return; }
             const title = document.getElementById('adminTitle').value.trim();
             const type = document.getElementById('adminType').value.trim() || 'series';
             const episodes = parseInt(document.getElementById('adminEpisodes').value) || 12;
             const links = document.getElementById('adminEpisodeLinks').value.trim();
             const defaultVideo = document.getElementById('adminVideoLink').value.trim();
             const editId = document.getElementById('adminEditId').value.trim();
-            if (!title) { showToast('error', '⚠️ टाइटल जरूरी!'); return; }
+            if (!title) { showToast('error', '⚠️ टाइटल!'); return; }
 
             let image = uploadedImages.length > 0 ? uploadedImages[0] : 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=' + encodeURIComponent(title);
             
@@ -1858,14 +1867,14 @@
             if (isModLoggedIn) {
                 const item = allContentData[id];
                 if (item && item.addedBy === 'admin') {
-                    showToast('error', '⚠️ ऐडमिन कंटेंट नहीं!');
+                    showToast('error', '⚠️ ऐडमिन कंटेंट!');
                     return;
                 }
             }
             if (!confirm('हटाएं?')) return;
             deleteContentFromFirebase(id).then(() => {
                 database.ref('stats/' + id).remove();
-                showToast('success', '✅ हटा दिया!');
+                showToast('success', '✅ हटा!');
                 loadAdminContentList();
                 updateAdminStats();
             });
@@ -1876,7 +1885,7 @@
             const item = allContentData[id];
             if (!item) return;
             if (isModLoggedIn && item.addedBy === 'admin') {
-                showToast('error', '⚠️ ऐडमिन कंटेंट नहीं!');
+                showToast('error', '⚠️ ऐडमिन कंटेंट!');
                 return;
             }
             document.getElementById('adminTitle').value = item.title.romaji || item.title.english || '';
@@ -1888,7 +1897,7 @@
             uploadedImages = [];
             updatePreview();
             document.querySelector('.admin-panel').scrollIntoView({ behavior: 'smooth' });
-            showToast('info', '✏️ एडिट मोड!');
+            showToast('info', '✏️ एडिट!');
         }
 
         function loadAdminContentList() {
@@ -1961,7 +1970,7 @@
 
         function continueWatching(id, title, ep) {
             openAnime(id, title);
-            setTimeout(() => playEpisode(ep), 500);
+            setTimeout(() => playEpisode(ep), 400);
         }
 
         // ==================== COMMENTS ====================
@@ -1989,7 +1998,7 @@
             if (!currentUser) nameInput.value = '';
             msgInput.value = '';
             renderComments();
-            showToast('success', '✅ कमेंट भेजा!');
+            showToast('success', '✅ कमेंट!');
         }
 
         function deleteComment(id) {
@@ -1998,13 +2007,13 @@
             const comment = comments.find(c => c.id === id);
             if (!comment) return;
             if (!currentUser.isAdmin && !currentUser.isMod && currentUser.email !== comment.email) {
-                showToast('error', '❌ नहीं हटा सकते!');
+                showToast('error', '❌ नहीं!');
                 return;
             }
             if (!confirm('हटाएं?')) return;
             saveComments(comments.filter(c => c.id !== id));
             renderComments();
-            showToast('success', '✅ हटा दिया!');
+            showToast('success', '✅ हटा!');
         }
 
         function editComment(id) {
@@ -2013,7 +2022,7 @@
             const comment = comments.find(c => c.id === id);
             if (!comment) return;
             if (!currentUser.isAdmin && !currentUser.isMod && currentUser.email !== comment.email) {
-                showToast('error', '❌ नहीं एडिट!');
+                showToast('error', '❌ नहीं!');
                 return;
             }
             const item = document.querySelector(`.comment-item[data-id="${id}"]`);
@@ -2087,10 +2096,10 @@
         function searchAnime() {
             const query = document.getElementById('searchInput').value.trim();
             if (!query) { loadAnime(); return; }
-            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> "${query}" खोज...</div>`;
+            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> "${query}"...</div>`;
             const list = Object.values(allContentData);
             const results = list.filter(a => a.title.romaji.toLowerCase().includes(query.toLowerCase()) || a.title.english.toLowerCase().includes(query.toLowerCase()));
-            if (results.length === 0) { container.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><p>कोई नहीं मिला</p></div>`; return; }
+            if (results.length === 0) { container.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><p>नहीं मिला</p></div>`; return; }
             displayAnime(results);
         }
 
@@ -2156,7 +2165,7 @@
         async function openAnime(id, title) {
             if (!currentUser) {
                 pendingOpenAnime = { id, title };
-                showToast('info', '🔐 वीडियो के लिए लॉगिन!');
+                showToast('info', '🔐 लॉगिन!');
                 openUserAuth('login');
                 return;
             }
@@ -2260,19 +2269,36 @@
             currentVideoUrl = videoUrl;
             if (currentUser && currentAnimeId) saveHistoryItem(currentAnimeId, currentTitle, epNum);
 
-            const isDirect = videoUrl.startsWith('data:video/') || videoUrl.match(/\.(mp4|webm|mkv|mov|avi|flv|wmv|m4v|3gp)$/i) || videoUrl.includes('blob:');
+            // Check if video is direct MP4 or embed
+            const isDirect = videoUrl.match(/\.(mp4|webm|mkv|mov|avi|m4v)$/i) || videoUrl.includes('blob:') || videoUrl.startsWith('data:video/');
+            
+            // YouTube, Vimeo, or any embed link
+            const isEmbed = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be') || videoUrl.includes('vimeo.com') || videoUrl.includes('/embed/');
 
             if (isDirect) {
                 iframeWrapper.style.display = 'none';
                 videoPlayerWrapper.style.display = 'block';
-                videoSource.src = videoUrl;
-                customVideoPlayer.load();
-                customVideoPlayer.play();
+                // Set video source
+                const video = document.getElementById('customVideoPlayer');
+                const source = document.createElement('source');
+                source.src = videoUrl;
+                source.type = 'video/mp4';
+                video.innerHTML = '';
+                video.appendChild(source);
+                video.load();
+                video.play().catch(e => console.log('Autoplay blocked:', e));
                 playerStatus.textContent = `✅ ${episode.range ? 'एपिसोड 1-'+episode.end : 'एपिसोड '+epNum}`;
                 playerStatus.style.color = '#00c853';
             } else {
                 videoPlayerWrapper.style.display = 'none';
                 iframeWrapper.style.display = 'block';
+                // For YouTube, convert to embed if needed
+                if (videoUrl.includes('youtube.com/watch?v=')) {
+                    const videoId = videoUrl.split('v=')[1]?.split('&')[0];
+                    if (videoId) {
+                        videoUrl = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
+                    }
+                }
                 videoIframe.src = videoUrl;
                 playerStatus.textContent = `✅ ${episode.range ? 'एपिसोड 1-'+episode.end : 'एपिसोड '+epNum}`;
                 playerStatus.style.color = '#00c853';
@@ -2288,11 +2314,11 @@
 
         function reloadVideo() {
             if (!currentVideoUrl) { showToast('error', '⚠️ कोई वीडियो नहीं'); return; }
-            const isDirect = currentVideoUrl.startsWith('data:video/') || currentVideoUrl.match(/\.(mp4|webm|mkv|mov|avi)$/i) || currentVideoUrl.includes('blob:');
+            const isDirect = currentVideoUrl.match(/\.(mp4|webm|mkv|mov|avi)$/i) || currentVideoUrl.includes('blob:');
             if (isDirect) {
-                videoSource.src = currentVideoUrl;
-                customVideoPlayer.load();
-                customVideoPlayer.play();
+                const video = document.getElementById('customVideoPlayer');
+                video.load();
+                video.play().catch(e => console.log('Play error:', e));
             } else {
                 videoIframe.src = currentVideoUrl;
             }
@@ -2302,10 +2328,20 @@
         }
 
         function shareVideo() {
+            const shareUrl = window.location.href + '?video=' + encodeURIComponent(currentAnimeId);
             if (navigator.share) {
-                navigator.share({ title: currentTitle || 'JOD MODS OTT', text: `🎬 ${currentTitle || 'वीडियो'} देखें!`, url: window.location.href }).catch(() => {});
+                navigator.share({ 
+                    title: currentTitle || 'JOD MODS OTT', 
+                    text: `🎬 ${currentTitle || 'वीडियो'} देखें!`, 
+                    url: shareUrl 
+                }).catch(() => {});
             } else {
-                showToast('info', '📤 शेयर: ' + window.location.href);
+                // Copy link to clipboard
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    showToast('success', '📤 लिंक कॉपी!');
+                }).catch(() => {
+                    showToast('info', '📤 ' + shareUrl);
+                });
             }
         }
 
@@ -2321,7 +2357,7 @@
             updateAdminStats();
         }
 
-        modal.addEventListener('click', e => { if (e.target === this) closeModal(); });
+        modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
                 if (modal.style.display === 'flex') closeModal();
@@ -2332,6 +2368,25 @@
             }
         });
 
+        // ==================== CHECK URL FOR SHARED VIDEO ====================
+        function checkSharedVideo() {
+            const params = new URLSearchParams(window.location.search);
+            const videoId = params.get('video');
+            if (videoId && allContentData[videoId]) {
+                const item = allContentData[videoId];
+                const title = item.title?.romaji || item.title?.english || 'वीडियो';
+                setTimeout(() => {
+                    if (!currentUser) {
+                        pendingOpenAnime = { id: videoId, title: title };
+                        showToast('info', '🔐 वीडियो के लिए लॉगिन!');
+                        openUserAuth('login');
+                    } else {
+                        openAnime(videoId, title);
+                    }
+                }, 1000);
+            }
+        }
+
         // ==================== INIT ====================
         listenContent((data) => {
             allContentData = data;
@@ -2340,6 +2395,8 @@
                 loadAdminContentList();
                 updateAdminStats();
             }
+            // Check for shared video
+            checkSharedVideo();
         });
 
         currentUser = getCurrentUser();
