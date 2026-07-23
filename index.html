@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>JOD MODS OTT - ऐडमिन पैनल</title>
+    <title>JOD MODS OTT - होम</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
@@ -342,183 +342,6 @@
             margin: 8px 0;
         }
 
-        /* Admin Panel */
-        .admin-panel {
-            background: #1a1a1a;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #ff3b3b;
-            margin-bottom: 20px;
-        }
-        .admin-panel h3 {
-            color: #ff3b3b;
-            margin-bottom: 10px;
-        }
-        .admin-panel input, .admin-panel textarea {
-            width: 100%;
-            padding: 8px 12px;
-            margin: 5px 0;
-            background: #222;
-            border: 1px solid #444;
-            color: #fff;
-            border-radius: 6px;
-            font-size: 13px;
-        }
-        .admin-panel textarea {
-            min-height: 60px;
-            resize: vertical;
-        }
-        .admin-panel button {
-            background: #ff3b3b;
-            color: #fff;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-top: 5px;
-        }
-        .admin-panel button:hover {
-            background: #cc2e2e;
-        }
-        .admin-login {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-            background: #1a1a1a;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #444;
-            margin-bottom: 10px;
-        }
-        .admin-login input {
-            background: #222;
-            border: 1px solid #444;
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 6px;
-        }
-        .admin-login button {
-            background: #ff3b3b;
-            color: #fff;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .admin-login button:hover {
-            background: #cc2e2e;
-        }
-        .admin-status {
-            color: #00c853;
-            font-size: 12px;
-        }
-
-        .admin-toggle-btn {
-            background: #222;
-            color: #fff;
-            border: 1px solid #444;
-            padding: 4px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 11px;
-        }
-        .admin-toggle-btn:hover {
-            background: #ff3b3b;
-            border-color: #ff3b3b;
-        }
-
-        .drop-area {
-            border: 2px dashed #ff3b3b;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            margin: 8px 0;
-            background: #111;
-        }
-        .drop-area:hover, .drop-area.dragover {
-            background: #222;
-            border-color: #ff6b6b;
-        }
-        .drop-area .preview-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 8px;
-        }
-        .drop-area .preview-item {
-            position: relative;
-            display: inline-block;
-        }
-        .drop-area .preview-item img {
-            max-height: 100px;
-            border-radius: 6px;
-            border: 1px solid #444;
-        }
-        .drop-area .preview-item .remove-img {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            background: #ff3b3b;
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .drop-area .preview-item .remove-img:hover {
-            background: #cc2e2e;
-        }
-
-        .video-drop-area {
-            border: 2px dashed #00c853;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            margin: 8px 0;
-            background: #111;
-        }
-        .video-drop-area:hover, .video-drop-area.dragover {
-            background: #222;
-            border-color: #00ff6b;
-        }
-        .video-drop-area .video-preview {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 6px;
-            margin-top: 8px;
-        }
-        .video-drop-area .video-preview video {
-            max-width: 100%;
-            max-height: 180px;
-            border-radius: 6px;
-            background: #000;
-        }
-        .video-drop-area .remove-video {
-            background: #ff3b3b;
-            color: #fff;
-            border: none;
-            padding: 4px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 6px;
-        }
-        .video-drop-area .remove-video:hover {
-            background: #cc2e2e;
-        }
-
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -538,24 +361,18 @@
             font-size: 14px;
         }
 
-        .info-box {
-            background: #1a1a1a;
-            border-left: 4px solid #ff3b3b;
-            padding: 10px 14px;
-            margin: 8px 0;
-            border-radius: 6px;
-        }
-        .info-box strong { color: #ff3b3b; }
-        .info-box .example {
-            color: #00c853;
-            font-family: monospace;
+        .admin-login-btn {
+            background: #ff3b3b;
+            color: #fff;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
             font-size: 12px;
-            display: block;
-            margin-top: 4px;
         }
-        .info-box .warning {
-            color: #ff6b6b;
-            font-size: 12px;
+        .admin-login-btn:hover {
+            background: #cc2e2e;
         }
 
         @media (max-width: 600px) {
@@ -579,7 +396,7 @@
             <a data-type="series"><i class="fas fa-tv"></i> सीरीज</a>
         </div>
         <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-            <button class="admin-toggle-btn" onclick="toggleAdmin()"><i class="fas fa-user-cog"></i> ऐडमिन</button>
+            <button class="admin-login-btn" onclick="window.location.href='admin.html'"><i class="fas fa-user-shield"></i> ऐडमिन</button>
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="🔍 खोजें..." />
                 <i class="fas fa-search" onclick="searchAnime()"></i>
@@ -594,74 +411,6 @@
             <span>🔥 ऐडमिन कंटेंट</span>
             <span>⭐ 100% मुफ्त</span>
             <span>📺 अपनी मर्जी का</span>
-        </div>
-    </div>
-
-    <!-- Admin Panel -->
-    <div class="section" id="adminPanel" style="display:none;">
-        <div class="admin-panel">
-            <h3><i class="fas fa-user-shield"></i> ऐडमिन पैनल - JOD MODS</h3>
-            <div class="admin-login">
-                <input type="text" id="adminUser" placeholder="यूजरनेम" value="JOD">
-                <input type="password" id="adminPass" placeholder="पासवर्ड" value="MODS">
-                <button onclick="adminLogin()"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
-                <span id="adminStatus" class="admin-status"></span>
-            </div>
-            <div id="adminControls" style="display:none;">
-                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                    <input type="text" id="adminTitle" placeholder="टाइटल (जैसे: नारुतो शिप्पुडेन)" style="flex:2;min-width:180px;">
-                    <input type="text" id="adminType" placeholder="टाइप: movie / series" style="flex:1;min-width:100px;" value="series">
-                    <input type="number" id="adminEpisodes" placeholder="कुल एपिसोड" style="flex:1;min-width:80px;" value="12">
-                </div>
-                
-                <div class="drop-area" id="dropArea">
-                    <i class="fas fa-cloud-upload-alt" style="font-size:24px;color:#ff3b3b;"></i>
-                    <p style="color:#aaa;font-size:13px;">थंबनेल ड्रैग & ड्रॉप करें या क्लिक करें</p>
-                    <input type="file" id="fileInput" accept="image/*" style="display:none;" multiple>
-                    <div class="preview-container" id="previewContainer"></div>
-                </div>
-
-                <!-- VIDEO URL SECTION - IMPORTANT -->
-                <div class="info-box" style="border-left-color:#ff3b3b;background:#1a0a0a;">
-                    <strong>⚠️ जरूरी: वीडियो लिंक कैसे डालें?</strong>
-                    <p style="color:#aaa;font-size:12px;margin-top:4px;">
-                        आपको <strong>सीधा वीडियो फ़ाइल लिंक</strong> देना होगा (जो .mp4, .webm, .mkv आदि पर खत्म हो) 
-                        या फिर <strong>embed लिंक</strong> (जैसे YouTube, Vimeo का embed URL)।
-                    </p>
-                    <p style="color:#ff6b6b;font-size:12px;margin-top:4px;">
-                        ❌ <strong>गलत:</strong> https://yourwebsite.com/video-page (यह वेबसाइट खोलेगा)
-                    </p>
-                    <p style="color:#00c853;font-size:12px;margin-top:2px;">
-                        ✅ <strong>सही:</strong> https://yourwebsite.com/videos/episode1.mp4 (सीधा वीडियो)
-                    </p>
-                    <p style="color:#00c853;font-size:12px;margin-top:2px;">
-                        ✅ <strong>सही:</strong> https://www.youtube.com/embed/VIDEO_ID (एम्बेड लिंक)
-                    </p>
-                    <span class="example">💡 अगर आपके पास सिर्फ वेबपेज लिंक है, तो वह वीडियो नहीं चलेगा।</span>
-                </div>
-
-                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                    <input type="text" id="adminEpisodeLinks" placeholder="एपिसोड लिंक (कॉमा से अलग करें)" style="flex:3;min-width:200px;">
-                </div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                    <input type="text" id="adminVideoLink" placeholder="डिफॉल्ट वीडियो लिंक (सभी एपिसोड के लिए एक)" style="flex:2;min-width:200px;">
-                </div>
-
-                <div class="video-drop-area" id="videoDropArea" style="margin-top:8px;">
-                    <i class="fas fa-video" style="font-size:24px;color:#00c853;"></i>
-                    <p style="color:#aaa;font-size:13px;">या वीडियो फ़ाइल ड्रैग & ड्रॉप करें (MP4, WebM) - यह सीधे प्ले होगा</p>
-                    <input type="file" id="videoFileInput" accept="video/*" style="display:none;">
-                    <div id="videoPreviewContainer" style="margin-top:8px;"></div>
-                </div>
-
-                <button onclick="adminAddAnime()"><i class="fas fa-plus-circle"></i> कंटेंट जोड़ें/अपडेट करें</button>
-                <button onclick="adminDeleteCurrent()" style="background:#cc2e2e;"><i class="fas fa-trash"></i> कंटेंट हटाएँ</button>
-                <p style="color:#888;font-size:11px;margin-top:8px;">
-                    💡 <strong>टिप:</strong> अगर सारे एपिसोड की अलग-अलग लिंक हैं तो कॉमा से अलग करें। 
-                    अगर एक ही लिंक सबके लिए है तो "डिफॉल्ट वीडियो लिंक" में डालें।
-                </p>
-                <p style="color:#ff3b3b;font-size:11px;">⚠️ सारा डिफॉल्ट एनीमे हटा दिया गया है। सिर्फ ऐडमिन कंटेंट दिखेगा।</p>
-            </div>
         </div>
     </div>
 
@@ -681,11 +430,9 @@
             <div class="player-status" id="playerStatus">⏳ प्लेयर लोड हो रहा है...</div>
 
             <div id="videoPlayerContainer">
-                <!-- Iframe wrapper for embed links -->
                 <div class="video-wrapper" id="iframeWrapper">
                     <iframe id="videoIframe" src="" allowfullscreen></iframe>
                 </div>
-                <!-- Direct video player for file URLs -->
                 <div class="custom-video-player" id="videoPlayerWrapper" style="display:none;">
                     <video id="customVideoPlayer" controls autoplay>
                         <source id="videoSource" src="" type="video/mp4">
@@ -711,7 +458,6 @@
         <p>JOD MODS OTT © 2025 – सिर्फ ऐडमिन कंटेंट <i class="fas fa-heart" style="color:#ff3b3b;"></i></p>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
     <script>
         // ==================== कॉन्फिग ====================
         let currentType = 'all';
@@ -721,11 +467,7 @@
         let currentAnimeId = null;
         let totalActualEpisodes = 0;
         let currentEpisodeNum = 1;
-        let isAdminLoggedIn = false;
         let currentCustomAnime = null;
-        let uploadedImages = [];
-        let uploadedVideo = null;
-        let isVideoUploaded = false;
 
         // ==================== DOM रेफरेंस ====================
         const container = document.getElementById('contentContainer');
@@ -741,224 +483,6 @@
         const episodeContainer = document.getElementById('episodeContainer');
         const playerStatus = document.getElementById('playerStatus');
         const epCount = document.getElementById('epCount');
-
-        // ==================== इमेज ड्रैग & ड्रॉप ====================
-        const dropArea = document.getElementById('dropArea');
-        const fileInput = document.getElementById('fileInput');
-        const previewContainer = document.getElementById('previewContainer');
-
-        dropArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropArea.classList.add('dragover');
-        });
-        dropArea.addEventListener('dragleave', () => {
-            dropArea.classList.remove('dragover');
-        });
-        dropArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropArea.classList.remove('dragover');
-            if (e.dataTransfer.files.length) {
-                handleImageFiles(e.dataTransfer.files);
-            }
-        });
-        dropArea.addEventListener('click', () => {
-            fileInput.click();
-        });
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length) {
-                handleImageFiles(e.target.files);
-            }
-        });
-
-        function handleImageFiles(files) {
-            for (let file of files) {
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        uploadedImages.push(e.target.result);
-                        updatePreview();
-                    };
-                    reader.readAsDataURL(file);
-                }
-            }
-        }
-
-        function updatePreview() {
-            previewContainer.innerHTML = '';
-            uploadedImages.forEach((img, index) => {
-                const div = document.createElement('div');
-                div.className = 'preview-item';
-                div.innerHTML = `
-                    <img src="${img}" alt="थंबनेल">
-                    <button class="remove-img" onclick="removeImage(${index})">×</button>
-                `;
-                previewContainer.appendChild(div);
-            });
-        }
-
-        function removeImage(index) {
-            uploadedImages.splice(index, 1);
-            updatePreview();
-        }
-
-        // ==================== वीडियो ड्रैग & ड्रॉप ====================
-        const videoDropArea = document.getElementById('videoDropArea');
-        const videoFileInput = document.getElementById('videoFileInput');
-        const videoPreviewContainer = document.getElementById('videoPreviewContainer');
-
-        videoDropArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            videoDropArea.classList.add('dragover');
-        });
-        videoDropArea.addEventListener('dragleave', () => {
-            videoDropArea.classList.remove('dragover');
-        });
-        videoDropArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            videoDropArea.classList.remove('dragover');
-            if (e.dataTransfer.files.length) {
-                handleVideoFiles(e.dataTransfer.files);
-            }
-        });
-        videoDropArea.addEventListener('click', () => {
-            videoFileInput.click();
-        });
-        videoFileInput.addEventListener('change', (e) => {
-            if (e.target.files.length) {
-                handleVideoFiles(e.target.files);
-            }
-        });
-
-        function handleVideoFiles(files) {
-            for (let file of files) {
-                if (file.type.startsWith('video/')) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        uploadedVideo = e.target.result;
-                        isVideoUploaded = true;
-                        updateVideoPreview();
-                    };
-                    reader.readAsDataURL(file);
-                }
-            }
-        }
-
-        function updateVideoPreview() {
-            videoPreviewContainer.innerHTML = '';
-            if (uploadedVideo) {
-                const div = document.createElement('div');
-                div.innerHTML = `
-                    <video controls style="max-width:100%;max-height:180px;border-radius:6px;background:#000;">
-                        <source src="${uploadedVideo}">
-                    </video>
-                    <br>
-                    <button class="remove-video" onclick="removeVideo()">✕ वीडियो हटाएँ</button>
-                `;
-                videoPreviewContainer.appendChild(div);
-            }
-        }
-
-        function removeVideo() {
-            uploadedVideo = null;
-            isVideoUploaded = false;
-            videoPreviewContainer.innerHTML = '';
-            document.getElementById('adminVideoLink').value = '';
-        }
-
-        // ==================== ऐडमिन फंक्शन ====================
-        function toggleAdmin() {
-            const panel = document.getElementById('adminPanel');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function adminLogin() {
-            const user = document.getElementById('adminUser').value;
-            const pass = document.getElementById('adminPass').value;
-            if (user === 'JOD' && pass === 'MODS') {
-                isAdminLoggedIn = true;
-                document.getElementById('adminControls').style.display = 'block';
-                document.getElementById('adminStatus').textContent = '✅ लॉगिन सफल';
-                document.getElementById('adminStatus').style.color = '#00c853';
-                alert('✅ ऐडमिन लॉगिन सफल!');
-            } else {
-                alert('❌ गलत यूजरनेम या पासवर्ड! (यूजरनेम: JOD, पासवर्ड: MODS)');
-            }
-        }
-
-        function adminAddAnime() {
-            if (!isAdminLoggedIn) { alert('पहले लॉगिन करें!'); return; }
-            const title = document.getElementById('adminTitle').value.trim();
-            const type = document.getElementById('adminType').value.trim() || 'series';
-            const episodes = parseInt(document.getElementById('adminEpisodes').value) || 12;
-            const links = document.getElementById('adminEpisodeLinks').value.trim();
-            const defaultVideo = document.getElementById('adminVideoLink').value.trim();
-
-            if (!title) { alert('टाइटल जरूरी है!'); return; }
-
-            let image = uploadedImages.length > 0 ? uploadedImages[0] : 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=' + encodeURIComponent(title);
-            
-            let videoToUse = defaultVideo;
-            if (isVideoUploaded && uploadedVideo) {
-                videoToUse = uploadedVideo;
-            }
-
-            // अगर वीडियो लिंक डाला है तो चेक करें कि वह डायरेक्ट वीडियो है या embed
-            // अगर URL में .mp4, .webm, .mkv नहीं है और embed भी नहीं है तो warning दें
-            if (videoToUse && !videoToUse.startsWith('data:video/')) {
-                const isDirectVideo = videoToUse.match(/\.(mp4|webm|mkv|mov|avi|flv|wmv|m4v|3gp)$/i);
-                const isEmbed = videoToUse.includes('/embed/') || videoToUse.includes('youtube.com') || videoToUse.includes('vimeo.com') || videoToUse.includes('dailymotion.com');
-                if (!isDirectVideo && !isEmbed) {
-                    if (!confirm('⚠️ यह लिंक डायरेक्ट वीडियो फ़ाइल (जैसे .mp4) या embed लिंक नहीं लगता।\nक्या आपको यकीन है कि यह सही है?\n\n"'+videoToUse+'"\n\nअगर यह कोई वेबपेज है तो वीडियो नहीं चलेगा!')) {
-                        return;
-                    }
-                }
-            }
-
-            const customAnime = {
-                id: 'custom_' + Date.now(),
-                title: { romaji: title, english: title },
-                coverImage: { large: image },
-                episodes: episodes,
-                type: type,
-                custom: true,
-                episodeLinks: links ? links.split(',').map(s => s.trim()) : [],
-                defaultVideo: videoToUse,
-                adminAdded: true,
-                isUploadedVideo: isVideoUploaded
-            };
-
-            let customList = JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
-            customList = customList.filter(a => a.title.romaji !== title && a.title.english !== title);
-            customList.push(customAnime);
-            localStorage.setItem('jodmods_custom_anime', JSON.stringify(customList));
-
-            uploadedImages = [];
-            uploadedVideo = null;
-            isVideoUploaded = false;
-            updatePreview();
-            updateVideoPreview();
-            document.getElementById('adminTitle').value = '';
-            document.getElementById('adminEpisodeLinks').value = '';
-            document.getElementById('adminVideoLink').value = '';
-
-            alert('✅ कंटेंट जोड़ा/अपडेट किया गया! रीलोड हो रहा है...');
-            loadAnime();
-        }
-
-        function adminDeleteCurrent() {
-            if (!isAdminLoggedIn) { alert('पहले लॉगिन करें!'); return; }
-            const title = prompt('हटाने के लिए सटीक टाइटल लिखें:');
-            if (!title) return;
-            let customList = JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
-            const filtered = customList.filter(a => a.title.romaji !== title && a.title.english !== title);
-            if (filtered.length === customList.length) {
-                alert('❌ टाइटल नहीं मिला!');
-                return;
-            }
-            localStorage.setItem('jodmods_custom_anime', JSON.stringify(filtered));
-            alert('✅ हटा दिया गया! रीलोड हो रहा है...');
-            loadAnime();
-        }
 
         function getCustomAnimeList() {
             return JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
@@ -1017,7 +541,7 @@
                         <i class="fas fa-folder-open"></i>
                         <h3>कोई कंटेंट नहीं</h3>
                         <p>ऐडमिन पैनल में जाकर अपना पहला एनीमे/मूवी जोड़ें।</p>
-                        <p style="color:#ff3b3b;font-size:13px;margin-top:6px;">👉 ऐडमिन बटन पर क्लिक करें और लॉगिन करें (JOD / MODS)</p>
+                        <p style="color:#ff3b3b;font-size:13px;margin-top:6px;">👉 ऐडमिन बटन पर क्लिक करें</p>
                     </div>
                 `;
                 return;
@@ -1099,16 +623,10 @@
                 epCount.textContent = totalActualEpisodes;
 
                 // ===== स्मार्ट एपिसोड बनाएं =====
-                // अगर episodeLinks में 1 आइटम है और totalEps > 1 → रेंज बटन
-                // अगर episodeLinks में totalEps के बराबर आइटम हैं → अलग-अलग बटन
-                // अगर defaultVideo है → सबके लिए एक ही
-                // अगर कुछ नहीं → खाली
-
                 const hasMultipleLinks = episodeLinks.length > 1;
                 const hasSingleLink = episodeLinks.length === 1;
                 const hasDefaultVideo = defaultVideo && !isUploadedVideo;
 
-                // अगर अपलोडेड वीडियो है तो उसे प्राथमिकता दें
                 let mainVideo = '';
                 if (isUploadedVideo && defaultVideo) {
                     mainVideo = defaultVideo;
@@ -1117,15 +635,11 @@
                 }
 
                 if (isUploadedVideo && !defaultVideo) {
-                    // यूजर ने वीडियो अपलोड किया है लेकिन defaultVideo में कुछ नहीं डाला
-                    // तो हम uploadedVideo का उपयोग करेंगे
                     mainVideo = uploadedVideo || '';
                 }
 
-                // अगर episodeLinks हैं तो उनका उपयोग करें
                 if (episodeLinks.length > 0) {
                     if (episodeLinks.length === 1 && totalEps > 1) {
-                        // एक लिंक, कई एपिसोड → रेंज
                         allEpisodes.push({
                             number: `1-${totalEps}`,
                             link: episodeLinks[0],
@@ -1135,7 +649,6 @@
                             end: totalEps
                         });
                     } else {
-                        // कई लिंक, हर एपिसोड के लिए अलग
                         for (let i = 0; i < Math.min(episodeLinks.length, totalEps); i++) {
                             allEpisodes.push({
                                 number: i + 1,
@@ -1144,7 +657,6 @@
                                 range: false
                             });
                         }
-                        // बाकी एपिसोड के लिए डिफॉल्ट वीडियो
                         for (let i = episodeLinks.length; i < totalEps; i++) {
                             allEpisodes.push({
                                 number: i + 1,
@@ -1155,7 +667,6 @@
                         }
                     }
                 } else if (mainVideo) {
-                    // कोई episodeLinks नहीं, सिर्फ defaultVideo है
                     if (totalEps > 1) {
                         allEpisodes.push({
                             number: `1-${totalEps}`,
@@ -1174,7 +685,6 @@
                         });
                     }
                 } else {
-                    // कुछ नहीं है
                     for (let i = 1; i <= totalEps; i++) {
                         allEpisodes.push({
                             number: i,
@@ -1185,7 +695,6 @@
                     }
                 }
 
-                // एपिसोड बटन बनाएँ
                 let epHtml = '';
                 allEpisodes.forEach(ep => {
                     let label = ep.range ? `एपिसोड ${ep.start}-${ep.end}` : `एपिसोड ${ep.number}`;
@@ -1226,7 +735,7 @@
             }
         }
 
-        // ==================== एपिसोड चलाएँ (फिक्स्ड - सिर्फ वीडियो चलेगा) ====================
+        // ==================== एपिसोड चलाएँ ====================
         function playEpisode(epNum) {
             const episode = allEpisodes.find(ep => ep.number == epNum);
             if (!episode) { alert('एपिसोड नहीं मिला'); return; }
@@ -1250,26 +759,17 @@
 
             currentVideoUrl = videoUrl;
 
-            // ===== वीडियो प्ले करने का तरीका =====
-            // 1. अगर data:video/ से शुरू होता है → अपलोड की गई वीडियो
-            // 2. अगर .mp4, .webm, .mkv आदि पर खत्म होता है → डायरेक्ट वीडियो
-            // 3. अगर embed/ या youtube.com या vimeo.com है → iframe में खोलें
-            // 4. बाकी सब → iframe में खोलें (लेकिन चेतावनी दें कि यह पूरी वेबसाइट खोल सकता है)
-
             const isDataVideo = videoUrl.startsWith('data:video/');
             const isDirectVideo = videoUrl.match(/\.(mp4|webm|mkv|mov|avi|flv|wmv|m4v|3gp)$/i) || videoUrl.includes('blob:');
             const isEmbed = videoUrl.includes('/embed/') || videoUrl.includes('youtube.com') || videoUrl.includes('vimeo.com') || videoUrl.includes('dailymotion.com');
 
-            // अगर यह डायरेक्ट वीडियो नहीं है और embed भी नहीं है तो चेतावनी
             if (!isDataVideo && !isDirectVideo && !isEmbed) {
                 if (!confirm('⚠️ यह लिंक डायरेक्ट वीडियो फ़ाइल (जैसे .mp4) या embed लिंक नहीं लगता।\n\nलिंक: ' + videoUrl + '\n\nअगर यह कोई वेबपेज है तो वह iframe में खुल जाएगा।\nक्या आप फिर भी खोलना चाहते हैं?')) {
                     return;
                 }
             }
 
-            // अब प्ले करें
             if (isDataVideo || isDirectVideo) {
-                // डायरेक्ट वीडियो - हमारे कस्टम प्लेयर में
                 iframeWrapper.style.display = 'none';
                 videoPlayerWrapper.style.display = 'block';
                 videoSource.src = videoUrl;
@@ -1278,14 +778,12 @@
                 playerStatus.textContent = `✅ JOD MODS • ${episode.range ? 'एपिसोड 1-'+episode.end : 'एपिसोड '+epNum} (डायरेक्ट वीडियो)`;
                 playerStatus.style.color = '#00c853';
             } else {
-                // Embed या वेबपेज - iframe में
                 videoPlayerWrapper.style.display = 'none';
                 iframeWrapper.style.display = 'block';
                 videoIframe.src = videoUrl;
                 playerStatus.textContent = `✅ JOD MODS • ${episode.range ? 'एपिसोड 1-'+episode.end : 'एपिसोड '+epNum}`;
                 playerStatus.style.color = '#00c853';
                 
-                // अगर embed नहीं है तो चेतावनी दें
                 if (!isEmbed) {
                     setTimeout(() => {
                         playerStatus.textContent = `⚠️ ध्यान दें: यह एक वेबपेज लिंक है, iframe में खुल रहा है`;
@@ -1393,12 +891,12 @@
         });
 
         // ==================== स्टार्ट ====================
-        // सारा डिफॉल्ट हटाएँ
         if (!localStorage.getItem('jodmods_initialized')) {
             localStorage.setItem('jodmods_hide_default', 'true');
             localStorage.setItem('jodmods_initialized', 'true');
         }
         loadAnime();
     </script>
+
 </body>
 </html>
