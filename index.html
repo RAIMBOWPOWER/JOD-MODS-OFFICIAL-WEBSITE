@@ -13,11 +13,11 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #1a1a1a; }
         ::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
 
-        /* ===== PREMIUM ANIMATED BACKGROUND ===== */
+        /* ===== SIMPLE ANIMATED BACKGROUND ===== */
         #bgCanvas {
             position: fixed;
             top: 0;
@@ -28,13 +28,12 @@
             pointer-events: none;
         }
 
-        /* ===== GLOW TEXT ===== */
         .glow-text {
             animation: glowPulse 3s ease-in-out infinite;
         }
         @keyframes glowPulse {
-            0%, 100% { text-shadow: 0 0 10px rgba(255,59,59,0.3), 0 0 20px rgba(255,59,59,0.1); }
-            50% { text-shadow: 0 0 30px rgba(255,59,59,0.7), 0 0 60px rgba(255,59,59,0.3), 0 0 90px rgba(255,59,59,0.1); }
+            0%, 100% { text-shadow: 0 0 10px rgba(255,59,59,0.3); }
+            50% { text-shadow: 0 0 25px rgba(255,59,59,0.5), 0 0 50px rgba(255,59,59,0.2); }
         }
 
         /* ===== NAVBAR ===== */
@@ -42,35 +41,24 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
+            padding: 8px 16px;
             background: rgba(26,26,26,0.92);
-            border-bottom: 3px solid #ff3b3b;
+            border-bottom: 2px solid #ff3b3b;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(12px);
-            animation: slideDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
         }
-        @keyframes slideDown {
-            from { transform: translateY(-100%) scaleY(0.8); opacity: 0; }
-            to { transform: translateY(0) scaleY(1); opacity: 1; }
-        }
-
-        .logo { 
-            font-size: 24px; 
-            font-weight: 900; 
-            animation: glowPulse 3s ease-in-out infinite;
-            letter-spacing: 1px;
-        }
+        .logo { font-size: 20px; font-weight: 900; }
         .logo span { color: #ff3b3b; }
-        .logo i { color: #ff3b3b; margin-right: 8px; }
+        .logo i { color: #ff3b3b; margin-right: 6px; }
 
         .nav-links {
             display: flex;
-            gap: 10px;
-            font-size: 13px;
+            gap: 6px;
+            font-size: 12px;
             font-weight: 500;
             flex-wrap: wrap;
         }
@@ -78,303 +66,233 @@
             color: #ccc;
             text-decoration: none;
             cursor: pointer;
-            padding: 6px 16px;
-            border-radius: 25px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
+            padding: 4px 12px;
+            border-radius: 20px;
+            transition: 0.3s;
         }
-        .nav-links a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,59,59,0.2), transparent);
-            transition: 0.6s;
-        }
-        .nav-links a:hover::before { left: 100%; }
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 2px;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: #ff3b3b;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: translateX(-50%);
-        }
-        .nav-links a:hover::after, .nav-links a.active::after { width: 60%; }
         .nav-links a:hover, .nav-links a.active {
             color: #fff;
-            background: rgba(255,59,59,0.15);
-            transform: scale(1.05);
+            background: #ff3b3b;
         }
 
         .search-box {
             display: flex;
             align-items: center;
             background: #222;
-            padding: 5px 14px;
+            padding: 4px 12px;
             border-radius: 30px;
             flex: 1;
-            max-width: 280px;
-            min-width: 140px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 240px;
+            min-width: 120px;
             border: 1px solid transparent;
+            transition: 0.3s;
         }
         .search-box:focus-within {
             border-color: #ff3b3b;
-            box-shadow: 0 0 40px rgba(255,59,59,0.2);
-            transform: scale(1.02);
         }
         .search-box input {
             background: transparent;
             border: none;
             color: #fff;
             outline: none;
-            padding: 5px 8px;
+            padding: 4px 6px;
             width: 100%;
-            font-size: 13px;
+            font-size: 12px;
         }
         .search-box input::placeholder { color: #888; }
-        .search-box i { color: #888; cursor: pointer; transition: 0.4s; }
-        .search-box i:hover { color: #ff3b3b; transform: rotate(90deg) scale(1.2); }
+        .search-box i { color: #888; cursor: pointer; }
+        .search-box i:hover { color: #ff3b3b; }
 
-        /* ===== USER AUTH BUTTONS ===== */
         .auth-buttons {
             display: flex;
-            gap: 8px;
+            gap: 5px;
             align-items: center;
         }
         .auth-btn {
             background: transparent;
             color: #ccc;
             border: 1px solid #444;
-            padding: 6px 18px;
-            border-radius: 25px;
+            padding: 4px 14px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
+            transition: 0.3s;
         }
-        .auth-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,59,59,0.3), transparent);
-            transition: 0.6s;
-        }
-        .auth-btn:hover::before { left: 100%; }
         .auth-btn:hover {
             background: #ff3b3b;
             border-color: #ff3b3b;
             color: #fff;
-            transform: scale(1.08) translateY(-2px);
-            box-shadow: 0 8px 30px rgba(255,59,59,0.3);
         }
         .auth-btn.login-btn {
             background: #ff3b3b;
             border-color: #ff3b3b;
             color: #fff;
-            box-shadow: 0 4px 20px rgba(255,59,59,0.2);
         }
         .auth-btn.login-btn:hover {
             background: #cc2e2e;
-            box-shadow: 0 8px 35px rgba(255,59,59,0.4);
         }
 
         .user-profile {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
             cursor: pointer;
-            padding: 4px 14px 4px 10px;
-            border-radius: 30px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 3px 10px;
+            border-radius: 20px;
+            transition: 0.3s;
             border: 1px solid transparent;
-            background: rgba(255,59,59,0.05);
         }
         .user-profile:hover {
             border-color: #ff3b3b;
-            background: rgba(255,59,59,0.15);
-            transform: scale(1.03);
-            box-shadow: 0 0 30px rgba(255,59,59,0.1);
+            background: rgba(255,59,59,0.1);
         }
         .user-profile .avatar {
-            width: 34px;
-            height: 34px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ff3b3b, #cc2e2e, #ff6b6b);
-            background-size: 200% 200%;
-            animation: avatarGradient 3s ease-in-out infinite;
+            background: #ff3b3b;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 12px;
             color: #fff;
-            box-shadow: 0 0 20px rgba(255,59,59,0.3);
-        }
-        @keyframes avatarGradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
         }
         .user-profile .username {
-            font-size: 13px;
-            color: #ddd;
-            max-width: 80px;
+            font-size: 12px;
+            color: #ccc;
+            max-width: 60px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
 
+        .upload-btn {
+            background: #ff3b3b;
+            color: #fff;
+            border: none;
+            padding: 5px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 11px;
+            transition: 0.3s;
+        }
+        .upload-btn:hover {
+            background: #cc2e2e;
+            transform: scale(1.05);
+        }
+
         .hero {
-            background: rgba(26,26,26,0.5);
-            padding: 35px 20px;
+            background: rgba(26,26,26,0.4);
+            padding: 20px;
             text-align: center;
             border-bottom: 1px solid #333;
-            backdrop-filter: blur(5px);
-            animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        @keyframes fadeInUp {
-            from { transform: translateY(40px) scale(0.98); opacity: 0; }
-            to { transform: translateY(0) scale(1); opacity: 1; }
-        }
-        .hero h1 { 
-            font-size: 32px; 
-            font-weight: 900; 
-            letter-spacing: 1px;
-        }
+        .hero h1 { font-size: 26px; font-weight: 900; }
         .hero h1 span { color: #ff3b3b; }
-        .hero p { font-size: 15px; color: #aaa; margin-top: 6px; }
+        .hero p { font-size: 13px; color: #aaa; margin-top: 4px; }
         .hero .tags {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 8px;
             flex-wrap: wrap;
-            margin-top: 12px;
+            margin-top: 8px;
         }
         .hero .tags span {
             background: rgba(34,34,34,0.8);
-            padding: 6px 18px;
-            border-radius: 25px;
-            font-size: 11px;
+            padding: 3px 14px;
+            border-radius: 20px;
+            font-size: 10px;
             color: #ff3b3b;
             border: 1px solid #333;
-            backdrop-filter: blur(5px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: default;
-        }
-        .hero .tags span:hover {
-            transform: scale(1.1) translateY(-3px);
-            border-color: #ff3b3b;
-            box-shadow: 0 8px 25px rgba(255,59,59,0.2);
         }
 
-        .loader { text-align: center; padding: 50px; font-size: 18px; color: #ff3b3b; }
+        .loader { text-align: center; padding: 40px; font-size: 16px; color: #ff3b3b; }
         .loader i { animation: spin 1s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .section { padding: 18px 20px; animation: fadeInUp 0.6s ease; }
+        .section { padding: 14px 16px; }
         .section h2 {
-            font-size: 20px;
-            margin-bottom: 14px;
-            border-left: 5px solid #ff3b3b;
-            padding-left: 12px;
+            font-size: 18px;
+            margin-bottom: 12px;
+            border-left: 4px solid #ff3b3b;
+            padding-left: 10px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         .section h2 i { color: #ff3b3b; }
 
         .content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 14px;
         }
         .content-card {
             background: #151515;
-            border-radius: 14px;
+            border-radius: 10px;
             overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: 0.3s;
             cursor: pointer;
             border: 1px solid #252525;
             position: relative;
         }
         .content-card:hover {
-            transform: scale(1.05) translateY(-10px);
+            transform: scale(1.04);
             border-color: #ff3b3b;
-            box-shadow: 0 15px 50px rgba(255,59,59,0.25);
+            box-shadow: 0 0 25px rgba(255,59,59,0.2);
         }
         .content-card img {
             width: 100%;
-            height: 220px;
+            height: 190px;
             object-fit: cover;
             background: #1a1a1a;
-            transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .content-card:hover img {
-            transform: scale(1.08) rotate(-1deg);
-        }
-        .content-card .info { padding: 10px 12px; }
-        .content-card .info h4 { font-size: 13px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .content-card .info p { font-size: 10px; color: #888; }
+        .content-card .info { padding: 6px 10px; }
+        .content-card .info h4 { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .content-card .info p { font-size: 9px; color: #888; }
         .content-card .badge {
             background: #ff3b3b;
-            padding: 2px 10px;
+            padding: 1px 8px;
             border-radius: 20px;
-            font-size: 9px;
+            font-size: 8px;
             font-weight: 600;
             display: inline-block;
-            margin-top: 4px;
+            margin-top: 2px;
         }
         .free-badge {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 6px;
+            right: 6px;
             background: #00c853;
-            padding: 4px 12px;
+            padding: 2px 10px;
             border-radius: 20px;
-            font-size: 9px;
+            font-size: 8px;
             font-weight: 600;
             color: #fff;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
         }
         .admin-badge {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 6px;
+            left: 6px;
             background: #ff3b3b;
-            padding: 4px 12px;
+            padding: 2px 10px;
             border-radius: 20px;
-            font-size: 9px;
+            font-size: 8px;
             font-weight: 600;
             color: #fff;
-            animation: glowPulse 2s infinite;
         }
         .watched-badge {
             position: absolute;
-            bottom: 50px;
-            left: 10px;
+            bottom: 40px;
+            left: 6px;
             background: rgba(0,0,0,0.7);
-            padding: 3px 12px;
-            border-radius: 12px;
-            font-size: 9px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 8px;
             color: #00c853;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(0,200,83,0.3);
         }
         .lock-overlay {
             position: absolute;
@@ -382,27 +300,21 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.55);
-            backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(3px);
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 14px;
+            border-radius: 10px;
             z-index: 5;
-            transition: 0.4s;
         }
         .lock-overlay i {
-            font-size: 45px;
+            font-size: 35px;
             color: #ff3b3b;
             opacity: 0.8;
-            animation: pulse 2s infinite;
-            filter: drop-shadow(0 0 30px rgba(255,59,59,0.3));
-        }
-        .content-card:hover .lock-overlay i {
-            transform: scale(1.1);
         }
 
-        /* ===== VIDEO MODAL ===== */
+        /* ===== MODAL ===== */
         .modal {
             display: none;
             position: fixed;
@@ -410,47 +322,38 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.92);
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            padding: 12px;
-            backdrop-filter: blur(12px);
-            animation: fadeIn 0.4s ease;
+            padding: 10px;
+            backdrop-filter: blur(8px);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        .modal.active { display: flex; }
         .modal-content {
             background: #141414;
-            padding: 16px;
-            border-radius: 18px;
+            padding: 14px;
+            border-radius: 14px;
             width: 95%;
-            max-width: 920px;
-            max-height: 92vh;
+            max-width: 880px;
+            max-height: 90vh;
             overflow-y: auto;
             border: 1px solid #ff3b3b;
             position: relative;
-            animation: modalIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        @keyframes modalIn {
-            from { transform: scale(0.7) rotate(-8deg) translateY(30px); opacity: 0; }
-            to { transform: scale(1) rotate(0deg) translateY(0); opacity: 1; }
-        }
-        .modal-content::-webkit-scrollbar { width: 5px; }
+        .modal-content::-webkit-scrollbar { width: 4px; }
         .modal-content::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
 
         .close-modal {
             position: sticky;
             top: 0;
             float: right;
-            font-size: 24px;
+            font-size: 22px;
             color: #fff;
             cursor: pointer;
             background: #ff3b3b;
-            width: 38px;
-            height: 38px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -458,21 +361,16 @@
             font-weight: bold;
             z-index: 10;
             border: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .close-modal:hover { 
-            background: #cc2e2e; 
-            transform: rotate(180deg) scale(1.1);
-            box-shadow: 0 0 30px rgba(255,59,59,0.4);
-        }
-        .modal-title { color: #fff; font-size: 20px; margin: 6px 0 4px 0; }
+        .close-modal:hover { background: #cc2e2e; }
+        .modal-title { color: #fff; font-size: 18px; margin: 4px 0; }
 
         .video-wrapper {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
-            border-radius: 14px;
+            border-radius: 10px;
             background: #000;
         }
         .video-wrapper iframe {
@@ -483,13 +381,12 @@
             height: 100%;
             border: none;
         }
-
         .custom-video-player {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
-            border-radius: 14px;
+            border-radius: 10px;
             background: #000;
         }
         .custom-video-player video {
@@ -503,40 +400,38 @@
 
         .action-bar {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
-            margin: 12px 0;
+            margin: 10px 0;
         }
         .action-bar button {
             background: #222;
             color: #fff;
             border: 1px solid #444;
-            padding: 8px 18px;
-            border-radius: 10px;
+            padding: 5px 14px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-size: 13px;
+            transition: 0.3s;
+            font-size: 12px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
         .action-bar button:hover {
             background: #ff3b3b;
             border-color: #ff3b3b;
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 8px 30px rgba(255,59,59,0.3);
         }
-        .action-bar button i { color: #ff3b3b; transition: 0.3s; }
-        .action-bar button:hover i { color: #fff; transform: rotate(10deg) scale(1.1); }
+        .action-bar button i { color: #ff3b3b; }
+        .action-bar button:hover i { color: #fff; }
 
         .episode-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 12px;
-            max-height: 350px;
+            gap: 6px;
+            margin-top: 10px;
+            max-height: 300px;
             overflow-y: auto;
-            padding: 5px;
+            padding: 4px;
         }
         .episode-grid::-webkit-scrollbar { width: 4px; }
         .episode-grid::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
@@ -545,93 +440,54 @@
             background: #222;
             color: #fff;
             border: 1px solid #444;
-            padding: 6px 16px;
-            border-radius: 8px;
+            padding: 4px 12px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-size: 11px;
-            min-width: 85px;
+            transition: 0.3s;
+            font-size: 10px;
+            min-width: 70px;
         }
         .episode-btn:hover {
             background: #ff3b3b;
             border-color: #ff3b3b;
-            transform: scale(1.05) translateY(-2px);
         }
         .episode-btn.active {
             background: #ff3b3b;
             border-color: #ff3b3b;
-            box-shadow: 0 0 30px rgba(255,59,59,0.3);
         }
         .episode-btn.watched-ep {
             border-color: #00c853;
             color: #00c853;
         }
 
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #555;
-            border-top: 1px solid #1f1f1f;
-            margin-top: 10px;
-            font-size: 12px;
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 50px;
-            color: #888;
-        }
-        .no-results i { font-size: 36px; color: #ff3b3b; margin-bottom: 8px; }
-
         .player-status {
             color: #00c853;
-            font-size: 12px;
-            padding: 8px;
+            font-size: 11px;
+            padding: 6px;
             text-align: center;
             background: #1a1a1a;
             border-radius: 8px;
-            margin: 8px 0;
+            margin: 6px 0;
         }
 
-        .empty-state {
+        .footer {
             text-align: center;
-            padding: 60px 20px;
-        }
-        .empty-state i {
-            font-size: 60px;
-            color: #ff3b3b;
-            margin-bottom: 16px;
-            animation: pulse 2s infinite;
-        }
-        .empty-state h3 {
-            font-size: 22px;
-            color: #fff;
-            margin-bottom: 8px;
-        }
-        .empty-state p {
-            color: #888;
-            font-size: 14px;
+            padding: 14px;
+            color: #555;
+            border-top: 1px solid #1f1f1f;
+            margin-top: 8px;
+            font-size: 11px;
         }
 
-        /* ===== UPLOAD BUTTON - opens Admin Login ===== */
-        .upload-btn {
-            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
-            color: #fff;
-            border: none;
-            padding: 7px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 12px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 25px rgba(255,59,59,0.3);
-        }
-        .upload-btn:hover {
-            transform: scale(1.08) translateY(-2px);
-            box-shadow: 0 8px 45px rgba(255,59,59,0.5);
-        }
+        .no-results { text-align: center; padding: 40px; color: #888; }
+        .no-results i { font-size: 30px; color: #ff3b3b; margin-bottom: 6px; }
 
-        /* ===== PREMIUM USER LOGIN OVERLAY ===== */
+        .empty-state { text-align: center; padding: 50px 20px; }
+        .empty-state i { font-size: 50px; color: #ff3b3b; margin-bottom: 12px; }
+        .empty-state h3 { font-size: 20px; color: #fff; margin-bottom: 6px; }
+        .empty-state p { color: #888; font-size: 13px; }
+
+        /* ===== SIMPLE USER LOGIN ===== */
         .auth-overlay {
             display: none;
             position: fixed;
@@ -639,161 +495,110 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.92);
+            background: rgba(0,0,0,0.9);
             z-index: 2000;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(25px);
-            animation: fadeIn 0.4s ease;
+            backdrop-filter: blur(12px);
         }
-        .auth-overlay.active {
-            display: flex;
-        }
+        .auth-overlay.active { display: flex; }
         .auth-box {
-            background: rgba(20,20,20,0.95);
-            padding: 45px 40px;
-            border-radius: 24px;
+            background: #1a1a1a;
+            padding: 30px 28px;
+            border-radius: 16px;
             width: 100%;
-            max-width: 420px;
-            border: 1px solid rgba(255,59,59,0.25);
-            animation: modalIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 380px;
+            border: 1px solid #ff3b3b;
             position: relative;
-            box-shadow: 0 0 100px rgba(255,59,59,0.06);
-            overflow: hidden;
-        }
-        .auth-box::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at center, rgba(255,59,59,0.06), transparent 70%);
-            animation: rotateBg 25s linear infinite;
-            z-index: -1;
-        }
-        @keyframes rotateBg {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
         .auth-box .close-auth {
             position: absolute;
-            top: 14px;
-            right: 20px;
-            font-size: 28px;
+            top: 10px;
+            right: 14px;
+            font-size: 22px;
             color: #666;
             cursor: pointer;
             background: none;
             border: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .auth-box .close-auth:hover {
-            color: #ff3b3b;
-            transform: rotate(90deg) scale(1.1);
-        }
+        .auth-box .close-auth:hover { color: #ff3b3b; }
         .auth-box .auth-brand {
             text-align: center;
-            margin-bottom: 28px;
+            margin-bottom: 18px;
         }
         .auth-box .auth-brand i {
-            font-size: 50px;
+            font-size: 40px;
             color: #ff3b3b;
-            animation: pulse 2s infinite;
         }
         .auth-box .auth-brand h2 {
             color: #fff;
-            font-size: 26px;
-            margin-top: 10px;
-            font-weight: 900;
+            font-size: 22px;
+            margin-top: 6px;
         }
         .auth-box .auth-brand h2 span { color: #ff3b3b; }
         .auth-box .auth-brand p {
             color: #888;
-            font-size: 13px;
-            margin-top: 4px;
+            font-size: 12px;
+            margin-top: 2px;
         }
 
-        .auth-box .input-group {
-            position: relative;
-            margin: 14px 0;
-        }
-        .auth-box .input-group i {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #666;
-            font-size: 16px;
-            transition: 0.3s;
-            z-index: 2;
-        }
-        .auth-box .input-group input {
+        .auth-box input {
             width: 100%;
-            padding: 15px 16px 15px 48px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
+            padding: 10px 14px;
+            margin: 6px 0;
+            background: #222;
+            border: 1px solid #444;
             color: #fff;
-            border-radius: 14px;
-            font-size: 14px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 8px;
+            font-size: 13px;
+            transition: 0.3s;
         }
-        .auth-box .input-group input:focus {
+        .auth-box input:focus {
             border-color: #ff3b3b;
-            box-shadow: 0 0 40px rgba(255,59,59,0.08);
             outline: none;
-            background: rgba(255,255,255,0.07);
         }
-        .auth-box .input-group input:focus + i,
-        .auth-box .input-group input:focus ~ i {
-            color: #ff3b3b;
-        }
-        .auth-box .input-group input::placeholder { color: #555; }
+        .auth-box input::placeholder { color: #555; }
 
         .auth-box .auth-submit {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
+            padding: 10px;
+            background: #ff3b3b;
             color: #fff;
             border: none;
-            border-radius: 14px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            margin-top: 18px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 30px rgba(255,59,59,0.2);
+            margin-top: 10px;
+            transition: 0.3s;
         }
         .auth-box .auth-submit:hover {
-            transform: scale(1.02) translateY(-3px);
-            box-shadow: 0 8px 50px rgba(255,59,59,0.4);
+            background: #cc2e2e;
         }
 
         .auth-box .switch-auth {
             text-align: center;
-            margin-top: 18px;
+            margin-top: 12px;
             color: #666;
-            font-size: 13px;
+            font-size: 12px;
         }
         .auth-box .switch-auth span {
             color: #ff3b3b;
             cursor: pointer;
             font-weight: 600;
-            transition: 0.3s;
         }
-        .auth-box .switch-auth span:hover {
-            text-shadow: 0 0 25px rgba(255,59,59,0.3);
-        }
+        .auth-box .switch-auth span:hover { text-decoration: underline; }
         .auth-box .error-msg {
             color: #ff3b3b;
             font-size: 12px;
             text-align: center;
-            margin-top: 12px;
-            padding: 10px;
+            margin-top: 8px;
+            padding: 6px;
             background: rgba(255,59,59,0.08);
-            border-radius: 10px;
+            border-radius: 6px;
         }
 
-        /* ===== ADMIN LOGIN OVERLAY (separate) ===== */
+        /* ===== ADMIN LOGIN ===== */
         .admin-auth-overlay {
             display: none;
             position: fixed;
@@ -801,246 +606,250 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.93);
+            background: rgba(0,0,0,0.92);
             z-index: 3000;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(25px);
-            animation: fadeIn 0.4s ease;
+            backdrop-filter: blur(12px);
         }
-        .admin-auth-overlay.active {
-            display: flex;
-        }
+        .admin-auth-overlay.active { display: flex; }
         .admin-auth-box {
-            background: rgba(20,20,20,0.95);
-            padding: 45px 40px;
-            border-radius: 24px;
+            background: #1a1a1a;
+            padding: 30px 28px;
+            border-radius: 16px;
             width: 100%;
-            max-width: 420px;
-            border: 1px solid rgba(255,59,59,0.3);
-            animation: modalIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 380px;
+            border: 1px solid #ff3b3b;
             position: relative;
-            box-shadow: 0 0 100px rgba(255,59,59,0.08);
-            overflow: hidden;
-        }
-        .admin-auth-box::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at center, rgba(255,59,59,0.08), transparent 70%);
-            animation: rotateBg 25s linear infinite;
-            z-index: -1;
         }
         .admin-auth-box .close-admin-auth {
             position: absolute;
-            top: 14px;
-            right: 20px;
-            font-size: 28px;
+            top: 10px;
+            right: 14px;
+            font-size: 22px;
             color: #666;
             cursor: pointer;
             background: none;
             border: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .admin-auth-box .close-admin-auth:hover {
-            color: #ff3b3b;
-            transform: rotate(90deg) scale(1.1);
-        }
+        .admin-auth-box .close-admin-auth:hover { color: #ff3b3b; }
         .admin-auth-box .auth-brand {
             text-align: center;
-            margin-bottom: 28px;
+            margin-bottom: 18px;
         }
         .admin-auth-box .auth-brand i {
-            font-size: 50px;
+            font-size: 40px;
             color: #ff3b3b;
-            animation: pulse 2s infinite;
         }
         .admin-auth-box .auth-brand h2 {
             color: #fff;
-            font-size: 26px;
-            margin-top: 10px;
-            font-weight: 900;
+            font-size: 22px;
+            margin-top: 6px;
         }
         .admin-auth-box .auth-brand h2 span { color: #ff3b3b; }
         .admin-auth-box .auth-brand p {
             color: #888;
-            font-size: 13px;
-            margin-top: 4px;
+            font-size: 12px;
+            margin-top: 2px;
         }
-        .admin-auth-box .input-group {
-            position: relative;
-            margin: 14px 0;
-        }
-        .admin-auth-box .input-group i {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #666;
-            font-size: 16px;
-            transition: 0.3s;
-            z-index: 2;
-        }
-        .admin-auth-box .input-group input {
+        .admin-auth-box input {
             width: 100%;
-            padding: 15px 16px 15px 48px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
+            padding: 10px 14px;
+            margin: 6px 0;
+            background: #222;
+            border: 1px solid #444;
             color: #fff;
-            border-radius: 14px;
-            font-size: 14px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 8px;
+            font-size: 13px;
         }
-        .admin-auth-box .input-group input:focus {
+        .admin-auth-box input:focus {
             border-color: #ff3b3b;
-            box-shadow: 0 0 40px rgba(255,59,59,0.08);
             outline: none;
-            background: rgba(255,255,255,0.07);
         }
-        .admin-auth-box .input-group input:focus + i {
-            color: #ff3b3b;
-        }
-        .admin-auth-box .input-group input::placeholder { color: #555; }
+        .admin-auth-box input::placeholder { color: #555; }
         .admin-auth-box .auth-submit {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
+            padding: 10px;
+            background: #ff3b3b;
             color: #fff;
             border: none;
-            border-radius: 14px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            margin-top: 18px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 30px rgba(255,59,59,0.2);
+            margin-top: 10px;
+            transition: 0.3s;
         }
         .admin-auth-box .auth-submit:hover {
-            transform: scale(1.02) translateY(-3px);
-            box-shadow: 0 8px 50px rgba(255,59,59,0.4);
+            background: #cc2e2e;
         }
         .admin-auth-box .error-msg {
             color: #ff3b3b;
             font-size: 12px;
             text-align: center;
-            margin-top: 12px;
-            padding: 10px;
+            margin-top: 8px;
+            padding: 6px;
             background: rgba(255,59,59,0.08);
-            border-radius: 10px;
+            border-radius: 6px;
+        }
+
+        /* ===== LOGIN REQUIRED OVERLAY ===== */
+        .login-required-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .login-required-overlay.active { display: flex; }
+        .login-required-box {
+            background: #1a1a1a;
+            padding: 35px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid #ff3b3b;
+            max-width: 400px;
+            width: 100%;
+        }
+        .login-required-box i {
+            font-size: 50px;
+            color: #ff3b3b;
+            margin-bottom: 12px;
+        }
+        .login-required-box h2 {
+            color: #fff;
+            font-size: 22px;
+            margin-bottom: 6px;
+        }
+        .login-required-box p {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+        .login-required-box .auth-btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .login-required-box .auth-btns button {
+            padding: 8px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .login-required-box .auth-btns .login-btn2 {
+            background: #ff3b3b;
+            color: #fff;
+        }
+        .login-required-box .auth-btns .login-btn2:hover {
+            background: #cc2e2e;
+        }
+        .login-required-box .auth-btns .register-btn2 {
+            background: #222;
+            color: #ccc;
+            border: 1px solid #444;
+        }
+        .login-required-box .auth-btns .register-btn2:hover {
+            background: #333;
         }
 
         /* ===== COMMENTS ===== */
         .comments-section {
             max-width: 900px;
-            margin: 30px auto;
-            padding: 22px;
-            background: rgba(26,26,26,0.7);
-            border-radius: 14px;
+            margin: 20px auto;
+            padding: 16px;
+            background: rgba(26,26,26,0.6);
+            border-radius: 12px;
             border: 1px solid #333;
-            backdrop-filter: blur(5px);
-            animation: fadeInUp 0.6s ease;
         }
         .comments-section h3 {
             color: #ff3b3b;
-            margin-bottom: 15px;
-            font-size: 18px;
+            margin-bottom: 12px;
+            font-size: 16px;
         }
-        .comments-section h3 i { margin-right: 8px; }
         .comment-input-area {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
-            margin-bottom: 20px;
+            margin-bottom: 14px;
         }
         .comment-input-area input {
             flex: 1;
-            min-width: 150px;
-            padding: 12px 16px;
+            min-width: 120px;
+            padding: 8px 14px;
             background: #222;
             border: 1px solid #444;
             color: #fff;
-            border-radius: 10px;
-            font-size: 13px;
-            transition: 0.3s;
+            border-radius: 8px;
+            font-size: 12px;
         }
         .comment-input-area input:focus {
             border-color: #ff3b3b;
             outline: none;
-            box-shadow: 0 0 25px rgba(255,59,59,0.1);
         }
         .comment-input-area input::placeholder { color: #666; }
         .comment-input-area button {
             background: #ff3b3b;
             color: #fff;
             border: none;
-            padding: 12px 28px;
-            border-radius: 10px;
+            padding: 8px 20px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: 0.3s;
         }
         .comment-input-area button:hover {
             background: #cc2e2e;
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 8px 30px rgba(255,59,59,0.3);
         }
 
-        .comment-list {
-            max-height: 400px;
-            overflow-y: auto;
-        }
+        .comment-list { max-height: 350px; overflow-y: auto; }
         .comment-list::-webkit-scrollbar { width: 4px; }
         .comment-list::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
 
         .comment-item {
             background: #151515;
-            padding: 14px 18px;
-            border-radius: 10px;
-            margin-bottom: 8px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 6px;
             border-left: 3px solid #ff3b3b;
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             flex-wrap: wrap;
-            gap: 8px;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            animation: slideIn 0.4s ease;
+            gap: 6px;
         }
-        @keyframes slideIn {
-            from { transform: translateX(-30px) scale(0.95); opacity: 0; }
-            to { transform: translateX(0) scale(1); opacity: 1; }
-        }
-        .comment-item:hover {
-            background: #1a1a1a;
-            border-color: #ff6b6b;
-            transform: translateX(4px);
-        }
-        .comment-item .comment-text {
-            flex: 1;
-            min-width: 150px;
-        }
+        .comment-item .comment-text { flex: 1; min-width: 120px; }
         .comment-item .comment-text .comment-user {
             color: #ff3b3b;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 12px;
         }
         .comment-item .comment-text .comment-msg {
             color: #ccc;
-            font-size: 14px;
+            font-size: 13px;
             margin-top: 2px;
             word-break: break-word;
         }
         .comment-item .comment-text .comment-time {
             color: #666;
-            font-size: 10px;
-            margin-top: 4px;
+            font-size: 9px;
+            margin-top: 3px;
         }
         .comment-item .comment-actions {
             display: flex;
-            gap: 6px;
+            gap: 4px;
             flex-shrink: 0;
         }
         .comment-item .comment-actions button {
@@ -1048,115 +857,85 @@
             border: none;
             color: #666;
             cursor: pointer;
-            padding: 4px 8px;
+            padding: 2px 6px;
             border-radius: 4px;
-            font-size: 12px;
+            font-size: 11px;
             transition: 0.3s;
         }
-        .comment-item .comment-actions .edit-cmt:hover {
-            color: #ffa500;
-            background: #222;
-        }
-        .comment-item .comment-actions .del-cmt:hover {
-            color: #ff3b3b;
-            background: #222;
-        }
+        .comment-item .comment-actions .edit-cmt:hover { color: #ffa500; background: #222; }
+        .comment-item .comment-actions .del-cmt:hover { color: #ff3b3b; background: #222; }
         .comment-item .comment-actions .save-cmt { color: #00c853; }
         .comment-item .comment-actions .save-cmt:hover { background: #222; }
         .comment-item .comment-actions .cancel-cmt { color: #ff3b3b; }
         .comment-item .comment-actions .cancel-cmt:hover { background: #222; }
         .comment-item .comment-actions .admin-badge-cmt {
             color: #ff3b3b;
-            font-size: 10px;
+            font-size: 9px;
             background: #222;
-            padding: 2px 10px;
-            border-radius: 12px;
+            padding: 1px 8px;
+            border-radius: 10px;
             border: 1px solid #ff3b3b;
         }
         .comment-item.editing .comment-msg { display: none; }
         .comment-item .edit-input {
             display: none;
             width: 100%;
-            padding: 8px 12px;
+            padding: 6px 10px;
             background: #222;
             border: 1px solid #444;
             color: #fff;
             border-radius: 6px;
-            font-size: 13px;
+            font-size: 12px;
             margin-top: 4px;
         }
         .comment-item.editing .edit-input { display: block; }
         .comment-item.editing .comment-text .comment-msg { display: none; }
-        .no-comments {
-            color: #666;
-            text-align: center;
-            padding: 20px;
-            font-size: 14px;
-        }
+        .no-comments { color: #666; text-align: center; padding: 16px; font-size: 13px; }
 
         /* ===== HISTORY ===== */
         .history-section {
             max-width: 900px;
-            margin: 20px auto;
-            padding: 18px 22px;
-            background: rgba(26,26,26,0.5);
-            border-radius: 14px;
+            margin: 14px auto;
+            padding: 12px 18px;
+            background: rgba(26,26,26,0.4);
+            border-radius: 12px;
             border: 1px solid #333;
-            backdrop-filter: blur(5px);
-            animation: fadeInUp 0.6s ease;
         }
         .history-section h3 {
             color: #ffa500;
-            margin-bottom: 10px;
-            font-size: 16px;
+            margin-bottom: 8px;
+            font-size: 15px;
         }
         .history-section .history-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 14px;
+            padding: 5px 12px;
             background: #151515;
-            border-radius: 8px;
-            margin: 4px 0;
+            border-radius: 6px;
+            margin: 3px 0;
             border-left: 2px solid #ffa500;
-            font-size: 13px;
+            font-size: 12px;
             color: #ccc;
-            transition: 0.3s;
         }
-        .history-section .history-item:hover {
-            background: #1a1a1a;
-            transform: translateX(5px);
-        }
-        .history-section .history-item .hist-title {
-            color: #fff;
-        }
-        .history-section .history-item .hist-ep {
-            color: #888;
-            font-size: 11px;
-        }
+        .history-section .history-item .hist-title { color: #fff; }
+        .history-section .history-item .hist-ep { color: #888; font-size: 10px; }
         .history-section .history-item .hist-continue {
             color: #00c853;
             cursor: pointer;
-            font-size: 12px;
-            padding: 3px 14px;
+            font-size: 11px;
+            padding: 2px 12px;
             border: 1px solid #00c853;
-            border-radius: 14px;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 12px;
+            transition: 0.3s;
         }
         .history-section .history-item .hist-continue:hover {
             background: #00c853;
             color: #000;
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(0,200,83,0.3);
         }
-        .history-empty {
-            color: #666;
-            text-align: center;
-            padding: 10px;
-            font-size: 13px;
-        }
+        .history-empty { color: #666; text-align: center; padding: 8px; font-size: 12px; }
 
-        /* ===== ADMIN PAGE (Only shows after admin login) ===== */
+        /* ===== ADMIN PAGE ===== */
         #adminPage {
             display: none;
             position: fixed;
@@ -1167,180 +946,145 @@
             background: #0a0a0a;
             z-index: 5000;
             overflow-y: auto;
-            padding: 20px;
-            animation: fadeIn 0.4s ease;
+            padding: 16px;
         }
         #adminPage .admin-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 24px;
+            padding: 10px 18px;
             background: #1a1a1a;
-            border-bottom: 3px solid #ff3b3b;
-            border-radius: 14px;
-            margin-bottom: 20px;
+            border-bottom: 2px solid #ff3b3b;
+            border-radius: 12px;
+            margin-bottom: 16px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
-        #adminPage .admin-header h2 {
-            color: #ff3b3b;
-            font-size: 18px;
-        }
+        #adminPage .admin-header h2 { color: #ff3b3b; font-size: 17px; }
         #adminPage .admin-header .close-admin {
             background: #ff3b3b;
             color: #fff;
             border: none;
-            padding: 8px 24px;
-            border-radius: 10px;
+            padding: 6px 18px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             transition: 0.3s;
         }
-        #adminPage .admin-header .close-admin:hover {
-            background: #cc2e2e;
-            transform: scale(1.05);
-        }
+        #adminPage .admin-header .close-admin:hover { background: #cc2e2e; }
 
         .admin-panel {
             background: #1a1a1a;
-            padding: 24px;
-            border-radius: 14px;
+            padding: 18px;
+            border-radius: 12px;
             border: 1px solid #ff3b3b;
             max-width: 900px;
             margin: 0 auto;
         }
-        .admin-panel h3 {
-            color: #ff3b3b;
-            margin-bottom: 15px;
-        }
+        .admin-panel h3 { color: #ff3b3b; margin-bottom: 12px; font-size: 17px; }
         .admin-panel input, .admin-panel textarea, .admin-panel select {
             width: 100%;
-            padding: 12px 16px;
-            margin: 6px 0;
+            padding: 8px 12px;
+            margin: 4px 0;
             background: #222;
             border: 1px solid #444;
             color: #fff;
-            border-radius: 10px;
-            font-size: 14px;
-            transition: 0.3s;
+            border-radius: 8px;
+            font-size: 13px;
         }
         .admin-panel input:focus, .admin-panel textarea:focus {
             border-color: #ff3b3b;
             outline: none;
-            box-shadow: 0 0 25px rgba(255,59,59,0.1);
         }
-        .admin-panel textarea {
-            min-height: 60px;
-            resize: vertical;
-        }
+        .admin-panel textarea { min-height: 50px; resize: vertical; }
         .admin-panel button {
             background: #ff3b3b;
             color: #fff;
             border: none;
-            padding: 10px 28px;
-            border-radius: 10px;
+            padding: 8px 20px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            margin: 6px 4px;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 4px 4px;
+            transition: 0.3s;
         }
-        .admin-panel button:hover {
-            background: #cc2e2e;
-            transform: scale(1.03) translateY(-2px);
-            box-shadow: 0 8px 30px rgba(255,59,59,0.3);
-        }
+        .admin-panel button:hover { background: #cc2e2e; }
 
         .drop-area {
             border: 2px dashed #ff3b3b;
-            border-radius: 10px;
-            padding: 25px;
+            border-radius: 8px;
+            padding: 18px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            margin: 8px 0;
+            transition: 0.3s;
+            margin: 6px 0;
             background: #111;
         }
-        .drop-area:hover, .drop-area.dragover {
-            background: #222;
-            border-color: #ff6b6b;
-            transform: scale(1.01);
-        }
+        .drop-area:hover { background: #222; border-color: #ff6b6b; }
         .drop-area .preview-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
             justify-content: center;
-            margin-top: 8px;
+            margin-top: 6px;
         }
         .drop-area .preview-item {
             position: relative;
             display: inline-block;
         }
         .drop-area .preview-item img {
-            max-height: 100px;
-            border-radius: 8px;
+            max-height: 80px;
+            border-radius: 6px;
             border: 1px solid #444;
         }
         .drop-area .preview-item .remove-img {
             position: absolute;
-            top: -8px;
-            right: -8px;
+            top: -6px;
+            right: -6px;
             background: #ff3b3b;
             color: #fff;
             border: none;
             border-radius: 50%;
-            width: 22px;
-            height: 22px;
+            width: 18px;
+            height: 18px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: 0.3s;
         }
-        .drop-area .preview-item .remove-img:hover {
-            background: #cc2e2e;
-            transform: scale(1.1);
-        }
+        .drop-area .preview-item .remove-img:hover { background: #cc2e2e; }
 
-        .admin-content-list {
-            margin-top: 20px;
-            border-top: 1px solid #333;
-            padding-top: 15px;
-        }
+        .admin-content-list { margin-top: 16px; border-top: 1px solid #333; padding-top: 12px; }
         .admin-content-list .content-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: #151515;
-            padding: 12px 16px;
-            border-radius: 10px;
-            margin: 6px 0;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin: 4px 0;
             border: 1px solid #252525;
             flex-wrap: wrap;
-            gap: 8px;
-            transition: 0.3s;
-        }
-        .admin-content-list .content-item:hover {
-            border-color: #ff3b3b;
+            gap: 6px;
         }
         .admin-content-list .content-item .item-info {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
         .admin-content-list .content-item .item-info img {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 6px;
         }
         .admin-content-list .content-item .item-actions button {
-            padding: 4px 14px;
-            font-size: 12px;
+            padding: 3px 10px;
+            font-size: 11px;
             margin: 2px;
-            border-radius: 8px;
+            border-radius: 6px;
             border: none;
             cursor: pointer;
             transition: 0.3s;
@@ -1349,126 +1093,34 @@
             background: #ffa500;
             color: #fff;
         }
-        .admin-content-list .content-item .item-actions .edit-btn:hover {
-            background: #cc8400;
-            transform: scale(1.05);
-        }
+        .admin-content-list .content-item .item-actions .edit-btn:hover { background: #cc8400; }
         .admin-content-list .content-item .item-actions .del-btn {
             background: #cc2e2e;
             color: #fff;
         }
-        .admin-content-list .content-item .item-actions .del-btn:hover {
-            background: #991111;
-            transform: scale(1.05);
-        }
-
-        /* ===== LOGIN REQUIRED OVERLAY (for videos) ===== */
-        .login-required-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.88);
-            backdrop-filter: blur(16px);
-            z-index: 999;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            padding: 20px;
-            animation: fadeIn 0.4s ease;
-        }
-        .login-required-overlay.active {
-            display: flex;
-        }
-        .login-required-box {
-            background: #1a1a1a;
-            padding: 45px;
-            border-radius: 20px;
-            text-align: center;
-            border: 1px solid rgba(255,59,59,0.3);
-            max-width: 420px;
-            width: 100%;
-            animation: modalIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 0 80px rgba(255,59,59,0.05);
-        }
-        .login-required-box i {
-            font-size: 65px;
-            color: #ff3b3b;
-            margin-bottom: 15px;
-            animation: pulse 2s infinite;
-        }
-        .login-required-box h2 {
-            color: #fff;
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-        .login-required-box p {
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-        .login-required-box .auth-btns {
-            display: flex;
-            gap: 14px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .login-required-box .auth-btns button {
-            padding: 12px 32px;
-            border: none;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .login-required-box .auth-btns .login-btn2 {
-            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
-            color: #fff;
-            box-shadow: 0 4px 25px rgba(255,59,59,0.2);
-        }
-        .login-required-box .auth-btns .login-btn2:hover {
-            transform: scale(1.05) translateY(-3px);
-            box-shadow: 0 8px 40px rgba(255,59,59,0.4);
-        }
-        .login-required-box .auth-btns .register-btn2 {
-            background: #222;
-            color: #ccc;
-            border: 1px solid #444;
-        }
-        .login-required-box .auth-btns .register-btn2:hover {
-            background: #333;
-            transform: scale(1.05) translateY(-3px);
-        }
+        .admin-content-list .content-item .item-actions .del-btn:hover { background: #991111; }
 
         @media (max-width: 600px) {
             .navbar { flex-direction: column; align-items: stretch; }
             .search-box { max-width: 100%; }
-            .content-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
-            .hero h1 { font-size: 24px; }
+            .content-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+            .hero h1 { font-size: 20px; }
             .nav-links { justify-content: center; }
-            #adminPage { padding: 10px; }
-            .comments-section { margin: 15px; padding: 15px; }
-            .auth-box { padding: 25px 20px; margin: 10px; }
-            .admin-auth-box { padding: 25px 20px; margin: 10px; }
-            .history-section { margin: 10px; }
-            .login-required-box { padding: 25px; }
+            .auth-box { padding: 20px; margin: 10px; }
+            .admin-auth-box { padding: 20px; margin: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== CANVAS BACKGROUND ===== -->
     <canvas id="bgCanvas"></canvas>
 
-    <!-- ===== LOGIN REQUIRED OVERLAY (for videos) ===== -->
+    <!-- ===== LOGIN REQUIRED OVERLAY ===== -->
     <div class="login-required-overlay" id="loginRequiredOverlay">
         <div class="login-required-box">
             <i class="fas fa-lock"></i>
             <h2>🔐 लॉगिन जरूरी!</h2>
-            <p>वीडियो देखने के लिए कृपया पहले लॉगिन या रजिस्टर करें।</p>
+            <p>वीडियो देखने के लिए पहले लॉगिन या रजिस्टर करें</p>
             <div class="auth-btns">
                 <button class="login-btn2" onclick="closeLoginRequired(); openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
                 <button class="register-btn2" onclick="closeLoginRequired(); openUserAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
@@ -1479,16 +1131,14 @@
     <!-- ===== MAIN PAGE ===== -->
     <div id="mainPage">
         <div class="navbar">
-            <div class="logo">
-                <i class="fas fa-film"></i>JOD<span>MODS</span> OTT
-            </div>
+            <div class="logo"><i class="fas fa-film"></i>JOD<span>MODS</span> OTT</div>
             <div class="nav-links">
                 <a class="active" data-type="all"><i class="fas fa-th-list"></i> सभी</a>
                 <a data-type="movies"><i class="fas fa-film"></i> मूवी</a>
                 <a data-type="series"><i class="fas fa-tv"></i> सीरीज</a>
             </div>
-            <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-                <button class="upload-btn" onclick="openAdminAuth()"><i class="fas fa-upload"></i> ONLY UPLOAD JODxCHEATS</button>
+            <div style="display:flex; gap:5px; flex-wrap:wrap; align-items:center;">
+                <button class="upload-btn" onclick="openAdminAuth()"><i class="fas fa-upload"></i> अपलोड</button>
                 <div id="authSection">
                     <div class="auth-buttons">
                         <button class="auth-btn" onclick="openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
@@ -1512,42 +1162,32 @@
             </div>
         </div>
 
-        <!-- History Section -->
         <div class="history-section" id="historySection">
             <h3><i class="fas fa-history"></i> आपकी हिस्ट्री</h3>
-            <div id="historyList">
-                <div class="history-empty">लॉगिन करें और देखें कि आपने क्या देखा</div>
-            </div>
+            <div id="historyList"><div class="history-empty">लॉगिन करें और देखें</div></div>
         </div>
 
         <div class="section">
             <h2 id="sectionTitle"><i class="fas fa-fire" style="color:#ff3b3b;"></i> सभी कंटेंट</h2>
-            <div id="contentContainer">
-                <div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div>
-            </div>
+            <div id="contentContainer"><div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div></div>
         </div>
 
-        <!-- Comments Section -->
-        <div class="comments-section" id="commentsSection">
+        <div class="comments-section">
             <h3><i class="fas fa-comments"></i> कमेंट्स - अगली मूवी/सीरीज क्या चाहिए?</h3>
             <div class="comment-input-area">
                 <input type="text" id="commentName" placeholder="आपका नाम..." />
                 <input type="text" id="commentMsg" placeholder="आपकी राय..." />
                 <button onclick="addComment()"><i class="fas fa-paper-plane"></i> भेजें</button>
             </div>
-            <div class="comment-list" id="commentList">
-                <div class="no-comments">कोई कमेंट नहीं। पहली राय दें!</div>
-            </div>
+            <div class="comment-list" id="commentList"><div class="no-comments">कोई कमेंट नहीं। पहली राय दें!</div></div>
         </div>
 
-        <div class="footer">
-            <p>JOD MODS OTT © 2025 – सिर्फ ऐडमिन कंटेंट <i class="fas fa-heart" style="color:#ff3b3b;"></i></p>
-        </div>
+        <div class="footer"><p>JOD MODS OTT © 2025 – सिर्फ ऐडमिन कंटेंट <i class="fas fa-heart" style="color:#ff3b3b;"></i></p></div>
     </div>
 
-    <!-- ===== PREMIUM USER LOGIN OVERLAY ===== -->
+    <!-- ===== USER LOGIN ===== -->
     <div class="auth-overlay" id="userAuthOverlay">
-        <div class="auth-box" id="authBox">
+        <div class="auth-box">
             <button class="close-auth" onclick="closeUserAuth()">&times;</button>
             <div class="auth-brand">
                 <i class="fas fa-film"></i>
@@ -1555,22 +1195,10 @@
                 <p id="authSubText">अपने अकाउंट में लॉगिन करें</p>
             </div>
             <div id="authForm">
-                <div class="input-group">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="authName" placeholder="आपका नाम" style="display:none;" />
-                </div>
-                <div class="input-group">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" id="authEmail" placeholder="ईमेल" />
-                </div>
-                <div class="input-group">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" id="authPass" placeholder="पासवर्ड" />
-                </div>
-                <div class="input-group" id="confirmGroup" style="display:none;">
-                    <i class="fas fa-check-circle"></i>
-                    <input type="password" id="authConfirm" placeholder="पासवर्ड दोबारा" />
-                </div>
+                <input type="text" id="authName" placeholder="आपका नाम" style="display:none;" />
+                <input type="email" id="authEmail" placeholder="ईमेल" />
+                <input type="password" id="authPass" placeholder="पासवर्ड" />
+                <input type="password" id="authConfirm" placeholder="पासवर्ड दोबारा" style="display:none;" />
                 <button class="auth-submit" id="authSubmit" onclick="submitUserAuth()">लॉगिन करें</button>
                 <div class="error-msg" id="authError"></div>
                 <div class="switch-auth">
@@ -1580,7 +1208,7 @@
         </div>
     </div>
 
-    <!-- ===== ADMIN LOGIN OVERLAY (separate) ===== -->
+    <!-- ===== ADMIN LOGIN ===== -->
     <div class="admin-auth-overlay" id="adminAuthOverlay">
         <div class="admin-auth-box">
             <button class="close-admin-auth" onclick="closeAdminAuth()">&times;</button>
@@ -1589,52 +1217,44 @@
                 <h2>JOD<span>MODS</span></h2>
                 <p>🔐 ऐडमिन लॉगिन</p>
             </div>
-            <div class="input-group">
-                <i class="fas fa-user"></i>
-                <input type="text" id="adminUserInput" placeholder="यूजरनेम" />
-            </div>
-            <div class="input-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="adminPassInput" placeholder="पासवर्ड" />
-            </div>
+            <input type="text" id="adminUserInput" placeholder="यूजरनेम" />
+            <input type="password" id="adminPassInput" placeholder="पासवर्ड" />
             <button class="auth-submit" onclick="submitAdminLogin()">लॉगिन करें</button>
             <div class="error-msg" id="adminAuthError"></div>
         </div>
     </div>
 
-    <!-- ===== ADMIN PAGE (Only shows after admin login) ===== -->
+    <!-- ===== ADMIN PAGE ===== -->
     <div id="adminPage">
         <div class="admin-header">
             <h2><i class="fas fa-upload"></i> ऐडमिन पैनल - JOD MODS</h2>
             <button class="close-admin" onclick="closeAdminPage()"><i class="fas fa-times"></i> बंद करें</button>
         </div>
-
         <div class="admin-panel">
             <div id="adminControls" style="display:block;">
                 <h3><i class="fas fa-plus-circle"></i> नया कंटेंट जोड़ें / एडिट करें</h3>
-                
-                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                    <input type="text" id="adminTitle" placeholder="टाइटल" style="flex:2;min-width:180px;">
-                    <input type="text" id="adminType" placeholder="टाइप: movie / series" style="flex:1;min-width:100px;" value="series">
-                    <input type="number" id="adminEpisodes" placeholder="कुल एपिसोड" style="flex:1;min-width:80px;" value="12">
-                    <input type="text" id="adminEditId" placeholder="एडिट ID" style="flex:1;min-width:120px;background:#111;color:#888;" readonly>
+                <div style="display:flex; gap:6px; flex-wrap:wrap; margin:6px 0;">
+                    <input type="text" id="adminTitle" placeholder="टाइटल" style="flex:2;min-width:150px;">
+                    <input type="text" id="adminType" placeholder="टाइप: movie / series" style="flex:1;min-width:80px;" value="series">
+                    <input type="number" id="adminEpisodes" placeholder="कुल एपिसोड" style="flex:1;min-width:70px;" value="12">
+                    <input type="text" id="adminEditId" placeholder="एडिट ID" style="flex:1;min-width:100px;background:#111;color:#888;" readonly>
                 </div>
 
                 <div class="drop-area" id="dropArea">
-                    <i class="fas fa-cloud-upload-alt" style="font-size:24px;color:#ff3b3b;"></i>
-                    <p style="color:#aaa;font-size:13px;">थंबनेल ड्रैग & ड्रॉप करें या क्लिक करें</p>
+                    <i class="fas fa-cloud-upload-alt" style="font-size:20px;color:#ff3b3b;"></i>
+                    <p style="color:#aaa;font-size:12px;">थंबनेल ड्रैग & ड्रॉप करें या क्लिक करें</p>
                     <input type="file" id="fileInput" accept="image/*" style="display:none;" multiple>
                     <div class="preview-container" id="previewContainer"></div>
                 </div>
 
-                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                    <input type="text" id="adminEpisodeLinks" placeholder="एपिसोड लिंक (कॉमा से अलग करें)" style="flex:3;min-width:200px;">
+                <div style="display:flex; gap:6px; flex-wrap:wrap; margin:6px 0;">
+                    <input type="text" id="adminEpisodeLinks" placeholder="एपिसोड लिंक (कॉमा से अलग करें)" style="flex:3;min-width:150px;">
                 </div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                    <input type="text" id="adminVideoLink" placeholder="डिफॉल्ट वीडियो लिंक (सभी एपिसोड के लिए एक)" style="flex:2;min-width:200px;">
+                <div style="display:flex; gap:6px; flex-wrap:wrap; margin:6px 0;">
+                    <input type="text" id="adminVideoLink" placeholder="डिफॉल्ट वीडियो लिंक" style="flex:2;min-width:150px;">
                 </div>
 
-                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:10px 0;">
+                <div style="display:flex; gap:6px; flex-wrap:wrap; margin:8px 0;">
                     <button onclick="adminAddAnime()"><i class="fas fa-save"></i> सेव करें</button>
                     <button onclick="adminClearForm()" style="background:#666;"><i class="fas fa-undo"></i> क्लियर</button>
                     <button onclick="adminResetAll()" style="background:#cc2e2e;"><i class="fas fa-power-off"></i> सबको लॉगआउट</button>
@@ -1642,9 +1262,7 @@
 
                 <div class="admin-content-list">
                     <h3><i class="fas fa-list"></i> आपका कंटेंट</h3>
-                    <div id="adminContentList">
-                        <p style="color:#888; padding:10px;">लोड हो रहा है...</p>
-                    </div>
+                    <div id="adminContentList"><p style="color:#888; padding:8px;">लोड हो रहा है...</p></div>
                 </div>
             </div>
         </div>
@@ -1655,13 +1273,9 @@
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal()">&times;</button>
             <h3 class="modal-title" id="modalTitle">शीर्षक</h3>
-
             <div class="player-status" id="playerStatus">⏳ प्लेयर लोड हो रहा है...</div>
-
             <div id="videoPlayerContainer">
-                <div class="video-wrapper" id="iframeWrapper">
-                    <iframe id="videoIframe" src="" allowfullscreen></iframe>
-                </div>
+                <div class="video-wrapper" id="iframeWrapper"><iframe id="videoIframe" src="" allowfullscreen></iframe></div>
                 <div class="custom-video-player" id="videoPlayerWrapper" style="display:none;">
                     <video id="customVideoPlayer" controls autoplay>
                         <source id="videoSource" src="" type="video/mp4">
@@ -1669,12 +1283,10 @@
                     </video>
                 </div>
             </div>
-
             <div class="action-bar">
                 <button onclick="shareVideo()"><i class="fas fa-share"></i> शेयर</button>
                 <button onclick="reloadVideo()"><i class="fas fa-sync"></i> रीलोड</button>
             </div>
-
             <div id="episodeContainer" class="episode-grid">
                 <p style="color:#888; width:100%;"><i class="fas fa-spinner fa-spin"></i> एपिसोड लोड हो रहे हैं...</p>
             </div>
@@ -1682,13 +1294,13 @@
     </div>
 
     <script>
-        // ==================== PREMIUM CANVAS BACKGROUND ====================
-        (function initCanvas() {
+        // ==================== CANVAS BACKGROUND ====================
+        (function() {
             const canvas = document.getElementById('bgCanvas');
             const ctx = canvas.getContext('2d');
             let w, h;
             const particles = [];
-            const colors = ['#ff3b3b', '#cc2e2e', '#ff6b6b', '#ff8a8a', '#ff1744'];
+            const colors = ['#ff3b3b', '#cc2e2e', '#ff6b6b'];
 
             function resize() {
                 w = canvas.width = window.innerWidth;
@@ -1702,10 +1314,10 @@
                 reset() {
                     this.x = Math.random() * w;
                     this.y = Math.random() * h;
-                    this.size = Math.random() * 3 + 1;
-                    this.speedX = (Math.random() - 0.5) * 0.8;
-                    this.speedY = (Math.random() - 0.5) * 0.8;
-                    this.opacity = Math.random() * 0.6 + 0.2;
+                    this.size = Math.random() * 2.5 + 1;
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.speedY = (Math.random() - 0.5) * 0.5;
+                    this.opacity = Math.random() * 0.5 + 0.1;
                     this.color = colors[Math.floor(Math.random() * colors.length)];
                     this.pulse = Math.random() * Math.PI * 2;
                 }
@@ -1727,40 +1339,18 @@
                     ctx.globalAlpha = opacity;
                     ctx.fill();
                     ctx.shadowColor = this.color;
-                    ctx.shadowBlur = 15;
+                    ctx.shadowBlur = 10;
                     ctx.fill();
                     ctx.shadowBlur = 0;
                     ctx.globalAlpha = 1;
                 }
             }
 
-            function drawLines() {
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const dx = particles[i].x - particles[j].x;
-                        const dy = particles[i].y - particles[j].y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 150) {
-                            ctx.beginPath();
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            const alpha = (1 - dist / 150) * 0.3;
-                            ctx.strokeStyle = `rgba(255,59,59,${alpha})`;
-                            ctx.lineWidth = 0.5;
-                            ctx.stroke();
-                        }
-                    }
-                }
-            }
-
-            for (let i = 0; i < 80; i++) {
-                particles.push(new Particle());
-            }
+            for (let i = 0; i < 50; i++) particles.push(new Particle());
 
             function animate() {
                 ctx.clearRect(0, 0, w, h);
                 particles.forEach(p => { p.update(); p.draw(); });
-                drawLines();
                 requestAnimationFrame(animate);
             }
             animate();
@@ -1781,7 +1371,6 @@
         let pendingOpenAnime = null;
         let isAdminLoggedIn = false;
 
-        // ==================== DOM REFS ====================
         const container = document.getElementById('contentContainer');
         const sectionTitle = document.getElementById('sectionTitle');
         const modal = document.getElementById('contentModal');
@@ -1794,82 +1383,59 @@
         const episodeContainer = document.getElementById('episodeContainer');
         const playerStatus = document.getElementById('playerStatus');
 
-        // ==================== LOGIN REQUIRED (for videos) ====================
-        function showLoginRequired() {
-            document.getElementById('loginRequiredOverlay').classList.add('active');
-        }
-        function closeLoginRequired() {
-            document.getElementById('loginRequiredOverlay').classList.remove('active');
-        }
+        // ==================== LOGIN REQUIRED ====================
+        function showLoginRequired() { document.getElementById('loginRequiredOverlay').classList.add('active'); }
+        function closeLoginRequired() { document.getElementById('loginRequiredOverlay').classList.remove('active'); }
 
-        // ==================== USER AUTH SYSTEM ====================
-        function getUsers() {
-            return JSON.parse(localStorage.getItem('jodmods_users') || '[]');
-        }
-        function saveUsers(users) {
-            localStorage.setItem('jodmods_users', JSON.stringify(users));
-        }
+        // ==================== USER AUTH ====================
+        function getUsers() { return JSON.parse(localStorage.getItem('jodmods_users') || '[]'); }
+        function saveUsers(u) { localStorage.setItem('jodmods_users', JSON.stringify(u)); }
         function getCurrentUser() {
             const data = localStorage.getItem('jodmods_current_user');
             return data ? JSON.parse(data) : null;
         }
         function setCurrentUser(user) {
-            if (user) {
-                localStorage.setItem('jodmods_current_user', JSON.stringify(user));
-            } else {
-                localStorage.removeItem('jodmods_current_user');
-            }
+            if (user) localStorage.setItem('jodmods_current_user', JSON.stringify(user));
+            else localStorage.removeItem('jodmods_current_user');
             currentUser = user;
             updateUI();
         }
 
         function openUserAuth(mode) {
             closeLoginRequired();
-            if (currentUser) {
-                alert('आप पहले से लॉगिन हैं!');
-                return;
-            }
+            if (currentUser) { alert('आप पहले से लॉगिन हैं!'); return; }
             userAuthMode = mode || 'login';
-            const overlay = document.getElementById('userAuthOverlay');
             const subText = document.getElementById('authSubText');
             const nameField = document.getElementById('authName');
-            const confirmGroup = document.getElementById('confirmGroup');
+            const confirmField = document.getElementById('authConfirm');
             const submitBtn = document.getElementById('authSubmit');
             const switchText = document.getElementById('switchText');
 
             if (mode === 'register') {
                 subText.textContent = 'नया अकाउंट बनाएं';
                 nameField.style.display = 'block';
-                confirmGroup.style.display = 'block';
+                confirmField.style.display = 'block';
                 submitBtn.textContent = 'रजिस्टर करें';
                 switchText.innerHTML = 'पहले से हैं? <span onclick="switchUserAuth()">लॉगिन करें</span>';
             } else {
                 subText.textContent = 'अपने अकाउंट में लॉगिन करें';
                 nameField.style.display = 'none';
-                confirmGroup.style.display = 'none';
+                confirmField.style.display = 'none';
                 submitBtn.textContent = 'लॉगिन करें';
                 switchText.innerHTML = 'नए हैं? <span onclick="switchUserAuth()">रजिस्टर करें</span>';
             }
-
             document.getElementById('authError').textContent = '';
             document.getElementById('authEmail').value = '';
             document.getElementById('authPass').value = '';
             document.getElementById('authName').value = '';
             document.getElementById('authConfirm').value = '';
-            overlay.classList.add('active');
+            document.getElementById('userAuthOverlay').classList.add('active');
         }
-
-        function closeUserAuth() {
-            document.getElementById('userAuthOverlay').classList.remove('active');
-        }
-
+        function closeUserAuth() { document.getElementById('userAuthOverlay').classList.remove('active'); }
         function switchUserAuth() {
             const current = document.getElementById('authSubText').textContent;
-            if (current.includes('लॉगिन')) {
-                openUserAuth('register');
-            } else {
-                openUserAuth('login');
-            }
+            if (current.includes('लॉगिन')) openUserAuth('register');
+            else openUserAuth('login');
         }
 
         function submitUserAuth() {
@@ -1879,11 +1445,7 @@
             const confirm = document.getElementById('authConfirm').value.trim();
             const error = document.getElementById('authError');
 
-            if (!email || !pass) {
-                error.textContent = 'ईमेल और पासवर्ड जरूरी है!';
-                return;
-            }
-
+            if (!email || !pass) { error.textContent = 'ईमेल और पासवर्ड जरूरी है!'; return; }
             const users = getUsers();
 
             if (userAuthMode === 'register') {
@@ -1897,19 +1459,11 @@
                 saveUsers(users);
                 error.textContent = '✅ रजिस्टर सफल! अब लॉगिन करें।';
                 error.style.color = '#00c853';
-                setTimeout(() => {
-                    openUserAuth('login');
-                }, 1500);
+                setTimeout(() => openUserAuth('login'), 1500);
                 return;
             }
-
-            // Login
             const user = users.find(u => u.email === email && u.password === pass);
-            if (!user) {
-                error.textContent = 'गलत ईमेल या पासवर्ड!';
-                error.style.color = '#ff3b3b';
-                return;
-            }
+            if (!user) { error.textContent = 'गलत ईमेल या पासवर्ड!'; return; }
             setCurrentUser(user);
             closeUserAuth();
             renderComments();
@@ -1917,9 +1471,7 @@
             if (pendingOpenAnime) {
                 const { id, title } = pendingOpenAnime;
                 pendingOpenAnime = null;
-                setTimeout(() => {
-                    openAnime(id, title);
-                }, 300);
+                setTimeout(() => openAnime(id, title), 300);
             }
             location.reload();
         }
@@ -1942,7 +1494,6 @@
                 `;
             }
         }
-
         function logoutUser() {
             if (confirm('लॉगआउट करना चाहते हैं?')) {
                 setCurrentUser(null);
@@ -1952,23 +1503,19 @@
             }
         }
 
-        // ==================== ADMIN AUTH SYSTEM ====================
+        // ==================== ADMIN AUTH ====================
         function openAdminAuth() {
             document.getElementById('adminAuthOverlay').classList.add('active');
             document.getElementById('adminAuthError').textContent = '';
             document.getElementById('adminUserInput').value = '';
             document.getElementById('adminPassInput').value = '';
         }
-
-        function closeAdminAuth() {
-            document.getElementById('adminAuthOverlay').classList.remove('active');
-        }
+        function closeAdminAuth() { document.getElementById('adminAuthOverlay').classList.remove('active'); }
 
         function submitAdminLogin() {
             const user = document.getElementById('adminUserInput').value.trim();
             const pass = document.getElementById('adminPassInput').value.trim();
             const error = document.getElementById('adminAuthError');
-
             if (user === 'JOD' && pass === 'MODS') {
                 isAdminLoggedIn = true;
                 closeAdminAuth();
@@ -1980,16 +1527,14 @@
                 error.textContent = '❌ गलत यूजरनेम या पासवर्ड!';
             }
         }
-
         function closeAdminPage() {
             document.getElementById('adminPage').style.display = 'none';
             document.body.style.overflow = 'auto';
             isAdminLoggedIn = false;
         }
-
         function adminResetAll() {
             if (!isAdminLoggedIn) { alert('पहले ऐडमिन लॉगिन करें!'); return; }
-            if (!confirm('⚠️ क्या आप सभी यूजर्स को लॉगआउट करना चाहते हैं? सबका सेशन खत्म हो जाएगा!')) return;
+            if (!confirm('⚠️ सभी यूजर्स को लॉगआउट करें?')) return;
             localStorage.removeItem('jodmods_current_user');
             currentUser = null;
             updateUI();
@@ -1999,21 +1544,21 @@
             alert('✅ सभी यूजर्स लॉगआउट कर दिए गए!');
         }
 
-        // ===== ADMIN: IMAGE DRAG & DROP =====
+        // ==================== ADMIN: IMAGE DROP ====================
         const dropArea = document.getElementById('dropArea');
         const fileInput = document.getElementById('fileInput');
         const previewContainer = document.getElementById('previewContainer');
 
         if (dropArea) {
-            dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
-            dropArea.addEventListener('dragleave', () => { dropArea.classList.remove('dragover'); });
-            dropArea.addEventListener('drop', (e) => {
+            dropArea.addEventListener('dragover', e => { e.preventDefault(); dropArea.classList.add('dragover'); });
+            dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
+            dropArea.addEventListener('drop', e => {
                 e.preventDefault();
                 dropArea.classList.remove('dragover');
                 if (e.dataTransfer.files.length) handleImageFiles(e.dataTransfer.files);
             });
-            dropArea.addEventListener('click', () => { fileInput.click(); });
-            fileInput.addEventListener('change', (e) => {
+            dropArea.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', e => {
                 if (e.target.files.length) handleImageFiles(e.target.files);
             });
         }
@@ -2022,7 +1567,7 @@
             for (let file of files) {
                 if (file.type.startsWith('image/')) {
                     const reader = new FileReader();
-                    reader.onload = (e) => {
+                    reader.onload = e => {
                         uploadedImages.push(e.target.result);
                         updatePreview();
                     };
@@ -2030,79 +1575,46 @@
                 }
             }
         }
-
         function updatePreview() {
             previewContainer.innerHTML = '';
             uploadedImages.forEach((img, index) => {
                 const div = document.createElement('div');
                 div.className = 'preview-item';
-                div.innerHTML = `
-                    <img src="${img}" alt="थंबनेल">
-                    <button class="remove-img" onclick="removeImage(${index})">×</button>
-                `;
+                div.innerHTML = `<img src="${img}" alt="थंबनेल"><button class="remove-img" onclick="removeImage(${index})">×</button>`;
                 previewContainer.appendChild(div);
             });
         }
-
         function removeImage(index) {
             uploadedImages.splice(index, 1);
             updatePreview();
         }
 
-        // ===== ADMIN: CRUD =====
-        function getCustomAnimeList() {
-            return JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
-        }
-
-        function saveCustomAnimeList(list) {
-            localStorage.setItem('jodmods_custom_anime', JSON.stringify(list));
-        }
+        // ==================== ADMIN: CRUD ====================
+        function getCustomAnimeList() { return JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]'); }
+        function saveCustomAnimeList(list) { localStorage.setItem('jodmods_custom_anime', JSON.stringify(list)); }
 
         function adminAddAnime() {
             if (!isAdminLoggedIn) { alert('पहले ऐडमिन लॉगिन करें!'); return; }
-            
             const title = document.getElementById('adminTitle').value.trim();
             const type = document.getElementById('adminType').value.trim() || 'series';
             const episodes = parseInt(document.getElementById('adminEpisodes').value) || 12;
             const links = document.getElementById('adminEpisodeLinks').value.trim();
             const defaultVideo = document.getElementById('adminVideoLink').value.trim();
             const editId = document.getElementById('adminEditId').value.trim();
-
             if (!title) { alert('टाइटल जरूरी है!'); return; }
 
             let image = uploadedImages.length > 0 ? uploadedImages[0] : 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=' + encodeURIComponent(title);
-
-            let customList = getCustomAnimeList();
+            let list = getCustomAnimeList();
 
             if (editId) {
-                const index = customList.findIndex(a => a.id === editId);
-                if (index !== -1) {
-                    customList[index] = {
-                        ...customList[index],
-                        title: { romaji: title, english: title },
-                        coverImage: { large: image },
-                        episodes: episodes,
-                        type: type,
-                        episodeLinks: links ? links.split(',').map(s => s.trim()) : [],
-                        defaultVideo: defaultVideo
-                    };
+                const idx = list.findIndex(a => a.id === editId);
+                if (idx !== -1) {
+                    list[idx] = { ...list[idx], title: { romaji: title, english: title }, coverImage: { large: image }, episodes, type, episodeLinks: links ? links.split(',').map(s => s.trim()) : [], defaultVideo };
                 }
             } else {
-                const newAnime = {
-                    id: 'custom_' + Date.now(),
-                    title: { romaji: title, english: title },
-                    coverImage: { large: image },
-                    episodes: episodes,
-                    type: type,
-                    custom: true,
-                    episodeLinks: links ? links.split(',').map(s => s.trim()) : [],
-                    defaultVideo: defaultVideo,
-                    adminAdded: true
-                };
-                customList.push(newAnime);
+                list.push({ id: 'custom_' + Date.now(), title: { romaji: title, english: title }, coverImage: { large: image }, episodes, type, custom: true, episodeLinks: links ? links.split(',').map(s => s.trim()) : [], defaultVideo, adminAdded: true });
             }
-
-            saveCustomAnimeList(customList);
+            saveCustomAnimeList(list);
             adminClearForm();
             alert('✅ कंटेंट सेव हो गया!');
             loadAdminContentList();
@@ -2136,30 +1648,24 @@
             const list = getCustomAnimeList();
             const item = list.find(a => a.id === id);
             if (!item) return;
-
             document.getElementById('adminTitle').value = item.title.romaji || item.title.english || '';
             document.getElementById('adminType').value = item.type || 'series';
             document.getElementById('adminEpisodes').value = item.episodes || 12;
             document.getElementById('adminEpisodeLinks').value = (item.episodeLinks || []).join(', ');
             document.getElementById('adminVideoLink').value = item.defaultVideo || '';
             document.getElementById('adminEditId').value = item.id;
-            editingId = item.id;
-
             uploadedImages = [];
             updatePreview();
-
             document.querySelector('.admin-panel').scrollIntoView({ behavior: 'smooth' });
         }
 
         function loadAdminContentList() {
             const list = getCustomAnimeList();
             const container = document.getElementById('adminContentList');
-            
             if (list.length === 0) {
-                container.innerHTML = '<p style="color:#888; padding:10px;">कोई कंटेंट नहीं। ऊपर जोड़ें।</p>';
+                container.innerHTML = '<p style="color:#888; padding:8px;">कोई कंटेंट नहीं।</p>';
                 return;
             }
-
             let html = '';
             list.forEach(item => {
                 const title = item.title?.romaji || item.title?.english || 'अज्ञात';
@@ -2167,7 +1673,7 @@
                 html += `
                     <div class="content-item">
                         <div class="item-info">
-                            <img src="${img}" alt="${title}" onerror="this.src='https://via.placeholder.com/40x40/1a1a1a/ff3b3b?text=N'">
+                            <img src="${img}" alt="${title}">
                             <span><strong>${title}</strong> (${item.type || 'series'}) - ${item.episodes} एपिसोड</span>
                         </div>
                         <div class="item-actions">
@@ -2180,44 +1686,27 @@
             container.innerHTML = html;
         }
 
-        // ===== HISTORY =====
+        // ==================== HISTORY ====================
         function getHistory() {
             if (!currentUser) return [];
             const all = JSON.parse(localStorage.getItem('jodmods_history') || '{}');
             return all[currentUser.email] || [];
         }
-
         function saveHistoryItem(animeId, title, episode) {
             if (!currentUser) return;
             const all = JSON.parse(localStorage.getItem('jodmods_history') || '{}');
             if (!all[currentUser.email]) all[currentUser.email] = [];
             const existing = all[currentUser.email].find(h => h.animeId === animeId);
-            if (existing) {
-                existing.episode = episode;
-                existing.lastWatched = new Date().toISOString();
-            } else {
-                all[currentUser.email].push({
-                    animeId,
-                    title,
-                    episode,
-                    lastWatched: new Date().toISOString()
-                });
-            }
+            if (existing) { existing.episode = episode; existing.lastWatched = new Date().toISOString(); }
+            else { all[currentUser.email].push({ animeId, title, episode, lastWatched: new Date().toISOString() }); }
             localStorage.setItem('jodmods_history', JSON.stringify(all));
             loadHistory();
         }
-
         function loadHistory() {
             const list = document.getElementById('historyList');
             const history = getHistory();
-            if (!currentUser) {
-                list.innerHTML = '<div class="history-empty">लॉगिन करें और देखें कि आपने क्या देखा</div>';
-                return;
-            }
-            if (history.length === 0) {
-                list.innerHTML = '<div class="history-empty">अभी कोई हिस्ट्री नहीं</div>';
-                return;
-            }
+            if (!currentUser) { list.innerHTML = '<div class="history-empty">लॉगिन करें</div>'; return; }
+            if (history.length === 0) { list.innerHTML = '<div class="history-empty">कोई हिस्ट्री नहीं</div>'; return; }
             let html = '';
             history.slice().reverse().forEach(h => {
                 html += `
@@ -2230,45 +1719,24 @@
             });
             list.innerHTML = html;
         }
-
         function continueWatching(id, title, ep) {
             openAnime(id, title);
-            setTimeout(() => {
-                playEpisode(ep);
-            }, 500);
+            setTimeout(() => playEpisode(ep), 500);
         }
 
-        // ===== COMMENTS =====
-        function getComments() {
-            return JSON.parse(localStorage.getItem('jodmods_comments') || '[]');
-        }
-
-        function saveComments(comments) {
-            localStorage.setItem('jodmods_comments', JSON.stringify(comments));
-        }
+        // ==================== COMMENTS ====================
+        function getComments() { return JSON.parse(localStorage.getItem('jodmods_comments') || '[]'); }
+        function saveComments(c) { localStorage.setItem('jodmods_comments', JSON.stringify(c)); }
 
         function addComment() {
             const nameInput = document.getElementById('commentName');
             const msgInput = document.getElementById('commentMsg');
             let name = nameInput.value.trim();
             const msg = msgInput.value.trim();
-
-            if (currentUser) {
-                name = currentUser.name;
-                nameInput.value = name;
-            }
-
+            if (currentUser) { name = currentUser.name; nameInput.value = name; }
             if (!name || !msg) { alert('नाम और राय दोनों जरूरी है!'); return; }
-
             const comments = getComments();
-            comments.push({
-                id: Date.now(),
-                name: name,
-                msg: msg,
-                time: new Date().toLocaleString('hi-IN'),
-                isAdmin: currentUser ? currentUser.isAdmin || false : false,
-                email: currentUser ? currentUser.email : null
-            });
+            comments.push({ id: Date.now(), name, msg, time: new Date().toLocaleString('hi-IN'), isAdmin: currentUser ? currentUser.isAdmin || false : false, email: currentUser ? currentUser.email : null });
             saveComments(comments);
             if (!currentUser) nameInput.value = '';
             msgInput.value = '';
@@ -2280,13 +1748,9 @@
             const comments = getComments();
             const comment = comments.find(c => c.id === id);
             if (!comment) return;
-            if (!currentUser.isAdmin && currentUser.email !== comment.email) {
-                alert('आप इस कमेंट को नहीं हटा सकते!');
-                return;
-            }
+            if (!currentUser.isAdmin && currentUser.email !== comment.email) { alert('आप इस कमेंट को नहीं हटा सकते!'); return; }
             if (!confirm('क्या आप यह कमेंट हटाना चाहते हैं?')) return;
-            const filtered = comments.filter(c => c.id !== id);
-            saveComments(filtered);
+            saveComments(comments.filter(c => c.id !== id));
             renderComments();
         }
 
@@ -2295,14 +1759,9 @@
             const comments = getComments();
             const comment = comments.find(c => c.id === id);
             if (!comment) return;
-            if (!currentUser.isAdmin && currentUser.email !== comment.email) {
-                alert('आप इस कमेंट को एडिट नहीं कर सकते!');
-                return;
-            }
-
+            if (!currentUser.isAdmin && currentUser.email !== comment.email) { alert('आप इस कमेंट को एडिट नहीं कर सकते!'); return; }
             const item = document.querySelector(`.comment-item[data-id="${id}"]`);
             if (!item) return;
-
             if (item.classList.contains('editing')) {
                 const input = item.querySelector('.edit-input');
                 const newMsg = input.value.trim();
@@ -2312,32 +1771,20 @@
                 renderComments();
                 return;
             }
-
             item.classList.add('editing');
             const input = item.querySelector('.edit-input');
             input.value = comment.msg;
             input.focus();
-
             const actions = item.querySelector('.comment-actions');
-            actions.innerHTML = `
-                <button class="save-cmt" onclick="editComment(${id})"><i class="fas fa-check"></i> सेव</button>
-                <button class="cancel-cmt" onclick="cancelEdit(${id})"><i class="fas fa-times"></i> रद्द</button>
-            `;
+            actions.innerHTML = `<button class="save-cmt" onclick="editComment(${id})"><i class="fas fa-check"></i> सेव</button><button class="cancel-cmt" onclick="cancelEdit(${id})"><i class="fas fa-times"></i> रद्द</button>`;
         }
 
-        function cancelEdit(id) {
-            renderComments();
-        }
+        function cancelEdit(id) { renderComments(); }
 
         function renderComments() {
             const list = document.getElementById('commentList');
             const comments = getComments();
-
-            if (comments.length === 0) {
-                list.innerHTML = '<div class="no-comments">कोई कमेंट नहीं। पहली राय दें!</div>';
-                return;
-            }
-
+            if (comments.length === 0) { list.innerHTML = '<div class="no-comments">कोई कमेंट नहीं।</div>'; return; }
             let html = '';
             comments.slice().reverse().forEach(c => {
                 const isAdmin = c.isAdmin || c.name === 'JOD MODS';
@@ -2345,10 +1792,7 @@
                 html += `
                     <div class="comment-item" data-id="${c.id}">
                         <div class="comment-text">
-                            <div class="comment-user">
-                                ${c.name}
-                                ${isAdmin ? '<span class="admin-badge-cmt">★ ऐडमिन</span>' : ''}
-                            </div>
+                            <div class="comment-user">${c.name}${isAdmin ? ' <span class="admin-badge-cmt">★ ऐडमिन</span>' : ''}</div>
                             <div class="comment-msg">${c.msg}</div>
                             <input class="edit-input" type="text" />
                             <div class="comment-time">${c.time || 'अभी'}</div>
@@ -2363,7 +1807,7 @@
             list.innerHTML = html;
         }
 
-        // ==================== MAIN PAGE FUNCTIONS ====================
+        // ==================== MAIN FUNCTIONS ====================
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', function() {
                 document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
@@ -2374,7 +1818,7 @@
             });
         });
 
-        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+        document.getElementById('searchInput').addEventListener('keypress', e => {
             if (e.key === 'Enter') searchAnime();
         });
 
@@ -2382,38 +1826,20 @@
             const query = document.getElementById('searchInput').value.trim();
             if (!query) { loadAnime(); return; }
             container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> "${query}" खोजा जा रहा है...</div>`;
-
-            const customList = getCustomAnimeList();
-            const results = customList.filter(a => 
-                a.title.romaji.toLowerCase().includes(query.toLowerCase()) || 
-                a.title.english.toLowerCase().includes(query.toLowerCase())
-            );
-
-            if (results.length === 0) {
-                container.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><p>कोई परिणाम नहीं मिला "${query}"</p></div>`;
-                return;
-            }
+            const list = getCustomAnimeList();
+            const results = list.filter(a => a.title.romaji.toLowerCase().includes(query.toLowerCase()) || a.title.english.toLowerCase().includes(query.toLowerCase()));
+            if (results.length === 0) { container.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><p>कोई परिणाम नहीं मिला</p></div>`; return; }
             displayAnime(results);
         }
 
         function loadAnime() {
             container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div>`;
-            const customList = getCustomAnimeList();
-            let filtered = customList;
-            if (currentType === 'movies') {
-                filtered = customList.filter(a => a.type === 'movie' || a.type === 'Movie');
-            } else if (currentType === 'series') {
-                filtered = customList.filter(a => a.type === 'series' || a.type === 'Series' || !a.type);
-            }
-
+            const list = getCustomAnimeList();
+            let filtered = list;
+            if (currentType === 'movies') filtered = list.filter(a => a.type === 'movie' || a.type === 'Movie');
+            else if (currentType === 'series') filtered = list.filter(a => a.type === 'series' || a.type === 'Series' || !a.type);
             if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-folder-open"></i>
-                        <h3>कोई कंटेंट नहीं</h3>
-                        <p>ऐडमिन कंटेंट जोड़ें।</p>
-                    </div>
-                `;
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><h3>कोई कंटेंट नहीं</h3><p>ऐडमिन कंटेंट जोड़ें।</p></div>`;
                 return;
             }
             displayAnime(filtered);
@@ -2424,14 +1850,12 @@
             const history = getHistory();
             const watchedIds = history.map(h => h.animeId);
             const isLoggedIn = !!currentUser;
-            
             items.forEach(item => {
                 const title = item.title?.romaji || item.title?.english || item.title?.native || 'अज्ञात';
                 const image = item.coverImage?.large || 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image';
-                const id = item.id || item._id || 'custom_' + Date.now();
+                const id = item.id || 'custom_' + Date.now();
                 const episodes = item.episodes || '?';
                 const isWatched = watchedIds.includes(id);
-
                 html += `
                     <div class="content-card" onclick="${isLoggedIn ? `openAnime('${id}', '${title.replace(/'/g, "\\'")}')` : `showLoginRequiredForAnime('${id}', '${title.replace(/'/g, "\\'")}')`}">
                         <img src="${image}" alt="${title}" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image'"/>
@@ -2458,11 +1882,7 @@
 
         // ==================== VIDEO PLAYER ====================
         async function openAnime(id, title) {
-            if (!currentUser) {
-                showLoginRequiredForAnime(id, title);
-                return;
-            }
-            
+            if (!currentUser) { showLoginRequiredForAnime(id, title); return; }
             if (!id) { alert('डेटा उपलब्ध नहीं'); return; }
 
             currentAnimeId = id;
@@ -2473,129 +1893,69 @@
 
             modalTitle.textContent = `📺 ${title}`;
             episodeContainer.innerHTML = `<p style="color:#888; width:100%;"><i class="fas fa-spinner fa-spin"></i> एपिसोड लोड हो रहे हैं...</p>`;
-            
             videoIframe.src = '';
             customVideoPlayer.pause();
             customVideoPlayer.removeAttribute('src');
             videoPlayerWrapper.style.display = 'none';
             iframeWrapper.style.display = 'block';
-            
             playerStatus.textContent = '⏳ लोड हो रहा है...';
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
 
             try {
-                const customList = getCustomAnimeList();
-                let customAnime = customList.find(a => a.id === id || a.title.romaji === title || a.title.english === title);
-                let totalEps = 12;
-                let episodeLinks = [];
-                let defaultVideo = '';
-
+                const list = getCustomAnimeList();
+                let customAnime = list.find(a => a.id === id || a.title.romaji === title || a.title.english === title);
+                let totalEps = 12, episodeLinks = [], defaultVideo = '';
                 if (customAnime) {
                     totalEps = customAnime.episodes || 12;
                     episodeLinks = customAnime.episodeLinks || [];
                     defaultVideo = customAnime.defaultVideo || '';
                     currentCustomAnime = customAnime;
-                } else {
-                    currentCustomAnime = null;
-                    totalEps = 12;
-                }
+                } else { currentCustomAnime = null; totalEps = 12; }
 
                 let mainVideo = defaultVideo || '';
-
                 if (episodeLinks.length > 0) {
                     if (episodeLinks.length === 1 && totalEps > 1) {
-                        allEpisodes.push({
-                            number: `1-${totalEps}`,
-                            link: episodeLinks[0],
-                            range: true,
-                            start: 1,
-                            end: totalEps
-                        });
+                        allEpisodes.push({ number: `1-${totalEps}`, link: episodeLinks[0], range: true, start: 1, end: totalEps });
                     } else {
                         for (let i = 0; i < Math.min(episodeLinks.length, totalEps); i++) {
-                            allEpisodes.push({
-                                number: i + 1,
-                                link: episodeLinks[i],
-                                range: false
-                            });
+                            allEpisodes.push({ number: i + 1, link: episodeLinks[i], range: false });
                         }
                         for (let i = episodeLinks.length; i < totalEps; i++) {
-                            allEpisodes.push({
-                                number: i + 1,
-                                link: mainVideo,
-                                range: false
-                            });
+                            allEpisodes.push({ number: i + 1, link: mainVideo, range: false });
                         }
                     }
                 } else if (mainVideo) {
-                    if (totalEps > 1) {
-                        allEpisodes.push({
-                            number: `1-${totalEps}`,
-                            link: mainVideo,
-                            range: true,
-                            start: 1,
-                            end: totalEps
-                        });
-                    } else {
-                        allEpisodes.push({
-                            number: 1,
-                            link: mainVideo,
-                            range: false
-                        });
-                    }
+                    if (totalEps > 1) allEpisodes.push({ number: `1-${totalEps}`, link: mainVideo, range: true, start: 1, end: totalEps });
+                    else allEpisodes.push({ number: 1, link: mainVideo, range: false });
                 } else {
-                    for (let i = 1; i <= totalEps; i++) {
-                        allEpisodes.push({
-                            number: i,
-                            link: '',
-                            range: false
-                        });
-                    }
+                    for (let i = 1; i <= totalEps; i++) allEpisodes.push({ number: i, link: '', range: false });
                 }
 
                 let epHtml = '';
                 const history = getHistory();
                 const watchedEp = history.find(h => h.animeId === id);
-                
                 allEpisodes.forEach(ep => {
                     let label = ep.range ? `एपिसोड ${ep.start}-${ep.end}` : `एपिसोड ${ep.number}`;
                     let hasLink = ep.link && ep.link.length > 0;
                     let icon = hasLink ? 'fa-play' : 'fa-exclamation-triangle';
                     let style = hasLink ? '' : 'style="opacity:0.5;"';
                     let isWatched = watchedEp && !ep.range && watchedEp.episode >= ep.number;
-                    let watchedClass = isWatched ? 'watched-ep' : '';
-                    epHtml += `
-                        <button class="episode-btn ${watchedClass}" onclick="playEpisode('${ep.number}')" ${style}>
-                            <i class="fas ${icon}"></i> ${label}
-                            ${!hasLink ? ' (लिंक नहीं)' : ''}
-                            ${isWatched ? ' ✅' : ''}
-                        </button>
-                    `;
+                    epHtml += `<button class="episode-btn ${isWatched ? 'watched-ep' : ''}" onclick="playEpisode('${ep.number}')" ${style}><i class="fas ${icon}"></i> ${label}${!hasLink ? ' (लिंक नहीं)' : ''}${isWatched ? ' ✅' : ''}</button>`;
                 });
                 episodeContainer.innerHTML = epHtml;
 
                 if (allEpisodes.length > 0) {
-                    if (watchedEp && !allEpisodes[0].range) {
-                        playEpisode(Math.min(watchedEp.episode, allEpisodes.length));
-                    } else {
-                        playEpisode(allEpisodes[0].number);
-                    }
+                    if (watchedEp && !allEpisodes[0].range) playEpisode(Math.min(watchedEp.episode, allEpisodes.length));
+                    else playEpisode(allEpisodes[0].number);
                 }
-
-            } catch(error) {
-                console.error('Error:', error);
+            } catch(e) {
+                console.error(e);
                 allEpisodes = [];
-                for (let i = 1; i <= 12; i++) {
-                    allEpisodes.push({ number: i, link: '', range: false });
-                }
+                for (let i = 1; i <= 12; i++) allEpisodes.push({ number: i, link: '', range: false });
                 let epHtml = '';
                 allEpisodes.forEach(ep => {
-                    epHtml += `
-                        <button class="episode-btn" onclick="playEpisode(${ep.number})">
-                            <i class="fas fa-play"></i> एपिसोड ${ep.number}
-                        </button>
-                    `;
+                    epHtml += `<button class="episode-btn" onclick="playEpisode(${ep.number})"><i class="fas fa-play"></i> एपिसोड ${ep.number}</button>`;
                 });
                 episodeContainer.innerHTML = epHtml;
                 if (allEpisodes.length > 0) playEpisode(allEpisodes[0].number);
@@ -2605,16 +1965,13 @@
         function playEpisode(epNum) {
             const episode = allEpisodes.find(ep => ep.number == epNum);
             if (!episode) { alert('एपिसोड नहीं मिला'); return; }
-
             currentEpisodeNum = epNum;
-
             document.querySelectorAll('.episode-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.episode-btn').forEach(btn => {
                 if (btn.textContent.includes(epNum.toString()) || btn.textContent.includes(`एपिसोड ${epNum}`)) {
                     btn.classList.add('active');
                 }
             });
-
             let videoUrl = episode.link || '';
             if (!videoUrl) {
                 alert('⚠️ इस एपिसोड के लिए कोई वीडियो लिंक नहीं है।');
@@ -2622,18 +1979,13 @@
                 playerStatus.style.color = '#ff6b6b';
                 return;
             }
-
             currentVideoUrl = videoUrl;
+            if (currentUser && currentAnimeId) saveHistoryItem(currentAnimeId, currentTitle, epNum);
 
-            if (currentUser && currentAnimeId) {
-                saveHistoryItem(currentAnimeId, currentTitle, epNum);
-            }
-
-            const isDataVideo = videoUrl.startsWith('data:video/');
-            const isDirectVideo = videoUrl.match(/\.(mp4|webm|mkv|mov|avi|flv|wmv|m4v|3gp)$/i) || videoUrl.includes('blob:');
+            const isDirect = videoUrl.startsWith('data:video/') || videoUrl.match(/\.(mp4|webm|mkv|mov|avi|flv|wmv|m4v|3gp)$/i) || videoUrl.includes('blob:');
             const isEmbed = videoUrl.includes('/embed/') || videoUrl.includes('youtube.com') || videoUrl.includes('vimeo.com');
 
-            if (isDataVideo || isDirectVideo) {
+            if (isDirect) {
                 iframeWrapper.style.display = 'none';
                 videoPlayerWrapper.style.display = 'block';
                 videoSource.src = videoUrl;
@@ -2661,18 +2013,12 @@
                 videoIframe.src = currentVideoUrl;
             }
             playerStatus.textContent = `🔄 रीलोड हो रहा है...`;
-            setTimeout(() => {
-                playerStatus.textContent = `✅ JOD MODS • एपिसोड ${currentEpisodeNum}`;
-            }, 1000);
+            setTimeout(() => playerStatus.textContent = `✅ JOD MODS • एपिसोड ${currentEpisodeNum}`, 1000);
         }
 
         function shareVideo() {
             if (navigator.share) {
-                navigator.share({
-                    title: currentTitle || 'JOD MODS OTT',
-                    text: `🎬 ${currentTitle || 'वीडियो'} देखें - JOD MODS OTT पर 100% मुफ्त!`,
-                    url: window.location.href
-                }).catch(() => {});
+                navigator.share({ title: currentTitle || 'JOD MODS OTT', text: `🎬 ${currentTitle || 'वीडियो'} देखें - JOD MODS OTT पर 100% मुफ्त!`, url: window.location.href }).catch(() => {});
             } else {
                 alert(`📤 शेयर करें: ${window.location.href}`);
             }
@@ -2689,21 +2035,12 @@
             document.body.style.overflow = 'auto';
         }
 
-        modal.addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-
-        document.addEventListener('keydown', function(e) {
+        modal.addEventListener('click', e => { if (e.target === this) closeModal(); });
+        document.addEventListener('keydown', e => {
             if (e.key === 'Escape') closeModal();
-            if (e.key === 'Escape' && document.getElementById('adminPage').style.display === 'block') {
-                closeAdminPage();
-            }
-            if (e.key === 'Escape' && document.getElementById('adminAuthOverlay').classList.contains('active')) {
-                closeAdminAuth();
-            }
-            if (e.key === 'Escape' && document.getElementById('userAuthOverlay').classList.contains('active')) {
-                closeUserAuth();
-            }
+            if (e.key === 'Escape' && document.getElementById('adminPage').style.display === 'block') closeAdminPage();
+            if (e.key === 'Escape' && document.getElementById('adminAuthOverlay').classList.contains('active')) closeAdminAuth();
+            if (e.key === 'Escape' && document.getElementById('userAuthOverlay').classList.contains('active')) closeUserAuth();
         });
 
         // ==================== START ====================
@@ -2711,22 +2048,15 @@
             localStorage.setItem('jodmods_hide_default', 'true');
             localStorage.setItem('jodmods_initialized', 'true');
         }
-        
         currentUser = getCurrentUser();
         updateUI();
         renderComments();
         loadHistory();
         loadAnime();
 
-        // Auto-create admin user
         const users = getUsers();
         if (!users.find(u => u.email === 'admin@jodmods.com')) {
-            users.push({
-                name: 'JOD MODS',
-                email: 'admin@jodmods.com',
-                password: 'admin123',
-                isAdmin: true
-            });
+            users.push({ name: 'JOD MODS', email: 'admin@jodmods.com', password: 'admin123', isAdmin: true });
             saveUsers(users);
         }
     </script>
