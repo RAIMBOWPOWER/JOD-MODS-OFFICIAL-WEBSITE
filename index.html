@@ -143,6 +143,7 @@
         .search-box i { color: #888; cursor: pointer; transition: 0.4s; }
         .search-box i:hover { color: #ff3b3b; transform: rotate(90deg) scale(1.2); }
 
+        /* ===== USER AUTH BUTTONS ===== */
         .auth-buttons {
             display: flex;
             gap: 8px;
@@ -612,6 +613,7 @@
             font-size: 14px;
         }
 
+        /* ===== UPLOAD BUTTON - opens Admin Login ===== */
         .upload-btn {
             background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
             color: #fff;
@@ -629,7 +631,7 @@
             box-shadow: 0 8px 45px rgba(255,59,59,0.5);
         }
 
-        /* ===== ULTRA PROMAX LOGIN SYSTEM ===== */
+        /* ===== PREMIUM USER LOGIN OVERLAY ===== */
         .auth-overlay {
             display: none;
             position: fixed;
@@ -637,11 +639,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.92);
             z-index: 2000;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             animation: fadeIn 0.4s ease;
         }
         .auth-overlay.active {
@@ -649,14 +651,14 @@
         }
         .auth-box {
             background: rgba(20,20,20,0.95);
-            padding: 40px 35px;
-            border-radius: 20px;
+            padding: 45px 40px;
+            border-radius: 24px;
             width: 100%;
             max-width: 420px;
-            border: 1px solid rgba(255,59,59,0.3);
+            border: 1px solid rgba(255,59,59,0.25);
             animation: modalIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
-            box-shadow: 0 0 80px rgba(255,59,59,0.08);
+            box-shadow: 0 0 100px rgba(255,59,59,0.06);
             overflow: hidden;
         }
         .auth-box::before {
@@ -666,8 +668,8 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(ellipse at center, rgba(255,59,59,0.05), transparent 70%);
-            animation: rotateBg 20s linear infinite;
+            background: radial-gradient(ellipse at center, rgba(255,59,59,0.06), transparent 70%);
+            animation: rotateBg 25s linear infinite;
             z-index: -1;
         }
         @keyframes rotateBg {
@@ -676,9 +678,9 @@
         }
         .auth-box .close-auth {
             position: absolute;
-            top: 12px;
-            right: 18px;
-            font-size: 26px;
+            top: 14px;
+            right: 20px;
+            font-size: 28px;
             color: #666;
             cursor: pointer;
             background: none;
@@ -691,54 +693,55 @@
         }
         .auth-box .auth-brand {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 28px;
         }
         .auth-box .auth-brand i {
-            font-size: 45px;
+            font-size: 50px;
             color: #ff3b3b;
             animation: pulse 2s infinite;
         }
         .auth-box .auth-brand h2 {
             color: #fff;
-            font-size: 24px;
-            margin-top: 8px;
-            font-weight: 800;
+            font-size: 26px;
+            margin-top: 10px;
+            font-weight: 900;
         }
         .auth-box .auth-brand h2 span { color: #ff3b3b; }
         .auth-box .auth-brand p {
             color: #888;
             font-size: 13px;
-            margin-top: 2px;
+            margin-top: 4px;
         }
 
         .auth-box .input-group {
             position: relative;
-            margin: 12px 0;
+            margin: 14px 0;
         }
         .auth-box .input-group i {
             position: absolute;
-            left: 14px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
             color: #666;
             font-size: 16px;
             transition: 0.3s;
+            z-index: 2;
         }
         .auth-box .input-group input {
             width: 100%;
-            padding: 14px 14px 14px 44px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
+            padding: 15px 16px 15px 48px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
             color: #fff;
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 14px;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .auth-box .input-group input:focus {
             border-color: #ff3b3b;
-            box-shadow: 0 0 30px rgba(255,59,59,0.1);
+            box-shadow: 0 0 40px rgba(255,59,59,0.08);
             outline: none;
-            background: rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.07);
         }
         .auth-box .input-group input:focus + i,
         .auth-box .input-group input:focus ~ i {
@@ -748,26 +751,26 @@
 
         .auth-box .auth-submit {
             width: 100%;
-            padding: 14px;
+            padding: 15px;
             background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
             color: #fff;
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
-            margin-top: 16px;
+            margin-top: 18px;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 25px rgba(255,59,59,0.2);
+            box-shadow: 0 4px 30px rgba(255,59,59,0.2);
         }
         .auth-box .auth-submit:hover {
-            transform: scale(1.02) translateY(-2px);
-            box-shadow: 0 8px 40px rgba(255,59,59,0.4);
+            transform: scale(1.02) translateY(-3px);
+            box-shadow: 0 8px 50px rgba(255,59,59,0.4);
         }
 
         .auth-box .switch-auth {
             text-align: center;
-            margin-top: 16px;
+            margin-top: 18px;
             color: #666;
             font-size: 13px;
         }
@@ -778,16 +781,155 @@
             transition: 0.3s;
         }
         .auth-box .switch-auth span:hover {
-            text-shadow: 0 0 20px rgba(255,59,59,0.3);
+            text-shadow: 0 0 25px rgba(255,59,59,0.3);
         }
         .auth-box .error-msg {
             color: #ff3b3b;
             font-size: 12px;
             text-align: center;
+            margin-top: 12px;
+            padding: 10px;
+            background: rgba(255,59,59,0.08);
+            border-radius: 10px;
+        }
+
+        /* ===== ADMIN LOGIN OVERLAY (separate) ===== */
+        .admin-auth-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.93);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(25px);
+            animation: fadeIn 0.4s ease;
+        }
+        .admin-auth-overlay.active {
+            display: flex;
+        }
+        .admin-auth-box {
+            background: rgba(20,20,20,0.95);
+            padding: 45px 40px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid rgba(255,59,59,0.3);
+            animation: modalIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            box-shadow: 0 0 100px rgba(255,59,59,0.08);
+            overflow: hidden;
+        }
+        .admin-auth-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(255,59,59,0.08), transparent 70%);
+            animation: rotateBg 25s linear infinite;
+            z-index: -1;
+        }
+        .admin-auth-box .close-admin-auth {
+            position: absolute;
+            top: 14px;
+            right: 20px;
+            font-size: 28px;
+            color: #666;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .admin-auth-box .close-admin-auth:hover {
+            color: #ff3b3b;
+            transform: rotate(90deg) scale(1.1);
+        }
+        .admin-auth-box .auth-brand {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .admin-auth-box .auth-brand i {
+            font-size: 50px;
+            color: #ff3b3b;
+            animation: pulse 2s infinite;
+        }
+        .admin-auth-box .auth-brand h2 {
+            color: #fff;
+            font-size: 26px;
             margin-top: 10px;
-            padding: 8px;
-            background: rgba(255,59,59,0.1);
-            border-radius: 8px;
+            font-weight: 900;
+        }
+        .admin-auth-box .auth-brand h2 span { color: #ff3b3b; }
+        .admin-auth-box .auth-brand p {
+            color: #888;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+        .admin-auth-box .input-group {
+            position: relative;
+            margin: 14px 0;
+        }
+        .admin-auth-box .input-group i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 16px;
+            transition: 0.3s;
+            z-index: 2;
+        }
+        .admin-auth-box .input-group input {
+            width: 100%;
+            padding: 15px 16px 15px 48px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: #fff;
+            border-radius: 14px;
+            font-size: 14px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .admin-auth-box .input-group input:focus {
+            border-color: #ff3b3b;
+            box-shadow: 0 0 40px rgba(255,59,59,0.08);
+            outline: none;
+            background: rgba(255,255,255,0.07);
+        }
+        .admin-auth-box .input-group input:focus + i {
+            color: #ff3b3b;
+        }
+        .admin-auth-box .input-group input::placeholder { color: #555; }
+        .admin-auth-box .auth-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 18px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 30px rgba(255,59,59,0.2);
+        }
+        .admin-auth-box .auth-submit:hover {
+            transform: scale(1.02) translateY(-3px);
+            box-shadow: 0 8px 50px rgba(255,59,59,0.4);
+        }
+        .admin-auth-box .error-msg {
+            color: #ff3b3b;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 12px;
+            padding: 10px;
+            background: rgba(255,59,59,0.08);
+            border-radius: 10px;
         }
 
         /* ===== COMMENTS ===== */
@@ -1014,7 +1156,7 @@
             font-size: 13px;
         }
 
-        /* ===== ADMIN PAGE ===== */
+        /* ===== ADMIN PAGE (Only shows after admin login) ===== */
         #adminPage {
             display: none;
             position: fixed;
@@ -1023,7 +1165,7 @@
             width: 100%;
             height: 100%;
             background: #0a0a0a;
-            z-index: 10000;
+            z-index: 5000;
             overflow-y: auto;
             padding: 20px;
             animation: fadeIn 0.4s ease;
@@ -1106,58 +1248,6 @@
             background: #cc2e2e;
             transform: scale(1.03) translateY(-2px);
             box-shadow: 0 8px 30px rgba(255,59,59,0.3);
-        }
-
-        /* ===== ADMIN LOGIN ===== */
-        .admin-login-box {
-            background: #1a1a1a;
-            padding: 30px;
-            border-radius: 14px;
-            border: 1px solid #ff3b3b;
-            max-width: 400px;
-            margin: 20px auto;
-            text-align: center;
-        }
-        .admin-login-box h3 {
-            color: #ff3b3b;
-            margin-bottom: 15px;
-        }
-        .admin-login-box input {
-            width: 100%;
-            padding: 12px 16px;
-            margin: 8px 0;
-            background: #222;
-            border: 1px solid #444;
-            color: #fff;
-            border-radius: 10px;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-        .admin-login-box input:focus {
-            border-color: #ff3b3b;
-            outline: none;
-        }
-        .admin-login-box button {
-            width: 100%;
-            padding: 12px;
-            background: #ff3b3b;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
-        }
-        .admin-login-box button:hover {
-            background: #cc2e2e;
-            transform: scale(1.02);
-        }
-        .admin-login-box .admin-error {
-            color: #ff3b3b;
-            font-size: 12px;
-            margin-top: 8px;
         }
 
         .drop-area {
@@ -1272,7 +1362,7 @@
             transform: scale(1.05);
         }
 
-        /* ===== LOGIN REQUIRED OVERLAY ===== */
+        /* ===== LOGIN REQUIRED OVERLAY (for videos) ===== */
         .login-required-overlay {
             position: fixed;
             top: 0;
@@ -1362,6 +1452,7 @@
             #adminPage { padding: 10px; }
             .comments-section { margin: 15px; padding: 15px; }
             .auth-box { padding: 25px 20px; margin: 10px; }
+            .admin-auth-box { padding: 25px 20px; margin: 10px; }
             .history-section { margin: 10px; }
             .login-required-box { padding: 25px; }
         }
@@ -1372,15 +1463,15 @@
     <!-- ===== CANVAS BACKGROUND ===== -->
     <canvas id="bgCanvas"></canvas>
 
-    <!-- ===== LOGIN REQUIRED OVERLAY ===== -->
+    <!-- ===== LOGIN REQUIRED OVERLAY (for videos) ===== -->
     <div class="login-required-overlay" id="loginRequiredOverlay">
         <div class="login-required-box">
             <i class="fas fa-lock"></i>
             <h2>🔐 लॉगिन जरूरी!</h2>
             <p>वीडियो देखने के लिए कृपया पहले लॉगिन या रजिस्टर करें।</p>
             <div class="auth-btns">
-                <button class="login-btn2" onclick="closeLoginRequired(); openAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
-                <button class="register-btn2" onclick="closeLoginRequired(); openAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
+                <button class="login-btn2" onclick="closeLoginRequired(); openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
+                <button class="register-btn2" onclick="closeLoginRequired(); openUserAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
             </div>
         </div>
     </div>
@@ -1397,11 +1488,11 @@
                 <a data-type="series"><i class="fas fa-tv"></i> सीरीज</a>
             </div>
             <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-                <button class="upload-btn" onclick="openAdminPage()"><i class="fas fa-upload"></i> अपलोड</button>
+                <button class="upload-btn" onclick="openAdminAuth()"><i class="fas fa-upload"></i> ONLY UPLOAD JODxCHEATS</button>
                 <div id="authSection">
                     <div class="auth-buttons">
-                        <button class="auth-btn" onclick="openAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
-                        <button class="auth-btn" onclick="openAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
+                        <button class="auth-btn" onclick="openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
+                        <button class="auth-btn" onclick="openUserAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
                     </div>
                 </div>
                 <div class="search-box">
@@ -1454,10 +1545,10 @@
         </div>
     </div>
 
-    <!-- ===== ULTRA PROMAX AUTH OVERLAY ===== -->
-    <div class="auth-overlay" id="authOverlay">
+    <!-- ===== PREMIUM USER LOGIN OVERLAY ===== -->
+    <div class="auth-overlay" id="userAuthOverlay">
         <div class="auth-box" id="authBox">
-            <button class="close-auth" onclick="closeAuth()">&times;</button>
+            <button class="close-auth" onclick="closeUserAuth()">&times;</button>
             <div class="auth-brand">
                 <i class="fas fa-film"></i>
                 <h2>JOD<span>MODS</span></h2>
@@ -1480,36 +1571,46 @@
                     <i class="fas fa-check-circle"></i>
                     <input type="password" id="authConfirm" placeholder="पासवर्ड दोबारा" />
                 </div>
-                <button class="auth-submit" id="authSubmit" onclick="submitAuth()">लॉगिन करें</button>
+                <button class="auth-submit" id="authSubmit" onclick="submitUserAuth()">लॉगिन करें</button>
                 <div class="error-msg" id="authError"></div>
                 <div class="switch-auth">
-                    <span id="switchText">नए हैं? <span onclick="switchAuth()">रजिस्टर करें</span></span>
+                    <span id="switchText">नए हैं? <span onclick="switchUserAuth()">रजिस्टर करें</span></span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ===== ADMIN PAGE ===== -->
+    <!-- ===== ADMIN LOGIN OVERLAY (separate) ===== -->
+    <div class="admin-auth-overlay" id="adminAuthOverlay">
+        <div class="admin-auth-box">
+            <button class="close-admin-auth" onclick="closeAdminAuth()">&times;</button>
+            <div class="auth-brand">
+                <i class="fas fa-user-shield"></i>
+                <h2>JOD<span>MODS</span></h2>
+                <p>🔐 ऐडमिन लॉगिन</p>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="adminUserInput" placeholder="यूजरनेम" />
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="adminPassInput" placeholder="पासवर्ड" />
+            </div>
+            <button class="auth-submit" onclick="submitAdminLogin()">लॉगिन करें</button>
+            <div class="error-msg" id="adminAuthError"></div>
+        </div>
+    </div>
+
+    <!-- ===== ADMIN PAGE (Only shows after admin login) ===== -->
     <div id="adminPage">
         <div class="admin-header">
-            <h2><i class="fas fa-upload"></i> ऐडमिन पैनल</h2>
+            <h2><i class="fas fa-upload"></i> ऐडमिन पैनल - JOD MODS</h2>
             <button class="close-admin" onclick="closeAdminPage()"><i class="fas fa-times"></i> बंद करें</button>
         </div>
 
         <div class="admin-panel">
-            <!-- Admin Login - Required First -->
-            <div id="adminLoginSection">
-                <div class="admin-login-box">
-                    <h3><i class="fas fa-lock"></i> ऐडमिन लॉगिन</h3>
-                    <input type="text" id="adminUser" placeholder="यूजरनेम" />
-                    <input type="password" id="adminPass" placeholder="पासवर्ड" />
-                    <button onclick="adminLogin()">लॉगिन करें</button>
-                    <div class="admin-error" id="adminError"></div>
-                </div>
-            </div>
-
-            <!-- Admin Controls - Only Show After Login -->
-            <div id="adminControls" style="display:none;">
+            <div id="adminControls" style="display:block;">
                 <h3><i class="fas fa-plus-circle"></i> नया कंटेंट जोड़ें / एडिट करें</h3>
                 
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
@@ -1625,7 +1726,6 @@
                     ctx.fillStyle = this.color;
                     ctx.globalAlpha = opacity;
                     ctx.fill();
-                    // Glow
                     ctx.shadowColor = this.color;
                     ctx.shadowBlur = 15;
                     ctx.fill();
@@ -1634,7 +1734,6 @@
                 }
             }
 
-            // Lines between particles
             function drawLines() {
                 for (let i = 0; i < particles.length; i++) {
                     for (let j = i + 1; j < particles.length; j++) {
@@ -1678,7 +1777,7 @@
         let uploadedImages = [];
         let editingId = null;
         let currentUser = null;
-        let authMode = 'login';
+        let userAuthMode = 'login';
         let pendingOpenAnime = null;
         let isAdminLoggedIn = false;
 
@@ -1695,29 +1794,25 @@
         const episodeContainer = document.getElementById('episodeContainer');
         const playerStatus = document.getElementById('playerStatus');
 
-        // ==================== LOGIN REQUIRED ====================
+        // ==================== LOGIN REQUIRED (for videos) ====================
         function showLoginRequired() {
             document.getElementById('loginRequiredOverlay').classList.add('active');
         }
-
         function closeLoginRequired() {
             document.getElementById('loginRequiredOverlay').classList.remove('active');
         }
 
-        // ==================== AUTH SYSTEM ====================
+        // ==================== USER AUTH SYSTEM ====================
         function getUsers() {
             return JSON.parse(localStorage.getItem('jodmods_users') || '[]');
         }
-
         function saveUsers(users) {
             localStorage.setItem('jodmods_users', JSON.stringify(users));
         }
-
         function getCurrentUser() {
             const data = localStorage.getItem('jodmods_current_user');
             return data ? JSON.parse(data) : null;
         }
-
         function setCurrentUser(user) {
             if (user) {
                 localStorage.setItem('jodmods_current_user', JSON.stringify(user));
@@ -1728,45 +1823,14 @@
             updateUI();
         }
 
-        function adminResetAll() {
-            if (!isAdminLoggedIn) { alert('पहले ऐडमिन लॉगिन करें!'); return; }
-            if (!confirm('⚠️ क्या आप सभी यूजर्स को लॉगआउट करना चाहते हैं? सबका सेशन खत्म हो जाएगा!')) return;
-            localStorage.removeItem('jodmods_current_user');
-            currentUser = null;
-            updateUI();
-            renderComments();
-            loadHistory();
-            closeLoginRequired();
-            alert('✅ सभी यूजर्स लॉगआउट कर दिए गए!');
-        }
-
-        // ==================== ADMIN LOGIN ====================
-        function adminLogin() {
-            const user = document.getElementById('adminUser').value.trim();
-            const pass = document.getElementById('adminPass').value.trim();
-            const error = document.getElementById('adminError');
-
-            if (user === 'JOD' && pass === 'MODS') {
-                isAdminLoggedIn = true;
-                document.getElementById('adminLoginSection').style.display = 'none';
-                document.getElementById('adminControls').style.display = 'block';
-                error.textContent = '';
-                loadAdminContentList();
-                document.getElementById('adminUser').value = '';
-                document.getElementById('adminPass').value = '';
-            } else {
-                error.textContent = '❌ गलत यूजरनेम या पासवर्ड!';
-            }
-        }
-
-        function openAuth(mode) {
+        function openUserAuth(mode) {
             closeLoginRequired();
             if (currentUser) {
                 alert('आप पहले से लॉगिन हैं!');
                 return;
             }
-            authMode = mode || 'login';
-            const overlay = document.getElementById('authOverlay');
+            userAuthMode = mode || 'login';
+            const overlay = document.getElementById('userAuthOverlay');
             const subText = document.getElementById('authSubText');
             const nameField = document.getElementById('authName');
             const confirmGroup = document.getElementById('confirmGroup');
@@ -1778,13 +1842,13 @@
                 nameField.style.display = 'block';
                 confirmGroup.style.display = 'block';
                 submitBtn.textContent = 'रजिस्टर करें';
-                switchText.innerHTML = 'पहले से हैं? <span onclick="switchAuth()">लॉगिन करें</span>';
+                switchText.innerHTML = 'पहले से हैं? <span onclick="switchUserAuth()">लॉगिन करें</span>';
             } else {
                 subText.textContent = 'अपने अकाउंट में लॉगिन करें';
                 nameField.style.display = 'none';
                 confirmGroup.style.display = 'none';
                 submitBtn.textContent = 'लॉगिन करें';
-                switchText.innerHTML = 'नए हैं? <span onclick="switchAuth()">रजिस्टर करें</span>';
+                switchText.innerHTML = 'नए हैं? <span onclick="switchUserAuth()">रजिस्टर करें</span>';
             }
 
             document.getElementById('authError').textContent = '';
@@ -1795,20 +1859,20 @@
             overlay.classList.add('active');
         }
 
-        function closeAuth() {
-            document.getElementById('authOverlay').classList.remove('active');
+        function closeUserAuth() {
+            document.getElementById('userAuthOverlay').classList.remove('active');
         }
 
-        function switchAuth() {
+        function switchUserAuth() {
             const current = document.getElementById('authSubText').textContent;
             if (current.includes('लॉगिन')) {
-                openAuth('register');
+                openUserAuth('register');
             } else {
-                openAuth('login');
+                openUserAuth('login');
             }
         }
 
-        function submitAuth() {
+        function submitUserAuth() {
             const email = document.getElementById('authEmail').value.trim();
             const pass = document.getElementById('authPass').value.trim();
             const name = document.getElementById('authName').value.trim();
@@ -1822,7 +1886,7 @@
 
             const users = getUsers();
 
-            if (authMode === 'register') {
+            if (userAuthMode === 'register') {
                 if (!name) { error.textContent = 'नाम जरूरी है!'; return; }
                 if (pass !== confirm) { error.textContent = 'पासवर्ड मैच नहीं!'; return; }
                 if (users.find(u => u.email === email)) {
@@ -1834,7 +1898,7 @@
                 error.textContent = '✅ रजिस्टर सफल! अब लॉगिन करें।';
                 error.style.color = '#00c853';
                 setTimeout(() => {
-                    openAuth('login');
+                    openUserAuth('login');
                 }, 1500);
                 return;
             }
@@ -1847,7 +1911,7 @@
                 return;
             }
             setCurrentUser(user);
-            closeAuth();
+            closeUserAuth();
             renderComments();
             loadHistory();
             if (pendingOpenAnime) {
@@ -1872,8 +1936,8 @@
             } else {
                 authSection.innerHTML = `
                     <div class="auth-buttons">
-                        <button class="auth-btn" onclick="openAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
-                        <button class="auth-btn" onclick="openAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
+                        <button class="auth-btn" onclick="openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
+                        <button class="auth-btn" onclick="openUserAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
                     </div>
                 `;
             }
@@ -1888,22 +1952,51 @@
             }
         }
 
-        // ===== ADMIN PAGE =====
-        function openAdminPage() {
-            document.getElementById('adminPage').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            // Reset admin login state
-            isAdminLoggedIn = false;
-            document.getElementById('adminLoginSection').style.display = 'block';
-            document.getElementById('adminControls').style.display = 'none';
-            document.getElementById('adminError').textContent = '';
-            document.getElementById('adminUser').value = '';
-            document.getElementById('adminPass').value = '';
+        // ==================== ADMIN AUTH SYSTEM ====================
+        function openAdminAuth() {
+            document.getElementById('adminAuthOverlay').classList.add('active');
+            document.getElementById('adminAuthError').textContent = '';
+            document.getElementById('adminUserInput').value = '';
+            document.getElementById('adminPassInput').value = '';
+        }
+
+        function closeAdminAuth() {
+            document.getElementById('adminAuthOverlay').classList.remove('active');
+        }
+
+        function submitAdminLogin() {
+            const user = document.getElementById('adminUserInput').value.trim();
+            const pass = document.getElementById('adminPassInput').value.trim();
+            const error = document.getElementById('adminAuthError');
+
+            if (user === 'JOD' && pass === 'MODS') {
+                isAdminLoggedIn = true;
+                closeAdminAuth();
+                document.getElementById('adminPage').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                loadAdminContentList();
+                error.textContent = '';
+            } else {
+                error.textContent = '❌ गलत यूजरनेम या पासवर्ड!';
+            }
         }
 
         function closeAdminPage() {
             document.getElementById('adminPage').style.display = 'none';
             document.body.style.overflow = 'auto';
+            isAdminLoggedIn = false;
+        }
+
+        function adminResetAll() {
+            if (!isAdminLoggedIn) { alert('पहले ऐडमिन लॉगिन करें!'); return; }
+            if (!confirm('⚠️ क्या आप सभी यूजर्स को लॉगआउट करना चाहते हैं? सबका सेशन खत्म हो जाएगा!')) return;
+            localStorage.removeItem('jodmods_current_user');
+            currentUser = null;
+            updateUI();
+            renderComments();
+            loadHistory();
+            closeLoginRequired();
+            alert('✅ सभी यूजर्स लॉगआउट कर दिए गए!');
         }
 
         // ===== ADMIN: IMAGE DRAG & DROP =====
@@ -2604,6 +2697,12 @@
             if (e.key === 'Escape') closeModal();
             if (e.key === 'Escape' && document.getElementById('adminPage').style.display === 'block') {
                 closeAdminPage();
+            }
+            if (e.key === 'Escape' && document.getElementById('adminAuthOverlay').classList.contains('active')) {
+                closeAdminAuth();
+            }
+            if (e.key === 'Escape' && document.getElementById('userAuthOverlay').classList.contains('active')) {
+                closeUserAuth();
             }
         });
 
