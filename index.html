@@ -418,33 +418,8 @@
             color: #00c853;
             backdrop-filter: blur(4px);
         }
-        .lock-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 14px;
-            z-index: 5;
-            transition: 0.3s;
-        }
-        .lock-overlay i { 
-            font-size: 40px; 
-            color: #ff3b3b; 
-            opacity: 0.8;
-            animation: lockPulse 2s ease-in-out infinite;
-        }
-        @keyframes lockPulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-        }
 
-        /* ===== STATS ON CARD ===== */
+        /* ===== CARD STATS ===== */
         .card-stats {
             display: flex;
             gap: 12px;
@@ -1020,7 +995,7 @@
         }
         .action-bar button i { color: #ff3b3b; }
 
-        /* ===== LIKE BUTTON IN MODAL ===== */
+        /* ===== LIKE SECTION IN MODAL ===== */
         .like-section {
             display: flex;
             align-items: center;
@@ -2102,6 +2077,116 @@
     </div>
 
     <script>
+        // ==================== DATABASE MERGE (OLD + NEW) ====================
+        function mergeDatabases() {
+            // Merge Users
+            let users = JSON.parse(localStorage.getItem('jodmods_users') || '[]');
+            let oldUsers = JSON.parse(localStorage.getItem('jodmods_old_users') || '[]');
+            
+            // Merge old users with new users (avoid duplicates)
+            oldUsers.forEach(oldUser => {
+                if (!users.find(u => u.email === oldUser.email)) {
+                    users.push(oldUser);
+                }
+            });
+            localStorage.setItem('jodmods_users', JSON.stringify(users));
+            localStorage.removeItem('jodmods_old_users');
+
+            // Merge Content
+            let content = JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
+            let oldContent = JSON.parse(localStorage.getItem('jodmods_old_custom_anime') || '[]');
+            
+            oldContent.forEach(oldItem => {
+                if (!content.find(c => c.id === oldItem.id)) {
+                    content.push(oldItem);
+                }
+            });
+            localStorage.setItem('jodmods_custom_anime', JSON.stringify(content));
+            localStorage.removeItem('jodmods_old_custom_anime');
+
+            // Merge Stats
+            let stats = JSON.parse(localStorage.getItem('jodmods_content_stats') || '{}');
+            let oldStats = JSON.parse(localStorage.getItem('jodmods_old_content_stats') || '{}');
+            
+            Object.keys(oldStats).forEach(key => {
+                if (!stats[key]) {
+                    stats[key] = oldStats[key];
+                }
+            });
+            localStorage.setItem('jodmods_content_stats', JSON.stringify(stats));
+            localStorage.removeItem('jodmods_old_content_stats');
+
+            // Merge Moderators
+            let mods = JSON.parse(localStorage.getItem('jodmods_moderators') || '[]');
+            let oldMods = JSON.parse(localStorage.getItem('jodmods_old_moderators') || '[]');
+            
+            oldMods.forEach(oldMod => {
+                if (!mods.find(m => m.username === oldMod.username)) {
+                    mods.push(oldMod);
+                }
+            });
+            localStorage.setItem('jodmods_moderators', JSON.stringify(mods));
+            localStorage.removeItem('jodmods_old_moderators');
+
+            // Merge Comments
+            let comments = JSON.parse(localStorage.getItem('jodmods_comments') || '[]');
+            let oldComments = JSON.parse(localStorage.getItem('jodmods_old_comments') || '[]');
+            
+            oldComments.forEach(oldComment => {
+                if (!comments.find(c => c.id === oldComment.id)) {
+                    comments.push(oldComment);
+                }
+            });
+            localStorage.setItem('jodmods_comments', JSON.stringify(comments));
+            localStorage.removeItem('jodmods_old_comments');
+
+            // Merge History
+            let history = JSON.parse(localStorage.getItem('jodmods_history') || '{}');
+            let oldHistory = JSON.parse(localStorage.getItem('jodmods_old_history') || '{}');
+            
+            Object.keys(oldHistory).forEach(key => {
+                if (!history[key]) {
+                    history[key] = oldHistory[key];
+                } else {
+                    // Merge history items for same user
+                    oldHistory[key].forEach(item => {
+                        if (!history[key].find(h => h.animeId === item.animeId)) {
+                            history[key].push(item);
+                        }
+                    });
+                }
+            });
+            localStorage.setItem('jodmods_history', JSON.stringify(history));
+            localStorage.removeItem('jodmods_old_history');
+        }
+
+        // ==================== BACKUP OLD DATA BEFORE CHANGES ====================
+        function backupOldData() {
+            // Backup users
+            let users = localStorage.getItem('jodmods_users');
+            if (users) localStorage.setItem('jodmods_old_users', users);
+            
+            // Backup content
+            let content = localStorage.getItem('jodmods_custom_anime');
+            if (content) localStorage.setItem('jodmods_old_custom_anime', content);
+            
+            // Backup stats
+            let stats = localStorage.getItem('jodmods_content_stats');
+            if (stats) localStorage.setItem('jodmods_old_content_stats', stats);
+            
+            // Backup moderators
+            let mods = localStorage.getItem('jodmods_moderators');
+            if (mods) localStorage.setItem('jodmods_old_moderators', mods);
+            
+            // Backup comments
+            let comments = localStorage.getItem('jodmods_comments');
+            if (comments) localStorage.setItem('jodmods_old_comments', comments);
+            
+            // Backup history
+            let history = localStorage.getItem('jodmods_history');
+            if (history) localStorage.setItem('jodmods_old_history', history);
+        }
+
         // ==================== TOAST ====================
         let toastTimeout;
 
@@ -2239,7 +2324,6 @@
             const stats = getContentStats();
             if (!stats[contentId]) stats[contentId] = { views: 0, likes: 0, likedUsers: [] };
             
-            // Check if user already viewed (session based)
             const sessionKey = 'viewed_' + contentId;
             if (sessionStorage.getItem(sessionKey)) return;
             
@@ -2264,12 +2348,10 @@
             const index = likedUsers.indexOf(userEmail);
             
             if (index > -1) {
-                // Unlike
                 likedUsers.splice(index, 1);
                 stats[contentId].likes = Math.max(0, (stats[contentId].likes || 0) - 1);
                 showToast('info', '❤️ लाइक हटा दिया');
             } else {
-                // Like
                 likedUsers.push(userEmail);
                 stats[contentId].likes = (stats[contentId].likes || 0) + 1;
                 showToast('success', '❤️ लाइक कर दिया!');
@@ -2279,6 +2361,8 @@
             saveContentStats(stats);
             updateLikeUI(contentId);
             updateAdminStats();
+            // Reload content to update card stats
+            loadAnime();
         }
 
         function isContentLiked(contentId) {
@@ -2303,7 +2387,6 @@
                 likeBtn.classList.remove('liked');
             }
             
-            // Update view count
             const viewCount = document.getElementById('viewCount');
             if (viewCount) {
                 viewCount.textContent = getContentViews(contentId);
@@ -2929,7 +3012,6 @@
                     adminAdded: true, 
                     addedBy: currentAdminUser === 'admin' ? 'admin' : 'mod' 
                 });
-                // Initialize stats for this content
                 const stats = getContentStats();
                 if (!stats[newId]) {
                     stats[newId] = { views: 0, likes: 0, likedUsers: [] };
@@ -2970,7 +3052,6 @@
             let list = getCustomAnimeList();
             list = list.filter(a => a.id !== id);
             saveCustomAnimeList(list);
-            // Remove stats
             const stats = getContentStats();
             delete stats[id];
             saveContentStats(stats);
@@ -3221,7 +3302,7 @@
             let html = `<div class="content-grid">`;
             const history = getHistory();
             const watchedIds = history.map(h => h.animeId);
-            const isLoggedIn = !!currentUser;
+            // Remove login check - now everyone can see content
             items.forEach(item => {
                 const title = item.title?.romaji || item.title?.english || item.title?.native || 'अज्ञात';
                 const image = item.coverImage?.large || 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image';
@@ -3234,9 +3315,8 @@
                 const liked = isContentLiked(id);
                 
                 html += `
-                    <div class="content-card" onclick="${isLoggedIn ? `openAnime('${id}', '${title.replace(/'/g, "\\'")}')` : `showLoginRequiredForAnime('${id}', '${title.replace(/'/g, "\\'")}')`}">
+                    <div class="content-card" onclick="openAnime('${id}', '${title.replace(/'/g, "\\'")}')">
                         <img src="${image}" alt="${title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image'"/>
-                        ${!isLoggedIn ? `<div class="lock-overlay"><i class="fas fa-lock"></i></div>` : ''}
                         <div class="info">
                             <h4>${title}</h4>
                             <p>${episodes} एपिसोड</p>
@@ -3256,15 +3336,16 @@
             container.innerHTML = html;
         }
 
-        function showLoginRequiredForAnime(id, title) {
-            pendingOpenAnime = { id, title };
-            showToast('info', '🔐 कृपया पहले लॉगिन करें!');
-            openUserAuth('login');
-        }
-
         // ==================== VIDEO PLAYER ====================
         async function openAnime(id, title) {
-            if (!currentUser) { showLoginRequiredForAnime(id, title); return; }
+            // Check if user is logged in before playing video
+            if (!currentUser) {
+                pendingOpenAnime = { id, title };
+                showToast('info', '🔐 वीडियो देखने के लिए लॉगिन करें!');
+                openUserAuth('login');
+                return;
+            }
+            
             if (!id) { showToast('error', '❌ डेटा उपलब्ध नहीं'); return; }
 
             currentAnimeId = id;
@@ -3391,9 +3472,7 @@
         function toggleLike() {
             if (!currentAnimeId) return;
             toggleLike(currentAnimeId);
-            // Update card stats if modal is open
             updateLikeUI(currentAnimeId);
-            // Reload content to update card stats
             loadAnime();
         }
 
@@ -3429,7 +3508,6 @@
             iframeWrapper.style.display = 'block';
             currentVideoUrl = '';
             document.body.style.overflow = 'auto';
-            // Update admin stats
             updateAdminStats();
         }
 
@@ -3445,10 +3523,17 @@
         });
 
         // ==================== INIT ====================
+        // Backup old data first
+        backupOldData();
+        
+        // Merge old and new data
+        mergeDatabases();
+
         if (!localStorage.getItem('jodmods_initialized')) {
             localStorage.setItem('jodmods_hide_default', 'true');
             localStorage.setItem('jodmods_initialized', 'true');
         }
+        
         currentUser = getCurrentUser();
         updateUI();
         renderComments();
@@ -3471,6 +3556,10 @@
             saveUsers(users);
         }
         if (isAdminLoggedIn) loadModeratorList();
+
+        console.log('✅ JOD MODS OTT Loaded Successfully!');
+        console.log('📊 Total Users:', getUsers().length);
+        console.log('📁 Total Content:', getCustomAnimeList().length);
     </script>
 </body>
 </html>
