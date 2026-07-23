@@ -17,7 +17,6 @@
         ::-webkit-scrollbar-track { background: #1a1a1a; }
         ::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
 
-        /* ===== ANIMATED PARTICLES BACKGROUND ===== */
         #particles {
             position: fixed;
             top: 0;
@@ -30,7 +29,7 @@
         }
         .particle {
             position: absolute;
-            background: rgba(255,59,59,0.3);
+            background: rgba(255,59,59,0.25);
             border-radius: 50%;
             animation: float linear infinite;
         }
@@ -41,7 +40,6 @@
             100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
         }
 
-        /* ===== GLOW TEXT ===== */
         .glow-text {
             animation: glowPulse 3s ease-in-out infinite;
         }
@@ -349,6 +347,26 @@
             color: #00c853;
             backdrop-filter: blur(5px);
         }
+        .lock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(3px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            z-index: 5;
+        }
+        .lock-overlay i {
+            font-size: 40px;
+            color: #ff3b3b;
+            opacity: 0.8;
+            animation: pulse 2s infinite;
+        }
 
         .modal {
             display: none;
@@ -558,26 +576,20 @@
         }
 
         .upload-btn {
-            background: #00c853;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
             color: #fff;
             border: none;
-            padding: 6px 16px;
+            padding: 6px 18px;
             border-radius: 20px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 12px;
             transition: 0.3s;
+            box-shadow: 0 0 20px rgba(255,59,59,0.3);
         }
         .upload-btn:hover {
-            background: #009624;
-            transform: scale(1.05);
-        }
-
-        .upload-btn.admin-only {
-            background: #ff3b3b;
-        }
-        .upload-btn.admin-only:hover {
-            background: #cc2e2e;
+            transform: scale(1.08);
+            box-shadow: 0 0 40px rgba(255,59,59,0.5);
         }
 
         /* ===== AUTH OVERLAY ===== */
@@ -682,12 +694,6 @@
         }
         .auth-box .error-msg {
             color: #ff3b3b;
-            font-size: 12px;
-            text-align: center;
-            margin-top: 8px;
-        }
-        .auth-box .success-msg {
-            color: #00c853;
             font-size: 12px;
             text-align: center;
             margin-top: 8px;
@@ -1005,37 +1011,1351 @@
             transform: scale(1.02);
             box-shadow: 0 0 20px rgba(255,59,59,0.3);
         }
+
         .admin-login {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-            background: #1a1a1a;
-            padding: 15px;
+            display: none;
+        }
+
+        .drop-area {
+            border: 2px dashed #ff3b3b;
             border-radius: 8px;
-            border: 1px solid #444;
-            margin-bottom: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 8px 0;
+            background: #111;
         }
-        .admin-login input {
+        .drop-area:hover, .drop-area.dragover {
             background: #222;
-            border: 1px solid #444;
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 6px;
-            flex: 1;
-            min-width: 120px;
+            border-color: #ff6b6b;
+            transform: scale(1.01);
         }
-        .admin-login input::placeholder { color: #666; }
-        .admin-login button {
+        .drop-area .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 8px;
+        }
+        .drop-area .preview-item {
+            position: relative;
+            display: inline-block;
+        }
+        .drop-area .preview-item img {
+            max-height: 100px;
+            border-radius: 6px;
+            border: 1px solid #444;
+        }
+        .drop-area .preview-item .remove-img {
+            position: absolute;
+            top: -6px;
+            right: -6px;
             background: #ff3b3b;
             color: #fff;
             border: none;
-            padding: 8px 20px;
-            border-radius: 6px;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
-            font-weight: 600;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
         }
-        .admin-login button:hover { background: #cc2e2e; }
-        .admin-status {
-            color: #00c853;
-            font
+        .drop-area .preview-item .remove-img:hover {
+            background: #cc2e2e;
+            transform: scale(1.1);
+        }
+
+        .admin-content-list {
+            margin-top: 20px;
+            border-top: 1px solid #333;
+            padding-top: 15px;
+        }
+        .admin-content-list .content-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #151515;
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin: 6px 0;
+            border: 1px solid #252525;
+            flex-wrap: wrap;
+            gap: 8px;
+            transition: 0.3s;
+        }
+        .admin-content-list .content-item:hover {
+            border-color: #ff3b3b;
+        }
+        .admin-content-list .content-item .item-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .admin-content-list .content-item .item-info img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+        .admin-content-list .content-item .item-actions button {
+            padding: 4px 12px;
+            font-size: 12px;
+            margin: 2px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .admin-content-list .content-item .item-actions .edit-btn {
+            background: #ffa500;
+            color: #fff;
+        }
+        .admin-content-list .content-item .item-actions .edit-btn:hover {
+            background: #cc8400;
+            transform: scale(1.05);
+        }
+        .admin-content-list .content-item .item-actions .del-btn {
+            background: #cc2e2e;
+            color: #fff;
+        }
+        .admin-content-list .content-item .item-actions .del-btn:hover {
+            background: #991111;
+            transform: scale(1.05);
+        }
+
+        /* ===== LOGIN REQUIRED OVERLAY ===== */
+        .login-required-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        .login-required-overlay.active {
+            display: flex;
+        }
+        .login-required-box {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            border: 2px solid #ff3b3b;
+            max-width: 420px;
+            width: 100%;
+            animation: modalIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .login-required-box i {
+            font-size: 60px;
+            color: #ff3b3b;
+            margin-bottom: 15px;
+        }
+        .login-required-box h2 {
+            color: #fff;
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+        .login-required-box p {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .login-required-box .auth-btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .login-required-box .auth-btns button {
+            padding: 10px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .login-required-box .auth-btns .login-btn2 {
+            background: #ff3b3b;
+            color: #fff;
+        }
+        .login-required-box .auth-btns .login-btn2:hover {
+            background: #cc2e2e;
+            transform: scale(1.05);
+        }
+        .login-required-box .auth-btns .register-btn2 {
+            background: #222;
+            color: #ccc;
+            border: 1px solid #444;
+        }
+        .login-required-box .auth-btns .register-btn2:hover {
+            background: #333;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            .navbar { flex-direction: column; align-items: stretch; }
+            .search-box { max-width: 100%; }
+            .content-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            .hero h1 { font-size: 22px; }
+            .nav-links { justify-content: center; }
+            #adminPage { padding: 10px; }
+            .comments-section { margin: 15px; padding: 15px; }
+            .auth-box { padding: 20px; margin: 10px; }
+            .history-section { margin: 10px; }
+            .login-required-box { padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== PARTICLES ===== -->
+    <div id="particles"></div>
+
+    <!-- ===== LOGIN REQUIRED OVERLAY ===== -->
+    <div class="login-required-overlay" id="loginRequiredOverlay">
+        <div class="login-required-box">
+            <i class="fas fa-lock"></i>
+            <h2>लॉगिन जरूरी है!</h2>
+            <p>वीडियो देखने के लिए कृपया पहले लॉगिन या रजिस्टर करें।</p>
+            <div class="auth-btns">
+                <button class="login-btn2" onclick="closeLoginRequired(); openAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
+                <button class="register-btn2" onclick="closeLoginRequired(); openAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN PAGE ===== -->
+    <div id="mainPage">
+        <div class="navbar">
+            <div class="logo">
+                <i class="fas fa-film"></i>JOD<span>MODS</span> OTT
+            </div>
+            <div class="nav-links">
+                <a class="active" data-type="all"><i class="fas fa-th-list"></i> सभी</a>
+                <a data-type="movies"><i class="fas fa-film"></i> मूवी</a>
+                <a data-type="series"><i class="fas fa-tv"></i> सीरीज</a>
+            </div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+                <button class="upload-btn" onclick="openAdminPage()"><i class="fas fa-upload"></i> ONLY UPLOAD JODxCHEATS</button>
+                <div id="authSection">
+                    <div class="auth-buttons">
+                        <button class="auth-btn" onclick="openAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
+                        <button class="auth-btn" onclick="openAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
+                    </div>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="🔍 खोजें..." />
+                    <i class="fas fa-search" onclick="searchAnime()"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero">
+            <h1 class="glow-text">🇮🇳 <span>JOD MODS</span> OTT</h1>
+            <p>🔥 सिर्फ ऐडमिन कंटेंट • 100% मुफ्त • डायरेक्ट वीडियो प्ले</p>
+            <div class="tags">
+                <span>🔥 ऐडमिन कंटेंट</span>
+                <span>⭐ 100% मुफ्त</span>
+                <span>📺 अपनी मर्जी का</span>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section" id="historySection">
+            <h3><i class="fas fa-history"></i> आपकी हिस्ट्री</h3>
+            <div id="historyList">
+                <div class="history-empty">लॉगिन करें और देखें कि आपने क्या देखा</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 id="sectionTitle"><i class="fas fa-fire" style="color:#ff3b3b;"></i> सभी कंटेंट</h2>
+            <div id="contentContainer">
+                <div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments-section" id="commentsSection">
+            <h3><i class="fas fa-comments"></i> कमेंट्स - अगली मूवी/सीरीज क्या चाहिए?</h3>
+            <div class="comment-input-area">
+                <input type="text" id="commentName" placeholder="आपका नाम..." />
+                <input type="text" id="commentMsg" placeholder="आपकी राय..." />
+                <button onclick="addComment()"><i class="fas fa-paper-plane"></i> भेजें</button>
+            </div>
+            <div class="comment-list" id="commentList">
+                <div class="no-comments">कोई कमेंट नहीं। पहली राय दें!</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>JOD MODS OTT © 2025 – सिर्फ ऐडमिन कंटेंट <i class="fas fa-heart" style="color:#ff3b3b;"></i></p>
+        </div>
+    </div>
+
+    <!-- ===== AUTH OVERLAY ===== -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-box" id="authBox">
+            <button class="close-auth" onclick="closeAuth()">&times;</button>
+            <h2 id="authTitle">लॉगिन</h2>
+            <div id="authForm">
+                <input type="text" id="authName" placeholder="आपका नाम" style="display:none;" />
+                <input type="email" id="authEmail" placeholder="ईमेल" />
+                <input type="password" id="authPass" placeholder="पासवर्ड" />
+                <input type="password" id="authConfirm" placeholder="पासवर्ड दोबारा" style="display:none;" />
+                <button id="authSubmit" onclick="submitAuth()">लॉगिन करें</button>
+                <div class="error-msg" id="authError"></div>
+                <div class="switch-auth">
+                    <span id="switchText">नए हैं? <span onclick="switchAuth()">रजिस्टर करें</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ADMIN PAGE ===== -->
+    <div id="adminPage">
+        <div class="admin-header">
+            <h2><i class="fas fa-upload"></i> ONLY UPLOAD JODxCHEATS</h2>
+            <button class="close-admin" onclick="closeAdminPage()"><i class="fas fa-times"></i> बंद करें</button>
+        </div>
+
+        <div class="admin-panel">
+            <div id="adminControls" style="display:block;">
+                <h3><i class="fas fa-plus-circle"></i> नया कंटेंट जोड़ें / एडिट करें</h3>
+                
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                    <input type="text" id="adminTitle" placeholder="टाइटल" style="flex:2;min-width:180px;">
+                    <input type="text" id="adminType" placeholder="टाइप: movie / series" style="flex:1;min-width:100px;" value="series">
+                    <input type="number" id="adminEpisodes" placeholder="कुल एपिसोड" style="flex:1;min-width:80px;" value="12">
+                    <input type="text" id="adminEditId" placeholder="एडिट ID" style="flex:1;min-width:120px;background:#111;color:#888;" readonly>
+                </div>
+
+                <div class="drop-area" id="dropArea">
+                    <i class="fas fa-cloud-upload-alt" style="font-size:24px;color:#ff3b3b;"></i>
+                    <p style="color:#aaa;font-size:13px;">थंबनेल ड्रैग & ड्रॉप करें या क्लिक करें</p>
+                    <input type="file" id="fileInput" accept="image/*" style="display:none;" multiple>
+                    <div class="preview-container" id="previewContainer"></div>
+                </div>
+
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                    <input type="text" id="adminEpisodeLinks" placeholder="एपिसोड लिंक (कॉमा से अलग करें)" style="flex:3;min-width:200px;">
+                </div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                    <input type="text" id="adminVideoLink" placeholder="डिफॉल्ट वीडियो लिंक (सभी एपिसोड के लिए एक)" style="flex:2;min-width:200px;">
+                </div>
+
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:10px 0;">
+                    <button onclick="adminAddAnime()"><i class="fas fa-save"></i> सेव करें</button>
+                    <button onclick="adminClearForm()" style="background:#666;"><i class="fas fa-undo"></i> क्लियर</button>
+                    <button onclick="adminResetAll()" style="background:#cc2e2e;"><i class="fas fa-power-off"></i> सबको लॉगआउट</button>
+                </div>
+
+                <div class="admin-content-list">
+                    <h3><i class="fas fa-list"></i> आपका कंटेंट</h3>
+                    <div id="adminContentList">
+                        <p style="color:#888; padding:10px;">लोड हो रहा है...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== VIDEO MODAL ===== -->
+    <div id="contentModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h3 class="modal-title" id="modalTitle">शीर्षक</h3>
+
+            <div class="player-status" id="playerStatus">⏳ प्लेयर लोड हो रहा है...</div>
+
+            <div id="videoPlayerContainer">
+                <div class="video-wrapper" id="iframeWrapper">
+                    <iframe id="videoIframe" src="" allowfullscreen></iframe>
+                </div>
+                <div class="custom-video-player" id="videoPlayerWrapper" style="display:none;">
+                    <video id="customVideoPlayer" controls autoplay>
+                        <source id="videoSource" src="" type="video/mp4">
+                        आपका ब्राउज़र वीडियो टैग सपोर्ट नहीं करता।
+                    </video>
+                </div>
+            </div>
+
+            <div class="action-bar">
+                <button onclick="shareVideo()"><i class="fas fa-share"></i> शेयर</button>
+                <button onclick="reloadVideo()"><i class="fas fa-sync"></i> रीलोड</button>
+            </div>
+
+            <div id="episodeContainer" class="episode-grid">
+                <p style="color:#888; width:100%;"><i class="fas fa-spinner fa-spin"></i> एपिसोड लोड हो रहे हैं...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== PARTICLES ====================
+        (function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 35; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = Math.random() * 6 + 2;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 20 + 15) + 's';
+                p.style.animationDelay = (Math.random() * 20) + 's';
+                container.appendChild(p);
+            }
+        })();
+
+        // ==================== GLOBALS ====================
+        let currentType = 'all';
+        let currentTitle = '';
+        let allEpisodes = [];
+        let currentVideoUrl = '';
+        let currentAnimeId = null;
+        let currentEpisodeNum = 1;
+        let currentCustomAnime = null;
+        let uploadedImages = [];
+        let editingId = null;
+        let currentUser = null;
+        let authMode = 'login';
+        let pendingOpenAnime = null;
+
+        // ==================== DOM REFS ====================
+        const container = document.getElementById('contentContainer');
+        const sectionTitle = document.getElementById('sectionTitle');
+        const modal = document.getElementById('contentModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const videoIframe = document.getElementById('videoIframe');
+        const customVideoPlayer = document.getElementById('customVideoPlayer');
+        const videoSource = document.getElementById('videoSource');
+        const videoPlayerWrapper = document.getElementById('videoPlayerWrapper');
+        const iframeWrapper = document.getElementById('iframeWrapper');
+        const episodeContainer = document.getElementById('episodeContainer');
+        const playerStatus = document.getElementById('playerStatus');
+
+        // ==================== LOGIN REQUIRED ====================
+        function showLoginRequired() {
+            document.getElementById('loginRequiredOverlay').classList.add('active');
+        }
+
+        function closeLoginRequired() {
+            document.getElementById('loginRequiredOverlay').classList.remove('active');
+        }
+
+        // ==================== AUTH SYSTEM ====================
+        function getUsers() {
+            return JSON.parse(localStorage.getItem('jodmods_users') || '[]');
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('jodmods_users', JSON.stringify(users));
+        }
+
+        function getCurrentUser() {
+            const data = localStorage.getItem('jodmods_current_user');
+            return data ? JSON.parse(data) : null;
+        }
+
+        function setCurrentUser(user) {
+            if (user) {
+                localStorage.setItem('jodmods_current_user', JSON.stringify(user));
+            } else {
+                localStorage.removeItem('jodmods_current_user');
+            }
+            currentUser = user;
+            updateUI();
+        }
+
+        function adminResetAll() {
+            if (!confirm('⚠️ क्या आप सभी यूजर्स को लॉगआउट करना चाहते हैं? सबका सेशन खत्म हो जाएगा!')) return;
+            localStorage.removeItem('jodmods_current_user');
+            currentUser = null;
+            updateUI();
+            renderComments();
+            loadHistory();
+            closeLoginRequired();
+            alert('✅ सभी यूजर्स लॉगआउट कर दिए गए!');
+        }
+
+        function openAuth(mode) {
+            closeLoginRequired();
+            if (currentUser) {
+                alert('आप पहले से लॉगिन हैं!');
+                return;
+            }
+            authMode = mode || 'login';
+            const overlay = document.getElementById('authOverlay');
+            const title = document.getElementById('authTitle');
+            const nameField = document.getElementById('authName');
+            const confirmField = document.getElementById('authConfirm');
+            const submitBtn = document.getElementById('authSubmit');
+            const switchText = document.getElementById('switchText');
+
+            if (mode === 'register') {
+                title.textContent = 'रजिस्टर करें';
+                nameField.style.display = 'block';
+                confirmField.style.display = 'block';
+                submitBtn.textContent = 'रजिस्टर करें';
+                switchText.innerHTML = 'पहले से हैं? <span onclick="switchAuth()">लॉगिन करें</span>';
+            } else {
+                title.textContent = 'लॉगिन';
+                nameField.style.display = 'none';
+                confirmField.style.display = 'none';
+                submitBtn.textContent = 'लॉगिन करें';
+                switchText.innerHTML = 'नए हैं? <span onclick="switchAuth()">रजिस्टर करें</span>';
+            }
+
+            document.getElementById('authError').textContent = '';
+            document.getElementById('authEmail').value = '';
+            document.getElementById('authPass').value = '';
+            document.getElementById('authName').value = '';
+            document.getElementById('authConfirm').value = '';
+            overlay.classList.add('active');
+        }
+
+        function closeAuth() {
+            document.getElementById('authOverlay').classList.remove('active');
+        }
+
+        function switchAuth() {
+            const current = document.getElementById('authTitle').textContent;
+            if (current.includes('लॉगिन')) {
+                openAuth('register');
+            } else {
+                openAuth('login');
+            }
+        }
+
+        function submitAuth() {
+            const email = document.getElementById('authEmail').value.trim();
+            const pass = document.getElementById('authPass').value.trim();
+            const name = document.getElementById('authName').value.trim();
+            const confirm = document.getElementById('authConfirm').value.trim();
+            const error = document.getElementById('authError');
+
+            if (!email || !pass) {
+                error.textContent = 'ईमेल और पासवर्ड जरूरी है!';
+                return;
+            }
+
+            const users = getUsers();
+
+            if (authMode === 'register') {
+                if (!name) { error.textContent = 'नाम जरूरी है!'; return; }
+                if (pass !== confirm) { error.textContent = 'पासवर्ड मैच नहीं!'; return; }
+                if (users.find(u => u.email === email)) {
+                    error.textContent = 'यह ईमेल पहले से रजिस्टर है!';
+                    return;
+                }
+                users.push({ name, email, password: pass, isAdmin: false });
+                saveUsers(users);
+                error.textContent = '✅ रजिस्टर सफल! अब लॉगिन करें।';
+                error.style.color = '#00c853';
+                setTimeout(() => {
+                    openAuth('login');
+                }, 1500);
+                return;
+            }
+
+            // Login
+            const user = users.find(u => u.email === email && u.password === pass);
+            if (!user) {
+                error.textContent = 'गलत ईमेल या पासवर्ड!';
+                error.style.color = '#ff3b3b';
+                return;
+            }
+            setCurrentUser(user);
+            closeAuth();
+            renderComments();
+            loadHistory();
+            // If there was a pending anime, open it
+            if (pendingOpenAnime) {
+                const { id, title } = pendingOpenAnime;
+                pendingOpenAnime = null;
+                setTimeout(() => {
+                    openAnime(id, title);
+                }, 300);
+            }
+            location.reload();
+        }
+
+        function updateUI() {
+            const authSection = document.getElementById('authSection');
+            if (currentUser) {
+                authSection.innerHTML = `
+                    <div class="user-profile" onclick="logoutUser()" title="लॉगआउट करें">
+                        <div class="avatar">${currentUser.name.charAt(0).toUpperCase()}</div>
+                        <span class="username">${currentUser.name}</span>
+                    </div>
+                `;
+            } else {
+                authSection.innerHTML = `
+                    <div class="auth-buttons">
+                        <button class="auth-btn" onclick="openAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
+                        <button class="auth-btn" onclick="openAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
+                    </div>
+                `;
+            }
+        }
+
+        function logoutUser() {
+            if (confirm('लॉगआउट करना चाहते हैं?')) {
+                setCurrentUser(null);
+                renderComments();
+                loadHistory();
+                location.reload();
+            }
+        }
+
+        // ===== ADMIN PAGE =====
+        function openAdminPage() {
+            document.getElementById('adminPage').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            loadAdminContentList();
+        }
+
+        function closeAdminPage() {
+            document.getElementById('adminPage').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // ===== ADMIN: IMAGE DRAG & DROP =====
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+
+        if (dropArea) {
+            dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('dragover'); });
+            dropArea.addEventListener('dragleave', () => { dropArea.classList.remove('dragover'); });
+            dropArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropArea.classList.remove('dragover');
+                if (e.dataTransfer.files.length) handleImageFiles(e.dataTransfer.files);
+            });
+            dropArea.addEventListener('click', () => { fileInput.click(); });
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length) handleImageFiles(e.target.files);
+            });
+        }
+
+        function handleImageFiles(files) {
+            for (let file of files) {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        uploadedImages.push(e.target.result);
+                        updatePreview();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        function updatePreview() {
+            previewContainer.innerHTML = '';
+            uploadedImages.forEach((img, index) => {
+                const div = document.createElement('div');
+                div.className = 'preview-item';
+                div.innerHTML = `
+                    <img src="${img}" alt="थंबनेल">
+                    <button class="remove-img" onclick="removeImage(${index})">×</button>
+                `;
+                previewContainer.appendChild(div);
+            });
+        }
+
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            updatePreview();
+        }
+
+        // ===== ADMIN: CRUD =====
+        function getCustomAnimeList() {
+            return JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
+        }
+
+        function saveCustomAnimeList(list) {
+            localStorage.setItem('jodmods_custom_anime', JSON.stringify(list));
+        }
+
+        function adminAddAnime() {
+            const title = document.getElementById('adminTitle').value.trim();
+            const type = document.getElementById('adminType').value.trim() || 'series';
+            const episodes = parseInt(document.getElementById('adminEpisodes').value) || 12;
+            const links = document.getElementById('adminEpisodeLinks').value.trim();
+            const defaultVideo = document.getElementById('adminVideoLink').value.trim();
+            const editId = document.getElementById('adminEditId').value.trim();
+
+            if (!title) { alert('टाइटल जरूरी है!'); return; }
+
+            let image = uploadedImages.length > 0 ? uploadedImages[0] : 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=' + encodeURIComponent(title);
+
+            let customList = getCustomAnimeList();
+
+            if (editId) {
+                const index = customList.findIndex(a => a.id === editId);
+                if (index !== -1) {
+                    customList[index] = {
+                        ...customList[index],
+                        title: { romaji: title, english: title },
+                        coverImage: { large: image },
+                        episodes: episodes,
+                        type: type,
+                        episodeLinks: links ? links.split(',').map(s => s.trim()) : [],
+                        defaultVideo: defaultVideo
+                    };
+                }
+            } else {
+                const newAnime = {
+                    id: 'custom_' + Date.now(),
+                    title: { romaji: title, english: title },
+                    coverImage: { large: image },
+                    episodes: episodes,
+                    type: type,
+                    custom: true,
+                    episodeLinks: links ? links.split(',').map(s => s.trim()) : [],
+                    defaultVideo: defaultVideo,
+                    adminAdded: true
+                };
+                customList.push(newAnime);
+            }
+
+            saveCustomAnimeList(customList);
+            adminClearForm();
+            alert('✅ कंटेंट सेव हो गया!');
+            loadAdminContentList();
+            loadAnime();
+        }
+
+        function adminClearForm() {
+            document.getElementById('adminTitle').value = '';
+            document.getElementById('adminType').value = 'series';
+            document.getElementById('adminEpisodes').value = '12';
+            document.getElementById('adminEpisodeLinks').value = '';
+            document.getElementById('adminVideoLink').value = '';
+            document.getElementById('adminEditId').value = '';
+            uploadedImages = [];
+            updatePreview();
+            editingId = null;
+        }
+
+        function adminDeleteItem(id) {
+            if (!confirm('क्या आप यह कंटेंट हटाना चाहते हैं?')) return;
+            let list = getCustomAnimeList();
+            list = list.filter(a => a.id !== id);
+            saveCustomAnimeList(list);
+            loadAdminContentList();
+            loadAnime();
+        }
+
+        function adminEditItem(id) {
+            const list = getCustomAnimeList();
+            const item = list.find(a => a.id === id);
+            if (!item) return;
+
+            document.getElementById('adminTitle').value = item.title.romaji || item.title.english || '';
+            document.getElementById('adminType').value = item.type || 'series';
+            document.getElementById('adminEpisodes').value = item.episodes || 12;
+            document.getElementById('adminEpisodeLinks').value = (item.episodeLinks || []).join(', ');
+            document.getElementById('adminVideoLink').value = item.defaultVideo || '';
+            document.getElementById('adminEditId').value = item.id;
+            editingId = item.id;
+
+            uploadedImages = [];
+            updatePreview();
+
+            document.querySelector('.admin-panel').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function loadAdminContentList() {
+            const list = getCustomAnimeList();
+            const container = document.getElementById('adminContentList');
+            
+            if (list.length === 0) {
+                container.innerHTML = '<p style="color:#888; padding:10px;">कोई कंटेंट नहीं। ऊपर जोड़ें।</p>';
+                return;
+            }
+
+            let html = '';
+            list.forEach(item => {
+                const title = item.title?.romaji || item.title?.english || 'अज्ञात';
+                const img = item.coverImage?.large || 'https://via.placeholder.com/40x40/1a1a1a/ff3b3b?text=N';
+                html += `
+                    <div class="content-item">
+                        <div class="item-info">
+                            <img src="${img}" alt="${title}" onerror="this.src='https://via.placeholder.com/40x40/1a1a1a/ff3b3b?text=N'">
+                            <span><strong>${title}</strong> (${item.type || 'series'}) - ${item.episodes} एपिसोड</span>
+                        </div>
+                        <div class="item-actions">
+                            <button class="edit-btn" onclick="adminEditItem('${item.id}')"><i class="fas fa-edit"></i> एडिट</button>
+                            <button class="del-btn" onclick="adminDeleteItem('${item.id}')"><i class="fas fa-trash"></i> हटाएँ</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // ===== HISTORY =====
+        function getHistory() {
+            if (!currentUser) return [];
+            const all = JSON.parse(localStorage.getItem('jodmods_history') || '{}');
+            return all[currentUser.email] || [];
+        }
+
+        function saveHistoryItem(animeId, title, episode) {
+            if (!currentUser) return;
+            const all = JSON.parse(localStorage.getItem('jodmods_history') || '{}');
+            if (!all[currentUser.email]) all[currentUser.email] = [];
+            const existing = all[currentUser.email].find(h => h.animeId === animeId);
+            if (existing) {
+                existing.episode = episode;
+                existing.lastWatched = new Date().toISOString();
+            } else {
+                all[currentUser.email].push({
+                    animeId,
+                    title,
+                    episode,
+                    lastWatched: new Date().toISOString()
+                });
+            }
+            localStorage.setItem('jodmods_history', JSON.stringify(all));
+            loadHistory();
+        }
+
+        function loadHistory() {
+            const list = document.getElementById('historyList');
+            const history = getHistory();
+            if (!currentUser) {
+                list.innerHTML = '<div class="history-empty">लॉगिन करें और देखें कि आपने क्या देखा</div>';
+                return;
+            }
+            if (history.length === 0) {
+                list.innerHTML = '<div class="history-empty">अभी कोई हिस्ट्री नहीं</div>';
+                return;
+            }
+            let html = '';
+            history.slice().reverse().forEach(h => {
+                html += `
+                    <div class="history-item">
+                        <span class="hist-title">${h.title}</span>
+                        <span class="hist-ep">एपिसोड ${h.episode}</span>
+                        <span class="hist-continue" onclick="continueWatching('${h.animeId}', '${h.title}', ${h.episode})">▶ जारी रखें</span>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        function continueWatching(id, title, ep) {
+            openAnime(id, title);
+            setTimeout(() => {
+                playEpisode(ep);
+            }, 500);
+        }
+
+        // ===== COMMENTS =====
+        function getComments() {
+            return JSON.parse(localStorage.getItem('jodmods_comments') || '[]');
+        }
+
+        function saveComments(comments) {
+            localStorage.setItem('jodmods_comments', JSON.stringify(comments));
+        }
+
+        function addComment() {
+            const nameInput = document.getElementById('commentName');
+            const msgInput = document.getElementById('commentMsg');
+            let name = nameInput.value.trim();
+            const msg = msgInput.value.trim();
+
+            if (currentUser) {
+                name = currentUser.name;
+                nameInput.value = name;
+            }
+
+            if (!name || !msg) { alert('नाम और राय दोनों जरूरी है!'); return; }
+
+            const comments = getComments();
+            comments.push({
+                id: Date.now(),
+                name: name,
+                msg: msg,
+                time: new Date().toLocaleString('hi-IN'),
+                isAdmin: currentUser ? currentUser.isAdmin || false : false,
+                email: currentUser ? currentUser.email : null
+            });
+            saveComments(comments);
+            if (!currentUser) nameInput.value = '';
+            msgInput.value = '';
+            renderComments();
+        }
+
+        function deleteComment(id) {
+            if (!currentUser) { alert('लॉगिन करें!'); return; }
+            const comments = getComments();
+            const comment = comments.find(c => c.id === id);
+            if (!comment) return;
+            if (!currentUser.isAdmin && currentUser.email !== comment.email) {
+                alert('आप इस कमेंट को नहीं हटा सकते!');
+                return;
+            }
+            if (!confirm('क्या आप यह कमेंट हटाना चाहते हैं?')) return;
+            const filtered = comments.filter(c => c.id !== id);
+            saveComments(filtered);
+            renderComments();
+        }
+
+        function editComment(id) {
+            if (!currentUser) { alert('लॉगिन करें!'); return; }
+            const comments = getComments();
+            const comment = comments.find(c => c.id === id);
+            if (!comment) return;
+            if (!currentUser.isAdmin && currentUser.email !== comment.email) {
+                alert('आप इस कमेंट को एडिट नहीं कर सकते!');
+                return;
+            }
+
+            const item = document.querySelector(`.comment-item[data-id="${id}"]`);
+            if (!item) return;
+
+            if (item.classList.contains('editing')) {
+                const input = item.querySelector('.edit-input');
+                const newMsg = input.value.trim();
+                if (!newMsg) { alert('कमेंट खाली नहीं हो सकता!'); return; }
+                comment.msg = newMsg;
+                saveComments(comments);
+                renderComments();
+                return;
+            }
+
+            item.classList.add('editing');
+            const input = item.querySelector('.edit-input');
+            input.value = comment.msg;
+            input.focus();
+
+            const actions = item.querySelector('.comment-actions');
+            actions.innerHTML = `
+                <button class="save-cmt" onclick="editComment(${id})"><i class="fas fa-check"></i> सेव</button>
+                <button class="cancel-cmt" onclick="cancelEdit(${id})"><i class="fas fa-times"></i> रद्द</button>
+            `;
+        }
+
+        function cancelEdit(id) {
+            renderComments();
+        }
+
+        function renderComments() {
+            const list = document.getElementById('commentList');
+            const comments = getComments();
+
+            if (comments.length === 0) {
+                list.innerHTML = '<div class="no-comments">कोई कमेंट नहीं। पहली राय दें!</div>';
+                return;
+            }
+
+            let html = '';
+            comments.slice().reverse().forEach(c => {
+                const isAdmin = c.isAdmin || c.name === 'JOD MODS';
+                const canEdit = currentUser && (currentUser.isAdmin || currentUser.email === c.email);
+                html += `
+                    <div class="comment-item" data-id="${c.id}">
+                        <div class="comment-text">
+                            <div class="comment-user">
+                                ${c.name}
+                                ${isAdmin ? '<span class="admin-badge-cmt">★ ऐडमिन</span>' : ''}
+                            </div>
+                            <div class="comment-msg">${c.msg}</div>
+                            <input class="edit-input" type="text" />
+                            <div class="comment-time">${c.time || 'अभी'}</div>
+                        </div>
+                        <div class="comment-actions">
+                            ${canEdit ? `<button class="edit-cmt" onclick="editComment(${c.id})"><i class="fas fa-edit"></i></button>` : ''}
+                            ${canEdit ? `<button class="del-cmt" onclick="deleteComment(${c.id})"><i class="fas fa-trash"></i></button>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        // ==================== MAIN PAGE FUNCTIONS ====================
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                currentType = this.dataset.type;
+                document.getElementById('searchInput').value = '';
+                loadAnime();
+            });
+        });
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') searchAnime();
+        });
+
+        function searchAnime() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) { loadAnime(); return; }
+            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> "${query}" खोजा जा रहा है...</div>`;
+
+            const customList = getCustomAnimeList();
+            const results = customList.filter(a => 
+                a.title.romaji.toLowerCase().includes(query.toLowerCase()) || 
+                a.title.english.toLowerCase().includes(query.toLowerCase())
+            );
+
+            if (results.length === 0) {
+                container.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><p>कोई परिणाम नहीं मिला "${query}"</p></div>`;
+                return;
+            }
+            displayAnime(results);
+        }
+
+        function loadAnime() {
+            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div>`;
+            const customList = getCustomAnimeList();
+            let filtered = customList;
+            if (currentType === 'movies') {
+                filtered = customList.filter(a => a.type === 'movie' || a.type === 'Movie');
+            } else if (currentType === 'series') {
+                filtered = customList.filter(a => a.type === 'series' || a.type === 'Series' || !a.type);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-folder-open"></i>
+                        <h3>कोई कंटेंट नहीं</h3>
+                        <p>ऐडमिन कंटेंट जोड़ें।</p>
+                    </div>
+                `;
+                return;
+            }
+            displayAnime(filtered);
+        }
+
+        function displayAnime(items) {
+            let html = `<div class="content-grid">`;
+            const history = getHistory();
+            const watchedIds = history.map(h => h.animeId);
+            const isLoggedIn = !!currentUser;
+            
+            items.forEach(item => {
+                const title = item.title?.romaji || item.title?.english || item.title?.native || 'अज्ञात';
+                const image = item.coverImage?.large || 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image';
+                const id = item.id || item._id || 'custom_' + Date.now();
+                const episodes = item.episodes || '?';
+                const isWatched = watchedIds.includes(id);
+
+                html += `
+                    <div class="content-card" onclick="${isLoggedIn ? `openAnime('${id}', '${title.replace(/'/g, "\\'")}')` : `showLoginRequiredForAnime('${id}', '${title.replace(/'/g, "\\'")}')`}">
+                        <img src="${image}" alt="${title}" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image'"/>
+                        ${!isLoggedIn ? `<div class="lock-overlay"><i class="fas fa-lock"></i></div>` : ''}
+                        <div class="info">
+                            <h4>${title}</h4>
+                            <p>${episodes} एपिसोड</p>
+                            <span class="badge">100% मुफ्त</span>
+                        </div>
+                        <span class="free-badge"><i class="fas fa-crown"></i> FREE</span>
+                        <span class="admin-badge"><i class="fas fa-user-cog"></i> ऐडमिन</span>
+                        ${isWatched ? '<span class="watched-badge"><i class="fas fa-check-circle"></i> देखा</span>' : ''}
+                    </div>
+                `;
+            });
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        // ===== Show login required for anime =====
+        function showLoginRequiredForAnime(id, title) {
+            pendingOpenAnime = { id, title };
+            showLoginRequired();
+        }
+
+        // ==================== VIDEO PLAYER ====================
+        async function openAnime(id, title) {
+            if (!currentUser) {
+                showLoginRequiredForAnime(id, title);
+                return;
+            }
+            
+            if (!id) { alert('डेटा उपलब्ध नहीं'); return; }
+
+            currentAnimeId = id;
+            currentTitle = title;
+            allEpisodes = [];
+            currentVideoUrl = '';
+            currentEpisodeNum = 1;
+
+            modalTitle.textContent = `📺 ${title}`;
+            episodeContainer.innerHTML = `<p style="color:#888; width:100%;"><i class="fas fa-spinner fa-spin"></i> एपिसोड लोड हो रहे हैं...</p>`;
+            
+            videoIframe.src = '';
+            customVideoPlayer.pause();
+            customVideoPlayer.removeAttribute('src');
+            videoPlayerWrapper.style.display = 'none';
+            iframeWrapper.style.display = 'block';
+            
+            playerStatus.textContent = '⏳ लोड हो रहा है...';
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+
+            try {
+                const customList = getCustomAnimeList();
+                let customAnime = customList.find(a => a.id === id || a.title.romaji === title || a.title.english === title);
+                let totalEps = 12;
+                let episodeLinks = [];
+                let defaultVideo = '';
+
+                if (customAnime) {
+                    totalEps = customAnime.episodes || 12;
+                    episodeLinks = customAnime.episodeLinks || [];
+                    defaultVideo = customAnime.defaultVideo || '';
+                    currentCustomAnime = customAnime;
+                } else {
+                    currentCustomAnime = null;
+                    totalEps = 12;
+                }
+
+                let mainVideo = defaultVideo || '';
+
+                if (episodeLinks.length > 0) {
+                    if (episodeLinks.length === 1 && totalEps > 1) {
+                        allEpisodes.push({
+                            number: `1-${totalEps}`,
+                            link: episodeLinks[0],
+                            range: true,
+                            start: 1,
+                            end: totalEps
+                        });
+                    } else {
+                        for (let i = 0; i < Math.min(episodeLinks.length, totalEps); i++) {
+                            allEpisodes.push({
+                                number: i + 1,
+                                link: episodeLinks[i],
+                                range: false
+                            });
+                        }
+                        for (let i = episodeLinks.length; i < totalEps; i++) {
+                            allEpisodes.push({
+                                number: i + 1,
+                                link: mainVideo,
+                                range: false
+                            });
+                        }
+                    }
+                } else if (mainVideo) {
+                    if (totalEps > 1) {
+                        allEpisodes.push({
+                            number: `1-${totalEps}`,
+                            link: mainVideo,
+                            range: true,
+                            start: 1,
+                            end: totalEps
+                        });
+                    } else {
+                        allEpisodes.push({
+                            number: 1,
+                            link: mainVideo,
+                            range: false
+                        });
+                    }
+                } else {
+                    for (let i = 1; i <= totalEps; i++) {
+                        allEpisodes.push({
+                            number: i,
+                            link: '',
+                            range: false
+                        });
+                    }
+                }
+
+                let epHtml = '';
+                const history = getHistory();
+                const watchedEp = history.find(h => h.animeId === id);
+                
+                allEpisodes.forEach(ep => {
+                    let label = ep.range ? `एपिसोड ${ep.start}-${ep.end}` : `एपिसोड ${ep.number}`;
+                    let hasLink = ep.link && ep.link.length > 0;
+                    let icon = hasLink ? 'fa-play' : 'fa-exclamation-triangle';
+                    let style = hasLink ? '' : 'style="opacity:0.5;"';
+                    let isWatched = watchedEp && !ep.range && watchedEp.episode >= ep.number;
+                    let watchedClass = isWatched ? 'watched-ep' : '';
+                    epHtml += `
+                        <button class="episode-btn ${watchedClass}" onclick="playEpisode('${ep.number}')" ${style}>
+                            <i class="fas ${icon}"></i> ${label}
+                            ${!hasLink ? ' (लिंक नहीं)' : ''}
+                            ${isWatched ? ' ✅' : ''}
+                        </button>
+                    `;
+                });
+                episodeContainer.innerHTML = epHtml;
+
+                if (allEpisodes.length > 0) {
+                    if (watchedEp && !allEpisodes[0].range) {
+                        playEpisode(Math.min(watchedEp.episode, allEpisodes.length));
+                    } else {
+                        playEpisode(allEpisodes[0].number);
+                    }
+                }
+
+            } catch(error) {
+                console.error('Error:', error);
+                allEpisodes = [];
+                for (let i = 1; i <= 12; i++) {
+                    allEpisodes.push({ number: i, link: '', range: false });
+                }
+                let epHtml = '';
+                allEpisodes.forEach(ep => {
+                    epHtml += `
+                        <button class="episode-btn" onclick="playEpisode(${ep.number})">
+                            <i class="fas fa-play"></i> एपिसोड ${ep.number}
+                        </button>
+                    `;
+                });
+                episodeContainer.innerHTML = epHtml;
+                if (allEpisodes.length > 0) playEpisode(allEpisodes[0].number);
+            }
+        }
+
+        function playEpisode(epNum) {
+            const episode = allEpisodes.find(ep => ep.number == epNum);
+            if (!episode) { alert('एपिसोड नहीं मिला'); return; }
+
+            currentEpisodeNum = epNum;
+
+            document.querySelectorAll('.episode-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.episode-btn').forEach(btn => {
+                if (btn.textContent.includes(epNum.toString()) || btn.textContent.includes(`एपिसोड ${epNum}`)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            let videoUrl = episode.link || '';
+            if (!videoUrl) {
+                alert('⚠️ इस एपिसोड के लिए कोई वीडियो लिंक नहीं है।');
+                playerStatus.textContent = '❌ कोई वीडियो लिंक नहीं';
+                playerStatus.style.color = '#ff6b6b';
+                return;
+            }
+
+            currentVideoUrl = videoUrl;
+
+            if (currentUser && currentAnimeId) {
+                saveHistoryItem(currentAnimeId, currentTitle, epNum);
+            }
+
+            const isDataVideo = videoUrl.startsWith('data:video/');
+            const isDirectVideo = videoUrl.match(/\.(mp4|webm|mkv|mov|avi|flv|wmv|m4v|3gp)$/i) || videoUrl.includes('blob:');
+            const isEmbed = videoUrl.includes('/embed/') || videoUrl.includes('youtube.com') || videoUrl.includes('vimeo.com');
+
+            if (isDataVideo || isDirectVideo) {
+                iframeWrapper.style.display = 'none';
+                videoPlayerWrapper.style.display = 'block';
+                videoSource.src = videoUrl;
+                customVideoPlayer.load();
+                customVideoPlayer.play();
+                playerStatus.textContent = `✅ JOD MODS • ${episode.range ? 'एपिसोड 1-'+episode.end : 'एपिसोड '+epNum}`;
+                playerStatus.style.color = '#00c853';
+            } else {
+                videoPlayerWrapper.style.display = 'none';
+                iframeWrapper.style.display = 'block';
+                videoIframe.src = videoUrl;
+                playerStatus.textContent = `✅ JOD MODS • ${episode.range ? 'एपिसोड 1-'+episode.end : 'एपिसोड '+epNum}`;
+                playerStatus.style.color = '#00c853';
+            }
+        }
+
+        function reloadVideo() {
+            if (!currentVideoUrl) { alert('⚠️ कोई वीडियो नहीं चल रहा!'); return; }
+            const isDirect = currentVideoUrl.startsWith('data:video/') || currentVideoUrl.match(/\.(mp4|webm|mkv|mov|avi)$/i) || currentVideoUrl.includes('blob:');
+            if (isDirect) {
+                videoSource.src = currentVideoUrl;
+                customVideoPlayer.load();
+                customVideoPlayer.play();
+            } else {
+                videoIframe.src = currentVideoUrl;
+            }
+            playerStatus.textContent = `🔄 रीलोड हो रहा है...`;
+            setTimeout(() => {
+                playerStatus.textContent = `✅ JOD MODS • एपिसोड ${currentEpisodeNum}`;
+            }, 1000);
+        }
+
+        function shareVideo() {
+            if (navigator.share) {
+                navigator.share({
+                    title: currentTitle || 'JOD MODS OTT',
+                    text: `🎬 ${currentTitle || 'वीडियो'} देखें - JOD MODS OTT पर 100% मुफ्त!`,
+                    url: window.location.href
+                }).catch(() => {});
+            } else {
+                alert(`📤 शेयर करें: ${window.location.href}`);
+            }
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            videoIframe.src = '';
+            customVideoPlayer.pause();
+            customVideoPlayer.removeAttribute('src');
+            videoPlayerWrapper.style.display = 'none';
+            iframeWrapper.style.display = 'block';
+            currentVideoUrl = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'Escape' && document.getElementById('adminPage').style.display === 'block') {
+                closeAdminPage();
+            }
+        });
+
+        // ==================== START ====================
+        if (!localStorage.getItem('jodmods_initialized')) {
+            localStorage.setItem('jodmods_hide_default', 'true');
+            localStorage.setItem('jodmods_initialized', 'true');
+        }
+        
+        currentUser = getCurrentUser();
+        updateUI();
+        renderComments();
+        loadHistory();
+        loadAnime();
+
+        // Auto-create admin user
+        const users = getUsers();
+        if (!users.find(u => u.email === 'admin@jodmods.com')) {
+            users.push({
+                name: 'JOD MODS',
+                email: 'admin@jodmods.com',
+                password: 'admin123',
+                isAdmin: true
+            });
+            saveUsers(users);
+        }
+    </script>
+</body>
+</html>
