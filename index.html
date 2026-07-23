@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>JOD MODS OTT - Admin Panel</title>
+    <title>JOD MODS OTT - ऐडमिन पैनल</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
@@ -572,11 +572,7 @@
             <a data-type="series"><i class="fas fa-tv"></i> सीरीज</a>
         </div>
         <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-            <button class="admin-toggle-btn" onclick="toggleAdmin()"><i class="fas fa-user-cog"></i> Admin</button>
-            <div style="display:flex; gap:4px;">
-                <button class="lang-btn active" style="background:#ff3b3b;color:#fff;border:1px solid #ff3b3b;padding:3px 10px;border-radius:20px;cursor:pointer;font-size:11px;" onclick="changeLanguage('hi')">🇮🇳 हिंदी</button>
-                <button class="lang-btn" style="background:#222;color:#ccc;border:1px solid #444;padding:3px 10px;border-radius:20px;cursor:pointer;font-size:11px;" onclick="changeLanguage('en')">🇬🇧 ENG</button>
-            </div>
+            <button class="admin-toggle-btn" onclick="toggleAdmin()"><i class="fas fa-user-cog"></i> ऐडमिन</button>
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="🔍 खोजें..." />
                 <i class="fas fa-search" onclick="searchAnime()"></i>
@@ -586,9 +582,9 @@
 
     <div class="hero">
         <h1>🇮🇳 <span>JOD MODS</span> OTT</h1>
-        <p>🔥 केवल Admin द्वारा जोड़ा गया कंटेंट • 100% मुफ्त</p>
+        <p>🔥 सिर्फ ऐडमिन द्वारा जोड़ा गया कंटेंट • 100% मुफ्त</p>
         <div class="tags">
-            <span>🔥 Admin Content</span>
+            <span>🔥 ऐडमिन कंटेंट</span>
             <span>⭐ 100% मुफ्त</span>
             <span>📺 अपनी मर्जी का</span>
         </div>
@@ -597,45 +593,45 @@
     <!-- Admin Panel -->
     <div class="section" id="adminPanel" style="display:none;">
         <div class="admin-panel">
-            <h3><i class="fas fa-user-shield"></i> Admin Panel - JOD MODS</h3>
+            <h3><i class="fas fa-user-shield"></i> ऐडमिन पैनल - JOD MODS</h3>
             <div class="admin-login">
-                <input type="text" id="adminUser" placeholder="Username" value="JOD">
-                <input type="password" id="adminPass" placeholder="Password" value="MODS">
-                <button onclick="adminLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <input type="text" id="adminUser" placeholder="यूजरनेम" value="JOD">
+                <input type="password" id="adminPass" placeholder="पासवर्ड" value="MODS">
+                <button onclick="adminLogin()"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
                 <span id="adminStatus" class="admin-status"></span>
             </div>
             <div id="adminControls" style="display:none;">
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                    <input type="text" id="adminTitle" placeholder="Title (e.g. Naruto Shippuden)" style="flex:2;min-width:180px;">
-                    <input type="text" id="adminType" placeholder="Type: movie / series" style="flex:1;min-width:100px;" value="series">
-                    <input type="number" id="adminEpisodes" placeholder="Episodes" style="flex:1;min-width:80px;" value="12">
+                    <input type="text" id="adminTitle" placeholder="टाइटल (जैसे नारुतो शिप्पुडेन)" style="flex:2;min-width:180px;">
+                    <input type="text" id="adminType" placeholder="टाइप: movie / series" style="flex:1;min-width:100px;" value="series">
+                    <input type="number" id="adminEpisodes" placeholder="एपिसोड संख्या" style="flex:1;min-width:80px;" value="12">
                 </div>
                 
                 <div class="drop-area" id="dropArea">
                     <i class="fas fa-cloud-upload-alt" style="font-size:24px;color:#ff3b3b;"></i>
-                    <p style="color:#aaa;font-size:13px;">Drag & Drop Thumbnail Image or Click to Upload</p>
+                    <p style="color:#aaa;font-size:13px;">थंबनेल ड्रैग & ड्रॉप करें या क्लिक करें</p>
                     <input type="file" id="fileInput" accept="image/*" style="display:none;" multiple>
                     <div class="preview-container" id="previewContainer"></div>
                 </div>
 
                 <div class="video-drop-area" id="videoDropArea">
                     <i class="fas fa-video" style="font-size:24px;color:#00c853;"></i>
-                    <p style="color:#aaa;font-size:13px;">Drag & Drop Video File or Click to Upload (MP4, WebM, etc.)</p>
+                    <p style="color:#aaa;font-size:13px;">वीडियो फ़ाइल ड्रैग & ड्रॉप करें (MP4, WebM, etc.)</p>
                     <input type="file" id="videoFileInput" accept="video/*" style="display:none;">
                     <div id="videoPreviewContainer" style="margin-top:8px;"></div>
                 </div>
 
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                    <input type="text" id="adminEpisodeLinks" placeholder="Episode Links (comma separated: EP1_URL,EP2_URL,...)" style="flex:3;min-width:200px;">
+                    <input type="text" id="adminEpisodeLinks" placeholder="एपिसोड लिंक (कॉमा से अलग करें: EP1_URL,EP2_URL,...)" style="flex:3;min-width:200px;">
                 </div>
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                    <input type="text" id="adminVideoLink" placeholder="Default Video URL (or leave blank to use uploaded video)" style="flex:2;min-width:200px;">
+                    <input type="text" id="adminVideoLink" placeholder="डिफॉल्ट वीडियो लिंक (या खाली छोड़ें)" style="flex:2;min-width:200px;">
                 </div>
-                <button onclick="adminAddAnime()"><i class="fas fa-plus-circle"></i> Add/Update Anime</button>
-                <button onclick="adminDeleteCurrent()" style="background:#cc2e2e;"><i class="fas fa-trash"></i> Delete Anime</button>
+                <button onclick="adminAddAnime()"><i class="fas fa-plus-circle"></i> कंटेंट जोड़ें/अपडेट करें</button>
+                <button onclick="adminDeleteCurrent()" style="background:#cc2e2e;"><i class="fas fa-trash"></i> कंटेंट हटाएँ</button>
                 <p style="color:#888;font-size:11px;margin-top:8px;">💡 एपिसोड लिंक डालें: EP1_LINK,EP2_LINK,EP3_LINK ... (या सिर्फ एक डिफॉल्ट वीडियो लिंक)</p>
-                <p style="color:#888;font-size:11px;">📹 अगर वीडियो अपलोड करते हो तो वह सीधे प्लेयर में चलेगा (बिना किसी दूसरी website के)</p>
-                <p style="color:#ff3b3b;font-size:11px;">⚠️ सारा डिफॉल्ट एनीमे हटा दिया गया है। सिर्फ Admin द्वारा जोड़ा गया कंटेंट दिखेगा।</p>
+                <p style="color:#888;font-size:11px;">📹 अगर आप वीडियो अपलोड करते हैं तो वह सीधे हमारे प्लेयर में चलेगा (बिना किसी दूसरी वेबसाइट के)</p>
+                <p style="color:#ff3b3b;font-size:11px;">⚠️ सारा डिफॉल्ट एनीमे हटा दिया गया है। सिर्फ ऐडमिन द्वारा जोड़ा गया कंटेंट दिखेगा।</p>
             </div>
         </div>
     </div>
@@ -653,7 +649,7 @@
             <h3 class="modal-title" id="modalTitle">शीर्षक</h3>
             <p class="modal-desc" id="modalDesc">🎯 100% मुफ्त • <span id="epCount">0</span> एपिसोड</p>
 
-            <div class="player-status" id="playerStatus">⏳ वीडियो प्लेयर लोड हो रहा है...</div>
+            <div class="player-status" id="playerStatus">⏳ प्लेयर लोड हो रहा है...</div>
 
             <div id="videoPlayerContainer">
                 <div class="video-wrapper" id="iframeWrapper">
@@ -662,7 +658,7 @@
                 <div class="custom-video-player" id="videoPlayerWrapper" style="display:none;">
                     <video id="customVideoPlayer" controls autoplay>
                         <source id="videoSource" src="" type="video/mp4">
-                        Your browser does not support the video tag.
+                        आपका ब्राउज़र वीडियो टैग सपोर्ट नहीं करता।
                     </video>
                 </div>
             </div>
@@ -681,12 +677,12 @@
     </div>
 
     <div class="footer">
-        <p>JOD MODS OTT © 2025 – सिर्फ Admin Content <i class="fas fa-heart" style="color:#ff3b3b;"></i></p>
+        <p>JOD MODS OTT © 2025 – सिर्फ ऐडमिन कंटेंट <i class="fas fa-heart" style="color:#ff3b3b;"></i></p>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
     <script>
-        // ==================== CONFIG ====================
+        // ==================== कॉन्फिग ====================
         let currentType = 'all';
         let currentTitle = '';
         let allEpisodes = [];
@@ -700,7 +696,7 @@
         let uploadedVideo = null;
         let isVideoUploaded = false;
 
-        // ==================== DOM REFS ====================
+        // ==================== DOM रेफरेंस ====================
         const container = document.getElementById('contentContainer');
         const sectionTitle = document.getElementById('sectionTitle');
         const modal = document.getElementById('contentModal');
@@ -715,7 +711,7 @@
         const playerStatus = document.getElementById('playerStatus');
         const epCount = document.getElementById('epCount');
 
-        // ==================== DRAG & DROP IMAGE ====================
+        // ==================== इमेज ड्रैग & ड्रॉप ====================
         const dropArea = document.getElementById('dropArea');
         const fileInput = document.getElementById('fileInput');
         const previewContainer = document.getElementById('previewContainer');
@@ -762,7 +758,7 @@
                 const div = document.createElement('div');
                 div.className = 'preview-item';
                 div.innerHTML = `
-                    <img src="${img}" alt="Thumbnail">
+                    <img src="${img}" alt="थंबनेल">
                     <button class="remove-img" onclick="removeImage(${index})">×</button>
                 `;
                 previewContainer.appendChild(div);
@@ -774,7 +770,7 @@
             updatePreview();
         }
 
-        // ==================== DRAG & DROP VIDEO ====================
+        // ==================== वीडियो ड्रैग & ड्रॉप ====================
         const videoDropArea = document.getElementById('videoDropArea');
         const videoFileInput = document.getElementById('videoFileInput');
         const videoPreviewContainer = document.getElementById('videoPreviewContainer');
@@ -825,7 +821,7 @@
                         <source src="${uploadedVideo}">
                     </video>
                     <br>
-                    <button class="remove-video" onclick="removeVideo()">✕ Remove Video</button>
+                    <button class="remove-video" onclick="removeVideo()">✕ वीडियो हटाएँ</button>
                 `;
                 videoPreviewContainer.appendChild(div);
             }
@@ -838,7 +834,7 @@
             document.getElementById('adminVideoLink').value = '';
         }
 
-        // ==================== ADMIN ====================
+        // ==================== ऐडमिन फंक्शन ====================
         function toggleAdmin() {
             const panel = document.getElementById('adminPanel');
             panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
@@ -850,23 +846,23 @@
             if (user === 'JOD' && pass === 'MODS') {
                 isAdminLoggedIn = true;
                 document.getElementById('adminControls').style.display = 'block';
-                document.getElementById('adminStatus').textContent = '✅ Logged in as Admin';
+                document.getElementById('adminStatus').textContent = '✅ लॉगिन सफल';
                 document.getElementById('adminStatus').style.color = '#00c853';
-                alert('✅ Admin Login Successful!');
+                alert('✅ ऐडमिन लॉगिन सफल!');
             } else {
-                alert('❌ Invalid Credentials! (Username: JOD, Password: MODS)');
+                alert('❌ गलत यूजरनेम या पासवर्ड! (यूजरनेम: JOD, पासवर्ड: MODS)');
             }
         }
 
         function adminAddAnime() {
-            if (!isAdminLoggedIn) { alert('Please login first!'); return; }
+            if (!isAdminLoggedIn) { alert('पहले लॉगिन करें!'); return; }
             const title = document.getElementById('adminTitle').value.trim();
             const type = document.getElementById('adminType').value.trim() || 'series';
             const episodes = parseInt(document.getElementById('adminEpisodes').value) || 12;
             const links = document.getElementById('adminEpisodeLinks').value.trim();
             const defaultVideo = document.getElementById('adminVideoLink').value.trim();
 
-            if (!title) { alert('Title is required!'); return; }
+            if (!title) { alert('टाइटल जरूरी है!'); return; }
 
             let image = uploadedImages.length > 0 ? uploadedImages[0] : 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=' + encodeURIComponent(title);
             
@@ -902,22 +898,22 @@
             document.getElementById('adminEpisodeLinks').value = '';
             document.getElementById('adminVideoLink').value = '';
 
-            alert('✅ Anime added/updated! Reloading...');
+            alert('✅ कंटेंट जोड़ा/अपडेट किया गया! रीलोड हो रहा है...');
             loadAnime();
         }
 
         function adminDeleteCurrent() {
-            if (!isAdminLoggedIn) { alert('Please login first!'); return; }
-            const title = prompt('Enter the exact title to delete:');
+            if (!isAdminLoggedIn) { alert('पहले लॉगिन करें!'); return; }
+            const title = prompt('हटाने के लिए सटीक टाइटल लिखें:');
             if (!title) return;
             let customList = JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
             const filtered = customList.filter(a => a.title.romaji !== title && a.title.english !== title);
             if (filtered.length === customList.length) {
-                alert('❌ Title not found!');
+                alert('❌ टाइटल नहीं मिला!');
                 return;
             }
             localStorage.setItem('jodmods_custom_anime', JSON.stringify(filtered));
-            alert('✅ Deleted! Reloading...');
+            alert('✅ हटा दिया गया! रीलोड हो रहा है...');
             loadAnime();
         }
 
@@ -925,27 +921,7 @@
             return JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
         }
 
-        // ==================== LANGUAGE ====================
-        function changeLanguage(lang) {
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.style.background = '#222';
-                btn.style.color = '#ccc';
-                btn.style.border = '1px solid #444';
-                if (btn.textContent.includes('हिंदी') && lang === 'hi') {
-                    btn.style.background = '#ff3b3b';
-                    btn.style.color = '#fff';
-                    btn.style.border = '1px solid #ff3b3b';
-                }
-                if (btn.textContent.includes('ENG') && lang === 'en') {
-                    btn.style.background = '#ff3b3b';
-                    btn.style.color = '#fff';
-                    btn.style.border = '1px solid #ff3b3b';
-                }
-            });
-            loadAnime();
-        }
-
-        // ==================== NAVIGATION ====================
+        // ==================== नेविगेशन ====================
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', function() {
                 document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
@@ -979,7 +955,7 @@
             displayAnime(results);
         }
 
-        // ==================== LOAD ANIME (ONLY CUSTOM) ====================
+        // ==================== लोड करें (सिर्फ कस्टम) ====================
         function loadAnime() {
             container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div>`;
 
@@ -991,15 +967,14 @@
             } else if (currentType === 'series') {
                 filtered = customList.filter(a => a.type === 'series' || a.type === 'Series' || !a.type);
             }
-            // 'all' shows everything
 
             if (filtered.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-folder-open"></i>
                         <h3>कोई कंटेंट नहीं</h3>
-                        <p>Admin Panel में जाकर अपना पहला एनीमे/मूवी जोड़ें।</p>
-                        <p style="color:#ff3b3b;font-size:13px;margin-top:6px;">👉 Admin बटन पर क्लिक करें और Login करें (JOD / MODS)</p>
+                        <p>ऐडमिन पैनल में जाकर अपना पहला एनीमे/मूवी जोड़ें।</p>
+                        <p style="color:#ff3b3b;font-size:13px;margin-top:6px;">👉 ऐडमिन बटन पर क्लिक करें और लॉगिन करें (JOD / MODS)</p>
                     </div>
                 `;
                 return;
@@ -1008,7 +983,7 @@
             displayAnime(filtered);
         }
 
-        // ==================== DISPLAY ANIME ====================
+        // ==================== कंटेंट दिखाएँ ====================
         function displayAnime(items) {
             let html = `<div class="content-grid">`;
             items.forEach(item => {
@@ -1016,7 +991,6 @@
                 const image = item.coverImage?.large || 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image';
                 const id = item.id || item._id || 'custom_' + Date.now();
                 const episodes = item.episodes || '?';
-                const isCustom = true;
 
                 html += `
                     <div class="content-card" onclick="openAnime('${id}', '${title.replace(/'/g, "\\'")}')">
@@ -1027,7 +1001,7 @@
                             <span class="badge">100% मुफ्त</span>
                         </div>
                         <span class="free-badge"><i class="fas fa-crown"></i> FREE</span>
-                        <span class="admin-badge"><i class="fas fa-user-cog"></i> Admin</span>
+                        <span class="admin-badge"><i class="fas fa-user-cog"></i> ऐडमिन</span>
                     </div>
                 `;
             });
@@ -1035,7 +1009,7 @@
             container.innerHTML = html;
         }
 
-        // ==================== OPEN ANIME ====================
+        // ==================== एनीमे खोलें ====================
         async function openAnime(id, title) {
             if (!id) { alert('डेटा उपलब्ध नहीं'); return; }
 
@@ -1081,29 +1055,59 @@
                 totalActualEpisodes = totalEps;
                 epCount.textContent = totalActualEpisodes;
 
-                for (let i = 1; i <= totalActualEpisodes; i++) {
-                    let epLink = '';
-                    if (episodeLinks && episodeLinks[i-1]) {
-                        epLink = episodeLinks[i-1];
-                    } else if (defaultVideo) {
-                        epLink = defaultVideo;
-                    } else {
-                        epLink = '';
+                // ===== एपिसोड बनाएं - स्मार्ट तरीका =====
+                // अगर episodeLinks में सिर्फ 1 आइटम है और totalEps > 1 तो हम एक रेंज बटन बनाएंगे
+                const hasSingleLink = (episodeLinks.length === 1 && totalEps > 1);
+                // अगर एक से ज्यादा लिंक हैं तो हर एक के लिए अलग बटन
+                // अगर कोई लिंक नहीं है तो डिफॉल्ट वीडियो का उपयोग करें (या खाली)
+
+                if (hasSingleLink) {
+                    // एक ही लिंक, सारे एपिसोड एक साथ
+                    const link = episodeLinks[0] || defaultVideo;
+                    allEpisodes.push({
+                        number: `1-${totalEps}`,
+                        link: link,
+                        isUploaded: isUploadedVideo,
+                        range: true,
+                        start: 1,
+                        end: totalEps
+                    });
+                } else {
+                    // अलग-अलग एपिसोड
+                    for (let i = 1; i <= totalEps; i++) {
+                        let epLink = '';
+                        if (episodeLinks && episodeLinks[i-1]) {
+                            epLink = episodeLinks[i-1];
+                        } else if (defaultVideo) {
+                            epLink = defaultVideo;
+                        } else {
+                            epLink = '';
+                        }
+                        allEpisodes.push({
+                            number: i,
+                            link: epLink,
+                            isUploaded: isUploadedVideo,
+                            range: false
+                        });
                     }
-                    allEpisodes.push({ number: i, link: epLink, isUploaded: isUploadedVideo });
                 }
 
+                // एपिसोड बटन बनाएँ
                 let epHtml = '';
                 allEpisodes.forEach(ep => {
+                    let label = ep.range ? `एपिसोड ${ep.start}-${ep.end}` : `एपिसोड ${ep.number}`;
                     epHtml += `
-                        <button class="episode-btn" onclick="playEpisode(${ep.number})">
-                            <i class="fas fa-play"></i> एपिसोड ${ep.number}
+                        <button class="episode-btn" onclick="playEpisode('${ep.number}')">
+                            <i class="fas fa-play"></i> ${label}
                         </button>
                     `;
                 });
                 episodeContainer.innerHTML = epHtml;
 
-                if (allEpisodes.length > 0) playEpisode(1);
+                if (allEpisodes.length > 0) {
+                    // पहला एपिसोड चलाएँ
+                    playEpisode(allEpisodes[0].number);
+                }
 
             } catch(error) {
                 console.error('Error:', error);
@@ -1111,7 +1115,7 @@
                 epCount.textContent = totalActualEpisodes;
                 allEpisodes = [];
                 for (let i = 1; i <= totalActualEpisodes; i++) {
-                    allEpisodes.push({ number: i, link: '' });
+                    allEpisodes.push({ number: i, link: '', isUploaded: false, range: false });
                 }
                 let epHtml = '';
                 allEpisodes.forEach(ep => {
@@ -1122,66 +1126,61 @@
                     `;
                 });
                 episodeContainer.innerHTML = epHtml;
-                if (allEpisodes.length > 0) playEpisode(1);
+                if (allEpisodes.length > 0) playEpisode(allEpisodes[0].number);
             }
         }
 
-        // ==================== PLAY EPISODE ====================
+        // ==================== एपिसोड चलाएँ ====================
         function playEpisode(epNum) {
-            const episode = allEpisodes.find(ep => ep.number === epNum);
+            const episode = allEpisodes.find(ep => ep.number == epNum);
             if (!episode) { alert('एपिसोड नहीं मिला'); return; }
 
+            // अगर रेंज है तो epNum स्ट्रिंग होगा, हम currentEpisodeNum को स्टोर करेंगे
             currentEpisodeNum = epNum;
 
             document.querySelectorAll('.episode-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.episode-btn').forEach(btn => {
-                if (btn.textContent.includes(`एपिसोड ${epNum}`)) {
+                if (btn.textContent.includes(epNum.toString()) || btn.textContent.includes(`एपिसोड ${epNum}`)) {
                     btn.classList.add('active');
                 }
             });
 
             let videoUrl = episode.link || '';
-
             if (!videoUrl) {
-                alert('⚠️ इस एपिसोड के लिए कोई वीडियो लिंक नहीं है। Admin से जोड़ें।');
+                alert('⚠️ इस एपिसोड के लिए कोई वीडियो लिंक नहीं है। ऐडमिन से जोड़ें।');
                 return;
             }
 
             currentVideoUrl = videoUrl;
 
-            if (videoUrl.startsWith('data:video/')) {
+            // तय करें कि कौन सा प्लेयर इस्तेमाल करना है
+            if (videoUrl.startsWith('data:video/') || videoUrl.match(/\.(mp4|webm|mkv|mov|avi)$/i) || videoUrl.includes('blob:')) {
+                // डायरेक्ट वीडियो फ़ाइल
                 iframeWrapper.style.display = 'none';
                 videoPlayerWrapper.style.display = 'block';
                 videoSource.src = videoUrl;
                 customVideoPlayer.load();
                 customVideoPlayer.play();
-                playerStatus.textContent = `✅ JOD MODS • एपिसोड ${epNum} (Uploaded Video)`;
-                playerStatus.style.color = '#00c853';
-            } else if (videoUrl.includes('.mp4') || videoUrl.includes('.webm') || videoUrl.includes('.mkv') || videoUrl.includes('blob:')) {
-                iframeWrapper.style.display = 'none';
-                videoPlayerWrapper.style.display = 'block';
-                videoSource.src = videoUrl;
-                customVideoPlayer.load();
-                customVideoPlayer.play();
-                playerStatus.textContent = `✅ JOD MODS • एपिसोड ${epNum}`;
+                playerStatus.textContent = `✅ JOD MODS • ${episode.range ? 'एपिसोड 1-'+episode.end : 'एपिसोड '+epNum} (डायरेक्ट वीडियो)`;
                 playerStatus.style.color = '#00c853';
             } else {
+                // Embed लिंक (YouTube, Vimeo, etc.) - iframe में खोलें
                 videoPlayerWrapper.style.display = 'none';
                 iframeWrapper.style.display = 'block';
                 videoIframe.src = videoUrl;
-                playerStatus.textContent = `✅ JOD MODS • एपिसोड ${epNum}`;
+                playerStatus.textContent = `✅ JOD MODS • ${episode.range ? 'एपिसोड 1-'+episode.end : 'एपिसोड '+epNum}`;
                 playerStatus.style.color = '#00c853';
             }
         }
 
-        // ==================== VIDEO CONTROLS ====================
+        // ==================== वीडियो कंट्रोल ====================
         function reloadVideo() {
             if (!currentVideoUrl) {
-                alert('⚠️ No video playing!');
+                alert('⚠️ कोई वीडियो नहीं चल रहा!');
                 return;
             }
             
-            if (currentVideoUrl.startsWith('data:video/') || currentVideoUrl.includes('.mp4') || currentVideoUrl.includes('.webm')) {
+            if (currentVideoUrl.startsWith('data:video/') || currentVideoUrl.match(/\.(mp4|webm|mkv|mov|avi)$/i) || currentVideoUrl.includes('blob:')) {
                 videoSource.src = currentVideoUrl;
                 customVideoPlayer.load();
                 customVideoPlayer.play();
@@ -1204,7 +1203,7 @@
                 return;
             }
             
-            if (currentVideoUrl.startsWith('data:video/')) {
+            if (currentVideoUrl.startsWith('data:video/') || currentVideoUrl.match(/\.(mp4|webm|mkv|mov|avi)$/i)) {
                 const link = document.createElement('a');
                 link.href = currentVideoUrl;
                 link.download = `${currentTitle}_episode_${currentEpisodeNum}.mp4`;
@@ -1232,20 +1231,20 @@
         function copyVideoLink() {
             if (currentVideoUrl) {
                 if (currentVideoUrl.startsWith('data:video/')) {
-                    alert('⚠️ This is an uploaded video, cannot copy link. Download it instead.');
+                    alert('⚠️ यह अपलोड की गई वीडियो है, लिंक कॉपी नहीं कर सकते। डाउनलोड करें।');
                     return;
                 }
                 navigator.clipboard.writeText(currentVideoUrl).then(() => {
-                    alert('✅ Video link copied to clipboard!');
+                    alert('✅ वीडियो लिंक कॉपी हो गया!');
                 }).catch(() => {
-                    prompt('Copy this link:', currentVideoUrl);
+                    prompt('यह लिंक कॉपी करें:', currentVideoUrl);
                 });
             } else {
-                alert('⚠️ No video playing!');
+                alert('⚠️ कोई वीडियो नहीं चल रहा!');
             }
         }
 
-        // ==================== MODAL CONTROLS ====================
+        // ==================== मॉडल कंट्रोल ====================
         function closeModal() {
             modal.style.display = 'none';
             videoIframe.src = '';
@@ -1265,8 +1264,8 @@
             if (e.key === 'Escape') closeModal();
         });
 
-        // ==================== START ====================
-        // Remove all default anime on first load
+        // ==================== स्टार्ट ====================
+        // सारा डिफॉल्ट हटाएँ
         if (!localStorage.getItem('jodmods_initialized')) {
             localStorage.setItem('jodmods_hide_default', 'true');
             localStorage.setItem('jodmods_initialized', 'true');
