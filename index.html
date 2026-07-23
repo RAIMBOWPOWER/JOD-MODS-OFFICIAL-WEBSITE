@@ -487,6 +487,63 @@
             border-color: #ff3b3b;
         }
 
+        /* Drag & Drop Area */
+        .drop-area {
+            border: 2px dashed #ff3b3b;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 8px 0;
+            background: #111;
+        }
+        .drop-area:hover, .drop-area.dragover {
+            background: #222;
+            border-color: #ff6b6b;
+        }
+        .drop-area img {
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+        .drop-area .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 8px;
+        }
+        .drop-area .preview-item {
+            position: relative;
+            display: inline-block;
+        }
+        .drop-area .preview-item img {
+            max-height: 100px;
+            border-radius: 6px;
+            border: 1px solid #444;
+        }
+        .drop-area .preview-item .remove-img {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #ff3b3b;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .drop-area .preview-item .remove-img:hover {
+            background: #cc2e2e;
+        }
+
         @media (max-width: 600px) {
             .navbar { flex-direction: column; align-items: stretch; }
             .search-box { max-width: 100%; }
@@ -544,9 +601,17 @@
             <div id="adminControls" style="display:none;">
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
                     <input type="text" id="adminTitle" placeholder="Title (e.g. Naruto Shippuden)" style="flex:2;min-width:180px;">
-                    <input type="text" id="adminImage" placeholder="Image URL" style="flex:2;min-width:180px;">
                     <input type="number" id="adminEpisodes" placeholder="Episodes" style="flex:1;min-width:80px;" value="12">
                 </div>
+                
+                <!-- Drag & Drop Thumbnail Area -->
+                <div class="drop-area" id="dropArea">
+                    <i class="fas fa-cloud-upload-alt" style="font-size:24px;color:#ff3b3b;"></i>
+                    <p style="color:#aaa;font-size:13px;">Drag & Drop Thumbnail Image or Click to Upload</p>
+                    <input type="file" id="fileInput" accept="image/*" style="display:none;" multiple>
+                    <div class="preview-container" id="previewContainer"></div>
+                </div>
+
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
                     <input type="text" id="adminEpisodeLinks" placeholder="Episode Links (comma separated: EP1_URL,EP2_URL,...)" style="flex:3;min-width:200px;">
                 </div>
@@ -555,6 +620,7 @@
                 </div>
                 <button onclick="adminAddAnime()"><i class="fas fa-plus-circle"></i> Add/Update Anime</button>
                 <button onclick="adminDeleteCurrent()" style="background:#cc2e2e;"><i class="fas fa-trash"></i> Delete Current</button>
+                <button onclick="clearAllDefault()" style="background:#cc2e2e;"><i class="fas fa-eraser"></i> Remove All Default Anime</button>
                 <p style="color:#888;font-size:11px;margin-top:8px;">💡 एपिसोड लिंक डालें: EP1_LINK,EP2_LINK,EP3_LINK ... (या सिर्फ एक डिफॉल्ट वीडियो लिंक)</p>
             </div>
         </div>
@@ -598,7 +664,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
     <script>
-        // ==================== HANIME API + ADMIN ====================
+        // ==================== CONFIG ====================
         const HIANIME_API = 'https://hianime-api-iy4s.onrender.com/api';
         const ANILIST_API = 'https://graphql.anilist.co';
 
@@ -612,6 +678,7 @@
         let currentEpisodeNum = 1;
         let isAdminLoggedIn = false;
         let currentCustomAnime = null;
+        let uploadedImages = [];
 
         // ==================== DOM REFS ====================
         const container = document.getElementById('contentContainer');
@@ -623,6 +690,69 @@
         const episodeContainer = document.getElementById('episodeContainer');
         const playerStatus = document.getElementById('playerStatus');
         const epCount = document.getElementById('epCount');
+
+        // ==================== DRAG & DROP ====================
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.classList.add('dragover');
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.classList.remove('dragover');
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                handleFiles(e.dataTransfer.files);
+            }
+        });
+
+        dropArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFiles(e.target.files);
+            }
+        });
+
+        function handleFiles(files) {
+            for (let file of files) {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        uploadedImages.push(e.target.result);
+                        updatePreview();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        function updatePreview() {
+            previewContainer.innerHTML = '';
+            uploadedImages.forEach((img, index) => {
+                const div = document.createElement('div');
+                div.className = 'preview-item';
+                div.innerHTML = `
+                    <img src="${img}" alt="Thumbnail">
+                    <button class="remove-img" onclick="removeImage(${index})">×</button>
+                `;
+                previewContainer.appendChild(div);
+            });
+        }
+
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            updatePreview();
+        }
 
         // ==================== ADMIN ====================
         function toggleAdmin() {
@@ -647,18 +777,19 @@
         function adminAddAnime() {
             if (!isAdminLoggedIn) { alert('Please login first!'); return; }
             const title = document.getElementById('adminTitle').value.trim();
-            const image = document.getElementById('adminImage').value.trim();
             const episodes = parseInt(document.getElementById('adminEpisodes').value) || 12;
             const links = document.getElementById('adminEpisodeLinks').value.trim();
             const defaultVideo = document.getElementById('adminVideoLink').value.trim();
 
             if (!title) { alert('Title is required!'); return; }
 
-            // Create custom anime object
+            // Get first uploaded image or use default
+            let image = uploadedImages.length > 0 ? uploadedImages[0] : 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=' + encodeURIComponent(title);
+
             const customAnime = {
                 id: 'custom_' + Date.now(),
                 title: { romaji: title, english: title },
-                coverImage: { large: image || 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=' + encodeURIComponent(title) },
+                coverImage: { large: image },
                 episodes: episodes,
                 custom: true,
                 episodeLinks: links ? links.split(',').map(s => s.trim()) : [],
@@ -666,12 +797,17 @@
                 adminAdded: true
             };
 
-            // Save to localStorage
             let customList = JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
-            // Remove if exists
             customList = customList.filter(a => a.title.romaji !== title && a.title.english !== title);
             customList.push(customAnime);
             localStorage.setItem('jodmods_custom_anime', JSON.stringify(customList));
+
+            // Clear uploads after adding
+            uploadedImages = [];
+            updatePreview();
+            document.getElementById('adminTitle').value = '';
+            document.getElementById('adminEpisodeLinks').value = '';
+            document.getElementById('adminVideoLink').value = '';
 
             alert('✅ Anime added/updated! Reloading...');
             loadAnime();
@@ -692,8 +828,22 @@
             loadAnime();
         }
 
+        function clearAllDefault() {
+            if (!isAdminLoggedIn) { alert('Please login first!'); return; }
+            if (!confirm('⚠️ This will remove ALL default anime and show only your custom added content. Continue?')) return;
+            // We just clear the default flag, but we keep custom
+            // Actually we just set a flag in localStorage to not load default
+            localStorage.setItem('jodmods_hide_default', 'true');
+            alert('✅ All default anime removed! Only your custom content will show.');
+            loadAnime();
+        }
+
         function getCustomAnimeList() {
             return JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
+        }
+
+        function shouldHideDefault() {
+            return localStorage.getItem('jodmods_hide_default') === 'true';
         }
 
         // ==================== LANGUAGE ====================
@@ -738,40 +888,40 @@
             container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> "${query}" खोजा जा रहा है...</div>`;
 
             try {
-                // Search custom first
                 const customList = getCustomAnimeList();
                 const customResults = customList.filter(a => 
                     a.title.romaji.toLowerCase().includes(query.toLowerCase()) || 
                     a.title.english.toLowerCase().includes(query.toLowerCase())
                 );
 
-                // Search Anilist
-                const response = await fetch(ANILIST_API, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        query: `
-                            query ($search: String, $page: Int) {
-                                Page(page: $page, perPage: 24) {
-                                    media(search: $search, type: ANIME, sort: POPULARITY_DESC) {
-                                        id
-                                        title { romaji english native }
-                                        coverImage { large }
-                                        episodes
-                                        format
+                // Only search API if not hiding default
+                let apiResults = [];
+                if (!shouldHideDefault()) {
+                    const response = await fetch(ANILIST_API, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            query: `
+                                query ($search: String, $page: Int) {
+                                    Page(page: $page, perPage: 24) {
+                                        media(search: $search, type: ANIME, sort: POPULARITY_DESC) {
+                                            id
+                                            title { romaji english native }
+                                            coverImage { large }
+                                            episodes
+                                            format
+                                        }
                                     }
                                 }
-                            }
-                        `,
-                        variables: { search: query, page: currentPage }
-                    })
-                });
+                            `,
+                            variables: { search: query, page: currentPage }
+                        })
+                    });
+                    const data = await response.json();
+                    apiResults = data.data?.Page?.media || [];
+                }
 
-                const data = await response.json();
-                const results = data.data?.Page?.media || [];
-
-                // Merge custom results (custom first)
-                const allResults = [...customResults, ...results];
+                const allResults = [...customResults, ...apiResults];
 
                 if (allResults.length === 0) {
                     container.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><p>कोई परिणाम नहीं मिला "${query}"</p></div>`;
@@ -803,32 +953,14 @@
 
                 sectionTitle.innerHTML = `<i class="fas fa-fire" style="color:#ff3b3b;"></i> ${title}`;
 
-                // Get custom anime list
                 const customList = getCustomAnimeList();
 
-                // Get from Anilist
-                let query = `
-                    query ($page: Int) {
-                        Page(page: $page, perPage: 24) {
-                            media(type: ANIME, sort: ${sortType}) {
-                                id
-                                title { romaji english native }
-                                coverImage { large }
-                                episodes
-                                format
-                                status
-                                genres
-                                averageScore
-                            }
-                        }
-                    }
-                `;
-
-                if (currentType === 'movies') {
-                    query = `
+                let apiResults = [];
+                if (!shouldHideDefault()) {
+                    let query = `
                         query ($page: Int) {
                             Page(page: $page, perPage: 24) {
-                                media(type: ANIME, sort: POPULARITY_DESC, format: MOVIE) {
+                                media(type: ANIME, sort: ${sortType}) {
                                     id
                                     title { romaji english native }
                                     coverImage { large }
@@ -841,22 +973,40 @@
                             }
                         }
                     `;
+
+                    if (currentType === 'movies') {
+                        query = `
+                            query ($page: Int) {
+                                Page(page: $page, perPage: 24) {
+                                    media(type: ANIME, sort: POPULARITY_DESC, format: MOVIE) {
+                                        id
+                                        title { romaji english native }
+                                        coverImage { large }
+                                        episodes
+                                        format
+                                        status
+                                        genres
+                                        averageScore
+                                    }
+                                }
+                            }
+                        `;
+                    }
+
+                    const response = await fetch(ANILIST_API, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            query: query,
+                            variables: { page: currentPage }
+                        })
+                    });
+
+                    const data = await response.json();
+                    apiResults = data.data?.Page?.media || [];
                 }
 
-                const response = await fetch(ANILIST_API, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        query: query,
-                        variables: { page: currentPage }
-                    })
-                });
-
-                const data = await response.json();
-                const results = data.data?.Page?.media || [];
-
-                // Merge custom (show custom first)
-                let finalResults = [...customList, ...results];
+                let finalResults = [...customList, ...apiResults];
 
                 if (finalResults.length === 0) {
                     container.innerHTML = `<div class="no-results"><i class="fas fa-frown"></i><p>कुछ नहीं मिला</p></div>`;
@@ -867,7 +1017,6 @@
                 addLoadMore();
 
             } catch(error) {
-                // Fallback: show custom only
                 const customList = getCustomAnimeList();
                 if (customList.length > 0) {
                     displayAnime(customList);
@@ -937,7 +1086,6 @@
             document.body.style.overflow = 'hidden';
 
             try {
-                // Check if custom anime
                 const customList = getCustomAnimeList();
                 let customAnime = customList.find(a => a.id === id || a.title.romaji === title || a.title.english === title);
                 let totalEps = 12;
@@ -951,40 +1099,41 @@
                     currentCustomAnime = customAnime;
                 } else {
                     currentCustomAnime = null;
-                    // Try HiAnime API for episodes
-                    try {
-                        const hianimeResp = await fetch(`${HIANIME_API}/anime/${id}`);
-                        if (hianimeResp.ok) {
-                            const data = await hianimeResp.json();
-                            totalEps = data.episodes?.length || 12;
-                        }
-                    } catch(e) {}
+                    if (!shouldHideDefault()) {
+                        try {
+                            const hianimeResp = await fetch(`${HIANIME_API}/anime/${id}`);
+                            if (hianimeResp.ok) {
+                                const data = await hianimeResp.json();
+                                totalEps = data.episodes?.length || 12;
+                            }
+                        } catch(e) {}
 
-                    // Fallback to Anilist
-                    if (totalEps === 12) {
-                        const anilistResp = await fetch(ANILIST_API, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                query: `
-                                    query ($id: Int) {
-                                        Media(id: $id, type: ANIME) {
-                                            episodes
+                        if (totalEps === 12) {
+                            const anilistResp = await fetch(ANILIST_API, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    query: `
+                                        query ($id: Int) {
+                                            Media(id: $id, type: ANIME) {
+                                                episodes
+                                            }
                                         }
-                                    }
-                                `,
-                                variables: { id: parseInt(id) }
-                            })
-                        });
-                        const data = await anilistResp.json();
-                        totalEps = data.data?.Media?.episodes || 12;
+                                    `,
+                                    variables: { id: parseInt(id) }
+                                })
+                            });
+                            const data = await anilistResp.json();
+                            totalEps = data.data?.Media?.episodes || 12;
+                        }
+                    } else {
+                        totalEps = 12;
                     }
                 }
 
                 totalActualEpisodes = totalEps;
                 epCount.textContent = totalActualEpisodes;
 
-                // Build episodes
                 for (let i = 1; i <= totalActualEpisodes; i++) {
                     let epLink = '';
                     if (episodeLinks && episodeLinks[i-1]) {
@@ -992,7 +1141,6 @@
                     } else if (defaultVideo) {
                         epLink = defaultVideo;
                     } else {
-                        // Generate default link
                         const cleanTitle = currentTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
                         epLink = `https://hianime.to/embed/${cleanTitle}?ep=${i}`;
                     }
@@ -1053,7 +1201,6 @@
                 videoUrl = `https://hianime.to/embed/${cleanTitle}?ep=${epNum}`;
             }
 
-            // Ensure it's a valid iframe src
             if (!videoUrl.includes('http')) {
                 videoUrl = 'https://hianime.to/embed/' + videoUrl;
             }
