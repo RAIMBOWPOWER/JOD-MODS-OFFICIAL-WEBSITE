@@ -479,7 +479,7 @@
             background: rgba(20,20,20,0.95);
             border-radius: 24px;
             width: 100%;
-            max-width: 440px;
+            max-width: 460px;
             padding: 0;
             border: 1px solid rgba(255,59,59,0.2);
             box-shadow: 0 25px 60px rgba(0,0,0,0.8);
@@ -577,7 +577,7 @@
         .auth-form {
             display: none;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
         }
         .auth-form.active { display: flex; }
 
@@ -593,7 +593,7 @@
             font-size: 14px;
             transition: 0.3s;
         }
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 14px 14px 14px 44px;
             background: rgba(255,255,255,0.05);
@@ -603,8 +603,14 @@
             font-size: 14px;
             transition: 0.3s;
             outline: none;
+            appearance: none;
+            -webkit-appearance: none;
         }
-        .form-group input:focus {
+        .form-group select option {
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .form-group input:focus, .form-group select:focus {
             border-color: #ff3b3b;
             box-shadow: 0 0 0 4px rgba(255,59,59,0.1);
             background: rgba(255,255,255,0.08);
@@ -655,6 +661,7 @@
             background: none;
             border: none;
             font-size: 13px;
+            font-weight: 600;
         }
         .form-options .forgot-pass:hover {
             text-decoration: underline;
@@ -679,6 +686,11 @@
         .auth-submit-btn:active {
             transform: scale(0.98);
         }
+        .auth-submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
 
         .auth-error {
             color: #ff3b3b;
@@ -701,6 +713,80 @@
             display: none;
         }
         .auth-success.show { display: block; }
+
+        /* ===== FORGOT PASSWORD MODAL ===== */
+        .forgot-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.92);
+            z-index: 2500;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            padding: 20px;
+        }
+        .forgot-modal.active { display: flex; }
+        .forgot-modal-content {
+            background: rgba(20,20,20,0.95);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            border: 1px solid rgba(255,59,59,0.2);
+            animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        .forgot-modal-content .close-forgot {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 24px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .forgot-modal-content .close-forgot:hover { color: #ff3b3b; }
+        .forgot-modal-content h3 {
+            color: #ff3b3b;
+            font-size: 20px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .forgot-modal-content p {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+        .forgot-modal-content .form-group {
+            margin-bottom: 12px;
+        }
+        .forgot-modal-content .form-group input,
+        .forgot-modal-content .form-group select {
+            padding: 12px 16px 12px 44px;
+        }
+        .forgot-modal-content .form-group .form-icon {
+            left: 14px;
+        }
+        .forgot-modal-content .security-answer-box {
+            background: rgba(255,165,0,0.05);
+            border: 1px solid rgba(255,165,0,0.2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            color: #ffa500;
+            font-size: 14px;
+            display: none;
+        }
+        .forgot-modal-content .security-answer-box.show { display: block; }
+        .forgot-modal-content .security-answer-box i { margin-right: 8px; }
 
         /* ===== ADMIN/MOD LOGIN ===== */
         .admin-auth-overlay {
@@ -1535,6 +1621,7 @@
             .history-section { margin: 10px; padding: 12px 16px; }
             .comments-section { margin: 10px; padding: 16px; }
             .modal-content { padding: 16px; }
+            .forgot-modal-content { margin: 10px; padding: 20px; }
         }
 
         @media (max-width: 480px) {
@@ -1656,7 +1743,7 @@
                         <label>
                             <input type="checkbox" id="rememberMe" checked /> मुझे याद रखें
                         </label>
-                        <button class="forgot-pass" onclick="showToast('info', '📧 जल्द ही पासवर्ड रीसेट लिंक भेजा जाएगा!')">पासवर्ड भूल गए?</button>
+                        <button class="forgot-pass" onclick="openForgotPassword()">🔑 पासवर्ड भूल गए?</button>
                     </div>
                     <button class="auth-submit-btn" onclick="submitUserLogin()">
                         <i class="fas fa-sign-in-alt"></i> लॉगिन करें
@@ -1686,6 +1773,29 @@
                         <input type="password" id="regConfirm" placeholder="पासवर्ड दोबारा" />
                         <i class="fas fa-check-circle form-icon"></i>
                     </div>
+                    
+                    <!-- Security Question -->
+                    <div class="form-group">
+                        <select id="regSecurityQuestion">
+                            <option value="">🔒 सुरक्षा प्रश्न चुनें</option>
+                            <option value="your_mother_maiden_name">आपकी माता का पहला नाम क्या है?</option>
+                            <option value="your_first_pet">आपके पहले पालतू जानवर का नाम क्या था?</option>
+                            <option value="your_birth_city">आपका जन्म शहर कौन सा है?</option>
+                            <option value="your_favorite_color">आपका पसंदीदा रंग क्या है?</option>
+                            <option value="your_favorite_food">आपका पसंदीदा खाना क्या है?</option>
+                            <option value="your_best_friend">आपके सबसे अच्छे दोस्त का नाम क्या है?</option>
+                            <option value="your_favorite_movie">आपकी पसंदीदा मूवी कौन सी है?</option>
+                            <option value="your_favorite_actor">आपके पसंदीदा अभिनेता का नाम क्या है?</option>
+                            <option value="your_school_name">आपके स्कूल का नाम क्या था?</option>
+                            <option value="your_favorite_book">आपकी पसंदीदा किताब कौन सी है?</option>
+                        </select>
+                        <i class="fas fa-question-circle form-icon"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="regSecurityAnswer" placeholder="सुरक्षा प्रश्न का उत्तर (जो आपको याद रहे)" />
+                        <i class="fas fa-key form-icon"></i>
+                    </div>
+
                     <div class="form-options">
                         <label>
                             <input type="checkbox" id="termsCheck" checked /> मैं नियमों से सहमत हूँ
@@ -1698,6 +1808,50 @@
                     <div class="auth-success" id="regSuccess"></div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- ===== FORGOT PASSWORD MODAL ===== -->
+    <div class="forgot-modal" id="forgotModal">
+        <div class="forgot-modal-content">
+            <button class="close-forgot" onclick="closeForgotPassword()">&times;</button>
+            <h3><i class="fas fa-key"></i> पासवर्ड रीसेट</h3>
+            <p>अपनी पहचान सत्यापित करें और नया पासवर्ड सेट करें</p>
+            
+            <div class="form-group">
+                <input type="email" id="forgotEmail" placeholder="ईमेल" />
+                <i class="fas fa-envelope form-icon"></i>
+            </div>
+            
+            <div class="security-answer-box" id="securityQuestionBox">
+                <i class="fas fa-question-circle"></i>
+                <span id="displaySecurityQuestion">सुरक्षा प्रश्न यहाँ दिखेगा</span>
+            </div>
+            
+            <div class="form-group" id="securityAnswerGroup" style="display:none;">
+                <input type="text" id="forgotSecurityAnswer" placeholder="सुरक्षा प्रश्न का उत्तर" />
+                <i class="fas fa-key form-icon"></i>
+            </div>
+            
+            <div class="form-group" id="newPasswordGroup" style="display:none;">
+                <input type="password" id="forgotNewPassword" placeholder="नया पासवर्ड" />
+                <i class="fas fa-lock form-icon"></i>
+                <button class="toggle-pass" onclick="togglePassword('forgotNewPassword')" type="button">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            
+            <div class="form-group" id="confirmPasswordGroup" style="display:none;">
+                <input type="password" id="forgotConfirmPassword" placeholder="पासवर्ड दोबारा" />
+                <i class="fas fa-check-circle form-icon"></i>
+            </div>
+            
+            <button class="auth-submit-btn" id="forgotStepBtn" onclick="forgotPasswordStep1()">
+                <i class="fas fa-search"></i> खोजें
+            </button>
+            
+            <div class="auth-error" id="forgotError"></div>
+            <div class="auth-success" id="forgotSuccess"></div>
         </div>
     </div>
 
@@ -1893,6 +2047,7 @@
         let isAdminLoggedIn = false;
         let isModLoggedIn = false;
         let currentAdminUser = null;
+        let forgotStep = 1;
 
         const container = document.getElementById('contentContainer');
         const sectionTitle = document.getElementById('sectionTitle');
@@ -2004,6 +2159,8 @@
             const email = document.getElementById('regEmail').value.trim();
             const pass = document.getElementById('regPass').value.trim();
             const confirm = document.getElementById('regConfirm').value.trim();
+            const securityQuestion = document.getElementById('regSecurityQuestion').value;
+            const securityAnswer = document.getElementById('regSecurityAnswer').value.trim();
             const terms = document.getElementById('termsCheck').checked;
             const error = document.getElementById('regError');
             const success = document.getElementById('regSuccess');
@@ -2026,6 +2183,18 @@
                 success.classList.remove('show');
                 return;
             }
+            if (!securityQuestion) {
+                error.textContent = '⚠️ कृपया सुरक्षा प्रश्न चुनें!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+            if (!securityAnswer || securityAnswer.length < 2) {
+                error.textContent = '⚠️ कृपया सुरक्षा उत्तर भरें!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
             if (!terms) {
                 error.textContent = '⚠️ कृपया नियमों से सहमत हों!';
                 error.classList.add('show');
@@ -2041,7 +2210,19 @@
                 return;
             }
 
-            users.push({ name, email, password: pass, isAdmin: false, isMod: false });
+            // Get the question text from select option
+            const questionText = document.getElementById('regSecurityQuestion').options[document.getElementById('regSecurityQuestion').selectedIndex].text;
+
+            users.push({ 
+                name, 
+                email, 
+                password: pass, 
+                isAdmin: false, 
+                isMod: false,
+                securityQuestion: questionText,
+                securityQuestionKey: securityQuestion,
+                securityAnswer: securityAnswer.toLowerCase().trim()
+            });
             saveUsers(users);
             success.textContent = '✅ रजिस्टर सफल! अब आप लॉगिन कर सकते हैं।';
             success.classList.add('show');
@@ -2053,6 +2234,8 @@
                 document.getElementById('regEmail').value = '';
                 document.getElementById('regPass').value = '';
                 document.getElementById('regConfirm').value = '';
+                document.getElementById('regSecurityQuestion').value = '';
+                document.getElementById('regSecurityAnswer').value = '';
                 switchAuthTab('login');
                 document.getElementById('loginEmail').value = email;
                 document.getElementById('loginPass').value = pass;
@@ -2090,6 +2273,185 @@
                 showToast('info', '👋 आप लॉगआउट हो गए!');
             }
         }
+
+        // ==================== FORGOT PASSWORD ====================
+        function openForgotPassword() {
+            document.getElementById('forgotModal').classList.add('active');
+            document.getElementById('forgotEmail').value = '';
+            document.getElementById('forgotSecurityAnswer').value = '';
+            document.getElementById('forgotNewPassword').value = '';
+            document.getElementById('forgotConfirmPassword').value = '';
+            document.getElementById('securityQuestionBox').classList.remove('show');
+            document.getElementById('securityAnswerGroup').style.display = 'none';
+            document.getElementById('newPasswordGroup').style.display = 'none';
+            document.getElementById('confirmPasswordGroup').style.display = 'none';
+            document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-search"></i> खोजें';
+            document.getElementById('forgotError').classList.remove('show');
+            document.getElementById('forgotSuccess').classList.remove('show');
+            forgotStep = 1;
+        }
+
+        function closeForgotPassword() {
+            document.getElementById('forgotModal').classList.remove('active');
+        }
+
+        function forgotPasswordStep1() {
+            const email = document.getElementById('forgotEmail').value.trim();
+            const error = document.getElementById('forgotError');
+            const success = document.getElementById('forgotSuccess');
+            
+            error.classList.remove('show');
+            success.classList.remove('show');
+
+            if (!email) {
+                error.textContent = '⚠️ कृपया ईमेल डालें!';
+                error.classList.add('show');
+                return;
+            }
+
+            const users = getUsers();
+            const user = users.find(u => u.email === email);
+            
+            if (!user) {
+                error.textContent = '❌ यह ईमेल रजिस्टर नहीं है!';
+                error.classList.add('show');
+                return;
+            }
+
+            if (!user.securityQuestion) {
+                error.textContent = '❌ इस अकाउंट के लिए सुरक्षा प्रश्न सेट नहीं है। कृपया admin से संपर्क करें।';
+                error.classList.add('show');
+                return;
+            }
+
+            // Show security question
+            document.getElementById('displaySecurityQuestion').textContent = '❓ ' + user.securityQuestion;
+            document.getElementById('securityQuestionBox').classList.add('show');
+            document.getElementById('securityAnswerGroup').style.display = 'block';
+            document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-check"></i> सत्यापित करें';
+            forgotStep = 2;
+            
+            // Store email for later
+            document.getElementById('forgotStepBtn').dataset.email = email;
+            error.classList.remove('show');
+            success.classList.remove('show');
+            
+            showToast('info', '🔐 अपने सुरक्षा प्रश्न का उत्तर दें');
+        }
+
+        function forgotPasswordStep2() {
+            const email = document.getElementById('forgotStepBtn').dataset.email;
+            const answer = document.getElementById('forgotSecurityAnswer').value.trim().toLowerCase();
+            const error = document.getElementById('forgotError');
+            const success = document.getElementById('forgotSuccess');
+            
+            error.classList.remove('show');
+            success.classList.remove('show');
+
+            if (!answer) {
+                error.textContent = '⚠️ कृपया सुरक्षा उत्तर दें!';
+                error.classList.add('show');
+                return;
+            }
+
+            const users = getUsers();
+            const user = users.find(u => u.email === email);
+            
+            if (!user) {
+                error.textContent = '❌ यूजर नहीं मिला!';
+                error.classList.add('show');
+                return;
+            }
+
+            if (user.securityAnswer !== answer) {
+                error.textContent = '❌ गलत उत्तर! कृपया सही उत्तर दें।';
+                error.classList.add('show');
+                return;
+            }
+
+            // Show new password fields
+            document.getElementById('newPasswordGroup').style.display = 'block';
+            document.getElementById('confirmPasswordGroup').style.display = 'block';
+            document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-save"></i> पासवर्ड बदलें';
+            forgotStep = 3;
+            error.classList.remove('show');
+            showToast('success', '✅ सत्यापित! अब नया पासवर्ड डालें');
+        }
+
+        function forgotPasswordStep3() {
+            const email = document.getElementById('forgotStepBtn').dataset.email;
+            const newPass = document.getElementById('forgotNewPassword').value.trim();
+            const confirmPass = document.getElementById('forgotConfirmPassword').value.trim();
+            const error = document.getElementById('forgotError');
+            const success = document.getElementById('forgotSuccess');
+            
+            error.classList.remove('show');
+            success.classList.remove('show');
+
+            if (!newPass || !confirmPass) {
+                error.textContent = '⚠️ दोनों पासवर्ड फील्ड भरें!';
+                error.classList.add('show');
+                return;
+            }
+
+            if (newPass.length < 6) {
+                error.textContent = '❌ पासवर्ड कम से कम 6 अक्षर का होना चाहिए!';
+                error.classList.add('show');
+                return;
+            }
+
+            if (newPass !== confirmPass) {
+                error.textContent = '❌ पासवर्ड मैच नहीं कर रहे!';
+                error.classList.add('show');
+                return;
+            }
+
+            const users = getUsers();
+            const userIndex = users.findIndex(u => u.email === email);
+            
+            if (userIndex === -1) {
+                error.textContent = '❌ यूजर नहीं मिला!';
+                error.classList.add('show');
+                return;
+            }
+
+            users[userIndex].password = newPass;
+            saveUsers(users);
+            
+            success.textContent = '✅ पासवर्ड सफलतापूर्वक बदल दिया गया! अब आप लॉगिन कर सकते हैं।';
+            success.classList.add('show');
+            error.classList.remove('show');
+            
+            showToast('success', '🔑 पासवर्ड बदल दिया गया!');
+            
+            setTimeout(() => {
+                closeForgotPassword();
+                // Auto fill login
+                document.getElementById('loginEmail').value = email;
+                document.getElementById('loginPass').value = newPass;
+            }, 1500);
+        }
+
+        // Forgot password button handler
+        document.getElementById('forgotStepBtn').addEventListener('click', function() {
+            if (forgotStep === 1) forgotPasswordStep1();
+            else if (forgotStep === 2) forgotPasswordStep2();
+            else if (forgotStep === 3) forgotPasswordStep3();
+        });
+
+        // Enter key support for forgot password
+        document.getElementById('forgotEmail').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && forgotStep === 1) forgotPasswordStep1();
+        });
+        document.getElementById('forgotSecurityAnswer').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && forgotStep === 2) forgotPasswordStep2();
+        });
+        document.getElementById('forgotNewPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && forgotStep === 3) forgotPasswordStep3();
+        });
+        document.getElementById('forgotConfirmPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && forgotStep === 3) forgotPasswordStep3();
+        });
 
         // ==================== ADMIN/MOD AUTH ====================
         function getModerators() {
@@ -2773,6 +3135,7 @@
                 else if (document.getElementById('adminPage').style.display === 'block') closeAdminPage();
                 else if (document.getElementById('adminAuthOverlay').classList.contains('active')) closeAdminAuth();
                 else if (document.getElementById('authModal').classList.contains('active')) closeUserAuth();
+                else if (document.getElementById('forgotModal').classList.contains('active')) closeForgotPassword();
             }
         });
 
@@ -2789,7 +3152,16 @@
 
         const users = getUsers();
         if (!users.find(u => u.email === 'admin@jodmods.com')) {
-            users.push({ name: 'JOD MODS', email: 'admin@jodmods.com', password: 'admin123', isAdmin: true, isMod: false });
+            users.push({ 
+                name: 'JOD MODS', 
+                email: 'admin@jodmods.com', 
+                password: 'admin123', 
+                isAdmin: true, 
+                isMod: false,
+                securityQuestion: 'आपकी पसंदीदा मूवी कौन सी है?',
+                securityQuestionKey: 'your_favorite_movie',
+                securityAnswer: 'jod mods'
+            });
             saveUsers(users);
         }
         if (isAdminLoggedIn) loadModeratorList();
