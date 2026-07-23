@@ -308,7 +308,7 @@
 
         .content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 18px;
         }
 
@@ -443,6 +443,26 @@
             0%, 100% { transform: scale(1); opacity: 0.8; }
             50% { transform: scale(1.1); opacity: 1; }
         }
+
+        /* ===== STATS ON CARD ===== */
+        .card-stats {
+            display: flex;
+            gap: 12px;
+            margin-top: 6px;
+            font-size: 11px;
+            color: #888;
+        }
+        .card-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .card-stats i {
+            font-size: 12px;
+        }
+        .card-stats .views-icon { color: #ffa500; }
+        .card-stats .likes-icon { color: #ff3b3b; }
+        .card-stats .liked { color: #ff3b3b; }
 
         /* ===== LOADER ===== */
         .loader { 
@@ -1000,6 +1020,58 @@
         }
         .action-bar button i { color: #ff3b3b; }
 
+        /* ===== LIKE BUTTON IN MODAL ===== */
+        .like-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 10px 0;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+        }
+        .like-btn {
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 22px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px;
+            border-radius: 8px;
+        }
+        .like-btn:hover {
+            color: #ff3b3b;
+            background: rgba(255,59,59,0.05);
+        }
+        .like-btn.liked {
+            color: #ff3b3b;
+        }
+        .like-btn.liked i {
+            animation: likePop 0.3s ease;
+        }
+        @keyframes likePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+            100% { transform: scale(1); }
+        }
+        .like-btn .like-count {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .view-count-display {
+            color: #888;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .view-count-display i { color: #ffa500; }
+
         .episode-grid {
             display: flex;
             flex-wrap: wrap;
@@ -1395,6 +1467,42 @@
             box-shadow: 0 6px 25px rgba(255,165,0,0.4);
         }
 
+        /* ===== ADMIN STATS ===== */
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .admin-stats .stat-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 14px 18px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .admin-stats .stat-card:hover {
+            border-color: #ff3b3b;
+            background: rgba(255,59,59,0.05);
+        }
+        .admin-stats .stat-card .stat-number {
+            font-size: 28px;
+            font-weight: 900;
+            color: #ff3b3b;
+        }
+        .admin-stats .stat-card .stat-label {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+        .admin-stats .stat-card .stat-icon {
+            font-size: 20px;
+            color: #ffa500;
+            display: block;
+            margin-bottom: 4px;
+        }
+
         .drop-area {
             border: 2px dashed rgba(255,59,59,0.3);
             border-radius: 12px;
@@ -1622,6 +1730,7 @@
             .comments-section { margin: 10px; padding: 16px; }
             .modal-content { padding: 16px; }
             .forgot-modal-content { margin: 10px; padding: 20px; }
+            .admin-stats { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 480px) {
@@ -1632,6 +1741,8 @@
             .upload-btn-modern { padding: 6px 14px; font-size: 11px; }
             .auth-modal-content { padding: 0; }
             .auth-form-container { padding: 20px; }
+            .admin-stats { grid-template-columns: 1fr 1fr; }
+            .admin-stats .stat-card .stat-number { font-size: 22px; }
         }
     </style>
 </head>
@@ -1878,6 +1989,30 @@
             <button class="close-admin" onclick="closeAdminPage()"><i class="fas fa-times"></i> बंद करें</button>
         </div>
         <div class="admin-panel">
+            <!-- Admin Stats -->
+            <div class="admin-stats" id="adminStats">
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="fas fa-users"></i></span>
+                    <div class="stat-number" id="statUsers">0</div>
+                    <div class="stat-label">कुल यूजर्स</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="fas fa-film"></i></span>
+                    <div class="stat-number" id="statContent">0</div>
+                    <div class="stat-label">कुल कंटेंट</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="fas fa-eye"></i></span>
+                    <div class="stat-number" id="statViews">0</div>
+                    <div class="stat-label">कुल व्यूज़</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="fas fa-heart"></i></span>
+                    <div class="stat-number" id="statLikes">0</div>
+                    <div class="stat-label">कुल लाइक्स</div>
+                </div>
+            </div>
+
             <div id="adminControls">
                 <h3><i class="fas fa-plus-circle"></i> नया कंटेंट जोड़ें / एडिट करें</h3>
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
@@ -1934,6 +2069,19 @@
             <button class="close-modal" onclick="closeModal()">&times;</button>
             <h3 class="modal-title" id="modalTitle">शीर्षक</h3>
             <div class="player-status" id="playerStatus">⏳ प्लेयर लोड हो रहा है...</div>
+            
+            <!-- Like & Views Section -->
+            <div class="like-section">
+                <button class="like-btn" id="likeBtn" onclick="toggleLike()">
+                    <i class="fas fa-heart"></i>
+                    <span class="like-count" id="likeCount">0</span>
+                </button>
+                <div class="view-count-display">
+                    <i class="fas fa-eye"></i>
+                    <span id="viewCount">0</span> व्यूज़
+                </div>
+            </div>
+
             <div id="videoPlayerContainer">
                 <div class="video-wrapper" id="iframeWrapper"><iframe id="videoIframe" src="" allowfullscreen></iframe></div>
                 <div class="custom-video-player" id="videoPlayerWrapper" style="display:none;">
@@ -2048,6 +2196,7 @@
         let isModLoggedIn = false;
         let currentAdminUser = null;
         let forgotStep = 1;
+        let currentContentData = null;
 
         const container = document.getElementById('contentContainer');
         const sectionTitle = document.getElementById('sectionTitle');
@@ -2060,6 +2209,106 @@
         const iframeWrapper = document.getElementById('iframeWrapper');
         const episodeContainer = document.getElementById('episodeContainer');
         const playerStatus = document.getElementById('playerStatus');
+
+        // ==================== VIEWS & LIKES SYSTEM ====================
+        function getContentStats() {
+            return JSON.parse(localStorage.getItem('jodmods_content_stats') || '{}');
+        }
+
+        function saveContentStats(stats) {
+            localStorage.setItem('jodmods_content_stats', JSON.stringify(stats));
+        }
+
+        function getContentViews(contentId) {
+            const stats = getContentStats();
+            return stats[contentId]?.views || 0;
+        }
+
+        function getContentLikes(contentId) {
+            const stats = getContentStats();
+            return stats[contentId]?.likes || 0;
+        }
+
+        function getContentLikedUsers(contentId) {
+            const stats = getContentStats();
+            return stats[contentId]?.likedUsers || [];
+        }
+
+        function addView(contentId) {
+            if (!currentUser) return;
+            const stats = getContentStats();
+            if (!stats[contentId]) stats[contentId] = { views: 0, likes: 0, likedUsers: [] };
+            
+            // Check if user already viewed (session based)
+            const sessionKey = 'viewed_' + contentId;
+            if (sessionStorage.getItem(sessionKey)) return;
+            
+            stats[contentId].views = (stats[contentId].views || 0) + 1;
+            sessionStorage.setItem(sessionKey, 'true');
+            saveContentStats(stats);
+            updateAdminStats();
+        }
+
+        function toggleLike(contentId) {
+            if (!currentUser) {
+                showToast('info', '🔐 लाइक करने के लिए लॉगिन करें!');
+                openUserAuth('login');
+                return;
+            }
+            
+            const stats = getContentStats();
+            if (!stats[contentId]) stats[contentId] = { views: 0, likes: 0, likedUsers: [] };
+            
+            const userEmail = currentUser.email;
+            const likedUsers = stats[contentId].likedUsers || [];
+            const index = likedUsers.indexOf(userEmail);
+            
+            if (index > -1) {
+                // Unlike
+                likedUsers.splice(index, 1);
+                stats[contentId].likes = Math.max(0, (stats[contentId].likes || 0) - 1);
+                showToast('info', '❤️ लाइक हटा दिया');
+            } else {
+                // Like
+                likedUsers.push(userEmail);
+                stats[contentId].likes = (stats[contentId].likes || 0) + 1;
+                showToast('success', '❤️ लाइक कर दिया!');
+            }
+            
+            stats[contentId].likedUsers = likedUsers;
+            saveContentStats(stats);
+            updateLikeUI(contentId);
+            updateAdminStats();
+        }
+
+        function isContentLiked(contentId) {
+            if (!currentUser) return false;
+            const stats = getContentStats();
+            const likedUsers = stats[contentId]?.likedUsers || [];
+            return likedUsers.includes(currentUser.email);
+        }
+
+        function updateLikeUI(contentId) {
+            const likeBtn = document.getElementById('likeBtn');
+            const likeCount = document.getElementById('likeCount');
+            if (!likeBtn) return;
+            
+            const likes = getContentLikes(contentId);
+            const liked = isContentLiked(contentId);
+            
+            likeCount.textContent = likes;
+            if (liked) {
+                likeBtn.classList.add('liked');
+            } else {
+                likeBtn.classList.remove('liked');
+            }
+            
+            // Update view count
+            const viewCount = document.getElementById('viewCount');
+            if (viewCount) {
+                viewCount.textContent = getContentViews(contentId);
+            }
+        }
 
         // ==================== USER AUTH ====================
         function getUsers() { return JSON.parse(localStorage.getItem('jodmods_users') || '[]'); }
@@ -2151,6 +2400,7 @@
                     setTimeout(() => openAnime(id, title), 300);
                 }
                 loadAnime();
+                updateAdminStats();
             }, 600);
         }
 
@@ -2210,7 +2460,6 @@
                 return;
             }
 
-            // Get the question text from select option
             const questionText = document.getElementById('regSecurityQuestion').options[document.getElementById('regSecurityQuestion').selectedIndex].text;
 
             users.push({ 
@@ -2240,6 +2489,7 @@
                 document.getElementById('loginEmail').value = email;
                 document.getElementById('loginPass').value = pass;
                 success.classList.remove('show');
+                updateAdminStats();
             }, 1500);
         }
 
@@ -2324,14 +2574,12 @@
                 return;
             }
 
-            // Show security question
             document.getElementById('displaySecurityQuestion').textContent = '❓ ' + user.securityQuestion;
             document.getElementById('securityQuestionBox').classList.add('show');
             document.getElementById('securityAnswerGroup').style.display = 'block';
             document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-check"></i> सत्यापित करें';
             forgotStep = 2;
             
-            // Store email for later
             document.getElementById('forgotStepBtn').dataset.email = email;
             error.classList.remove('show');
             success.classList.remove('show');
@@ -2369,7 +2617,6 @@
                 return;
             }
 
-            // Show new password fields
             document.getElementById('newPasswordGroup').style.display = 'block';
             document.getElementById('confirmPasswordGroup').style.display = 'block';
             document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-save"></i> पासवर्ड बदलें';
@@ -2426,20 +2673,17 @@
             
             setTimeout(() => {
                 closeForgotPassword();
-                // Auto fill login
                 document.getElementById('loginEmail').value = email;
                 document.getElementById('loginPass').value = newPass;
             }, 1500);
         }
 
-        // Forgot password button handler
         document.getElementById('forgotStepBtn').addEventListener('click', function() {
             if (forgotStep === 1) forgotPasswordStep1();
             else if (forgotStep === 2) forgotPasswordStep2();
             else if (forgotStep === 3) forgotPasswordStep3();
         });
 
-        // Enter key support for forgot password
         document.getElementById('forgotEmail').addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && forgotStep === 1) forgotPasswordStep1();
         });
@@ -2484,6 +2728,7 @@
                 document.getElementById('modSection').style.display = 'block';
                 loadAdminContentList();
                 loadModeratorList();
+                updateAdminStats();
                 showToast('success', '👑 ऐडमिन लॉगिन सफल!');
                 error.textContent = '';
                 return;
@@ -2500,6 +2745,7 @@
                 document.body.style.overflow = 'hidden';
                 document.getElementById('modSection').style.display = 'none';
                 loadAdminContentList();
+                updateAdminStats();
                 showToast('success', '🛠️ मॉड लॉगिन सफल!');
                 error.textContent = '';
                 return;
@@ -2579,6 +2825,26 @@
             showToast('success', '✅ सभी यूजर्स लॉगआउट कर दिए गए!');
         }
 
+        // ==================== ADMIN STATS ====================
+        function updateAdminStats() {
+            if (!isAdminLoggedIn && !isModLoggedIn) return;
+            
+            const users = getUsers();
+            document.getElementById('statUsers').textContent = users.length;
+            
+            const list = getCustomAnimeList();
+            document.getElementById('statContent').textContent = list.length;
+            
+            const stats = getContentStats();
+            let totalViews = 0, totalLikes = 0;
+            Object.keys(stats).forEach(key => {
+                totalViews += stats[key].views || 0;
+                totalLikes += stats[key].likes || 0;
+            });
+            document.getElementById('statViews').textContent = totalViews;
+            document.getElementById('statLikes').textContent = totalLikes;
+        }
+
         // ==================== ADMIN: IMAGE DROP ====================
         const dropArea = document.getElementById('dropArea');
         const fileInput = document.getElementById('fileInput');
@@ -2650,8 +2916,9 @@
                     showToast('success', '✅ कंटेंट अपडेट हो गया!');
                 }
             } else {
+                const newId = 'custom_' + Date.now();
                 list.push({ 
-                    id: 'custom_' + Date.now(), 
+                    id: newId, 
                     title: { romaji: title, english: title }, 
                     coverImage: { large: image }, 
                     episodes, 
@@ -2662,12 +2929,19 @@
                     adminAdded: true, 
                     addedBy: currentAdminUser === 'admin' ? 'admin' : 'mod' 
                 });
+                // Initialize stats for this content
+                const stats = getContentStats();
+                if (!stats[newId]) {
+                    stats[newId] = { views: 0, likes: 0, likedUsers: [] };
+                    saveContentStats(stats);
+                }
                 showToast('success', '✅ नया कंटेंट सेव हो गया!');
             }
             saveCustomAnimeList(list);
             adminClearForm();
             loadAdminContentList();
             loadAnime();
+            updateAdminStats();
         }
 
         function adminClearForm() {
@@ -2696,8 +2970,13 @@
             let list = getCustomAnimeList();
             list = list.filter(a => a.id !== id);
             saveCustomAnimeList(list);
+            // Remove stats
+            const stats = getContentStats();
+            delete stats[id];
+            saveContentStats(stats);
             loadAdminContentList();
             loadAnime();
+            updateAdminStats();
             showToast('success', '✅ कंटेंट हटा दिया गया!');
         }
 
@@ -2735,11 +3014,14 @@
                 const img = item.coverImage?.large || 'https://via.placeholder.com/40x40/1a1a1a/ff3b3b?text=N';
                 const addedBy = item.addedBy === 'admin' ? '👑 ऐडमिन' : '🛠️ मॉड';
                 const canEdit = isAdminLoggedIn || (isModLoggedIn && item.addedBy !== 'admin');
+                const views = getContentViews(item.id);
+                const likes = getContentLikes(item.id);
                 html += `
                     <div class="content-item">
                         <div class="item-info">
                             <img src="${img}" alt="${title}" loading="lazy">
                             <span><strong>${title}</strong> (${item.type || 'series'}) - ${item.episodes} एपिसोड <span style="color:#888;font-size:11px;">${addedBy}</span></span>
+                            <span style="color:#888;font-size:10px;"><i class="fas fa-eye" style="color:#ffa500;"></i> ${views} <i class="fas fa-heart" style="color:#ff3b3b;margin-left:6px;"></i> ${likes}</span>
                         </div>
                         <div class="item-actions">
                             ${canEdit ? `<button class="edit-btn" onclick="adminEditItem('${item.id}')"><i class="fas fa-edit"></i> एडिट</button>` : ''}
@@ -2947,6 +3229,10 @@
                 const episodes = item.episodes || '?';
                 const isWatched = watchedIds.includes(id);
                 const isModContent = item.addedBy === 'mod';
+                const views = getContentViews(id);
+                const likes = getContentLikes(id);
+                const liked = isContentLiked(id);
+                
                 html += `
                     <div class="content-card" onclick="${isLoggedIn ? `openAnime('${id}', '${title.replace(/'/g, "\\'")}')` : `showLoginRequiredForAnime('${id}', '${title.replace(/'/g, "\\'")}')`}">
                         <img src="${image}" alt="${title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image'"/>
@@ -2955,6 +3241,10 @@
                             <h4>${title}</h4>
                             <p>${episodes} एपिसोड</p>
                             <span class="badge">100% मुफ्त</span>
+                            <div class="card-stats">
+                                <span><i class="fas fa-eye views-icon"></i> ${views}</span>
+                                <span><i class="fas fa-heart ${liked ? 'liked' : ''}" style="color:${liked ? '#ff3b3b' : '#888'}"></i> ${likes}</span>
+                            </div>
                         </div>
                         <span class="free-badge"><i class="fas fa-crown"></i> FREE</span>
                         ${isModContent ? '<span class="mod-badge"><i class="fas fa-user-tie"></i> मॉड</span>' : '<span class="admin-badge"><i class="fas fa-user-cog"></i> ऐडमिन</span>'}
@@ -2993,6 +3283,10 @@
             playerStatus.textContent = '⏳ लोड हो रहा है...';
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
+
+            // Add view
+            addView(id);
+            updateLikeUI(id);
 
             try {
                 const list = getCustomAnimeList();
@@ -3094,6 +3388,15 @@
             }
         }
 
+        function toggleLike() {
+            if (!currentAnimeId) return;
+            toggleLike(currentAnimeId);
+            // Update card stats if modal is open
+            updateLikeUI(currentAnimeId);
+            // Reload content to update card stats
+            loadAnime();
+        }
+
         function reloadVideo() {
             if (!currentVideoUrl) { showToast('error', '⚠️ कोई वीडियो नहीं चल रहा!'); return; }
             const isDirect = currentVideoUrl.startsWith('data:video/') || currentVideoUrl.match(/\.(mp4|webm|mkv|mov|avi)$/i) || currentVideoUrl.includes('blob:');
@@ -3126,6 +3429,8 @@
             iframeWrapper.style.display = 'block';
             currentVideoUrl = '';
             document.body.style.overflow = 'auto';
+            // Update admin stats
+            updateAdminStats();
         }
 
         modal.addEventListener('click', e => { if (e.target === this) closeModal(); });
@@ -3149,6 +3454,7 @@
         renderComments();
         loadHistory();
         loadAnime();
+        updateAdminStats();
 
         const users = getUsers();
         if (!users.find(u => u.email === 'admin@jodmods.com')) {
