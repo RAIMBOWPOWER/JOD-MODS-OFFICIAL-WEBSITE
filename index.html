@@ -238,7 +238,6 @@
             border: none;
         }
 
-        /* Custom video player */
         .custom-video-player {
             position: relative;
             padding-bottom: 56.25%;
@@ -326,26 +325,6 @@
             font-size: 12px;
         }
 
-        .load-more-btn {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .load-more-btn button {
-            background: #ff3b3b;
-            color: #fff;
-            border: none;
-            padding: 8px 30px;
-            border-radius: 30px;
-            font-size: 14px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-        .load-more-btn button:hover {
-            background: #cc2e2e;
-            transform: scale(1.04);
-        }
-
         .no-results {
             text-align: center;
             padding: 50px;
@@ -363,7 +342,7 @@
             margin: 8px 0;
         }
 
-        /* Admin Panel Styles */
+        /* Admin Panel */
         .admin-panel {
             background: #1a1a1a;
             padding: 15px;
@@ -464,7 +443,6 @@
             border-color: #ff3b3b;
         }
 
-        /* Drag & Drop Area */
         .drop-area {
             border: 2px dashed #ff3b3b;
             border-radius: 8px;
@@ -478,12 +456,6 @@
         .drop-area:hover, .drop-area.dragover {
             background: #222;
             border-color: #ff6b6b;
-        }
-        .drop-area img {
-            max-width: 100%;
-            max-height: 150px;
-            border-radius: 6px;
-            margin-top: 8px;
         }
         .drop-area .preview-container {
             display: flex;
@@ -521,7 +493,6 @@
             background: #cc2e2e;
         }
 
-        /* Video Upload Area */
         .video-drop-area {
             border: 2px dashed #00c853;
             border-radius: 8px;
@@ -561,6 +532,25 @@
             background: #cc2e2e;
         }
 
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .empty-state i {
+            font-size: 60px;
+            color: #ff3b3b;
+            margin-bottom: 16px;
+        }
+        .empty-state h3 {
+            font-size: 22px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .empty-state p {
+            color: #888;
+            font-size: 14px;
+        }
+
         @media (max-width: 600px) {
             .navbar { flex-direction: column; align-items: stretch; }
             .search-box { max-width: 100%; }
@@ -577,9 +567,9 @@
             <i class="fas fa-film"></i>JOD<span>MODS</span> OTT
         </div>
         <div class="nav-links">
-            <a class="active" data-type="trending"><i class="fas fa-fire"></i> ट्रेंडिंग</a>
-            <a data-type="popular"><i class="fas fa-star"></i> पॉपुलर</a>
+            <a class="active" data-type="all"><i class="fas fa-th-list"></i> सभी</a>
             <a data-type="movies"><i class="fas fa-film"></i> मूवी</a>
+            <a data-type="series"><i class="fas fa-tv"></i> सीरीज</a>
         </div>
         <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
             <button class="admin-toggle-btn" onclick="toggleAdmin()"><i class="fas fa-user-cog"></i> Admin</button>
@@ -588,7 +578,7 @@
                 <button class="lang-btn" style="background:#222;color:#ccc;border:1px solid #444;padding:3px 10px;border-radius:20px;cursor:pointer;font-size:11px;" onclick="changeLanguage('en')">🇬🇧 ENG</button>
             </div>
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="🔍 एनीमे खोजें..." />
+                <input type="text" id="searchInput" placeholder="🔍 खोजें..." />
                 <i class="fas fa-search" onclick="searchAnime()"></i>
             </div>
         </div>
@@ -596,11 +586,11 @@
 
     <div class="hero">
         <h1>🇮🇳 <span>JOD MODS</span> OTT</h1>
-        <p>🔥 Hanime • 100% मुफ्त • Daily Updates</p>
+        <p>🔥 केवल Admin द्वारा जोड़ा गया कंटेंट • 100% मुफ्त</p>
         <div class="tags">
-            <span>🔥 ट्रेंडिंग</span>
-            <span>⭐ मुफ्त</span>
-            <span>📺 सब एपिसोड</span>
+            <span>🔥 Admin Content</span>
+            <span>⭐ 100% मुफ्त</span>
+            <span>📺 अपनी मर्जी का</span>
         </div>
     </div>
 
@@ -617,10 +607,10 @@
             <div id="adminControls" style="display:none;">
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
                     <input type="text" id="adminTitle" placeholder="Title (e.g. Naruto Shippuden)" style="flex:2;min-width:180px;">
+                    <input type="text" id="adminType" placeholder="Type: movie / series" style="flex:1;min-width:100px;" value="series">
                     <input type="number" id="adminEpisodes" placeholder="Episodes" style="flex:1;min-width:80px;" value="12">
                 </div>
                 
-                <!-- Drag & Drop Thumbnail Area -->
                 <div class="drop-area" id="dropArea">
                     <i class="fas fa-cloud-upload-alt" style="font-size:24px;color:#ff3b3b;"></i>
                     <p style="color:#aaa;font-size:13px;">Drag & Drop Thumbnail Image or Click to Upload</p>
@@ -628,7 +618,6 @@
                     <div class="preview-container" id="previewContainer"></div>
                 </div>
 
-                <!-- Video Upload Area -->
                 <div class="video-drop-area" id="videoDropArea">
                     <i class="fas fa-video" style="font-size:24px;color:#00c853;"></i>
                     <p style="color:#aaa;font-size:13px;">Drag & Drop Video File or Click to Upload (MP4, WebM, etc.)</p>
@@ -643,16 +632,16 @@
                     <input type="text" id="adminVideoLink" placeholder="Default Video URL (or leave blank to use uploaded video)" style="flex:2;min-width:200px;">
                 </div>
                 <button onclick="adminAddAnime()"><i class="fas fa-plus-circle"></i> Add/Update Anime</button>
-                <button onclick="adminDeleteCurrent()" style="background:#cc2e2e;"><i class="fas fa-trash"></i> Delete Current</button>
-                <button onclick="clearAllDefault()" style="background:#cc2e2e;"><i class="fas fa-eraser"></i> Remove All Default Anime</button>
+                <button onclick="adminDeleteCurrent()" style="background:#cc2e2e;"><i class="fas fa-trash"></i> Delete Anime</button>
                 <p style="color:#888;font-size:11px;margin-top:8px;">💡 एपिसोड लिंक डालें: EP1_LINK,EP2_LINK,EP3_LINK ... (या सिर्फ एक डिफॉल्ट वीडियो लिंक)</p>
                 <p style="color:#888;font-size:11px;">📹 अगर वीडियो अपलोड करते हो तो वह सीधे प्लेयर में चलेगा (बिना किसी दूसरी website के)</p>
+                <p style="color:#ff3b3b;font-size:11px;">⚠️ सारा डिफॉल्ट एनीमे हटा दिया गया है। सिर्फ Admin द्वारा जोड़ा गया कंटेंट दिखेगा।</p>
             </div>
         </div>
     </div>
 
     <div class="section">
-        <h2 id="sectionTitle"><i class="fas fa-fire" style="color:#ff3b3b;"></i> ट्रेंडिंग हनिमे</h2>
+        <h2 id="sectionTitle"><i class="fas fa-fire" style="color:#ff3b3b;"></i> सभी कंटेंट</h2>
         <div id="contentContainer">
             <div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div>
         </div>
@@ -666,7 +655,6 @@
 
             <div class="player-status" id="playerStatus">⏳ वीडियो प्लेयर लोड हो रहा है...</div>
 
-            <!-- Video Player -->
             <div id="videoPlayerContainer">
                 <div class="video-wrapper" id="iframeWrapper">
                     <iframe id="videoIframe" src="" allowfullscreen></iframe>
@@ -693,14 +681,13 @@
     </div>
 
     <div class="footer">
-        <p>JOD MODS OTT © 2025 – Hanime • 100% मुफ्त <i class="fas fa-heart" style="color:#ff3b3b;"></i></p>
+        <p>JOD MODS OTT © 2025 – सिर्फ Admin Content <i class="fas fa-heart" style="color:#ff3b3b;"></i></p>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
     <script>
         // ==================== CONFIG ====================
-        let currentType = 'trending';
-        let currentPage = 1;
+        let currentType = 'all';
         let currentTitle = '';
         let allEpisodes = [];
         let currentVideoUrl = '';
@@ -737,11 +724,9 @@
             e.preventDefault();
             dropArea.classList.add('dragover');
         });
-
         dropArea.addEventListener('dragleave', () => {
             dropArea.classList.remove('dragover');
         });
-
         dropArea.addEventListener('drop', (e) => {
             e.preventDefault();
             dropArea.classList.remove('dragover');
@@ -749,11 +734,9 @@
                 handleImageFiles(e.dataTransfer.files);
             }
         });
-
         dropArea.addEventListener('click', () => {
             fileInput.click();
         });
-
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length) {
                 handleImageFiles(e.target.files);
@@ -800,11 +783,9 @@
             e.preventDefault();
             videoDropArea.classList.add('dragover');
         });
-
         videoDropArea.addEventListener('dragleave', () => {
             videoDropArea.classList.remove('dragover');
         });
-
         videoDropArea.addEventListener('drop', (e) => {
             e.preventDefault();
             videoDropArea.classList.remove('dragover');
@@ -812,11 +793,9 @@
                 handleVideoFiles(e.dataTransfer.files);
             }
         });
-
         videoDropArea.addEventListener('click', () => {
             videoFileInput.click();
         });
-
         videoFileInput.addEventListener('change', (e) => {
             if (e.target.files.length) {
                 handleVideoFiles(e.target.files);
@@ -882,6 +861,7 @@
         function adminAddAnime() {
             if (!isAdminLoggedIn) { alert('Please login first!'); return; }
             const title = document.getElementById('adminTitle').value.trim();
+            const type = document.getElementById('adminType').value.trim() || 'series';
             const episodes = parseInt(document.getElementById('adminEpisodes').value) || 12;
             const links = document.getElementById('adminEpisodeLinks').value.trim();
             const defaultVideo = document.getElementById('adminVideoLink').value.trim();
@@ -890,7 +870,6 @@
 
             let image = uploadedImages.length > 0 ? uploadedImages[0] : 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=' + encodeURIComponent(title);
             
-            // If video is uploaded, use it as default video
             let videoToUse = defaultVideo;
             if (isVideoUploaded && uploadedVideo) {
                 videoToUse = uploadedVideo;
@@ -901,6 +880,7 @@
                 title: { romaji: title, english: title },
                 coverImage: { large: image },
                 episodes: episodes,
+                type: type,
                 custom: true,
                 episodeLinks: links ? links.split(',').map(s => s.trim()) : [],
                 defaultVideo: videoToUse,
@@ -913,7 +893,6 @@
             customList.push(customAnime);
             localStorage.setItem('jodmods_custom_anime', JSON.stringify(customList));
 
-            // Clear uploads after adding
             uploadedImages = [];
             uploadedVideo = null;
             isVideoUploaded = false;
@@ -942,20 +921,8 @@
             loadAnime();
         }
 
-        function clearAllDefault() {
-            if (!isAdminLoggedIn) { alert('Please login first!'); return; }
-            if (!confirm('⚠️ This will REMOVE ALL default anime and show ONLY your custom added content. Continue?')) return;
-            localStorage.setItem('jodmods_hide_default', 'true');
-            alert('✅ All default anime removed! Only your custom content will show.');
-            loadAnime();
-        }
-
         function getCustomAnimeList() {
             return JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
-        }
-
-        function shouldHideDefault() {
-            return localStorage.getItem('jodmods_hide_default') === 'true';
         }
 
         // ==================== LANGUAGE ====================
@@ -984,7 +951,6 @@
                 document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
                 currentType = this.dataset.type;
-                currentPage = 1;
                 document.getElementById('searchInput').value = '';
                 loadAnime();
             });
@@ -994,148 +960,52 @@
             if (e.key === 'Enter') searchAnime();
         });
 
-        async function searchAnime() {
+        function searchAnime() {
             const query = document.getElementById('searchInput').value.trim();
             if (!query) { loadAnime(); return; }
             container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> "${query}" खोजा जा रहा है...</div>`;
 
-            try {
-                const customList = getCustomAnimeList();
-                const customResults = customList.filter(a => 
-                    a.title.romaji.toLowerCase().includes(query.toLowerCase()) || 
-                    a.title.english.toLowerCase().includes(query.toLowerCase())
-                );
+            const customList = getCustomAnimeList();
+            const results = customList.filter(a => 
+                a.title.romaji.toLowerCase().includes(query.toLowerCase()) || 
+                a.title.english.toLowerCase().includes(query.toLowerCase())
+            );
 
-                let apiResults = [];
-                if (!shouldHideDefault()) {
-                    const response = await fetch('https://graphql.anilist.co', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            query: `
-                                query ($search: String, $page: Int) {
-                                    Page(page: $page, perPage: 24) {
-                                        media(search: $search, type: ANIME, sort: POPULARITY_DESC) {
-                                            id
-                                            title { romaji english native }
-                                            coverImage { large }
-                                            episodes
-                                            format
-                                        }
-                                    }
-                                }
-                            `,
-                            variables: { search: query, page: currentPage }
-                        })
-                    });
-                    const data = await response.json();
-                    apiResults = data.data?.Page?.media || [];
-                }
-
-                const allResults = [...customResults, ...apiResults];
-
-                if (allResults.length === 0) {
-                    container.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><p>कोई परिणाम नहीं मिला "${query}"</p></div>`;
-                    return;
-                }
-
-                displayAnime(allResults);
-                addLoadMore();
-
-            } catch(error) {
-                container.innerHTML = `<div class="no-results"><i class="fas fa-exclamation-triangle"></i><p>सर्च में एरर</p></div>`;
+            if (results.length === 0) {
+                container.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><p>कोई परिणाम नहीं मिला "${query}"</p></div>`;
+                return;
             }
+
+            displayAnime(results);
         }
 
-        // ==================== LOAD ANIME ====================
-        async function loadAnime() {
+        // ==================== LOAD ANIME (ONLY CUSTOM) ====================
+        function loadAnime() {
             container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div>`;
 
-            try {
-                let sortType = 'TRENDING_DESC';
-                let title = '🔥 ट्रेंडिंग हनिमे';
-
-                switch(currentType) {
-                    case 'trending': sortType = 'TRENDING_DESC'; title = '🔥 ट्रेंडिंग हनिमे'; break;
-                    case 'popular': sortType = 'POPULARITY_DESC'; title = '⭐ पॉपुलर हनिमे'; break;
-                    case 'movies': sortType = 'POPULARITY_DESC'; title = '🎬 हनिमे मूवीज़'; break;
-                    default: sortType = 'TRENDING_DESC'; title = '🔥 ट्रेंडिंग हनिमे';
-                }
-
-                sectionTitle.innerHTML = `<i class="fas fa-fire" style="color:#ff3b3b;"></i> ${title}`;
-
-                const customList = getCustomAnimeList();
-
-                let apiResults = [];
-                if (!shouldHideDefault()) {
-                    let query = `
-                        query ($page: Int) {
-                            Page(page: $page, perPage: 24) {
-                                media(type: ANIME, sort: ${sortType}) {
-                                    id
-                                    title { romaji english native }
-                                    coverImage { large }
-                                    episodes
-                                    format
-                                    status
-                                    genres
-                                    averageScore
-                                }
-                            }
-                        }
-                    `;
-
-                    if (currentType === 'movies') {
-                        query = `
-                            query ($page: Int) {
-                                Page(page: $page, perPage: 24) {
-                                    media(type: ANIME, sort: POPULARITY_DESC, format: MOVIE) {
-                                        id
-                                        title { romaji english native }
-                                        coverImage { large }
-                                        episodes
-                                        format
-                                        status
-                                        genres
-                                        averageScore
-                                    }
-                                }
-                            }
-                        `;
-                    }
-
-                    const response = await fetch('https://graphql.anilist.co', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            query: query,
-                            variables: { page: currentPage }
-                        })
-                    });
-
-                    const data = await response.json();
-                    apiResults = data.data?.Page?.media || [];
-                }
-
-                let finalResults = [...customList, ...apiResults];
-
-                if (finalResults.length === 0) {
-                    container.innerHTML = `<div class="no-results"><i class="fas fa-frown"></i><p>कुछ नहीं मिला</p></div>`;
-                    return;
-                }
-
-                displayAnime(finalResults);
-                addLoadMore();
-
-            } catch(error) {
-                const customList = getCustomAnimeList();
-                if (customList.length > 0) {
-                    displayAnime(customList);
-                    addLoadMore();
-                } else {
-                    container.innerHTML = `<div class="no-results"><i class="fas fa-exclamation-triangle"></i><p>कंटेंट लोड करने में एरर</p></div>`;
-                }
+            const customList = getCustomAnimeList();
+            
+            let filtered = customList;
+            if (currentType === 'movies') {
+                filtered = customList.filter(a => a.type === 'movie' || a.type === 'Movie');
+            } else if (currentType === 'series') {
+                filtered = customList.filter(a => a.type === 'series' || a.type === 'Series' || !a.type);
             }
+            // 'all' shows everything
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-folder-open"></i>
+                        <h3>कोई कंटेंट नहीं</h3>
+                        <p>Admin Panel में जाकर अपना पहला एनीमे/मूवी जोड़ें।</p>
+                        <p style="color:#ff3b3b;font-size:13px;margin-top:6px;">👉 Admin बटन पर क्लिक करें और Login करें (JOD / MODS)</p>
+                    </div>
+                `;
+                return;
+            }
+
+            displayAnime(filtered);
         }
 
         // ==================== DISPLAY ANIME ====================
@@ -1146,7 +1016,7 @@
                 const image = item.coverImage?.large || 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image';
                 const id = item.id || item._id || 'custom_' + Date.now();
                 const episodes = item.episodes || '?';
-                const isCustom = item.custom || item.adminAdded || false;
+                const isCustom = true;
 
                 html += `
                     <div class="content-card" onclick="openAnime('${id}', '${title.replace(/'/g, "\\'")}')">
@@ -1157,25 +1027,12 @@
                             <span class="badge">100% मुफ्त</span>
                         </div>
                         <span class="free-badge"><i class="fas fa-crown"></i> FREE</span>
-                        ${isCustom ? `<span class="admin-badge"><i class="fas fa-user-cog"></i> Admin</span>` : ''}
+                        <span class="admin-badge"><i class="fas fa-user-cog"></i> Admin</span>
                     </div>
                 `;
             });
             html += `</div>`;
             container.innerHTML = html;
-        }
-
-        // ==================== LOAD MORE ====================
-        function addLoadMore() {
-            const loadMoreDiv = document.createElement('div');
-            loadMoreDiv.className = 'load-more-btn';
-            loadMoreDiv.innerHTML = `<button onclick="loadMore()"><i class="fas fa-plus-circle"></i> और लोड करें</button>`;
-            container.appendChild(loadMoreDiv);
-        }
-
-        function loadMore() {
-            currentPage++;
-            loadAnime();
         }
 
         // ==================== OPEN ANIME ====================
@@ -1192,7 +1049,6 @@
             modalDesc.textContent = `🎯 100% मुफ्त • <span id="epCount">0</span> एपिसोड`;
             episodeContainer.innerHTML = `<p style="color:#888; width:100%;"><i class="fas fa-spinner fa-spin"></i> एपिसोड लोड हो रहे हैं...</p>`;
             
-            // Reset video player
             videoIframe.src = '';
             customVideoPlayer.pause();
             customVideoPlayer.removeAttribute('src');
@@ -1219,30 +1075,7 @@
                     currentCustomAnime = customAnime;
                 } else {
                     currentCustomAnime = null;
-                    if (!shouldHideDefault()) {
-                        try {
-                            const response = await fetch('https://graphql.anilist.co', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({
-                                    query: `
-                                        query ($id: Int) {
-                                            Media(id: $id, type: ANIME) {
-                                                episodes
-                                            }
-                                        }
-                                    `,
-                                    variables: { id: parseInt(id) }
-                                })
-                            });
-                            const data = await response.json();
-                            totalEps = data.data?.Media?.episodes || 12;
-                        } catch(e) {
-                            totalEps = 12;
-                        }
-                    } else {
-                        totalEps = 12;
-                    }
+                    totalEps = 12;
                 }
 
                 totalActualEpisodes = totalEps;
@@ -1255,8 +1088,7 @@
                     } else if (defaultVideo) {
                         epLink = defaultVideo;
                     } else {
-                        const cleanTitle = currentTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
-                        epLink = `https://hianime.to/embed/${cleanTitle}?ep=${i}`;
+                        epLink = '';
                     }
                     allEpisodes.push({ number: i, link: epLink, isUploaded: isUploadedVideo });
                 }
@@ -1279,8 +1111,7 @@
                 epCount.textContent = totalActualEpisodes;
                 allEpisodes = [];
                 for (let i = 1; i <= totalActualEpisodes; i++) {
-                    const cleanTitle = currentTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
-                    allEpisodes.push({ number: i, link: `https://hianime.to/embed/${cleanTitle}?ep=${i}` });
+                    allEpisodes.push({ number: i, link: '' });
                 }
                 let epHtml = '';
                 allEpisodes.forEach(ep => {
@@ -1310,16 +1141,15 @@
             });
 
             let videoUrl = episode.link || '';
+
             if (!videoUrl) {
-                const cleanTitle = currentTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
-                videoUrl = `https://hianime.to/embed/${cleanTitle}?ep=${epNum}`;
+                alert('⚠️ इस एपिसोड के लिए कोई वीडियो लिंक नहीं है। Admin से जोड़ें।');
+                return;
             }
 
             currentVideoUrl = videoUrl;
 
-            // Check if it's a data URL (uploaded video)
             if (videoUrl.startsWith('data:video/')) {
-                // Use custom video player
                 iframeWrapper.style.display = 'none';
                 videoPlayerWrapper.style.display = 'block';
                 videoSource.src = videoUrl;
@@ -1328,7 +1158,6 @@
                 playerStatus.textContent = `✅ JOD MODS • एपिसोड ${epNum} (Uploaded Video)`;
                 playerStatus.style.color = '#00c853';
             } else if (videoUrl.includes('.mp4') || videoUrl.includes('.webm') || videoUrl.includes('.mkv') || videoUrl.includes('blob:')) {
-                // Direct video file
                 iframeWrapper.style.display = 'none';
                 videoPlayerWrapper.style.display = 'block';
                 videoSource.src = videoUrl;
@@ -1337,7 +1166,6 @@
                 playerStatus.textContent = `✅ JOD MODS • एपिसोड ${epNum}`;
                 playerStatus.style.color = '#00c853';
             } else {
-                // Use iframe for embed links
                 videoPlayerWrapper.style.display = 'none';
                 iframeWrapper.style.display = 'block';
                 videoIframe.src = videoUrl;
@@ -1377,7 +1205,6 @@
             }
             
             if (currentVideoUrl.startsWith('data:video/')) {
-                // Download uploaded video
                 const link = document.createElement('a');
                 link.href = currentVideoUrl;
                 link.download = `${currentTitle}_episode_${currentEpisodeNum}.mp4`;
@@ -1439,6 +1266,11 @@
         });
 
         // ==================== START ====================
+        // Remove all default anime on first load
+        if (!localStorage.getItem('jodmods_initialized')) {
+            localStorage.setItem('jodmods_hide_default', 'true');
+            localStorage.setItem('jodmods_initialized', 'true');
+        }
         loadAnime();
     </script>
 </body>
