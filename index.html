@@ -392,42 +392,8 @@
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         .custom-video-player { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; background: #000; }
         .custom-video-player video { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: #000; 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; 
             object-fit: contain;
-        }
-
-        /* Full screen styles */
-        .modal-content.fullscreen {
-            max-width: 100% !important;
-            width: 100% !important;
-            max-height: 100% !important;
-            height: 100% !important;
-            border-radius: 0 !important;
-            padding: 10px !important;
-            background: #000 !important;
-        }
-        .modal-content.fullscreen .close-modal {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 9999;
-        }
-        .modal-content.fullscreen .modal-title { display: none; }
-        .modal-content.fullscreen .like-section { display: none; }
-        .modal-content.fullscreen .action-bar { display: none; }
-        .modal-content.fullscreen .episode-grid { display: none; }
-        .modal-content.fullscreen .player-status { display: none; }
-        .modal-content.fullscreen .video-wrapper,
-        .modal-content.fullscreen .custom-video-player {
-            padding-bottom: 0 !important;
-            height: 100% !important;
-            border-radius: 0 !important;
-        }
-        .modal-content.fullscreen .video-wrapper iframe,
-        .modal-content.fullscreen .custom-video-player video {
-            height: 100% !important;
-            width: 100% !important;
         }
 
         .action-bar { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
@@ -439,23 +405,60 @@
         .action-bar button:hover { background: rgba(255,59,59,0.1); border-color: #ff3b3b; transform: translateY(-2px); }
         .action-bar button i { color: #ff3b3b; }
 
+        /* ===== BIG LIKE SECTION IN MODAL ===== */
         .like-section {
-            display: flex; align-items: center; gap: 16px; margin: 10px 0;
-            padding: 10px 14px; background: rgba(255,255,255,0.03);
-            border-radius: 12px; border: 1px solid #2a2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin: 12px 0;
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 14px;
+            border: 1px solid #2a2a2a;
         }
         .like-btn {
-            background: none; border: none; color: #888; font-size: 22px;
-            cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;
-            padding: 4px 12px; border-radius: 8px;
+            background: none;
+            border: none;
+            color: #888;
+            font-size: 32px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 24px;
+            border-radius: 12px;
         }
-        .like-btn:hover { color: #ff3b3b; background: rgba(255,59,59,0.05); }
-        .like-btn.liked { color: #ff3b3b; }
-        .like-btn.liked i { animation: likePop 0.3s ease; }
-        @keyframes likePop { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
-        .like-btn .like-count { font-size: 14px; font-weight: 600; }
-        .view-count-display { color: #888; font-size: 14px; display: flex; align-items: center; gap: 6px; }
-        .view-count-display i { color: #ffa500; }
+        .like-btn:hover {
+            color: #ff3b3b;
+            background: rgba(255,59,59,0.08);
+        }
+        .like-btn.liked {
+            color: #ff3b3b;
+        }
+        .like-btn.liked i {
+            animation: likePop 0.3s ease;
+        }
+        @keyframes likePop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            100% { transform: scale(1); }
+        }
+        .like-btn .like-count {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .view-count-display {
+            color: #888;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .view-count-display i { color: #ffa500; font-size: 20px; }
+        .view-count-display span { color: #fff; font-weight: 600; }
 
         .episode-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; max-height: 250px; overflow-y: auto; padding: 4px; }
         .episode-grid::-webkit-scrollbar { width: 4px; }
@@ -492,23 +495,27 @@
         .history-section .history-item .hist-continue:hover { background: #00c853; color: #000; transform: scale(1.05); }
         .history-empty { color: #666; text-align: center; padding: 12px; font-size: 13px; }
 
+        /* ===== COMMENTS - AUTO NAME FIX ===== */
         .comments-section {
             max-width: 920px; margin: 20px auto; padding: 20px;
             background: rgba(26,26,26,0.4); border-radius: 16px; border: 1px solid #1f1f1f; backdrop-filter: blur(4px);
         }
         .comments-section h3 { color: #ff3b3b; margin-bottom: 16px; font-size: 18px; display: flex; align-items: center; gap: 10px; }
         .comment-input-area { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
-        .comment-input-area input {
-            flex: 1; min-width: 140px; padding: 12px 16px; background: rgba(255,255,255,0.05);
-            border: 1px solid #2a2a2a; color: #fff; border-radius: 12px; font-size: 13px; transition: 0.3s;
+        .comment-input-area input#commentName {
+            display: none; /* Hide name field - auto from login */
         }
-        .comment-input-area input:focus { border-color: #ff3b3b; outline: none; box-shadow: 0 0 0 4px rgba(255,59,59,0.1); }
-        .comment-input-area input::placeholder { color: #555; }
+        .comment-input-area input#commentMsg {
+            flex: 1; min-width: 200px; padding: 12px 16px; background: rgba(255,255,255,0.05);
+            border: 1px solid #2a2a2a; color: #fff; border-radius: 12px; font-size: 14px; transition: 0.3s;
+        }
+        .comment-input-area input#commentMsg:focus { border-color: #ff3b3b; outline: none; box-shadow: 0 0 0 4px rgba(255,59,59,0.1); }
+        .comment-input-area input#commentMsg::placeholder { color: #555; }
         .comment-input-area button {
             background: linear-gradient(135deg, #ff3b3b, #cc2e2e); color: #fff; border: none;
-            padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: 600;
+            padding: 12px 28px; border-radius: 12px; cursor: pointer; font-weight: 600;
             transition: 0.3s; box-shadow: 0 4px 15px rgba(255,59,59,0.3);
-            display: flex; align-items: center; gap: 8px;
+            display: flex; align-items: center; gap: 8px; font-size: 14px;
         }
         .comment-input-area button:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(255,59,59,0.4); }
 
@@ -523,8 +530,8 @@
         }
         .comment-item:hover { background: rgba(21,21,21,0.9); }
         .comment-item .comment-text { flex: 1; min-width: 140px; }
-        .comment-item .comment-text .comment-user { color: #ff3b3b; font-weight: 600; font-size: 13px; }
-        .comment-item .comment-text .comment-msg { color: #ccc; font-size: 14px; margin-top: 4px; word-break: break-word; }
+        .comment-item .comment-text .comment-user { color: #ff3b3b; font-weight: 600; font-size: 14px; }
+        .comment-item .comment-text .comment-msg { color: #ddd; font-size: 14px; margin-top: 4px; word-break: break-word; }
         .comment-item .comment-text .comment-time { color: #666; font-size: 10px; margin-top: 4px; }
         .comment-item .comment-actions { display: flex; gap: 6px; flex-shrink: 0; }
         .comment-item .comment-actions button {
@@ -679,7 +686,8 @@
             .modal-content { padding: 16px; }
             .forgot-modal-content { margin: 10px; padding: 20px; }
             .admin-stats { grid-template-columns: repeat(2, 1fr); }
-            .modal-content.fullscreen { padding: 0 !important; }
+            .like-section { flex-direction: column; gap: 12px; }
+            .like-btn { font-size: 28px; padding: 6px 16px; }
         }
 
         @media (max-width: 480px) {
@@ -692,6 +700,8 @@
             .auth-form-container { padding: 20px; }
             .admin-stats { grid-template-columns: 1fr 1fr; }
             .admin-stats .stat-card .stat-number { font-size: 22px; }
+            .like-btn { font-size: 24px; padding: 4px 12px; }
+            .like-btn .like-count { font-size: 16px; }
         }
     </style>
 </head>
@@ -733,7 +743,7 @@
 
         <div class="hero">
             <h1 class="glow-text">🇮🇳 <span>JOD MODS</span> OTT</h1>
-            <p>🔥 सिर्फ ऐडमिन/मॉड कंटेंट • 100% मुफ्त</p>
+            <p>🔥 सिर्फ ऐडमिन/मॉड कंटेंट • 100% मुफ्त • प्रीमियम</p>
             <div class="tags">
                 <span>🔥 ऐडमिन कंटेंट</span>
                 <span>⭐ 100% मुफ्त</span>
@@ -755,8 +765,8 @@
         <div class="comments-section">
             <h3><i class="fas fa-comments"></i> कमेंट्स</h3>
             <div class="comment-input-area">
-                <input type="text" id="commentName" placeholder="आपका नाम..." />
-                <input type="text" id="commentMsg" placeholder="आपकी राय..." />
+                <input type="text" id="commentName" placeholder="आपका नाम" style="display:none;" />
+                <input type="text" id="commentMsg" placeholder="अपनी राय लिखें..." />
                 <button onclick="addComment()"><i class="fas fa-paper-plane"></i> भेजें</button>
             </div>
             <div class="comment-list" id="commentList"><div class="no-comments">कोई कमेंट नहीं</div></div>
@@ -771,13 +781,18 @@
     <div class="auth-modal" id="authModal">
         <div class="auth-modal-content">
             <div class="auth-modal-header">
-                <div class="brand"><i class="fas fa-film"></i><h2>JOD<span>MODS</span></h2></div>
+                <div class="brand">
+                    <i class="fas fa-film"></i>
+                    <h2>JOD<span>MODS</span></h2>
+                </div>
                 <button class="close-auth" onclick="closeUserAuth()">&times;</button>
             </div>
+
             <div class="auth-tabs">
                 <button class="auth-tab active" data-tab="login" onclick="switchAuthTab('login')">🔑 लॉगिन</button>
                 <button class="auth-tab" data-tab="register" onclick="switchAuthTab('register')">📝 रजिस्टर</button>
             </div>
+
             <div class="auth-form-container">
                 <div class="auth-form active" id="loginForm">
                     <div class="form-group">
@@ -787,16 +802,21 @@
                     <div class="form-group">
                         <input type="password" id="loginPass" placeholder="पासवर्ड" />
                         <i class="fas fa-lock form-icon"></i>
-                        <button class="toggle-pass" onclick="togglePassword('loginPass')" type="button"><i class="fas fa-eye"></i></button>
+                        <button class="toggle-pass" onclick="togglePassword('loginPass')" type="button">
+                            <i class="fas fa-eye"></i>
+                        </button>
                     </div>
                     <div class="form-options">
                         <label><input type="checkbox" id="rememberMe" checked /> मुझे याद रखें</label>
                         <button class="forgot-pass" onclick="openForgotPassword()">🔑 पासवर्ड भूल गए?</button>
                     </div>
-                    <button class="auth-submit-btn" onclick="submitUserLogin()"><i class="fas fa-sign-in-alt"></i> लॉगिन करें</button>
+                    <button class="auth-submit-btn" onclick="submitUserLogin()">
+                        <i class="fas fa-sign-in-alt"></i> लॉगिन करें
+                    </button>
                     <div class="auth-error" id="loginError"></div>
                     <div class="auth-success" id="loginSuccess"></div>
                 </div>
+
                 <div class="auth-form" id="registerForm">
                     <div class="form-group">
                         <input type="text" id="regName" placeholder="पूरा नाम" />
@@ -809,25 +829,28 @@
                     <div class="form-group">
                         <input type="password" id="regPass" placeholder="पासवर्ड" />
                         <i class="fas fa-lock form-icon"></i>
-                        <button class="toggle-pass" onclick="togglePassword('regPass')" type="button"><i class="fas fa-eye"></i></button>
+                        <button class="toggle-pass" onclick="togglePassword('regPass')" type="button">
+                            <i class="fas fa-eye"></i>
+                        </button>
                     </div>
                     <div class="form-group">
                         <input type="password" id="regConfirm" placeholder="पासवर्ड दोबारा" />
                         <i class="fas fa-check-circle form-icon"></i>
                     </div>
+                    
                     <div class="form-group">
                         <select id="regSecurityQuestion">
                             <option value="">🔒 सुरक्षा प्रश्न चुनें</option>
-                            <option value="your_mother_maiden_name">आपकी माता का पहला नाम?</option>
-                            <option value="your_first_pet">पहले पालतू जानवर का नाम?</option>
-                            <option value="your_birth_city">जन्म शहर?</option>
-                            <option value="your_favorite_color">पसंदीदा रंग?</option>
-                            <option value="your_favorite_food">पसंदीदा खाना?</option>
-                            <option value="your_best_friend">सबसे अच्छे दोस्त का नाम?</option>
-                            <option value="your_favorite_movie">पसंदीदा मूवी?</option>
-                            <option value="your_favorite_actor">पसंदीदा अभिनेता?</option>
-                            <option value="your_school_name">स्कूल का नाम?</option>
-                            <option value="your_favorite_book">पसंदीदा किताब?</option>
+                            <option value="your_mother_maiden_name">आपकी माता का पहला नाम क्या है?</option>
+                            <option value="your_first_pet">आपके पहले पालतू जानवर का नाम क्या था?</option>
+                            <option value="your_birth_city">आपका जन्म शहर कौन सा है?</option>
+                            <option value="your_favorite_color">आपका पसंदीदा रंग क्या है?</option>
+                            <option value="your_favorite_food">आपका पसंदीदा खाना क्या है?</option>
+                            <option value="your_best_friend">आपके सबसे अच्छे दोस्त का नाम क्या है?</option>
+                            <option value="your_favorite_movie">आपकी पसंदीदा मूवी कौन सी है?</option>
+                            <option value="your_favorite_actor">आपके पसंदीदा अभिनेता का नाम क्या है?</option>
+                            <option value="your_school_name">आपके स्कूल का नाम क्या था?</option>
+                            <option value="your_favorite_book">आपकी पसंदीदा किताब कौन सी है?</option>
                         </select>
                         <i class="fas fa-question-circle form-icon"></i>
                     </div>
@@ -835,10 +858,13 @@
                         <input type="text" id="regSecurityAnswer" placeholder="सुरक्षा प्रश्न का उत्तर" />
                         <i class="fas fa-key form-icon"></i>
                     </div>
+
                     <div class="form-options">
                         <label><input type="checkbox" id="termsCheck" checked /> मैं नियमों से सहमत हूँ</label>
                     </div>
-                    <button class="auth-submit-btn" onclick="submitUserRegister()"><i class="fas fa-user-plus"></i> रजिस्टर करें</button>
+                    <button class="auth-submit-btn" onclick="submitUserRegister()">
+                        <i class="fas fa-user-plus"></i> रजिस्टर करें
+                    </button>
                     <div class="auth-error" id="regError"></div>
                     <div class="auth-success" id="regSuccess"></div>
                 </div>
@@ -851,28 +877,39 @@
             <button class="close-forgot" onclick="closeForgotPassword()">&times;</button>
             <h3><i class="fas fa-key"></i> पासवर्ड रीसेट</h3>
             <p>अपनी पहचान सत्यापित करें</p>
+            
             <div class="form-group">
                 <input type="email" id="forgotEmail" placeholder="ईमेल" />
                 <i class="fas fa-envelope form-icon"></i>
             </div>
+            
             <div class="security-answer-box" id="securityQuestionBox">
                 <i class="fas fa-question-circle"></i>
                 <span id="displaySecurityQuestion">सुरक्षा प्रश्न</span>
             </div>
+            
             <div class="form-group" id="securityAnswerGroup" style="display:none;">
                 <input type="text" id="forgotSecurityAnswer" placeholder="सुरक्षा प्रश्न का उत्तर" />
                 <i class="fas fa-key form-icon"></i>
             </div>
+            
             <div class="form-group" id="newPasswordGroup" style="display:none;">
                 <input type="password" id="forgotNewPassword" placeholder="नया पासवर्ड" />
                 <i class="fas fa-lock form-icon"></i>
-                <button class="toggle-pass" onclick="togglePassword('forgotNewPassword')" type="button"><i class="fas fa-eye"></i></button>
+                <button class="toggle-pass" onclick="togglePassword('forgotNewPassword')" type="button">
+                    <i class="fas fa-eye"></i>
+                </button>
             </div>
+            
             <div class="form-group" id="confirmPasswordGroup" style="display:none;">
                 <input type="password" id="forgotConfirmPassword" placeholder="पासवर्ड दोबारा" />
                 <i class="fas fa-check-circle form-icon"></i>
             </div>
-            <button class="auth-submit-btn" id="forgotStepBtn" onclick="forgotPasswordStep1()"><i class="fas fa-search"></i> खोजें</button>
+            
+            <button class="auth-submit-btn" id="forgotStepBtn" onclick="forgotPasswordStep1()">
+                <i class="fas fa-search"></i> खोजें
+            </button>
+            
             <div class="auth-error" id="forgotError"></div>
             <div class="auth-success" id="forgotSuccess"></div>
         </div>
@@ -900,11 +937,28 @@
         </div>
         <div class="admin-panel">
             <div class="admin-stats" id="adminStats">
-                <div class="stat-card"><span class="stat-icon"><i class="fas fa-users"></i></span><div class="stat-number" id="statUsers">0</div><div class="stat-label">कुल यूजर्स</div></div>
-                <div class="stat-card"><span class="stat-icon"><i class="fas fa-film"></i></span><div class="stat-number" id="statContent">0</div><div class="stat-label">कुल कंटेंट</div></div>
-                <div class="stat-card"><span class="stat-icon"><i class="fas fa-eye"></i></span><div class="stat-number" id="statViews">0</div><div class="stat-label">कुल व्यूज़</div></div>
-                <div class="stat-card"><span class="stat-icon"><i class="fas fa-heart"></i></span><div class="stat-number" id="statLikes">0</div><div class="stat-label">कुल लाइक्स</div></div>
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="fas fa-users"></i></span>
+                    <div class="stat-number" id="statUsers">0</div>
+                    <div class="stat-label">कुल यूजर्स</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="fas fa-film"></i></span>
+                    <div class="stat-number" id="statContent">0</div>
+                    <div class="stat-label">कुल कंटेंट</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="fas fa-eye"></i></span>
+                    <div class="stat-number" id="statViews">0</div>
+                    <div class="stat-label">कुल व्यूज़</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="fas fa-heart"></i></span>
+                    <div class="stat-number" id="statLikes">0</div>
+                    <div class="stat-label">कुल लाइक्स</div>
+                </div>
             </div>
+
             <div id="adminControls">
                 <h3><i class="fas fa-plus-circle"></i> नया कंटेंट जोड़ें</h3>
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
@@ -913,23 +967,27 @@
                     <input type="number" id="adminEpisodes" placeholder="कुल एपिसोड" style="flex:1;min-width:70px;" value="12">
                     <input type="text" id="adminEditId" placeholder="एडिट ID" style="flex:1;min-width:100px;background:rgba(255,255,255,0.03);color:#666;" readonly>
                 </div>
+
                 <div class="drop-area" id="dropArea">
                     <i class="fas fa-cloud-upload-alt" style="font-size:28px;color:#ff3b3b;"></i>
                     <p style="color:#aaa;font-size:14px;margin-top:6px;">थंबनेल ड्रैग & ड्रॉप करें</p>
                     <input type="file" id="fileInput" accept="image/*" style="display:none;" multiple>
                     <div class="preview-container" id="previewContainer"></div>
                 </div>
+
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
                     <input type="text" id="adminEpisodeLinks" placeholder="एपिसोड लिंक (कॉमा से)" style="flex:3;min-width:150px;">
                 </div>
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
                     <input type="text" id="adminVideoLink" placeholder="डिफॉल्ट वीडियो लिंक" style="flex:2;min-width:150px;">
                 </div>
+
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:12px 0;">
                     <button onclick="adminAddAnime()"><i class="fas fa-save"></i> सेव करें</button>
                     <button onclick="adminClearForm()" style="background:#666;"><i class="fas fa-undo"></i> क्लियर</button>
                     <button onclick="adminResetAll()" style="background:#cc2e2e;"><i class="fas fa-power-off"></i> सबको लॉगआउट</button>
                 </div>
+
                 <div id="modSection" style="display:none; margin-top:20px; border-top: 2px solid #ffa500; padding-top:18px;">
                     <h3 style="color:#ffa500;"><i class="fas fa-user-cog"></i> मॉडरेटर</h3>
                     <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
@@ -937,8 +995,11 @@
                         <input type="password" id="modPassword" placeholder="मॉड पासवर्ड" style="flex:1;min-width:120px;">
                         <button class="mod-btn" onclick="addModerator()"><i class="fas fa-user-plus"></i> मॉड जोड़ें</button>
                     </div>
-                    <div class="mod-list" id="modList"><p style="color:#888; padding:12px;">कोई मॉड नहीं</p></div>
+                    <div class="mod-list" id="modList">
+                        <p style="color:#888; padding:12px;">कोई मॉड नहीं</p>
+                    </div>
                 </div>
+
                 <div class="admin-content-list">
                     <h3><i class="fas fa-list"></i> आपका कंटेंट</h3>
                     <div id="adminContentList"><p style="color:#888; padding:12px;">लोड हो रहा है...</p></div>
@@ -948,11 +1009,12 @@
     </div>
 
     <div id="contentModal" class="modal">
-        <div class="modal-content" id="modalContent">
+        <div class="modal-content">
             <button class="close-modal" onclick="closeModal()">&times;</button>
             <h3 class="modal-title" id="modalTitle">शीर्षक</h3>
             <div class="player-status" id="playerStatus">⏳ प्लेयर लोड हो रहा है...</div>
             
+            <!-- BIG LIKE SECTION -->
             <div class="like-section">
                 <button class="like-btn" id="likeBtn" onclick="toggleLike()">
                     <i class="fas fa-heart"></i>
@@ -965,27 +1027,15 @@
             </div>
 
             <div id="videoPlayerContainer">
-                <div class="video-wrapper" id="iframeWrapper"><iframe id="videoIframe" src="" allow="fullscreen" allowfullscreen></iframe></div>
+                <div class="video-wrapper" id="iframeWrapper"><iframe id="videoIframe" src="" allowfullscreen></iframe></div>
                 <div class="custom-video-player" id="videoPlayerWrapper" style="display:none;">
-                    <video id="customVideoPlayer" controls autoplay playsinline webkit-playsinline></video>
+                    <video id="customVideoPlayer" controls playsinline></video>
                 </div>
             </div>
-            
-            <!-- FULL SCREEN BUTTONS - Multiple Options -->
             <div class="action-bar">
                 <button onclick="shareVideo()"><i class="fas fa-share"></i> शेयर</button>
                 <button onclick="reloadVideo()"><i class="fas fa-sync"></i> रीलोड</button>
-                <button onclick="toggleFullScreen()" style="background:rgba(255,59,59,0.15);border-color:#ff3b3b;">
-                    <i class="fas fa-expand"></i> फुल स्क्रीन
-                </button>
-                <button onclick="toggleFullScreenNative()" style="background:rgba(0,200,83,0.15);border-color:#00c853;">
-                    <i class="fas fa-tv"></i> नेटिव फुल
-                </button>
             </div>
-            <p style="color:#666;font-size:10px;text-align:center;margin-top:4px;">
-                💡 Double-click video for full screen | 🔄 Click "फुल स्क्रीन" or "नेटिव फुल"
-            </p>
-
             <div id="episodeContainer" class="episode-grid">
                 <p style="color:#888; width:100%;"><i class="fas fa-spinner fa-spin"></i> एपिसोड लोड हो रहे हैं...</p>
             </div>
@@ -993,7 +1043,7 @@
     </div>
 
     <script>
-        // 🔥 FIREBASE - COMPLETELY HIDDEN
+        // ==================== FIREBASE (COMPLETELY HIDDEN) ====================
         (function() {
             const config = {
                 apiKey: "AIzaSyBHSkj3rblPDC4VjogG6LPrmiCn5GvF6-Q",
@@ -1025,91 +1075,6 @@
             toast.classList.add('show');
             clearTimeout(toastTimeout);
             toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
-        }
-
-        // ==================== FULL SCREEN - 3 WAYS ====================
-        
-        // Way 1: Modal Full Screen (CSS based)
-        function toggleFullScreen() {
-            const content = document.getElementById('modalContent');
-            content.classList.toggle('fullscreen');
-            const btn = document.querySelector('.action-bar button:nth-child(3) i');
-            if (content.classList.contains('fullscreen')) {
-                btn.className = 'fas fa-compress';
-                showToast('info', '⛶ Full Screen Mode');
-            } else {
-                btn.className = 'fas fa-expand';
-                showToast('info', '⛶ Exit Full Screen');
-            }
-            // Try native fullscreen too for better experience
-            if (content.classList.contains('fullscreen')) {
-                tryFullscreen();
-            } else {
-                exitFullscreen();
-            }
-        }
-
-        // Way 2: Native Full Screen (Browser API)
-        function toggleFullScreenNative() {
-            const elem = document.getElementById('modalContent');
-            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                tryFullscreen();
-            } else {
-                exitFullscreen();
-            }
-        }
-
-        function tryFullscreen() {
-            const elem = document.getElementById('modalContent');
-            if (elem.requestFullscreen) {
-                elem.requestFullscreen().catch(() => {});
-            } else if (elem.webkitRequestFullscreen) {
-                elem.webkitRequestFullscreen();
-            } else if (elem.msRequestFullscreen) {
-                elem.msRequestFullscreen();
-            } else {
-                // Fallback: try video element
-                const video = document.getElementById('customVideoPlayer');
-                if (video && video.requestFullscreen) {
-                    video.requestFullscreen().catch(() => {});
-                } else if (video && video.webkitRequestFullscreen) {
-                    video.webkitRequestFullscreen();
-                }
-            }
-        }
-
-        function exitFullscreen() {
-            if (document.exitFullscreen) {
-                document.exitFullscreen().catch(() => {});
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
-        }
-
-        // Way 3: Double click on video
-        document.addEventListener('dblclick', function(e) {
-            const video = document.getElementById('customVideoPlayer');
-            const iframe = document.getElementById('videoIframe');
-            if (video && video.contains(e.target)) {
-                toggleFullScreenNative();
-            }
-            if (iframe && iframe.contains(e.target)) {
-                toggleFullScreenNative();
-            }
-        });
-
-        // Fullscreen change event - sync CSS class
-        document.addEventListener('fullscreenchange', syncFullscreenClass);
-        document.addEventListener('webkitfullscreenchange', syncFullscreenClass);
-
-        function syncFullscreenClass() {
-            const content = document.getElementById('modalContent');
-            const isFull = document.fullscreenElement || document.webkitFullscreenElement;
-            if (!isFull) {
-                content.classList.remove('fullscreen');
-            }
         }
 
         // ==================== BG CANVAS ====================
@@ -1201,18 +1166,16 @@
         const playerStatus = document.getElementById('playerStatus');
 
         // ==================== FIREBASE FUNCTIONS ====================
-        const db = window._db;
-
         function saveContentToFirebase(contentId, data) {
-            return db.ref('content/' + contentId).set(data);
+            return window._db.ref('content/' + contentId).set(data);
         }
 
         function deleteContentFromFirebase(contentId) {
-            return db.ref('content/' + contentId).remove();
+            return window._db.ref('content/' + contentId).remove();
         }
 
         function listenContent(callback) {
-            db.ref('content').on('value', (snapshot) => {
+            window._db.ref('content').on('value', (snapshot) => {
                 const data = snapshot.val();
                 if (data) {
                     allContentData = data;
@@ -1226,14 +1189,24 @@
 
         function getContentStatsFromFirebase(contentId) {
             return new Promise((resolve) => {
-                db.ref('stats/' + contentId).once('value', (snapshot) => {
+                window._db.ref('stats/' + contentId).once('value', (snapshot) => {
                     resolve(snapshot.val() || { views: 0, likes: 0, likedUsers: [] });
                 });
             });
         }
 
         function saveContentStatsToFirebase(contentId, stats) {
-            return db.ref('stats/' + contentId).set(stats);
+            return window._db.ref('stats/' + contentId).set(stats);
+        }
+
+        async function getContentViews(contentId) {
+            const stats = await getContentStatsFromFirebase(contentId);
+            return stats.views || 0;
+        }
+
+        async function getContentLikes(contentId) {
+            const stats = await getContentStatsFromFirebase(contentId);
+            return stats.likes || 0;
         }
 
         async function addViewToFirebase(contentId) {
@@ -1897,7 +1870,7 @@
             }
             if (!confirm('हटाएं?')) return;
             deleteContentFromFirebase(id).then(() => {
-                db.ref('stats/' + id).remove();
+                window._db.ref('stats/' + id).remove();
                 showToast('success', '✅ हटा!');
                 loadAdminContentList();
                 updateAdminStats();
@@ -2002,24 +1975,27 @@
         function saveComments(c) { localStorage.setItem('jodmods_comments', JSON.stringify(c)); }
 
         function addComment() {
+            if (!currentUser) {
+                showToast('info', '🔐 कमेंट के लिए लॉगिन!');
+                openUserAuth('login');
+                return;
+            }
             const nameInput = document.getElementById('commentName');
             const msgInput = document.getElementById('commentMsg');
-            let name = nameInput.value.trim();
+            const name = currentUser.name; // Auto from login
             const msg = msgInput.value.trim();
-            if (currentUser) { name = currentUser.name; nameInput.value = name; }
-            if (!name || !msg) { showToast('error', '⚠️ नाम और राय!'); return; }
+            if (!msg) { showToast('error', '⚠️ कुछ लिखें!'); return; }
             const comments = getComments();
             comments.push({ 
                 id: Date.now(), 
-                name, 
-                msg, 
+                name: name,
+                msg: msg, 
                 time: new Date().toLocaleString('hi-IN'), 
-                isAdmin: currentUser ? currentUser.isAdmin || false : false, 
-                isMod: currentUser ? currentUser.isMod || false : false, 
-                email: currentUser ? currentUser.email : null 
+                isAdmin: currentUser.isAdmin || false, 
+                isMod: currentUser.isMod || false, 
+                email: currentUser.email 
             });
             saveComments(comments);
-            if (!currentUser) nameInput.value = '';
             msgInput.value = '';
             renderComments();
             showToast('success', '✅ कमेंट!');
@@ -2077,7 +2053,7 @@
             if (comments.length === 0) { list.innerHTML = '<div class="no-comments">कोई कमेंट नहीं</div>'; return; }
             let html = '';
             comments.slice().reverse().forEach(c => {
-                const isAdmin = c.isAdmin || c.name === 'JOD MODS';
+                const isAdmin = c.isAdmin || false;
                 const isMod = c.isMod || false;
                 const canEdit = currentUser && (currentUser.isAdmin || currentUser.isMod || currentUser.email === c.email);
                 html += `
@@ -2261,7 +2237,6 @@
                     else playEpisode(allEpisodes[0].number);
                 }
             } catch(e) {
-                console.error(e);
                 allEpisodes = [];
                 for (let i = 1; i <= 12; i++) allEpisodes.push({ number: i, link: '', range: false });
                 let epHtml = '';
@@ -2300,13 +2275,9 @@
                 iframeWrapper.style.display = 'none';
                 videoPlayerWrapper.style.display = 'block';
                 const video = document.getElementById('customVideoPlayer');
-                const source = document.createElement('source');
-                source.src = videoUrl;
-                source.type = 'video/mp4';
-                video.innerHTML = '';
-                video.appendChild(source);
+                video.innerHTML = `<source src="${videoUrl}" type="video/mp4">`;
                 video.load();
-                video.play().catch(e => console.log('Autoplay blocked:', e));
+                video.play().catch(e => {});
                 playerStatus.textContent = `✅ ${episode.range ? 'एपिसोड 1-'+episode.end : 'एपिसोड '+epNum}`;
                 playerStatus.style.color = '#00c853';
             } else {
@@ -2337,7 +2308,7 @@
             if (isDirect) {
                 const video = document.getElementById('customVideoPlayer');
                 video.load();
-                video.play().catch(e => console.log('Play error:', e));
+                video.play().catch(e => {});
             } else {
                 videoIframe.src = currentVideoUrl;
             }
@@ -2364,14 +2335,6 @@
         }
 
         function closeModal() {
-            // Exit fullscreen if active
-            if (document.getElementById('modalContent').classList.contains('fullscreen')) {
-                document.getElementById('modalContent').classList.remove('fullscreen');
-            }
-            if (document.fullscreenElement || document.webkitFullscreenElement) {
-                exitFullscreen();
-            }
-            
             modal.style.display = 'none';
             videoIframe.src = '';
             customVideoPlayer.pause();
@@ -2386,12 +2349,7 @@
         modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
-                if (modal.style.display === 'flex') {
-                    if (document.getElementById('modalContent').classList.contains('fullscreen')) {
-                        document.getElementById('modalContent').classList.remove('fullscreen');
-                    }
-                    closeModal();
-                }
+                if (modal.style.display === 'flex') closeModal();
                 else if (document.getElementById('adminPage').style.display === 'block') closeAdminPage();
                 else if (document.getElementById('adminAuthOverlay').classList.contains('active')) closeAdminAuth();
                 else if (document.getElementById('authModal').classList.contains('active')) closeUserAuth();
@@ -2414,7 +2372,7 @@
                     } else {
                         openAnime(videoId, title);
                     }
-                }, 800);
+                }, 1000);
             }
         }
 
@@ -2450,11 +2408,6 @@
             saveUsers(users);
         }
         if (isAdminLoggedIn) loadModeratorList();
-
-        // ==================== SCROLL ====================
-        window.addEventListener('scroll', function() {
-            // Smooth scroll handling
-        });
     </script>
 </body>
 </html>
