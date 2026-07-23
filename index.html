@@ -219,7 +219,6 @@
         }
         .close-modal:hover { background: #cc2e2e; }
         .modal-title { color: #fff; font-size: 20px; margin: 6px 0 4px 0; }
-        .modal-desc { color: #aaa; font-size: 13px; margin-bottom: 8px; }
 
         .video-wrapper {
             position: relative;
@@ -361,8 +360,8 @@
             font-size: 14px;
         }
 
-        .admin-login-btn {
-            background: #ff3b3b;
+        .upload-btn {
+            background: #00c853;
             color: #fff;
             border: none;
             padding: 6px 16px;
@@ -371,11 +370,171 @@
             font-weight: 600;
             font-size: 12px;
         }
-        .admin-login-btn:hover {
+        .upload-btn:hover {
+            background: #009624;
+        }
+
+        /* ===== COMMENTS SECTION ===== */
+        .comments-section {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+        .comments-section h3 {
+            color: #ff3b3b;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .comments-section h3 i {
+            margin-right: 8px;
+        }
+        .comment-input-area {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .comment-input-area input {
+            flex: 1;
+            min-width: 150px;
+            padding: 10px 14px;
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+        .comment-input-area input::placeholder {
+            color: #666;
+        }
+        .comment-input-area button {
+            background: #ff3b3b;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .comment-input-area button:hover {
             background: #cc2e2e;
         }
 
-        /* ===== ADMIN PAGE ===== */
+        .comment-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .comment-list::-webkit-scrollbar { width: 4px; }
+        .comment-list::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
+
+        .comment-item {
+            background: #151515;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 3px solid #ff3b3b;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .comment-item .comment-text {
+            flex: 1;
+            min-width: 150px;
+        }
+        .comment-item .comment-text .comment-user {
+            color: #ff3b3b;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .comment-item .comment-text .comment-msg {
+            color: #ccc;
+            font-size: 14px;
+            margin-top: 2px;
+            word-break: break-word;
+        }
+        .comment-item .comment-text .comment-time {
+            color: #666;
+            font-size: 10px;
+            margin-top: 4px;
+        }
+        .comment-item .comment-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .comment-item .comment-actions button {
+            background: transparent;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+        .comment-item .comment-actions .edit-cmt:hover {
+            color: #ffa500;
+            background: #222;
+        }
+        .comment-item .comment-actions .del-cmt:hover {
+            color: #ff3b3b;
+            background: #222;
+        }
+        .comment-item .comment-actions .save-cmt {
+            color: #00c853;
+        }
+        .comment-item .comment-actions .save-cmt:hover {
+            background: #222;
+        }
+        .comment-item .comment-actions .cancel-cmt {
+            color: #ff3b3b;
+        }
+        .comment-item .comment-actions .cancel-cmt:hover {
+            background: #222;
+        }
+        .comment-item .comment-actions .admin-badge-cmt {
+            color: #ff3b3b;
+            font-size: 10px;
+            background: #222;
+            padding: 2px 8px;
+            border-radius: 12px;
+            border: 1px solid #ff3b3b;
+        }
+
+        .comment-item.editing .comment-msg {
+            display: none;
+        }
+        .comment-item .edit-input {
+            display: none;
+            width: 100%;
+            padding: 8px 12px;
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+        .comment-item.editing .edit-input {
+            display: block;
+        }
+        .comment-item.editing .comment-text .comment-msg {
+            display: none;
+        }
+
+        .no-comments {
+            color: #666;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        /* ===== ADMIN PAGE (hidden) ===== */
         #adminPage {
             display: none;
             position: fixed;
@@ -456,16 +615,6 @@
         .admin-panel button:hover {
             background: #cc2e2e;
             transform: scale(1.02);
-        }
-        .admin-panel .admin-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 8px 0;
-        }
-        .admin-panel .admin-row input {
-            flex: 1;
-            min-width: 120px;
         }
         .admin-login {
             display: flex;
@@ -642,6 +791,7 @@
             .hero h1 { font-size: 22px; }
             .nav-links { justify-content: center; }
             #adminPage { padding: 10px; }
+            .comments-section { margin: 15px; padding: 15px; }
         }
     </style>
 </head>
@@ -659,7 +809,7 @@
                 <a data-type="series"><i class="fas fa-tv"></i> सीरीज</a>
             </div>
             <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-                <button class="admin-login-btn" onclick="openAdminPage()"><i class="fas fa-user-shield"></i> ऐडमिन</button>
+                <button class="upload-btn" onclick="openAdminPage()"><i class="fas fa-upload"></i> अपलोड</button>
                 <div class="search-box">
                     <input type="text" id="searchInput" placeholder="🔍 खोजें..." />
                     <i class="fas fa-search" onclick="searchAnime()"></i>
@@ -681,6 +831,19 @@
             <h2 id="sectionTitle"><i class="fas fa-fire" style="color:#ff3b3b;"></i> सभी कंटेंट</h2>
             <div id="contentContainer">
                 <div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div>
+            </div>
+        </div>
+
+        <!-- ===== COMMENTS SECTION ===== -->
+        <div class="comments-section" id="commentsSection">
+            <h3><i class="fas fa-comments"></i> कमेंट्स - अगली मूवी/सीरीज क्या चाहिए?</h3>
+            <div class="comment-input-area">
+                <input type="text" id="commentName" placeholder="आपका नाम..." />
+                <input type="text" id="commentMsg" placeholder="आपकी राय..." />
+                <button onclick="addComment()"><i class="fas fa-paper-plane"></i> भेजें</button>
+            </div>
+            <div class="comment-list" id="commentList">
+                <div class="no-comments">कोई कमेंट नहीं। पहली राय दें!</div>
             </div>
         </div>
 
@@ -755,7 +918,6 @@
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal()">&times;</button>
             <h3 class="modal-title" id="modalTitle">शीर्षक</h3>
-            <p class="modal-desc" id="modalDesc">🎯 100% मुफ्त • <span id="epCount">0</span> एपिसोड</p>
 
             <div class="player-status" id="playerStatus">⏳ प्लेयर लोड हो रहा है...</div>
 
@@ -789,7 +951,6 @@
         let allEpisodes = [];
         let currentVideoUrl = '';
         let currentAnimeId = null;
-        let totalActualEpisodes = 0;
         let currentEpisodeNum = 1;
         let currentCustomAnime = null;
         let uploadedImages = [];
@@ -803,7 +964,6 @@
         const sectionTitle = document.getElementById('sectionTitle');
         const modal = document.getElementById('contentModal');
         const modalTitle = document.getElementById('modalTitle');
-        const modalDesc = document.getElementById('modalDesc');
         const videoIframe = document.getElementById('videoIframe');
         const customVideoPlayer = document.getElementById('customVideoPlayer');
         const videoSource = document.getElementById('videoSource');
@@ -811,7 +971,113 @@
         const iframeWrapper = document.getElementById('iframeWrapper');
         const episodeContainer = document.getElementById('episodeContainer');
         const playerStatus = document.getElementById('playerStatus');
-        const epCount = document.getElementById('epCount');
+
+        // ==================== COMMENTS ====================
+        function getComments() {
+            return JSON.parse(localStorage.getItem('jodmods_comments') || '[]');
+        }
+
+        function saveComments(comments) {
+            localStorage.setItem('jodmods_comments', JSON.stringify(comments));
+        }
+
+        function addComment() {
+            const name = document.getElementById('commentName').value.trim();
+            const msg = document.getElementById('commentMsg').value.trim();
+            if (!name || !msg) { alert('नाम और राय दोनों जरूरी है!'); return; }
+
+            const comments = getComments();
+            comments.push({
+                id: Date.now(),
+                name: name,
+                msg: msg,
+                time: new Date().toLocaleString('hi-IN'),
+                isAdmin: name === 'JOD MODS' ? true : false
+            });
+            saveComments(comments);
+            document.getElementById('commentName').value = '';
+            document.getElementById('commentMsg').value = '';
+            renderComments();
+        }
+
+        function deleteComment(id) {
+            if (!confirm('क्या आप यह कमेंट हटाना चाहते हैं?')) return;
+            let comments = getComments();
+            comments = comments.filter(c => c.id !== id);
+            saveComments(comments);
+            renderComments();
+        }
+
+        function editComment(id) {
+            const comments = getComments();
+            const comment = comments.find(c => c.id === id);
+            if (!comment) return;
+
+            const item = document.querySelector(`.comment-item[data-id="${id}"]`);
+            if (!item) return;
+
+            // Check if already editing
+            if (item.classList.contains('editing')) {
+                // Save
+                const input = item.querySelector('.edit-input');
+                const newMsg = input.value.trim();
+                if (!newMsg) { alert('कमेंट खाली नहीं हो सकता!'); return; }
+                comment.msg = newMsg;
+                saveComments(comments);
+                renderComments();
+                return;
+            }
+
+            // Start editing
+            item.classList.add('editing');
+            const input = item.querySelector('.edit-input');
+            input.value = comment.msg;
+            input.focus();
+
+            // Update action buttons
+            const actions = item.querySelector('.comment-actions');
+            actions.innerHTML = `
+                <button class="save-cmt" onclick="editComment(${id})"><i class="fas fa-check"></i> सेव</button>
+                <button class="cancel-cmt" onclick="cancelEdit(${id})"><i class="fas fa-times"></i> रद्द</button>
+            `;
+        }
+
+        function cancelEdit(id) {
+            renderComments();
+        }
+
+        function renderComments() {
+            const list = document.getElementById('commentList');
+            const comments = getComments();
+
+            if (comments.length === 0) {
+                list.innerHTML = '<div class="no-comments">कोई कमेंट नहीं। पहली राय दें!</div>';
+                return;
+            }
+
+            let html = '';
+            comments.reverse().forEach(c => {
+                const isAdmin = c.isAdmin || c.name === 'JOD MODS';
+                html += `
+                    <div class="comment-item" data-id="${c.id}">
+                        <div class="comment-text">
+                            <div class="comment-user">
+                                ${c.name}
+                                ${isAdmin ? '<span class="admin-badge-cmt">★ ऐडमिन</span>' : ''}
+                            </div>
+                            <div class="comment-msg">${c.msg}</div>
+                            <input class="edit-input" type="text" />
+                            <div class="comment-time">${c.time || 'अभी'}</div>
+                        </div>
+                        <div class="comment-actions">
+                            ${isAdmin ? `<button class="edit-cmt" onclick="editComment(${c.id})"><i class="fas fa-edit"></i></button>` : ''}
+                            <button class="del-cmt" onclick="deleteComment(${c.id})"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
 
         // ==================== ADMIN PAGE ====================
         function openAdminPage() {
@@ -1132,8 +1398,7 @@
                     <div class="empty-state">
                         <i class="fas fa-folder-open"></i>
                         <h3>कोई कंटेंट नहीं</h3>
-                        <p>ऐडमिन पैनल में जाकर अपना पहला एनीमे/मूवी जोड़ें।</p>
-                        <p style="color:#ff3b3b;font-size:13px;margin-top:6px;">👉 ऐडमिन बटन पर क्लिक करें</p>
+                        <p>अपलोड बटन पर क्लिक करें और अपना पहला एनीमे/मूवी जोड़ें।</p>
                     </div>
                 `;
                 return;
@@ -1177,7 +1442,6 @@
             currentEpisodeNum = 1;
 
             modalTitle.textContent = `📺 ${title}`;
-            modalDesc.textContent = `🎯 100% मुफ्त • <span id="epCount">0</span> एपिसोड`;
             episodeContainer.innerHTML = `<p style="color:#888; width:100%;"><i class="fas fa-spinner fa-spin"></i> एपिसोड लोड हो रहे हैं...</p>`;
             
             videoIframe.src = '';
@@ -1208,9 +1472,6 @@
                     currentCustomAnime = null;
                     totalEps = 12;
                 }
-
-                totalActualEpisodes = totalEps;
-                epCount.textContent = totalActualEpisodes;
 
                 let mainVideo = defaultVideo || '';
 
@@ -1292,10 +1553,8 @@
 
             } catch(error) {
                 console.error('Error:', error);
-                totalActualEpisodes = 12;
-                epCount.textContent = totalActualEpisodes;
                 allEpisodes = [];
-                for (let i = 1; i <= totalActualEpisodes; i++) {
+                for (let i = 1; i <= 12; i++) {
                     allEpisodes.push({ number: i, link: '', isUploaded: false, range: false });
                 }
                 let epHtml = '';
@@ -1410,6 +1669,7 @@
             localStorage.setItem('jodmods_hide_default', 'true');
             localStorage.setItem('jodmods_initialized', 'true');
         }
+        renderComments();
         loadAnime();
     </script>
 </body>
