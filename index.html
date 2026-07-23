@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>JOD MODS OTT - Hanime</title>
+    <title>JOD MODS OTT - Admin Panel</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
@@ -154,6 +154,17 @@
             top: 8px;
             right: 8px;
             background: #00c853;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .admin-badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: #ff3b3b;
             padding: 3px 10px;
             border-radius: 20px;
             font-size: 9px;
@@ -375,6 +386,107 @@
             margin: 8px 0;
         }
 
+        /* Admin Panel Styles */
+        .admin-panel {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #ff3b3b;
+            margin-bottom: 20px;
+        }
+        .admin-panel h3 {
+            color: #ff3b3b;
+            margin-bottom: 10px;
+        }
+        .admin-panel input, .admin-panel textarea {
+            width: 100%;
+            padding: 8px 12px;
+            margin: 5px 0;
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        .admin-panel textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        .admin-panel button {
+            background: #ff3b3b;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        .admin-panel button:hover {
+            background: #cc2e2e;
+        }
+        .admin-panel .admin-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 8px 0;
+        }
+        .admin-panel .admin-row input {
+            flex: 1;
+            min-width: 120px;
+        }
+        .admin-panel .admin-row button {
+            flex-shrink: 0;
+        }
+        .admin-login {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            margin-bottom: 10px;
+        }
+        .admin-login input {
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+        .admin-login button {
+            background: #ff3b3b;
+            color: #fff;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .admin-login button:hover {
+            background: #cc2e2e;
+        }
+        .admin-status {
+            color: #00c853;
+            font-size: 12px;
+        }
+
+        .admin-toggle-btn {
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 4px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        .admin-toggle-btn:hover {
+            background: #ff3b3b;
+            border-color: #ff3b3b;
+        }
+
         @media (max-width: 600px) {
             .navbar { flex-direction: column; align-items: stretch; }
             .search-box { max-width: 100%; }
@@ -397,6 +509,7 @@
             <a data-type="movies"><i class="fas fa-film"></i> मूवी</a>
         </div>
         <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+            <button class="admin-toggle-btn" onclick="toggleAdmin()"><i class="fas fa-user-cog"></i> Admin</button>
             <div style="display:flex; gap:4px;">
                 <button class="lang-btn active" style="background:#ff3b3b;color:#fff;border:1px solid #ff3b3b;padding:3px 10px;border-radius:20px;cursor:pointer;font-size:11px;" onclick="changeLanguage('hi')">🇮🇳 हिंदी</button>
                 <button class="lang-btn" style="background:#222;color:#ccc;border:1px solid #444;padding:3px 10px;border-radius:20px;cursor:pointer;font-size:11px;" onclick="changeLanguage('en')">🇬🇧 ENG</button>
@@ -415,6 +528,35 @@
             <span>🔥 ट्रेंडिंग</span>
             <span>⭐ मुफ्त</span>
             <span>📺 सब एपिसोड</span>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="section" id="adminPanel" style="display:none;">
+        <div class="admin-panel">
+            <h3><i class="fas fa-user-shield"></i> Admin Panel - JOD MODS</h3>
+            <div class="admin-login">
+                <input type="text" id="adminUser" placeholder="Username" value="JOD">
+                <input type="password" id="adminPass" placeholder="Password" value="MODS">
+                <button onclick="adminLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <span id="adminStatus" class="admin-status"></span>
+            </div>
+            <div id="adminControls" style="display:none;">
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                    <input type="text" id="adminTitle" placeholder="Title (e.g. Naruto Shippuden)" style="flex:2;min-width:180px;">
+                    <input type="text" id="adminImage" placeholder="Image URL" style="flex:2;min-width:180px;">
+                    <input type="number" id="adminEpisodes" placeholder="Episodes" style="flex:1;min-width:80px;" value="12">
+                </div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                    <input type="text" id="adminEpisodeLinks" placeholder="Episode Links (comma separated: EP1_URL,EP2_URL,...)" style="flex:3;min-width:200px;">
+                </div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                    <input type="text" id="adminVideoLink" placeholder="Default Video URL (iframe src)" style="flex:2;min-width:200px;">
+                </div>
+                <button onclick="adminAddAnime()"><i class="fas fa-plus-circle"></i> Add/Update Anime</button>
+                <button onclick="adminDeleteCurrent()" style="background:#cc2e2e;"><i class="fas fa-trash"></i> Delete Current</button>
+                <p style="color:#888;font-size:11px;margin-top:8px;">💡 एपिसोड लिंक डालें: EP1_LINK,EP2_LINK,EP3_LINK ... (या सिर्फ एक डिफॉल्ट वीडियो लिंक)</p>
+            </div>
         </div>
     </div>
 
@@ -441,6 +583,7 @@
                 <button onclick="downloadVideo()"><i class="fas fa-download"></i> डाउनलोड</button>
                 <button onclick="shareVideo()"><i class="fas fa-share"></i> शेयर</button>
                 <button onclick="reloadVideo()"><i class="fas fa-sync"></i> रीलोड</button>
+                <button onclick="copyVideoLink()"><i class="fas fa-link"></i> लिंक कॉपी</button>
             </div>
 
             <div id="episodeContainer" class="episode-grid">
@@ -455,12 +598,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
     <script>
-        // ==================== HANIME API (WORKING) ====================
-        // Using multiple working APIs:
-        // 1. HiAnime API - https://hianime-api-iy4s.onrender.com [citation:3][citation:5]
-        // 2. Anilist GraphQL - https://graphql.anilist.co
-        // 3. Hanime API - GitHub
-
+        // ==================== HANIME API + ADMIN ====================
         const HIANIME_API = 'https://hianime-api-iy4s.onrender.com/api';
         const ANILIST_API = 'https://graphql.anilist.co';
 
@@ -472,6 +610,8 @@
         let currentAnimeId = null;
         let totalActualEpisodes = 0;
         let currentEpisodeNum = 1;
+        let isAdminLoggedIn = false;
+        let currentCustomAnime = null;
 
         // ==================== DOM REFS ====================
         const container = document.getElementById('contentContainer');
@@ -483,6 +623,78 @@
         const episodeContainer = document.getElementById('episodeContainer');
         const playerStatus = document.getElementById('playerStatus');
         const epCount = document.getElementById('epCount');
+
+        // ==================== ADMIN ====================
+        function toggleAdmin() {
+            const panel = document.getElementById('adminPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function adminLogin() {
+            const user = document.getElementById('adminUser').value;
+            const pass = document.getElementById('adminPass').value;
+            if (user === 'JOD' && pass === 'MODS') {
+                isAdminLoggedIn = true;
+                document.getElementById('adminControls').style.display = 'block';
+                document.getElementById('adminStatus').textContent = '✅ Logged in as Admin';
+                document.getElementById('adminStatus').style.color = '#00c853';
+                alert('✅ Admin Login Successful!');
+            } else {
+                alert('❌ Invalid Credentials! (Username: JOD, Password: MODS)');
+            }
+        }
+
+        function adminAddAnime() {
+            if (!isAdminLoggedIn) { alert('Please login first!'); return; }
+            const title = document.getElementById('adminTitle').value.trim();
+            const image = document.getElementById('adminImage').value.trim();
+            const episodes = parseInt(document.getElementById('adminEpisodes').value) || 12;
+            const links = document.getElementById('adminEpisodeLinks').value.trim();
+            const defaultVideo = document.getElementById('adminVideoLink').value.trim();
+
+            if (!title) { alert('Title is required!'); return; }
+
+            // Create custom anime object
+            const customAnime = {
+                id: 'custom_' + Date.now(),
+                title: { romaji: title, english: title },
+                coverImage: { large: image || 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=' + encodeURIComponent(title) },
+                episodes: episodes,
+                custom: true,
+                episodeLinks: links ? links.split(',').map(s => s.trim()) : [],
+                defaultVideo: defaultVideo,
+                adminAdded: true
+            };
+
+            // Save to localStorage
+            let customList = JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
+            // Remove if exists
+            customList = customList.filter(a => a.title.romaji !== title && a.title.english !== title);
+            customList.push(customAnime);
+            localStorage.setItem('jodmods_custom_anime', JSON.stringify(customList));
+
+            alert('✅ Anime added/updated! Reloading...');
+            loadAnime();
+        }
+
+        function adminDeleteCurrent() {
+            if (!isAdminLoggedIn) { alert('Please login first!'); return; }
+            const title = prompt('Enter the exact title to delete:');
+            if (!title) return;
+            let customList = JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
+            const filtered = customList.filter(a => a.title.romaji !== title && a.title.english !== title);
+            if (filtered.length === customList.length) {
+                alert('❌ Title not found!');
+                return;
+            }
+            localStorage.setItem('jodmods_custom_anime', JSON.stringify(filtered));
+            alert('✅ Deleted! Reloading...');
+            loadAnime();
+        }
+
+        function getCustomAnimeList() {
+            return JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
+        }
 
         // ==================== LANGUAGE ====================
         function changeLanguage(lang) {
@@ -526,7 +738,14 @@
             container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> "${query}" खोजा जा रहा है...</div>`;
 
             try {
-                // Using Anilist for search
+                // Search custom first
+                const customList = getCustomAnimeList();
+                const customResults = customList.filter(a => 
+                    a.title.romaji.toLowerCase().includes(query.toLowerCase()) || 
+                    a.title.english.toLowerCase().includes(query.toLowerCase())
+                );
+
+                // Search Anilist
                 const response = await fetch(ANILIST_API, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -551,12 +770,15 @@
                 const data = await response.json();
                 const results = data.data?.Page?.media || [];
 
-                if (results.length === 0) {
+                // Merge custom results (custom first)
+                const allResults = [...customResults, ...results];
+
+                if (allResults.length === 0) {
                     container.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><p>कोई परिणाम नहीं मिला "${query}"</p></div>`;
                     return;
                 }
 
-                displayAnime(results);
+                displayAnime(allResults);
                 addLoadMore();
 
             } catch(error) {
@@ -581,7 +803,10 @@
 
                 sectionTitle.innerHTML = `<i class="fas fa-fire" style="color:#ff3b3b;"></i> ${title}`;
 
-                // Using Anilist GraphQL API
+                // Get custom anime list
+                const customList = getCustomAnimeList();
+
+                // Get from Anilist
                 let query = `
                     query ($page: Int) {
                         Page(page: $page, perPage: 24) {
@@ -630,16 +855,26 @@
                 const data = await response.json();
                 const results = data.data?.Page?.media || [];
 
-                if (results.length === 0) {
+                // Merge custom (show custom first)
+                let finalResults = [...customList, ...results];
+
+                if (finalResults.length === 0) {
                     container.innerHTML = `<div class="no-results"><i class="fas fa-frown"></i><p>कुछ नहीं मिला</p></div>`;
                     return;
                 }
 
-                displayAnime(results);
+                displayAnime(finalResults);
                 addLoadMore();
 
             } catch(error) {
-                container.innerHTML = `<div class="no-results"><i class="fas fa-exclamation-triangle"></i><p>कंटेंट लोड करने में एरर</p></div>`;
+                // Fallback: show custom only
+                const customList = getCustomAnimeList();
+                if (customList.length > 0) {
+                    displayAnime(customList);
+                    addLoadMore();
+                } else {
+                    container.innerHTML = `<div class="no-results"><i class="fas fa-exclamation-triangle"></i><p>कंटेंट लोड करने में एरर</p></div>`;
+                }
             }
         }
 
@@ -649,11 +884,12 @@
             items.forEach(item => {
                 const title = item.title?.romaji || item.title?.english || item.title?.native || 'अज्ञात';
                 const image = item.coverImage?.large || 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image';
-                const id = item.id;
+                const id = item.id || item._id || 'custom_' + Date.now();
                 const episodes = item.episodes || '?';
+                const isCustom = item.custom || item.adminAdded || false;
 
                 html += `
-                    <div class="content-card" onclick="openAnime(${id}, '${title.replace(/'/g, "\\'")}')">
+                    <div class="content-card" onclick="openAnime('${id}', '${title.replace(/'/g, "\\'")}')">
                         <img src="${image}" alt="${title}" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image'"/>
                         <div class="info">
                             <h4>${title}</h4>
@@ -661,6 +897,7 @@
                             <span class="badge">100% मुफ्त</span>
                         </div>
                         <span class="free-badge"><i class="fas fa-crown"></i> FREE</span>
+                        ${isCustom ? `<span class="admin-badge"><i class="fas fa-user-cog"></i> Admin</span>` : ''}
                     </div>
                 `;
             });
@@ -700,49 +937,73 @@
             document.body.style.overflow = 'hidden';
 
             try {
-                // First try HiAnime API for episodes
+                // Check if custom anime
+                const customList = getCustomAnimeList();
+                let customAnime = customList.find(a => a.id === id || a.title.romaji === title || a.title.english === title);
                 let totalEps = 12;
-                try {
-                    const hianimeResp = await fetch(`${HIANIME_API}/anime/${id}`);
-                    if (hianimeResp.ok) {
-                        const data = await hianimeResp.json();
-                        totalEps = data.episodes?.length || 12;
-                    }
-                } catch(e) {}
+                let episodeLinks = [];
+                let defaultVideo = '';
 
-                // Fallback to Anilist
-                if (totalEps === 12) {
-                    const anilistResp = await fetch(ANILIST_API, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            query: `
-                                query ($id: Int) {
-                                    Media(id: $id, type: ANIME) {
-                                        episodes
+                if (customAnime) {
+                    totalEps = customAnime.episodes || 12;
+                    episodeLinks = customAnime.episodeLinks || [];
+                    defaultVideo = customAnime.defaultVideo || '';
+                    currentCustomAnime = customAnime;
+                } else {
+                    currentCustomAnime = null;
+                    // Try HiAnime API for episodes
+                    try {
+                        const hianimeResp = await fetch(`${HIANIME_API}/anime/${id}`);
+                        if (hianimeResp.ok) {
+                            const data = await hianimeResp.json();
+                            totalEps = data.episodes?.length || 12;
+                        }
+                    } catch(e) {}
+
+                    // Fallback to Anilist
+                    if (totalEps === 12) {
+                        const anilistResp = await fetch(ANILIST_API, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                query: `
+                                    query ($id: Int) {
+                                        Media(id: $id, type: ANIME) {
+                                            episodes
+                                        }
                                     }
-                                }
-                            `,
-                            variables: { id: parseInt(id) }
-                        })
-                    });
-                    const data = await anilistResp.json();
-                    totalEps = data.data?.Media?.episodes || 12;
+                                `,
+                                variables: { id: parseInt(id) }
+                            })
+                        });
+                        const data = await anilistResp.json();
+                        totalEps = data.data?.Media?.episodes || 12;
+                    }
                 }
 
                 totalActualEpisodes = totalEps;
                 epCount.textContent = totalActualEpisodes;
 
+                // Build episodes
                 for (let i = 1; i <= totalActualEpisodes; i++) {
-                    allEpisodes.push({ number: i });
+                    let epLink = '';
+                    if (episodeLinks && episodeLinks[i-1]) {
+                        epLink = episodeLinks[i-1];
+                    } else if (defaultVideo) {
+                        epLink = defaultVideo;
+                    } else {
+                        // Generate default link
+                        const cleanTitle = currentTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+                        epLink = `https://hianime.to/embed/${cleanTitle}?ep=${i}`;
+                    }
+                    allEpisodes.push({ number: i, link: epLink });
                 }
 
                 let epHtml = '';
                 allEpisodes.forEach(ep => {
-                    const epNum = ep.number;
                     epHtml += `
-                        <button class="episode-btn" onclick="playEpisode(${epNum})">
-                            <i class="fas fa-play"></i> एपिसोड ${epNum}
+                        <button class="episode-btn" onclick="playEpisode(${ep.number})">
+                            <i class="fas fa-play"></i> एपिसोड ${ep.number}
                         </button>
                     `;
                 });
@@ -756,7 +1017,8 @@
                 epCount.textContent = totalActualEpisodes;
                 allEpisodes = [];
                 for (let i = 1; i <= totalActualEpisodes; i++) {
-                    allEpisodes.push({ number: i });
+                    const cleanTitle = currentTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+                    allEpisodes.push({ number: i, link: `https://hianime.to/embed/${cleanTitle}?ep=${i}` });
                 }
                 let epHtml = '';
                 allEpisodes.forEach(ep => {
@@ -785,9 +1047,16 @@
                 }
             });
 
-            // Using HiAnime API for stream
-            const cleanTitle = currentTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
-            const videoUrl = `https://hianime.to/embed/${cleanTitle}?ep=${epNum}`;
+            let videoUrl = episode.link || '';
+            if (!videoUrl) {
+                const cleanTitle = currentTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+                videoUrl = `https://hianime.to/embed/${cleanTitle}?ep=${epNum}`;
+            }
+
+            // Ensure it's a valid iframe src
+            if (!videoUrl.includes('http')) {
+                videoUrl = 'https://hianime.to/embed/' + videoUrl;
+            }
 
             currentVideoUrl = videoUrl;
             videoIframe.src = videoUrl;
@@ -795,7 +1064,7 @@
             playerStatus.style.color = '#00c853';
         }
 
-        // ==================== RELOAD VIDEO ====================
+        // ==================== VIDEO CONTROLS ====================
         function reloadVideo() {
             if (currentVideoUrl) {
                 videoIframe.src = currentVideoUrl;
@@ -806,7 +1075,6 @@
             }
         }
 
-        // ==================== DOWNLOAD VIDEO ====================
         function downloadVideo() {
             if (!currentVideoUrl) {
                 alert('⚠️ पहले कोई एपिसोड चलाएं!');
@@ -815,7 +1083,6 @@
             alert(`💡 डाउनलोड करने के लिए:\n\n1. वीडियो पर Right-Click करें\n2. "Save video as..." चुनें\n3. Save करें\n\n📥 Video URL: ${currentVideoUrl}`);
         }
 
-        // ==================== SHARE ====================
         function shareVideo() {
             if (navigator.share) {
                 navigator.share({
@@ -825,6 +1092,18 @@
                 }).catch(() => {});
             } else {
                 alert(`📤 शेयर करें: ${window.location.href}`);
+            }
+        }
+
+        function copyVideoLink() {
+            if (currentVideoUrl) {
+                navigator.clipboard.writeText(currentVideoUrl).then(() => {
+                    alert('✅ Video link copied to clipboard!');
+                }).catch(() => {
+                    prompt('Copy this link:', currentVideoUrl);
+                });
+            } else {
+                alert('⚠️ No video playing!');
             }
         }
 
