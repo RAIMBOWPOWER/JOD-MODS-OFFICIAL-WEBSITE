@@ -17,7 +17,6 @@
         ::-webkit-scrollbar-track { background: #1a1a1a; }
         ::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
 
-        /* ===== SIMPLE ANIMATED BACKGROUND ===== */
         #bgCanvas {
             position: fixed;
             top: 0;
@@ -36,7 +35,6 @@
             50% { text-shadow: 0 0 25px rgba(255,59,59,0.5), 0 0 50px rgba(255,59,59,0.2); }
         }
 
-        /* ===== NAVBAR ===== */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -87,9 +85,7 @@
             border: 1px solid transparent;
             transition: 0.3s;
         }
-        .search-box:focus-within {
-            border-color: #ff3b3b;
-        }
+        .search-box:focus-within { border-color: #ff3b3b; }
         .search-box input {
             background: transparent;
             border: none;
@@ -129,9 +125,7 @@
             border-color: #ff3b3b;
             color: #fff;
         }
-        .auth-btn.login-btn:hover {
-            background: #cc2e2e;
-        }
+        .auth-btn.login-btn:hover { background: #cc2e2e; }
 
         .user-profile {
             display: flex;
@@ -284,6 +278,17 @@
             font-weight: 600;
             color: #fff;
         }
+        .mod-badge {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            background: #ffa500;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 8px;
+            font-weight: 600;
+            color: #fff;
+        }
         .watched-badge {
             position: absolute;
             bottom: 40px;
@@ -308,13 +313,8 @@
             border-radius: 10px;
             z-index: 5;
         }
-        .lock-overlay i {
-            font-size: 35px;
-            color: #ff3b3b;
-            opacity: 0.8;
-        }
+        .lock-overlay i { font-size: 35px; color: #ff3b3b; opacity: 0.8; }
 
-        /* ===== MODAL ===== */
         .modal {
             display: none;
             position: fixed;
@@ -487,7 +487,7 @@
         .empty-state h3 { font-size: 20px; color: #fff; margin-bottom: 6px; }
         .empty-state p { color: #888; font-size: 13px; }
 
-        /* ===== SIMPLE USER LOGIN ===== */
+        /* ===== AUTH OVERLAYS ===== */
         .auth-overlay {
             display: none;
             position: fixed;
@@ -526,21 +526,10 @@
             text-align: center;
             margin-bottom: 18px;
         }
-        .auth-box .auth-brand i {
-            font-size: 40px;
-            color: #ff3b3b;
-        }
-        .auth-box .auth-brand h2 {
-            color: #fff;
-            font-size: 22px;
-            margin-top: 6px;
-        }
+        .auth-box .auth-brand i { font-size: 40px; color: #ff3b3b; }
+        .auth-box .auth-brand h2 { color: #fff; font-size: 22px; margin-top: 6px; }
         .auth-box .auth-brand h2 span { color: #ff3b3b; }
-        .auth-box .auth-brand p {
-            color: #888;
-            font-size: 12px;
-            margin-top: 2px;
-        }
+        .auth-box .auth-brand p { color: #888; font-size: 12px; margin-top: 2px; }
 
         .auth-box input {
             width: 100%;
@@ -572,9 +561,7 @@
             margin-top: 10px;
             transition: 0.3s;
         }
-        .auth-box .auth-submit:hover {
-            background: #cc2e2e;
-        }
+        .auth-box .auth-submit:hover { background: #cc2e2e; }
 
         .auth-box .switch-auth {
             text-align: center;
@@ -598,7 +585,7 @@
             border-radius: 6px;
         }
 
-        /* ===== ADMIN LOGIN ===== */
+        /* ===== ADMIN/MOD LOGIN ===== */
         .admin-auth-overlay {
             display: none;
             position: fixed;
@@ -637,21 +624,10 @@
             text-align: center;
             margin-bottom: 18px;
         }
-        .admin-auth-box .auth-brand i {
-            font-size: 40px;
-            color: #ff3b3b;
-        }
-        .admin-auth-box .auth-brand h2 {
-            color: #fff;
-            font-size: 22px;
-            margin-top: 6px;
-        }
+        .admin-auth-box .auth-brand i { font-size: 40px; color: #ff3b3b; }
+        .admin-auth-box .auth-brand h2 { color: #fff; font-size: 22px; margin-top: 6px; }
         .admin-auth-box .auth-brand h2 span { color: #ff3b3b; }
-        .admin-auth-box .auth-brand p {
-            color: #888;
-            font-size: 12px;
-            margin-top: 2px;
-        }
+        .admin-auth-box .auth-brand p { color: #888; font-size: 12px; margin-top: 2px; }
         .admin-auth-box input {
             width: 100%;
             padding: 10px 14px;
@@ -680,9 +656,7 @@
             margin-top: 10px;
             transition: 0.3s;
         }
-        .admin-auth-box .auth-submit:hover {
-            background: #cc2e2e;
-        }
+        .admin-auth-box .auth-submit:hover { background: #cc2e2e; }
         .admin-auth-box .error-msg {
             color: #ff3b3b;
             font-size: 12px;
@@ -693,7 +667,7 @@
             border-radius: 6px;
         }
 
-        /* ===== LOGIN REQUIRED OVERLAY ===== */
+        /* ===== LOGIN REQUIRED ===== */
         .login-required-overlay {
             position: fixed;
             top: 0;
@@ -719,21 +693,9 @@
             max-width: 400px;
             width: 100%;
         }
-        .login-required-box i {
-            font-size: 50px;
-            color: #ff3b3b;
-            margin-bottom: 12px;
-        }
-        .login-required-box h2 {
-            color: #fff;
-            font-size: 22px;
-            margin-bottom: 6px;
-        }
-        .login-required-box p {
-            color: #888;
-            font-size: 13px;
-            margin-bottom: 18px;
-        }
+        .login-required-box i { font-size: 50px; color: #ff3b3b; margin-bottom: 12px; }
+        .login-required-box h2 { color: #fff; font-size: 22px; margin-bottom: 6px; }
+        .login-required-box p { color: #888; font-size: 13px; margin-bottom: 18px; }
         .login-required-box .auth-btns {
             display: flex;
             gap: 12px;
@@ -753,17 +715,13 @@
             background: #ff3b3b;
             color: #fff;
         }
-        .login-required-box .auth-btns .login-btn2:hover {
-            background: #cc2e2e;
-        }
+        .login-required-box .auth-btns .login-btn2:hover { background: #cc2e2e; }
         .login-required-box .auth-btns .register-btn2 {
             background: #222;
             color: #ccc;
             border: 1px solid #444;
         }
-        .login-required-box .auth-btns .register-btn2:hover {
-            background: #333;
-        }
+        .login-required-box .auth-btns .register-btn2:hover { background: #333; }
 
         /* ===== COMMENTS ===== */
         .comments-section {
@@ -810,9 +768,7 @@
             font-weight: 600;
             transition: 0.3s;
         }
-        .comment-input-area button:hover {
-            background: #cc2e2e;
-        }
+        .comment-input-area button:hover { background: #cc2e2e; }
 
         .comment-list { max-height: 350px; overflow-y: auto; }
         .comment-list::-webkit-scrollbar { width: 4px; }
@@ -875,6 +831,14 @@
             padding: 1px 8px;
             border-radius: 10px;
             border: 1px solid #ff3b3b;
+        }
+        .comment-item .comment-actions .mod-badge-cmt {
+            color: #ffa500;
+            font-size: 9px;
+            background: #222;
+            padding: 1px 8px;
+            border-radius: 10px;
+            border: 1px solid #ffa500;
         }
         .comment-item.editing .comment-msg { display: none; }
         .comment-item .edit-input {
@@ -982,6 +946,7 @@
             margin: 0 auto;
         }
         .admin-panel h3 { color: #ff3b3b; margin-bottom: 12px; font-size: 17px; }
+        .admin-panel h4 { color: #ffa500; margin: 10px 0 6px; font-size: 14px; }
         .admin-panel input, .admin-panel textarea, .admin-panel select {
             width: 100%;
             padding: 8px 12px;
@@ -1009,6 +974,10 @@
             transition: 0.3s;
         }
         .admin-panel button:hover { background: #cc2e2e; }
+        .admin-panel .mod-btn {
+            background: #ffa500;
+        }
+        .admin-panel .mod-btn:hover { background: #cc8400; }
 
         .drop-area {
             border: 2px dashed #ff3b3b;
@@ -1100,6 +1069,43 @@
         }
         .admin-content-list .content-item .item-actions .del-btn:hover { background: #991111; }
 
+        /* ===== MODERATOR LIST ===== */
+        .mod-list {
+            margin-top: 12px;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+        .mod-list .mod-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #151515;
+            padding: 6px 12px;
+            border-radius: 6px;
+            margin: 4px 0;
+            border-left: 2px solid #ffa500;
+        }
+        .mod-list .mod-item .mod-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .mod-list .mod-item .mod-info .mod-icon {
+            color: #ffa500;
+            font-size: 14px;
+        }
+        .mod-list .mod-item .mod-actions button {
+            padding: 2px 10px;
+            font-size: 11px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #cc2e2e;
+            color: #fff;
+        }
+        .mod-list .mod-item .mod-actions button:hover { background: #991111; }
+
         @media (max-width: 600px) {
             .navbar { flex-direction: column; align-items: stretch; }
             .search-box { max-width: 100%; }
@@ -1154,7 +1160,7 @@
 
         <div class="hero">
             <h1 class="glow-text">🇮🇳 <span>JOD MODS</span> OTT</h1>
-            <p>🔥 सिर्फ ऐडमिन कंटेंट • 100% मुफ्त • डायरेक्ट वीडियो प्ले</p>
+            <p>🔥 सिर्फ ऐडमिन/मॉड कंटेंट • 100% मुफ्त • डायरेक्ट वीडियो प्ले</p>
             <div class="tags">
                 <span>🔥 ऐडमिन कंटेंट</span>
                 <span>⭐ 100% मुफ्त</span>
@@ -1182,7 +1188,7 @@
             <div class="comment-list" id="commentList"><div class="no-comments">कोई कमेंट नहीं। पहली राय दें!</div></div>
         </div>
 
-        <div class="footer"><p>JOD MODS OTT © 2025 – सिर्फ ऐडमिन कंटेंट <i class="fas fa-heart" style="color:#ff3b3b;"></i></p></div>
+        <div class="footer"><p>JOD MODS OTT © 2025 – सिर्फ ऐडमिन/मॉड कंटेंट <i class="fas fa-heart" style="color:#ff3b3b;"></i></p></div>
     </div>
 
     <!-- ===== USER LOGIN ===== -->
@@ -1208,14 +1214,14 @@
         </div>
     </div>
 
-    <!-- ===== ADMIN LOGIN ===== -->
+    <!-- ===== ADMIN/MOD LOGIN ===== -->
     <div class="admin-auth-overlay" id="adminAuthOverlay">
         <div class="admin-auth-box">
             <button class="close-admin-auth" onclick="closeAdminAuth()">&times;</button>
             <div class="auth-brand">
                 <i class="fas fa-user-shield"></i>
                 <h2>JOD<span>MODS</span></h2>
-                <p>🔐 ऐडमिन लॉगिन</p>
+                <p>🔐 ऐडमिन / मॉड लॉगिन</p>
             </div>
             <input type="text" id="adminUserInput" placeholder="यूजरनेम" />
             <input type="password" id="adminPassInput" placeholder="पासवर्ड" />
@@ -1227,7 +1233,7 @@
     <!-- ===== ADMIN PAGE ===== -->
     <div id="adminPage">
         <div class="admin-header">
-            <h2><i class="fas fa-upload"></i> ऐडमिन पैनल - JOD MODS</h2>
+            <h2><i class="fas fa-upload"></i> ऐडमिन/मॉड पैनल - JOD MODS</h2>
             <button class="close-admin" onclick="closeAdminPage()"><i class="fas fa-times"></i> बंद करें</button>
         </div>
         <div class="admin-panel">
@@ -1258,6 +1264,19 @@
                     <button onclick="adminAddAnime()"><i class="fas fa-save"></i> सेव करें</button>
                     <button onclick="adminClearForm()" style="background:#666;"><i class="fas fa-undo"></i> क्लियर</button>
                     <button onclick="adminResetAll()" style="background:#cc2e2e;"><i class="fas fa-power-off"></i> सबको लॉगआउट</button>
+                </div>
+
+                <!-- ===== MODERATOR MANAGEMENT (Only Admin) ===== -->
+                <div id="modSection" style="display:none; margin-top:16px; border-top: 2px solid #ffa500; padding-top:14px;">
+                    <h3 style="color:#ffa500;"><i class="fas fa-user-cog"></i> मॉडरेटर मैनेजमेंट</h3>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                        <input type="text" id="modUsername" placeholder="मॉड यूजरनेम" style="flex:1;min-width:120px;">
+                        <input type="password" id="modPassword" placeholder="मॉड पासवर्ड" style="flex:1;min-width:120px;">
+                        <button class="mod-btn" onclick="addModerator()"><i class="fas fa-user-plus"></i> मॉड जोड़ें</button>
+                    </div>
+                    <div class="mod-list" id="modList">
+                        <p style="color:#888; padding:8px;">कोई मॉड नहीं</p>
+                    </div>
                 </div>
 
                 <div class="admin-content-list">
@@ -1370,6 +1389,8 @@
         let userAuthMode = 'login';
         let pendingOpenAnime = null;
         let isAdminLoggedIn = false;
+        let isModLoggedIn = false;
+        let currentAdminUser = null;
 
         const container = document.getElementById('contentContainer');
         const sectionTitle = document.getElementById('sectionTitle');
@@ -1455,7 +1476,7 @@
                     error.textContent = 'यह ईमेल पहले से रजिस्टर है!';
                     return;
                 }
-                users.push({ name, email, password: pass, isAdmin: false });
+                users.push({ name, email, password: pass, isAdmin: false, isMod: false });
                 saveUsers(users);
                 error.textContent = '✅ रजिस्टर सफल! अब लॉगिन करें।';
                 error.style.color = '#00c853';
@@ -1503,7 +1524,15 @@
             }
         }
 
-        // ==================== ADMIN AUTH ====================
+        // ==================== ADMIN/MOD AUTH ====================
+        // Admin: JOD / ARYAN | Moderators: stored in localStorage
+        function getModerators() {
+            return JSON.parse(localStorage.getItem('jodmods_moderators') || '[]');
+        }
+        function saveModerators(mods) {
+            localStorage.setItem('jodmods_moderators', JSON.stringify(mods));
+        }
+
         function openAdminAuth() {
             document.getElementById('adminAuthOverlay').classList.add('active');
             document.getElementById('adminAuthError').textContent = '';
@@ -1516,24 +1545,100 @@
             const user = document.getElementById('adminUserInput').value.trim();
             const pass = document.getElementById('adminPassInput').value.trim();
             const error = document.getElementById('adminAuthError');
-            if (user === 'JOD' && pass === 'MODS') {
+
+            // Check Admin
+            if (user === 'JOD' && pass === 'ARYAN') {
                 isAdminLoggedIn = true;
+                isModLoggedIn = false;
+                currentAdminUser = 'admin';
                 closeAdminAuth();
                 document.getElementById('adminPage').style.display = 'block';
                 document.body.style.overflow = 'hidden';
+                document.getElementById('modSection').style.display = 'block';
+                loadAdminContentList();
+                loadModeratorList();
+                error.textContent = '';
+                return;
+            }
+
+            // Check Moderators
+            const mods = getModerators();
+            const foundMod = mods.find(m => m.username === user && m.password === pass);
+            if (foundMod) {
+                isModLoggedIn = true;
+                isAdminLoggedIn = false;
+                currentAdminUser = 'mod';
+                closeAdminAuth();
+                document.getElementById('adminPage').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                document.getElementById('modSection').style.display = 'none';
                 loadAdminContentList();
                 error.textContent = '';
-            } else {
-                error.textContent = '❌ गलत यूजरनेम या पासवर्ड!';
+                return;
             }
+
+            error.textContent = '❌ गलत यूजरनेम या पासवर्ड!';
         }
+
         function closeAdminPage() {
             document.getElementById('adminPage').style.display = 'none';
             document.body.style.overflow = 'auto';
             isAdminLoggedIn = false;
+            isModLoggedIn = false;
+            currentAdminUser = null;
         }
+
+        // ===== MODERATOR MANAGEMENT (Admin Only) =====
+        function addModerator() {
+            if (!isAdminLoggedIn) { alert('केवल ऐडमिन ही मॉड जोड़ सकता है!'); return; }
+            const username = document.getElementById('modUsername').value.trim();
+            const password = document.getElementById('modPassword').value.trim();
+            if (!username || !password) { alert('यूजरनेम और पासवर्ड दोनों जरूरी!'); return; }
+            const mods = getModerators();
+            if (mods.find(m => m.username === username)) { alert('यह यूजरनेम पहले से मौजूद है!'); return; }
+            mods.push({ username, password });
+            saveModerators(mods);
+            document.getElementById('modUsername').value = '';
+            document.getElementById('modPassword').value = '';
+            loadModeratorList();
+            alert('✅ मॉड जोड़ दिया गया!');
+        }
+
+        function removeModerator(username) {
+            if (!isAdminLoggedIn) { alert('केवल ऐडमिन ही मॉड हटा सकता है!'); return; }
+            if (!confirm('क्या आप मॉड ' + username + ' को हटाना चाहते हैं?')) return;
+            let mods = getModerators();
+            mods = mods.filter(m => m.username !== username);
+            saveModerators(mods);
+            loadModeratorList();
+        }
+
+        function loadModeratorList() {
+            const container = document.getElementById('modList');
+            const mods = getModerators();
+            if (mods.length === 0) {
+                container.innerHTML = '<p style="color:#888; padding:8px;">कोई मॉड नहीं</p>';
+                return;
+            }
+            let html = '';
+            mods.forEach(mod => {
+                html += `
+                    <div class="mod-item">
+                        <div class="mod-info">
+                            <span class="mod-icon"><i class="fas fa-user-tie"></i></span>
+                            <span><strong>${mod.username}</strong></span>
+                        </div>
+                        <div class="mod-actions">
+                            <button onclick="removeModerator('${mod.username}')"><i class="fas fa-trash"></i> हटाएँ</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
         function adminResetAll() {
-            if (!isAdminLoggedIn) { alert('पहले ऐडमिन लॉगिन करें!'); return; }
+            if (!isAdminLoggedIn && !isModLoggedIn) { alert('पहले लॉगिन करें!'); return; }
             if (!confirm('⚠️ सभी यूजर्स को लॉगआउट करें?')) return;
             localStorage.removeItem('jodmods_current_user');
             currentUser = null;
@@ -1594,7 +1699,7 @@
         function saveCustomAnimeList(list) { localStorage.setItem('jodmods_custom_anime', JSON.stringify(list)); }
 
         function adminAddAnime() {
-            if (!isAdminLoggedIn) { alert('पहले ऐडमिन लॉगिन करें!'); return; }
+            if (!isAdminLoggedIn && !isModLoggedIn) { alert('पहले ऐडमिन या मॉड लॉगिन करें!'); return; }
             const title = document.getElementById('adminTitle').value.trim();
             const type = document.getElementById('adminType').value.trim() || 'series';
             const episodes = parseInt(document.getElementById('adminEpisodes').value) || 12;
@@ -1612,7 +1717,7 @@
                     list[idx] = { ...list[idx], title: { romaji: title, english: title }, coverImage: { large: image }, episodes, type, episodeLinks: links ? links.split(',').map(s => s.trim()) : [], defaultVideo };
                 }
             } else {
-                list.push({ id: 'custom_' + Date.now(), title: { romaji: title, english: title }, coverImage: { large: image }, episodes, type, custom: true, episodeLinks: links ? links.split(',').map(s => s.trim()) : [], defaultVideo, adminAdded: true });
+                list.push({ id: 'custom_' + Date.now(), title: { romaji: title, english: title }, coverImage: { large: image }, episodes, type, custom: true, episodeLinks: links ? links.split(',').map(s => s.trim()) : [], defaultVideo, adminAdded: true, addedBy: currentAdminUser === 'admin' ? 'admin' : 'mod' });
             }
             saveCustomAnimeList(list);
             adminClearForm();
@@ -1634,7 +1739,16 @@
         }
 
         function adminDeleteItem(id) {
-            if (!isAdminLoggedIn) { alert('पहले ऐडमिन लॉगिन करें!'); return; }
+            if (!isAdminLoggedIn && !isModLoggedIn) { alert('पहले लॉगिन करें!'); return; }
+            // Check if mod trying to delete admin content
+            if (isModLoggedIn) {
+                const list = getCustomAnimeList();
+                const item = list.find(a => a.id === id);
+                if (item && item.addedBy === 'admin') {
+                    alert('⚠️ मॉड ऐडमिन का कंटेंट नहीं हटा सकता!');
+                    return;
+                }
+            }
             if (!confirm('क्या आप यह कंटेंट हटाना चाहते हैं?')) return;
             let list = getCustomAnimeList();
             list = list.filter(a => a.id !== id);
@@ -1644,10 +1758,15 @@
         }
 
         function adminEditItem(id) {
-            if (!isAdminLoggedIn) { alert('पहले ऐडमिन लॉगिन करें!'); return; }
+            if (!isAdminLoggedIn && !isModLoggedIn) { alert('पहले लॉगिन करें!'); return; }
             const list = getCustomAnimeList();
             const item = list.find(a => a.id === id);
             if (!item) return;
+            // Mod can only edit their own content
+            if (isModLoggedIn && item.addedBy === 'admin') {
+                alert('⚠️ मॉड ऐडमिन का कंटेंट एडिट नहीं कर सकता!');
+                return;
+            }
             document.getElementById('adminTitle').value = item.title.romaji || item.title.english || '';
             document.getElementById('adminType').value = item.type || 'series';
             document.getElementById('adminEpisodes').value = item.episodes || 12;
@@ -1670,15 +1789,16 @@
             list.forEach(item => {
                 const title = item.title?.romaji || item.title?.english || 'अज्ञात';
                 const img = item.coverImage?.large || 'https://via.placeholder.com/40x40/1a1a1a/ff3b3b?text=N';
+                const addedBy = item.addedBy === 'admin' ? '👑 ऐडमिन' : '🛠️ मॉड';
                 html += `
                     <div class="content-item">
                         <div class="item-info">
                             <img src="${img}" alt="${title}">
-                            <span><strong>${title}</strong> (${item.type || 'series'}) - ${item.episodes} एपिसोड</span>
+                            <span><strong>${title}</strong> (${item.type || 'series'}) - ${item.episodes} एपिसोड <span style="color:#888;font-size:10px;">${addedBy}</span></span>
                         </div>
                         <div class="item-actions">
-                            <button class="edit-btn" onclick="adminEditItem('${item.id}')"><i class="fas fa-edit"></i> एडिट</button>
-                            <button class="del-btn" onclick="adminDeleteItem('${item.id}')"><i class="fas fa-trash"></i> हटाएँ</button>
+                            ${(isAdminLoggedIn || (isModLoggedIn && item.addedBy !== 'admin')) ? `<button class="edit-btn" onclick="adminEditItem('${item.id}')"><i class="fas fa-edit"></i> एडिट</button>` : ''}
+                            ${(isAdminLoggedIn || (isModLoggedIn && item.addedBy !== 'admin')) ? `<button class="del-btn" onclick="adminDeleteItem('${item.id}')"><i class="fas fa-trash"></i> हटाएँ</button>` : ''}
                         </div>
                     </div>
                 `;
@@ -1736,7 +1856,7 @@
             if (currentUser) { name = currentUser.name; nameInput.value = name; }
             if (!name || !msg) { alert('नाम और राय दोनों जरूरी है!'); return; }
             const comments = getComments();
-            comments.push({ id: Date.now(), name, msg, time: new Date().toLocaleString('hi-IN'), isAdmin: currentUser ? currentUser.isAdmin || false : false, email: currentUser ? currentUser.email : null });
+            comments.push({ id: Date.now(), name, msg, time: new Date().toLocaleString('hi-IN'), isAdmin: currentUser ? currentUser.isAdmin || false : false, isMod: currentUser ? currentUser.isMod || false : false, email: currentUser ? currentUser.email : null });
             saveComments(comments);
             if (!currentUser) nameInput.value = '';
             msgInput.value = '';
@@ -1748,7 +1868,7 @@
             const comments = getComments();
             const comment = comments.find(c => c.id === id);
             if (!comment) return;
-            if (!currentUser.isAdmin && currentUser.email !== comment.email) { alert('आप इस कमेंट को नहीं हटा सकते!'); return; }
+            if (!currentUser.isAdmin && !currentUser.isMod && currentUser.email !== comment.email) { alert('आप इस कमेंट को नहीं हटा सकते!'); return; }
             if (!confirm('क्या आप यह कमेंट हटाना चाहते हैं?')) return;
             saveComments(comments.filter(c => c.id !== id));
             renderComments();
@@ -1759,7 +1879,7 @@
             const comments = getComments();
             const comment = comments.find(c => c.id === id);
             if (!comment) return;
-            if (!currentUser.isAdmin && currentUser.email !== comment.email) { alert('आप इस कमेंट को एडिट नहीं कर सकते!'); return; }
+            if (!currentUser.isAdmin && !currentUser.isMod && currentUser.email !== comment.email) { alert('आप इस कमेंट को एडिट नहीं कर सकते!'); return; }
             const item = document.querySelector(`.comment-item[data-id="${id}"]`);
             if (!item) return;
             if (item.classList.contains('editing')) {
@@ -1788,11 +1908,16 @@
             let html = '';
             comments.slice().reverse().forEach(c => {
                 const isAdmin = c.isAdmin || c.name === 'JOD MODS';
-                const canEdit = currentUser && (currentUser.isAdmin || currentUser.email === c.email);
+                const isMod = c.isMod || false;
+                const canEdit = currentUser && (currentUser.isAdmin || currentUser.isMod || currentUser.email === c.email);
                 html += `
                     <div class="comment-item" data-id="${c.id}">
                         <div class="comment-text">
-                            <div class="comment-user">${c.name}${isAdmin ? ' <span class="admin-badge-cmt">★ ऐडमिन</span>' : ''}</div>
+                            <div class="comment-user">
+                                ${c.name}
+                                ${isAdmin ? ' <span class="admin-badge-cmt">★ ऐडमिन</span>' : ''}
+                                ${isMod ? ' <span class="mod-badge-cmt">◆ मॉड</span>' : ''}
+                            </div>
                             <div class="comment-msg">${c.msg}</div>
                             <input class="edit-input" type="text" />
                             <div class="comment-time">${c.time || 'अभी'}</div>
@@ -1839,7 +1964,7 @@
             if (currentType === 'movies') filtered = list.filter(a => a.type === 'movie' || a.type === 'Movie');
             else if (currentType === 'series') filtered = list.filter(a => a.type === 'series' || a.type === 'Series' || !a.type);
             if (filtered.length === 0) {
-                container.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><h3>कोई कंटेंट नहीं</h3><p>ऐडमिन कंटेंट जोड़ें।</p></div>`;
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><h3>कोई कंटेंट नहीं</h3><p>ऐडमिन/मॉड कंटेंट जोड़ें।</p></div>`;
                 return;
             }
             displayAnime(filtered);
@@ -1856,6 +1981,7 @@
                 const id = item.id || 'custom_' + Date.now();
                 const episodes = item.episodes || '?';
                 const isWatched = watchedIds.includes(id);
+                const isModContent = item.addedBy === 'mod';
                 html += `
                     <div class="content-card" onclick="${isLoggedIn ? `openAnime('${id}', '${title.replace(/'/g, "\\'")}')` : `showLoginRequiredForAnime('${id}', '${title.replace(/'/g, "\\'")}')`}">
                         <img src="${image}" alt="${title}" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image'"/>
@@ -1866,7 +1992,7 @@
                             <span class="badge">100% मुफ्त</span>
                         </div>
                         <span class="free-badge"><i class="fas fa-crown"></i> FREE</span>
-                        <span class="admin-badge"><i class="fas fa-user-cog"></i> ऐडमिन</span>
+                        ${isModContent ? '<span class="mod-badge"><i class="fas fa-user-tie"></i> मॉड</span>' : '<span class="admin-badge"><i class="fas fa-user-cog"></i> ऐडमिन</span>'}
                         ${isWatched ? '<span class="watched-badge"><i class="fas fa-check-circle"></i> देखा</span>' : ''}
                     </div>
                 `;
@@ -2056,9 +2182,11 @@
 
         const users = getUsers();
         if (!users.find(u => u.email === 'admin@jodmods.com')) {
-            users.push({ name: 'JOD MODS', email: 'admin@jodmods.com', password: 'admin123', isAdmin: true });
+            users.push({ name: 'JOD MODS', email: 'admin@jodmods.com', password: 'admin123', isAdmin: true, isMod: false });
             saveUsers(users);
         }
+        // Load mod list if admin
+        if (isAdminLoggedIn) loadModeratorList();
     </script>
 </body>
 </html>
