@@ -238,6 +238,24 @@
             border: none;
         }
 
+        /* Custom video player */
+        .custom-video-player {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #000;
+        }
+        .custom-video-player video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
         .action-bar {
             display: flex;
             gap: 10px;
@@ -334,47 +352,6 @@
             color: #888;
         }
         .no-results i { font-size: 36px; color: #ff3b3b; margin-bottom: 8px; }
-
-        .server-selector {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin: 10px 0;
-            padding: 10px;
-            background: #1a1a1a;
-            border-radius: 10px;
-            border: 1px solid #333;
-            align-items: center;
-        }
-        .server-btn {
-            background: #222;
-            color: #ccc;
-            border: 2px solid #444;
-            padding: 5px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-        .server-btn:hover {
-            background: #333;
-            border-color: #ff3b3b;
-        }
-        .server-btn.active {
-            background: #ff3b3b;
-            color: #fff;
-            border-color: #ff3b3b;
-        }
-        .server-btn .status {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 4px;
-        }
-        .server-btn .status.online { background: #00c853; }
-        .server-btn .status.offline { background: #ff1744; }
 
         .player-status {
             color: #00c853;
@@ -544,13 +521,52 @@
             background: #cc2e2e;
         }
 
+        /* Video Upload Area */
+        .video-drop-area {
+            border: 2px dashed #00c853;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 8px 0;
+            background: #111;
+        }
+        .video-drop-area:hover, .video-drop-area.dragover {
+            background: #222;
+            border-color: #00ff6b;
+        }
+        .video-drop-area .video-preview {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+        .video-drop-area .video-preview video {
+            max-width: 100%;
+            max-height: 180px;
+            border-radius: 6px;
+            background: #000;
+        }
+        .video-drop-area .remove-video {
+            background: #ff3b3b;
+            color: #fff;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+        .video-drop-area .remove-video:hover {
+            background: #cc2e2e;
+        }
+
         @media (max-width: 600px) {
             .navbar { flex-direction: column; align-items: stretch; }
             .search-box { max-width: 100%; }
             .content-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
             .hero h1 { font-size: 22px; }
             .nav-links { justify-content: center; }
-            .server-selector { justify-content: center; }
         }
     </style>
 </head>
@@ -612,16 +628,25 @@
                     <div class="preview-container" id="previewContainer"></div>
                 </div>
 
+                <!-- Video Upload Area -->
+                <div class="video-drop-area" id="videoDropArea">
+                    <i class="fas fa-video" style="font-size:24px;color:#00c853;"></i>
+                    <p style="color:#aaa;font-size:13px;">Drag & Drop Video File or Click to Upload (MP4, WebM, etc.)</p>
+                    <input type="file" id="videoFileInput" accept="video/*" style="display:none;">
+                    <div id="videoPreviewContainer" style="margin-top:8px;"></div>
+                </div>
+
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
                     <input type="text" id="adminEpisodeLinks" placeholder="Episode Links (comma separated: EP1_URL,EP2_URL,...)" style="flex:3;min-width:200px;">
                 </div>
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                    <input type="text" id="adminVideoLink" placeholder="Default Video URL (iframe src)" style="flex:2;min-width:200px;">
+                    <input type="text" id="adminVideoLink" placeholder="Default Video URL (or leave blank to use uploaded video)" style="flex:2;min-width:200px;">
                 </div>
                 <button onclick="adminAddAnime()"><i class="fas fa-plus-circle"></i> Add/Update Anime</button>
                 <button onclick="adminDeleteCurrent()" style="background:#cc2e2e;"><i class="fas fa-trash"></i> Delete Current</button>
                 <button onclick="clearAllDefault()" style="background:#cc2e2e;"><i class="fas fa-eraser"></i> Remove All Default Anime</button>
                 <p style="color:#888;font-size:11px;margin-top:8px;">💡 एपिसोड लिंक डालें: EP1_LINK,EP2_LINK,EP3_LINK ... (या सिर्फ एक डिफॉल्ट वीडियो लिंक)</p>
+                <p style="color:#888;font-size:11px;">📹 अगर वीडियो अपलोड करते हो तो वह सीधे प्लेयर में चलेगा (बिना किसी दूसरी website के)</p>
             </div>
         </div>
     </div>
@@ -641,8 +666,17 @@
 
             <div class="player-status" id="playerStatus">⏳ वीडियो प्लेयर लोड हो रहा है...</div>
 
-            <div class="video-wrapper">
-                <iframe id="videoIframe" src="" allowfullscreen></iframe>
+            <!-- Video Player -->
+            <div id="videoPlayerContainer">
+                <div class="video-wrapper" id="iframeWrapper">
+                    <iframe id="videoIframe" src="" allowfullscreen></iframe>
+                </div>
+                <div class="custom-video-player" id="videoPlayerWrapper" style="display:none;">
+                    <video id="customVideoPlayer" controls autoplay>
+                        <source id="videoSource" src="" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
             </div>
 
             <div class="action-bar">
@@ -665,9 +699,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
     <script>
         // ==================== CONFIG ====================
-        const HIANIME_API = 'https://hianime-api-iy4s.onrender.com/api';
-        const ANILIST_API = 'https://graphql.anilist.co';
-
         let currentType = 'trending';
         let currentPage = 1;
         let currentTitle = '';
@@ -679,6 +710,8 @@
         let isAdminLoggedIn = false;
         let currentCustomAnime = null;
         let uploadedImages = [];
+        let uploadedVideo = null;
+        let isVideoUploaded = false;
 
         // ==================== DOM REFS ====================
         const container = document.getElementById('contentContainer');
@@ -687,11 +720,15 @@
         const modalTitle = document.getElementById('modalTitle');
         const modalDesc = document.getElementById('modalDesc');
         const videoIframe = document.getElementById('videoIframe');
+        const customVideoPlayer = document.getElementById('customVideoPlayer');
+        const videoSource = document.getElementById('videoSource');
+        const videoPlayerWrapper = document.getElementById('videoPlayerWrapper');
+        const iframeWrapper = document.getElementById('iframeWrapper');
         const episodeContainer = document.getElementById('episodeContainer');
         const playerStatus = document.getElementById('playerStatus');
         const epCount = document.getElementById('epCount');
 
-        // ==================== DRAG & DROP ====================
+        // ==================== DRAG & DROP IMAGE ====================
         const dropArea = document.getElementById('dropArea');
         const fileInput = document.getElementById('fileInput');
         const previewContainer = document.getElementById('previewContainer');
@@ -709,7 +746,7 @@
             e.preventDefault();
             dropArea.classList.remove('dragover');
             if (e.dataTransfer.files.length) {
-                handleFiles(e.dataTransfer.files);
+                handleImageFiles(e.dataTransfer.files);
             }
         });
 
@@ -719,11 +756,11 @@
 
         fileInput.addEventListener('change', (e) => {
             if (e.target.files.length) {
-                handleFiles(e.target.files);
+                handleImageFiles(e.target.files);
             }
         });
 
-        function handleFiles(files) {
+        function handleImageFiles(files) {
             for (let file of files) {
                 if (file.type.startsWith('image/')) {
                     const reader = new FileReader();
@@ -752,6 +789,74 @@
         function removeImage(index) {
             uploadedImages.splice(index, 1);
             updatePreview();
+        }
+
+        // ==================== DRAG & DROP VIDEO ====================
+        const videoDropArea = document.getElementById('videoDropArea');
+        const videoFileInput = document.getElementById('videoFileInput');
+        const videoPreviewContainer = document.getElementById('videoPreviewContainer');
+
+        videoDropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            videoDropArea.classList.add('dragover');
+        });
+
+        videoDropArea.addEventListener('dragleave', () => {
+            videoDropArea.classList.remove('dragover');
+        });
+
+        videoDropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            videoDropArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                handleVideoFiles(e.dataTransfer.files);
+            }
+        });
+
+        videoDropArea.addEventListener('click', () => {
+            videoFileInput.click();
+        });
+
+        videoFileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleVideoFiles(e.target.files);
+            }
+        });
+
+        function handleVideoFiles(files) {
+            for (let file of files) {
+                if (file.type.startsWith('video/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        uploadedVideo = e.target.result;
+                        isVideoUploaded = true;
+                        updateVideoPreview();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        function updateVideoPreview() {
+            videoPreviewContainer.innerHTML = '';
+            if (uploadedVideo) {
+                const div = document.createElement('div');
+                div.innerHTML = `
+                    <video controls style="max-width:100%;max-height:180px;border-radius:6px;background:#000;">
+                        <source src="${uploadedVideo}">
+                    </video>
+                    <br>
+                    <button class="remove-video" onclick="removeVideo()">✕ Remove Video</button>
+                `;
+                videoPreviewContainer.appendChild(div);
+            }
+        }
+
+        function removeVideo() {
+            uploadedVideo = null;
+            isVideoUploaded = false;
+            videoPreviewContainer.innerHTML = '';
+            document.getElementById('adminVideoLink').value = '';
         }
 
         // ==================== ADMIN ====================
@@ -783,8 +888,13 @@
 
             if (!title) { alert('Title is required!'); return; }
 
-            // Get first uploaded image or use default
             let image = uploadedImages.length > 0 ? uploadedImages[0] : 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=' + encodeURIComponent(title);
+            
+            // If video is uploaded, use it as default video
+            let videoToUse = defaultVideo;
+            if (isVideoUploaded && uploadedVideo) {
+                videoToUse = uploadedVideo;
+            }
 
             const customAnime = {
                 id: 'custom_' + Date.now(),
@@ -793,8 +903,9 @@
                 episodes: episodes,
                 custom: true,
                 episodeLinks: links ? links.split(',').map(s => s.trim()) : [],
-                defaultVideo: defaultVideo,
-                adminAdded: true
+                defaultVideo: videoToUse,
+                adminAdded: true,
+                isUploadedVideo: isVideoUploaded
             };
 
             let customList = JSON.parse(localStorage.getItem('jodmods_custom_anime') || '[]');
@@ -804,7 +915,10 @@
 
             // Clear uploads after adding
             uploadedImages = [];
+            uploadedVideo = null;
+            isVideoUploaded = false;
             updatePreview();
+            updateVideoPreview();
             document.getElementById('adminTitle').value = '';
             document.getElementById('adminEpisodeLinks').value = '';
             document.getElementById('adminVideoLink').value = '';
@@ -830,9 +944,7 @@
 
         function clearAllDefault() {
             if (!isAdminLoggedIn) { alert('Please login first!'); return; }
-            if (!confirm('⚠️ This will remove ALL default anime and show only your custom added content. Continue?')) return;
-            // We just clear the default flag, but we keep custom
-            // Actually we just set a flag in localStorage to not load default
+            if (!confirm('⚠️ This will REMOVE ALL default anime and show ONLY your custom added content. Continue?')) return;
             localStorage.setItem('jodmods_hide_default', 'true');
             alert('✅ All default anime removed! Only your custom content will show.');
             loadAnime();
@@ -894,10 +1006,9 @@
                     a.title.english.toLowerCase().includes(query.toLowerCase())
                 );
 
-                // Only search API if not hiding default
                 let apiResults = [];
                 if (!shouldHideDefault()) {
-                    const response = await fetch(ANILIST_API, {
+                    const response = await fetch('https://graphql.anilist.co', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -993,7 +1104,7 @@
                         `;
                     }
 
-                    const response = await fetch(ANILIST_API, {
+                    const response = await fetch('https://graphql.anilist.co', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -1080,7 +1191,14 @@
             modalTitle.textContent = `📺 ${title}`;
             modalDesc.textContent = `🎯 100% मुफ्त • <span id="epCount">0</span> एपिसोड`;
             episodeContainer.innerHTML = `<p style="color:#888; width:100%;"><i class="fas fa-spinner fa-spin"></i> एपिसोड लोड हो रहे हैं...</p>`;
+            
+            // Reset video player
             videoIframe.src = '';
+            customVideoPlayer.pause();
+            customVideoPlayer.removeAttribute('src');
+            videoPlayerWrapper.style.display = 'none';
+            iframeWrapper.style.display = 'block';
+            
             playerStatus.textContent = '⏳ लोड हो रहा है...';
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
@@ -1091,25 +1209,19 @@
                 let totalEps = 12;
                 let episodeLinks = [];
                 let defaultVideo = '';
+                let isUploadedVideo = false;
 
                 if (customAnime) {
                     totalEps = customAnime.episodes || 12;
                     episodeLinks = customAnime.episodeLinks || [];
                     defaultVideo = customAnime.defaultVideo || '';
+                    isUploadedVideo = customAnime.isUploadedVideo || false;
                     currentCustomAnime = customAnime;
                 } else {
                     currentCustomAnime = null;
                     if (!shouldHideDefault()) {
                         try {
-                            const hianimeResp = await fetch(`${HIANIME_API}/anime/${id}`);
-                            if (hianimeResp.ok) {
-                                const data = await hianimeResp.json();
-                                totalEps = data.episodes?.length || 12;
-                            }
-                        } catch(e) {}
-
-                        if (totalEps === 12) {
-                            const anilistResp = await fetch(ANILIST_API, {
+                            const response = await fetch('https://graphql.anilist.co', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({
@@ -1123,8 +1235,10 @@
                                     variables: { id: parseInt(id) }
                                 })
                             });
-                            const data = await anilistResp.json();
+                            const data = await response.json();
                             totalEps = data.data?.Media?.episodes || 12;
+                        } catch(e) {
+                            totalEps = 12;
                         }
                     } else {
                         totalEps = 12;
@@ -1144,7 +1258,7 @@
                         const cleanTitle = currentTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
                         epLink = `https://hianime.to/embed/${cleanTitle}?ep=${i}`;
                     }
-                    allEpisodes.push({ number: i, link: epLink });
+                    allEpisodes.push({ number: i, link: epLink, isUploaded: isUploadedVideo });
                 }
 
                 let epHtml = '';
@@ -1201,19 +1315,53 @@
                 videoUrl = `https://hianime.to/embed/${cleanTitle}?ep=${epNum}`;
             }
 
-            if (!videoUrl.includes('http')) {
-                videoUrl = 'https://hianime.to/embed/' + videoUrl;
-            }
-
             currentVideoUrl = videoUrl;
-            videoIframe.src = videoUrl;
-            playerStatus.textContent = `✅ JOD MODS • एपिसोड ${epNum}`;
-            playerStatus.style.color = '#00c853';
+
+            // Check if it's a data URL (uploaded video)
+            if (videoUrl.startsWith('data:video/')) {
+                // Use custom video player
+                iframeWrapper.style.display = 'none';
+                videoPlayerWrapper.style.display = 'block';
+                videoSource.src = videoUrl;
+                customVideoPlayer.load();
+                customVideoPlayer.play();
+                playerStatus.textContent = `✅ JOD MODS • एपिसोड ${epNum} (Uploaded Video)`;
+                playerStatus.style.color = '#00c853';
+            } else if (videoUrl.includes('.mp4') || videoUrl.includes('.webm') || videoUrl.includes('.mkv') || videoUrl.includes('blob:')) {
+                // Direct video file
+                iframeWrapper.style.display = 'none';
+                videoPlayerWrapper.style.display = 'block';
+                videoSource.src = videoUrl;
+                customVideoPlayer.load();
+                customVideoPlayer.play();
+                playerStatus.textContent = `✅ JOD MODS • एपिसोड ${epNum}`;
+                playerStatus.style.color = '#00c853';
+            } else {
+                // Use iframe for embed links
+                videoPlayerWrapper.style.display = 'none';
+                iframeWrapper.style.display = 'block';
+                videoIframe.src = videoUrl;
+                playerStatus.textContent = `✅ JOD MODS • एपिसोड ${epNum}`;
+                playerStatus.style.color = '#00c853';
+            }
         }
 
         // ==================== VIDEO CONTROLS ====================
         function reloadVideo() {
-            if (currentVideoUrl) {
+            if (!currentVideoUrl) {
+                alert('⚠️ No video playing!');
+                return;
+            }
+            
+            if (currentVideoUrl.startsWith('data:video/') || currentVideoUrl.includes('.mp4') || currentVideoUrl.includes('.webm')) {
+                videoSource.src = currentVideoUrl;
+                customVideoPlayer.load();
+                customVideoPlayer.play();
+                playerStatus.textContent = `🔄 रीलोड हो रहा है...`;
+                setTimeout(() => {
+                    playerStatus.textContent = `✅ JOD MODS • एपिसोड ${currentEpisodeNum}`;
+                }, 1000);
+            } else {
                 videoIframe.src = currentVideoUrl;
                 playerStatus.textContent = `🔄 रीलोड हो रहा है...`;
                 setTimeout(() => {
@@ -1227,6 +1375,18 @@
                 alert('⚠️ पहले कोई एपिसोड चलाएं!');
                 return;
             }
+            
+            if (currentVideoUrl.startsWith('data:video/')) {
+                // Download uploaded video
+                const link = document.createElement('a');
+                link.href = currentVideoUrl;
+                link.download = `${currentTitle}_episode_${currentEpisodeNum}.mp4`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                return;
+            }
+            
             alert(`💡 डाउनलोड करने के लिए:\n\n1. वीडियो पर Right-Click करें\n2. "Save video as..." चुनें\n3. Save करें\n\n📥 Video URL: ${currentVideoUrl}`);
         }
 
@@ -1244,6 +1404,10 @@
 
         function copyVideoLink() {
             if (currentVideoUrl) {
+                if (currentVideoUrl.startsWith('data:video/')) {
+                    alert('⚠️ This is an uploaded video, cannot copy link. Download it instead.');
+                    return;
+                }
                 navigator.clipboard.writeText(currentVideoUrl).then(() => {
                     alert('✅ Video link copied to clipboard!');
                 }).catch(() => {
@@ -1258,6 +1422,10 @@
         function closeModal() {
             modal.style.display = 'none';
             videoIframe.src = '';
+            customVideoPlayer.pause();
+            customVideoPlayer.removeAttribute('src');
+            videoPlayerWrapper.style.display = 'none';
+            iframeWrapper.style.display = 'block';
             currentVideoUrl = '';
             document.body.style.overflow = 'auto';
         }
