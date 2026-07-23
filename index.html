@@ -3,43 +3,22 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>JOD MODS OTT - Firebase</title>
+    <title>JOD MODS OTT</title>
     
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    
     <style>
-        /* ===== RESET & BASE ===== */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-        body { 
-            background: #0a0a0a; 
-            color: #fff; 
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #0a0a0a; color: #fff; min-height: 100vh; overflow-x: hidden; }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #1a1a1a; }
         ::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
 
-        #bgCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .glow-text {
-            animation: glowPulse 3s ease-in-out infinite;
-        }
-        @keyframes glowPulse {
-            0%, 100% { text-shadow: 0 0 10px rgba(255,59,59,0.3); }
-            50% { text-shadow: 0 0 25px rgba(255,59,59,0.5), 0 0 50px rgba(255,59,59,0.2); }
-        }
+        #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
         .navbar {
             display: flex;
@@ -55,253 +34,94 @@
             z-index: 100;
             backdrop-filter: blur(12px);
         }
-        .logo { 
-            font-size: 22px; 
-            font-weight: 900; 
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .logo { font-size: 22px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
         .logo span { color: #ff3b3b; }
         .logo i { color: #ff3b3b; font-size: 24px; }
 
-        .nav-links {
-            display: flex;
-            gap: 8px;
-            font-size: 13px;
-            font-weight: 500;
-            flex-wrap: wrap;
-        }
+        .nav-links { display: flex; gap: 8px; font-size: 13px; font-weight: 500; flex-wrap: wrap; }
         .nav-links a {
-            color: #ccc;
-            text-decoration: none;
-            cursor: pointer;
-            padding: 6px 16px;
-            border-radius: 25px;
-            transition: 0.3s;
-            position: relative;
+            color: #ccc; text-decoration: none; cursor: pointer; padding: 6px 16px;
+            border-radius: 25px; transition: 0.3s; position: relative;
         }
         .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: #ff3b3b;
-            transition: 0.3s;
-            transform: translateX(-50%);
+            content: ''; position: absolute; bottom: 0; left: 50%; width: 0;
+            height: 2px; background: #ff3b3b; transition: 0.3s; transform: translateX(-50%);
         }
-        .nav-links a:hover::after, .nav-links a.active::after {
-            width: 60%;
-        }
-        .nav-links a:hover, .nav-links a.active {
-            color: #fff;
-            background: rgba(255,59,59,0.1);
-        }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 60%; }
+        .nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,59,59,0.1); }
 
         .search-box {
-            display: flex;
-            align-items: center;
-            background: rgba(34,34,34,0.8);
-            padding: 6px 16px;
-            border-radius: 30px;
-            flex: 1;
-            max-width: 280px;
-            min-width: 140px;
-            border: 1px solid transparent;
-            transition: 0.3s;
+            display: flex; align-items: center; background: rgba(34,34,34,0.8);
+            padding: 6px 16px; border-radius: 30px; flex: 1; max-width: 280px;
+            min-width: 140px; border: 1px solid transparent; transition: 0.3s;
             backdrop-filter: blur(4px);
         }
-        .search-box:focus-within { 
-            border-color: #ff3b3b;
-            box-shadow: 0 0 20px rgba(255,59,59,0.1);
-        }
-        .search-box input {
-            background: transparent;
-            border: none;
-            color: #fff;
-            outline: none;
-            padding: 6px 10px;
-            width: 100%;
-            font-size: 13px;
-        }
+        .search-box:focus-within { border-color: #ff3b3b; box-shadow: 0 0 20px rgba(255,59,59,0.1); }
+        .search-box input { background: transparent; border: none; color: #fff; outline: none; padding: 6px 10px; width: 100%; font-size: 13px; }
         .search-box input::placeholder { color: #666; }
         .search-box i { color: #666; cursor: pointer; transition: 0.3s; }
         .search-box i:hover { color: #ff3b3b; }
 
-        .auth-section {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
+        .auth-section { display: flex; gap: 8px; align-items: center; }
 
         .auth-btn-modern {
-            padding: 8px 22px;
-            border-radius: 25px;
-            border: none;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            padding: 8px 22px; border-radius: 25px; border: none; font-weight: 600;
+            font-size: 13px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;
         }
         .auth-btn-modern.login-btn {
-            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
-            color: #fff;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e); color: #fff;
             box-shadow: 0 4px 15px rgba(255,59,59,0.3);
         }
-        .auth-btn-modern.login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(255,59,59,0.4);
-        }
+        .auth-btn-modern.login-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(255,59,59,0.4); }
         .auth-btn-modern.register-btn {
-            background: rgba(255,255,255,0.08);
-            color: #ccc;
-            border: 1px solid #444;
+            background: rgba(255,255,255,0.08); color: #ccc; border: 1px solid #444;
         }
-        .auth-btn-modern.register-btn:hover {
-            background: rgba(255,255,255,0.15);
-            color: #fff;
-            border-color: #ff3b3b;
-        }
+        .auth-btn-modern.register-btn:hover { background: rgba(255,255,255,0.15); color: #fff; border-color: #ff3b3b; }
 
         .user-profile-modern {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            padding: 4px 14px 4px 4px;
-            border-radius: 30px;
-            transition: 0.3s;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid transparent;
+            display: flex; align-items: center; gap: 10px; cursor: pointer;
+            padding: 4px 14px 4px 4px; border-radius: 30px; transition: 0.3s;
+            background: rgba(255,255,255,0.05); border: 1px solid transparent;
         }
-        .user-profile-modern:hover {
-            border-color: #ff3b3b;
-            background: rgba(255,59,59,0.1);
-        }
+        .user-profile-modern:hover { border-color: #ff3b3b; background: rgba(255,59,59,0.1); }
         .user-profile-modern .avatar {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
+            width: 34px; height: 34px; border-radius: 50%;
             background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 14px;
-            color: #fff;
-            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 14px; color: #fff; flex-shrink: 0;
         }
-        .user-profile-modern .username {
-            font-size: 13px;
-            color: #ccc;
-            max-width: 80px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .user-profile-modern .logout-icon {
-            color: #666;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-        .user-profile-modern:hover .logout-icon {
-            color: #ff3b3b;
-        }
+        .user-profile-modern .username { font-size: 13px; color: #ccc; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .user-profile-modern .logout-icon { color: #666; font-size: 14px; transition: 0.3s; }
+        .user-profile-modern:hover .logout-icon { color: #ff3b3b; }
 
         .upload-btn-modern {
             background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
-            color: #fff;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 12px;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            color: #fff; border: none; padding: 8px 20px; border-radius: 25px;
+            cursor: pointer; font-weight: 700; font-size: 12px; transition: 0.3s;
+            display: flex; align-items: center; gap: 8px;
             box-shadow: 0 4px 15px rgba(255,59,59,0.3);
         }
-        .upload-btn-modern:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 6px 25px rgba(255,59,59,0.4);
-        }
+        .upload-btn-modern:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 25px rgba(255,59,59,0.4); }
 
         .hero {
             background: linear-gradient(180deg, rgba(26,26,26,0.3) 0%, rgba(10,10,10,0.9) 100%);
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 1px solid #1f1f1f;
-            position: relative;
-            overflow: hidden;
+            padding: 30px 20px; text-align: center; border-bottom: 1px solid #1f1f1f;
+            position: relative; overflow: hidden;
         }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,59,59,0.03) 0%, transparent 70%);
-            animation: heroGlow 20s linear infinite;
-        }
-        @keyframes heroGlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .hero h1 { 
-            font-size: 32px; 
-            font-weight: 900; 
-            position: relative;
-            z-index: 1;
-        }
+        .hero h1 { font-size: 32px; font-weight: 900; position: relative; z-index: 1; }
         .hero h1 span { color: #ff3b3b; }
-        .hero p { 
-            font-size: 14px; 
-            color: #aaa; 
-            margin-top: 6px;
-            position: relative;
-            z-index: 1;
-        }
-        .hero .tags {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-            position: relative;
-            z-index: 1;
-        }
+        .hero p { font-size: 14px; color: #aaa; margin-top: 6px; position: relative; z-index: 1; }
+        .hero .tags { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 12px; position: relative; z-index: 1; }
         .hero .tags span {
-            background: rgba(34,34,34,0.8);
-            padding: 4px 18px;
-            border-radius: 25px;
-            font-size: 11px;
-            color: #ff3b3b;
-            border: 1px solid #333;
-            backdrop-filter: blur(4px);
-            transition: 0.3s;
+            background: rgba(34,34,34,0.8); padding: 4px 18px; border-radius: 25px;
+            font-size: 11px; color: #ff3b3b; border: 1px solid #333; backdrop-filter: blur(4px); transition: 0.3s;
         }
-        .hero .tags span:hover {
-            border-color: #ff3b3b;
-            transform: translateY(-2px);
-        }
+        .hero .tags span:hover { border-color: #ff3b3b; transform: translateY(-2px); }
 
         .section { padding: 16px 20px; }
         .section h2 {
-            font-size: 20px;
-            margin-bottom: 16px;
-            border-left: 4px solid #ff3b3b;
-            padding-left: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 20px; margin-bottom: 16px; border-left: 4px solid #ff3b3b;
+            padding-left: 14px; display: flex; align-items: center; gap: 10px;
         }
         .section h2 i { color: #ff3b3b; }
 
@@ -312,143 +132,59 @@
         }
 
         .content-card {
-            background: rgba(21,21,21,0.9);
-            border-radius: 14px;
-            overflow: hidden;
+            background: rgba(21,21,21,0.9); border-radius: 14px; overflow: hidden;
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            border: 1px solid #252525;
-            position: relative;
-            backdrop-filter: blur(4px);
+            cursor: pointer; border: 1px solid #252525; position: relative; backdrop-filter: blur(4px);
         }
-        .content-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: #ff3b3b;
-            box-shadow: 0 12px 40px rgba(255,59,59,0.15);
-        }
-        .content-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            background: #1a1a1a;
-            transition: 0.3s;
-        }
-        .content-card:hover img {
-            transform: scale(1.05);
-        }
-        .content-card .info { 
-            padding: 10px 14px; 
+        .content-card:hover { transform: translateY(-8px) scale(1.02); border-color: #ff3b3b; box-shadow: 0 12px 40px rgba(255,59,59,0.15); }
+        .content-card img { width: 100%; height: 220px; object-fit: cover; background: #1a1a1a; transition: 0.3s; }
+        .content-card:hover img { transform: scale(1.05); }
+        .content-card .info {
+            padding: 10px 14px;
             background: linear-gradient(0deg, rgba(10,10,10,0.9) 0%, transparent 100%);
             position: relative;
         }
-        .content-card .info h4 { 
-            font-size: 14px; 
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis; 
-            font-weight: 600;
-        }
-        .content-card .info p { 
-            font-size: 11px; 
-            color: #888; 
-            margin-top: 2px;
-        }
+        .content-card .info h4 { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+        .content-card .info p { font-size: 11px; color: #888; margin-top: 2px; }
         .content-card .badge {
-            background: #ff3b3b;
-            padding: 2px 12px;
-            border-radius: 20px;
-            font-size: 9px;
-            font-weight: 700;
-            display: inline-block;
-            margin-top: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            background: #ff3b3b; padding: 2px 12px; border-radius: 20px; font-size: 9px;
+            font-weight: 700; display: inline-block; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px;
         }
+
         .free-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: linear-gradient(135deg, #00c853, #00e676);
-            padding: 3px 14px;
-            border-radius: 20px;
-            font-size: 9px;
-            font-weight: 700;
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(0,200,83,0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            position: absolute; top: 10px; right: 10px;
+            background: linear-gradient(135deg, #00c853, #00e676); padding: 3px 14px;
+            border-radius: 20px; font-size: 9px; font-weight: 700; color: #fff;
+            box-shadow: 0 4px 15px rgba(0,200,83,0.3); text-transform: uppercase; letter-spacing: 0.5px;
         }
         .admin-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
-            padding: 3px 14px;
-            border-radius: 20px;
-            font-size: 9px;
-            font-weight: 700;
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(255,59,59,0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            position: absolute; top: 10px; left: 10px;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e); padding: 3px 14px;
+            border-radius: 20px; font-size: 9px; font-weight: 700; color: #fff;
+            box-shadow: 0 4px 15px rgba(255,59,59,0.3); text-transform: uppercase; letter-spacing: 0.5px;
         }
         .mod-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: linear-gradient(135deg, #ffa500, #ff8c00);
-            padding: 3px 14px;
-            border-radius: 20px;
-            font-size: 9px;
-            font-weight: 700;
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(255,165,0,0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            position: absolute; top: 10px; left: 10px;
+            background: linear-gradient(135deg, #ffa500, #ff8c00); padding: 3px 14px;
+            border-radius: 20px; font-size: 9px; font-weight: 700; color: #fff;
+            box-shadow: 0 4px 15px rgba(255,165,0,0.3); text-transform: uppercase; letter-spacing: 0.5px;
         }
         .watched-badge {
-            position: absolute;
-            bottom: 50px;
-            left: 10px;
-            background: rgba(0,0,0,0.8);
-            padding: 3px 12px;
-            border-radius: 15px;
-            font-size: 9px;
-            color: #00c853;
-            backdrop-filter: blur(4px);
+            position: absolute; bottom: 50px; left: 10px; background: rgba(0,0,0,0.8);
+            padding: 3px 12px; border-radius: 15px; font-size: 9px; color: #00c853; backdrop-filter: blur(4px);
         }
 
         .card-stats {
-            display: flex;
-            gap: 12px;
-            margin-top: 6px;
-            font-size: 11px;
-            color: #888;
+            display: flex; gap: 12px; margin-top: 6px; font-size: 11px; color: #888;
         }
-        .card-stats span {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .card-stats i {
-            font-size: 12px;
-        }
+        .card-stats span { display: flex; align-items: center; gap: 4px; }
+        .card-stats i { font-size: 12px; }
         .card-stats .views-icon { color: #ffa500; }
         .card-stats .likes-icon { color: #ff3b3b; }
         .card-stats .liked { color: #ff3b3b; }
 
-        .loader { 
-            text-align: center; 
-            padding: 60px 20px; 
-            font-size: 16px; 
-            color: #ff3b3b;
-        }
-        .loader i { 
-            animation: spin 1s linear infinite; 
-            font-size: 30px;
-            display: block;
-            margin-bottom: 12px;
-        }
+        .loader { text-align: center; padding: 60px 20px; font-size: 16px; color: #ff3b3b; }
+        .loader i { animation: spin 1s linear infinite; font-size: 30px; display: block; margin-bottom: 12px; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         .empty-state { text-align: center; padding: 60px 20px; }
@@ -456,1232 +192,444 @@
         .empty-state h3 { font-size: 22px; color: #fff; margin-bottom: 8px; }
         .empty-state p { color: #888; font-size: 14px; }
         .empty-state .upload-hint {
-            margin-top: 12px;
-            padding: 12px 20px;
-            background: rgba(255,59,59,0.1);
-            border: 1px solid rgba(255,59,59,0.2);
-            border-radius: 10px;
-            display: inline-block;
-            color: #ffa500;
-            font-size: 13px;
+            margin-top: 12px; padding: 12px 20px; background: rgba(255,59,59,0.1);
+            border: 1px solid rgba(255,59,59,0.2); border-radius: 10px;
+            display: inline-block; color: #ffa500; font-size: 13px;
         }
         .empty-state .upload-hint i { font-size: 16px; display: inline; color: #ff3b3b; }
-
         .no-results { text-align: center; padding: 60px 20px; color: #888; }
         .no-results i { font-size: 40px; color: #ff3b3b; display: block; margin-bottom: 12px; }
 
-        /* ===== AUTH MODAL ===== */
+        /* Auth Modal */
         .auth-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.92);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(20px);
-            padding: 20px;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92); z-index: 2000; justify-content: center; align-items: center;
+            backdrop-filter: blur(20px); padding: 20px;
         }
         .auth-modal.active { display: flex; }
         .auth-modal-content {
-            background: rgba(20,20,20,0.95);
-            border-radius: 24px;
-            width: 100%;
-            max-width: 460px;
-            padding: 0;
-            border: 1px solid rgba(255,59,59,0.2);
-            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
-            overflow: hidden;
-            position: relative;
+            background: rgba(20,20,20,0.95); border-radius: 24px; width: 100%;
+            max-width: 460px; padding: 0; border: 1px solid rgba(255,59,59,0.2);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8); overflow: hidden; position: relative;
             animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         @keyframes modalSlideIn {
             from { opacity: 0; transform: scale(0.9) translateY(20px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
-        .auth-modal-header {
-            padding: 28px 28px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .auth-modal-header .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .auth-modal-header .brand i {
-            font-size: 28px;
-            color: #ff3b3b;
-        }
-        .auth-modal-header .brand h2 {
-            font-size: 20px;
-            font-weight: 900;
-        }
+        .auth-modal-header { padding: 28px 28px 0; display: flex; justify-content: space-between; align-items: center; }
+        .auth-modal-header .brand { display: flex; align-items: center; gap: 10px; }
+        .auth-modal-header .brand i { font-size: 28px; color: #ff3b3b; }
+        .auth-modal-header .brand h2 { font-size: 20px; font-weight: 900; }
         .auth-modal-header .brand h2 span { color: #ff3b3b; }
         .auth-modal-header .close-auth {
-            background: rgba(255,255,255,0.05);
-            border: none;
-            color: #666;
-            font-size: 22px;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: rgba(255,255,255,0.05); border: none; color: #666; font-size: 22px;
+            cursor: pointer; width: 40px; height: 40px; border-radius: 50%;
+            transition: 0.3s; display: flex; align-items: center; justify-content: center;
         }
-        .auth-modal-header .close-auth:hover {
-            background: rgba(255,59,59,0.1);
-            color: #ff3b3b;
-            transform: rotate(90deg);
-        }
+        .auth-modal-header .close-auth:hover { background: rgba(255,59,59,0.1); color: #ff3b3b; transform: rotate(90deg); }
 
         .auth-tabs {
-            display: flex;
-            padding: 20px 28px 0;
-            gap: 4px;
-            border-bottom: 1px solid #2a2a2a;
+            display: flex; padding: 20px 28px 0; gap: 4px; border-bottom: 1px solid #2a2a2a;
         }
         .auth-tab {
-            flex: 1;
-            padding: 12px 0;
-            background: none;
-            border: none;
-            color: #666;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            position: relative;
-            text-align: center;
+            flex: 1; padding: 12px 0; background: none; border: none; color: #666;
+            font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.3s;
+            position: relative; text-align: center;
         }
         .auth-tab::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: #ff3b3b;
-            transition: 0.3s;
-            transform: translateX(-50%);
+            content: ''; position: absolute; bottom: -1px; left: 50%; width: 0;
+            height: 2px; background: #ff3b3b; transition: 0.3s; transform: translateX(-50%);
         }
-        .auth-tab.active {
-            color: #fff;
-        }
-        .auth-tab.active::after {
-            width: 60%;
-        }
-        .auth-tab:hover {
-            color: #fff;
-        }
+        .auth-tab.active { color: #fff; }
+        .auth-tab.active::after { width: 60%; }
+        .auth-tab:hover { color: #fff; }
 
-        .auth-form-container {
-            padding: 28px;
-        }
-        .auth-form {
-            display: none;
-            flex-direction: column;
-            gap: 14px;
-        }
+        .auth-form-container { padding: 28px; }
+        .auth-form { display: none; flex-direction: column; gap: 14px; }
         .auth-form.active { display: flex; }
 
-        .form-group {
-            position: relative;
-        }
+        .form-group { position: relative; }
         .form-group .form-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #555;
-            font-size: 14px;
-            transition: 0.3s;
+            position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+            color: #555; font-size: 14px; transition: 0.3s;
         }
         .form-group input, .form-group select {
-            width: 100%;
-            padding: 14px 14px 14px 44px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid #2a2a2a;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 14px;
-            transition: 0.3s;
-            outline: none;
-            appearance: none;
-            -webkit-appearance: none;
+            width: 100%; padding: 14px 14px 14px 44px;
+            background: rgba(255,255,255,0.05); border: 1px solid #2a2a2a;
+            border-radius: 12px; color: #fff; font-size: 14px; transition: 0.3s;
+            outline: none; appearance: none; -webkit-appearance: none;
         }
-        .form-group select option {
-            background: #1a1a1a;
-            color: #fff;
-        }
+        .form-group select option { background: #1a1a1a; color: #fff; }
         .form-group input:focus, .form-group select:focus {
-            border-color: #ff3b3b;
-            box-shadow: 0 0 0 4px rgba(255,59,59,0.1);
+            border-color: #ff3b3b; box-shadow: 0 0 0 4px rgba(255,59,59,0.1);
             background: rgba(255,255,255,0.08);
         }
         .form-group input:focus + .form-icon,
-        .form-group input:focus ~ .form-icon {
-            color: #ff3b3b;
-        }
+        .form-group input:focus ~ .form-icon { color: #ff3b3b; }
         .form-group input::placeholder { color: #555; }
         .form-group .toggle-pass {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #555;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.3s;
-            padding: 4px;
+            position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; color: #555; cursor: pointer; font-size: 14px; transition: 0.3s; padding: 4px;
         }
         .form-group .toggle-pass:hover { color: #fff; }
 
         .form-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            color: #888;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 13px; color: #888;
         }
-        .form-options label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-        .form-options label input[type="checkbox"] {
-            accent-color: #ff3b3b;
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
+        .form-options label { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+        .form-options label input[type="checkbox"] { accent-color: #ff3b3b; width: 16px; height: 16px; cursor: pointer; }
         .form-options .forgot-pass {
-            color: #ff3b3b;
-            cursor: pointer;
-            transition: 0.3s;
-            background: none;
-            border: none;
-            font-size: 13px;
-            font-weight: 600;
+            color: #ff3b3b; cursor: pointer; transition: 0.3s;
+            background: none; border: none; font-size: 13px; font-weight: 600;
         }
-        .form-options .forgot-pass:hover {
-            text-decoration: underline;
-        }
+        .form-options .forgot-pass:hover { text-decoration: underline; }
 
         .auth-submit-btn {
-            padding: 14px;
-            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
-            border: none;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
+            padding: 14px; background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
+            border: none; border-radius: 12px; color: #fff; font-size: 16px;
+            font-weight: 700; cursor: pointer; transition: 0.3s;
             box-shadow: 0 4px 20px rgba(255,59,59,0.3);
         }
-        .auth-submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(255,59,59,0.4);
-        }
-        .auth-submit-btn:active {
-            transform: scale(0.98);
-        }
-        .auth-submit-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
+        .auth-submit-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(255,59,59,0.4); }
+        .auth-submit-btn:active { transform: scale(0.98); }
 
-        .auth-error {
-            color: #ff3b3b;
-            font-size: 13px;
-            padding: 10px 14px;
-            background: rgba(255,59,59,0.08);
-            border-radius: 10px;
-            border: 1px solid rgba(255,59,59,0.1);
-            display: none;
-        }
+        .auth-error { color: #ff3b3b; font-size: 13px; padding: 10px 14px; background: rgba(255,59,59,0.08); border-radius: 10px; border: 1px solid rgba(255,59,59,0.1); display: none; }
         .auth-error.show { display: block; }
-
-        .auth-success {
-            color: #00c853;
-            font-size: 13px;
-            padding: 10px 14px;
-            background: rgba(0,200,83,0.08);
-            border-radius: 10px;
-            border: 1px solid rgba(0,200,83,0.1);
-            display: none;
-        }
+        .auth-success { color: #00c853; font-size: 13px; padding: 10px 14px; background: rgba(0,200,83,0.08); border-radius: 10px; border: 1px solid rgba(0,200,83,0.1); display: none; }
         .auth-success.show { display: block; }
 
-        /* ===== FORGOT PASSWORD MODAL ===== */
+        /* Forgot Password */
         .forgot-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.92);
-            z-index: 2500;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(20px);
-            padding: 20px;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92); z-index: 2500; justify-content: center; align-items: center;
+            backdrop-filter: blur(20px); padding: 20px;
         }
         .forgot-modal.active { display: flex; }
         .forgot-modal-content {
-            background: rgba(20,20,20,0.95);
-            border-radius: 24px;
-            width: 100%;
-            max-width: 420px;
-            padding: 30px;
-            border: 1px solid rgba(255,59,59,0.2);
-            animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
+            background: rgba(20,20,20,0.95); border-radius: 24px; width: 100%;
+            max-width: 420px; padding: 30px; border: 1px solid rgba(255,59,59,0.2);
+            animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative;
         }
         .forgot-modal-content .close-forgot {
-            position: absolute;
-            top: 16px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: #666;
-            font-size: 24px;
-            cursor: pointer;
-            transition: 0.3s;
+            position: absolute; top: 16px; right: 20px; background: none; border: none;
+            color: #666; font-size: 24px; cursor: pointer; transition: 0.3s;
         }
         .forgot-modal-content .close-forgot:hover { color: #ff3b3b; }
-        .forgot-modal-content h3 {
-            color: #ff3b3b;
-            font-size: 20px;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .forgot-modal-content p {
-            color: #888;
-            font-size: 13px;
-            margin-bottom: 16px;
-        }
-        .forgot-modal-content .form-group {
-            margin-bottom: 12px;
-        }
+        .forgot-modal-content h3 { color: #ff3b3b; font-size: 20px; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+        .forgot-modal-content p { color: #888; font-size: 13px; margin-bottom: 16px; }
+        .forgot-modal-content .form-group { margin-bottom: 12px; }
         .forgot-modal-content .form-group input,
-        .forgot-modal-content .form-group select {
-            padding: 12px 16px 12px 44px;
-        }
-        .forgot-modal-content .form-group .form-icon {
-            left: 14px;
-        }
+        .forgot-modal-content .form-group select { padding: 12px 16px 12px 44px; }
+        .forgot-modal-content .form-group .form-icon { left: 14px; }
         .forgot-modal-content .security-answer-box {
-            background: rgba(255,165,0,0.05);
-            border: 1px solid rgba(255,165,0,0.2);
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin: 8px 0;
-            color: #ffa500;
-            font-size: 14px;
-            display: none;
+            background: rgba(255,165,0,0.05); border: 1px solid rgba(255,165,0,0.2);
+            border-radius: 12px; padding: 12px 16px; margin: 8px 0;
+            color: #ffa500; font-size: 14px; display: none;
         }
         .forgot-modal-content .security-answer-box.show { display: block; }
         .forgot-modal-content .security-answer-box i { margin-right: 8px; }
 
-        /* ===== ADMIN/MOD LOGIN ===== */
+        /* Admin Login */
         .admin-auth-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.92);
-            z-index: 3000;
-            justify-content: center;
-            align-items: center;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92); z-index: 3000; justify-content: center; align-items: center;
             backdrop-filter: blur(20px);
         }
         .admin-auth-overlay.active { display: flex; }
         .admin-auth-box {
-            background: rgba(20,20,20,0.95);
-            padding: 30px;
-            border-radius: 24px;
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid rgba(255,59,59,0.2);
+            background: rgba(20,20,20,0.95); padding: 30px; border-radius: 24px;
+            width: 100%; max-width: 400px; border: 1px solid rgba(255,59,59,0.2);
             animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .admin-auth-box .close-admin-auth {
-            float: right;
-            background: none;
-            border: none;
-            color: #666;
-            font-size: 24px;
-            cursor: pointer;
-            transition: 0.3s;
+            float: right; background: none; border: none; color: #666; font-size: 24px; cursor: pointer; transition: 0.3s;
         }
         .admin-auth-box .close-admin-auth:hover { color: #ff3b3b; }
-        .admin-auth-box .auth-brand {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-        .admin-auth-box .auth-brand i { 
-            font-size: 48px; 
-            color: #ff3b3b;
-            display: block;
-            margin-bottom: 8px;
-        }
-        .admin-auth-box .auth-brand h2 {
-            color: #fff;
-            font-size: 24px;
-        }
+        .admin-auth-box .auth-brand { text-align: center; margin-bottom: 24px; }
+        .admin-auth-box .auth-brand i { font-size: 48px; color: #ff3b3b; display: block; margin-bottom: 8px; }
+        .admin-auth-box .auth-brand h2 { color: #fff; font-size: 24px; }
         .admin-auth-box .auth-brand h2 span { color: #ff3b3b; }
         .admin-auth-box .auth-brand p { color: #888; font-size: 13px; margin-top: 4px; }
         .admin-auth-box input {
-            width: 100%;
-            padding: 14px 16px;
-            margin: 8px 0;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid #2a2a2a;
-            color: #fff;
-            border-radius: 12px;
-            font-size: 14px;
-            transition: 0.3s;
+            width: 100%; padding: 14px 16px; margin: 8px 0;
+            background: rgba(255,255,255,0.05); border: 1px solid #2a2a2a;
+            color: #fff; border-radius: 12px; font-size: 14px; transition: 0.3s;
         }
-        .admin-auth-box input:focus {
-            border-color: #ff3b3b;
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(255,59,59,0.1);
-        }
+        .admin-auth-box input:focus { border-color: #ff3b3b; outline: none; box-shadow: 0 0 0 4px rgba(255,59,59,0.1); }
         .admin-auth-box input::placeholder { color: #555; }
         .admin-auth-box .auth-submit {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 12px;
-            transition: 0.3s;
+            width: 100%; padding: 14px; background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
+            color: #fff; border: none; border-radius: 12px; font-size: 16px;
+            font-weight: 700; cursor: pointer; margin-top: 12px; transition: 0.3s;
             box-shadow: 0 4px 20px rgba(255,59,59,0.3);
         }
-        .admin-auth-box .auth-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(255,59,59,0.4);
-        }
-        .admin-auth-box .error-msg {
-            color: #ff3b3b;
-            font-size: 13px;
-            text-align: center;
-            margin-top: 12px;
-            padding: 10px;
-            background: rgba(255,59,59,0.08);
-            border-radius: 10px;
-            border: 1px solid rgba(255,59,59,0.1);
-        }
+        .admin-auth-box .auth-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(255,59,59,0.4); }
+        .admin-auth-box .error-msg { color: #ff3b3b; font-size: 13px; text-align: center; margin-top: 12px; padding: 10px; background: rgba(255,59,59,0.08); border-radius: 10px; border: 1px solid rgba(255,59,59,0.1); }
 
-        /* ===== VIDEO MODAL ===== */
+        /* Video Modal */
         .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 16px;
-            backdrop-filter: blur(12px);
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); justify-content: center; align-items: center;
+            z-index: 1000; padding: 16px; backdrop-filter: blur(12px);
         }
         .modal.active { display: flex; }
         .modal-content {
-            background: rgba(20,20,20,0.98);
-            padding: 20px;
-            border-radius: 20px;
-            width: 95%;
-            max-width: 920px;
-            max-height: 92vh;
-            overflow-y: auto;
-            border: 1px solid rgba(255,59,59,0.2);
-            position: relative;
+            background: rgba(20,20,20,0.98); padding: 20px; border-radius: 20px;
+            width: 95%; max-width: 920px; max-height: 92vh; overflow-y: auto;
+            border: 1px solid rgba(255,59,59,0.2); position: relative;
             animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .modal-content::-webkit-scrollbar { width: 4px; }
         .modal-content::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
 
         .close-modal {
-            position: sticky;
-            top: 0;
-            float: right;
-            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
-            color: #fff;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            z-index: 10;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: sticky; top: 0; float: right;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e); color: #fff;
+            width: 36px; height: 36px; border-radius: 50%; border: none;
+            font-size: 18px; cursor: pointer; z-index: 10; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
         }
         .close-modal:hover { transform: scale(1.1) rotate(90deg); }
-        .modal-title { 
-            color: #fff; 
-            font-size: 20px; 
-            margin: 6px 0 12px;
-            padding-right: 50px;
-        }
+        .modal-title { color: #fff; font-size: 20px; margin: 6px 0 12px; padding-right: 50px; }
 
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 12px;
-            background: #000;
-        }
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .custom-video-player {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 12px;
-            background: #000;
-        }
-        .custom-video-player video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-        }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; background: #000; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .custom-video-player { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; background: #000; }
+        .custom-video-player video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #000; }
 
-        .action-bar {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 12px 0;
-        }
+        .action-bar { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
         .action-bar button {
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            border: 1px solid #2a2a2a;
-            padding: 8px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            background: rgba(255,255,255,0.05); color: #fff; border: 1px solid #2a2a2a;
+            padding: 8px 18px; border-radius: 10px; cursor: pointer; transition: 0.3s;
+            font-size: 13px; display: flex; align-items: center; gap: 8px;
         }
-        .action-bar button:hover {
-            background: rgba(255,59,59,0.1);
-            border-color: #ff3b3b;
-            transform: translateY(-2px);
-        }
+        .action-bar button:hover { background: rgba(255,59,59,0.1); border-color: #ff3b3b; transform: translateY(-2px); }
         .action-bar button i { color: #ff3b3b; }
 
         .like-section {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin: 10px 0;
-            padding: 10px 14px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            border: 1px solid #2a2a2a;
+            display: flex; align-items: center; gap: 16px; margin: 10px 0;
+            padding: 10px 14px; background: rgba(255,255,255,0.03);
+            border-radius: 12px; border: 1px solid #2a2a2a;
         }
         .like-btn {
-            background: none;
-            border: none;
-            color: #888;
-            font-size: 22px;
-            cursor: pointer;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px 12px;
-            border-radius: 8px;
+            background: none; border: none; color: #888; font-size: 22px;
+            cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;
+            padding: 4px 12px; border-radius: 8px;
         }
-        .like-btn:hover {
-            color: #ff3b3b;
-            background: rgba(255,59,59,0.05);
-        }
-        .like-btn.liked {
-            color: #ff3b3b;
-        }
-        .like-btn.liked i {
-            animation: likePop 0.3s ease;
-        }
-        @keyframes likePop {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.4); }
-            100% { transform: scale(1); }
-        }
-        .like-btn .like-count {
-            font-size: 14px;
-            font-weight: 600;
-        }
-        .view-count-display {
-            color: #888;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+        .like-btn:hover { color: #ff3b3b; background: rgba(255,59,59,0.05); }
+        .like-btn.liked { color: #ff3b3b; }
+        .like-btn.liked i { animation: likePop 0.3s ease; }
+        @keyframes likePop { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
+        .like-btn .like-count { font-size: 14px; font-weight: 600; }
+        .view-count-display { color: #888; font-size: 14px; display: flex; align-items: center; gap: 6px; }
         .view-count-display i { color: #ffa500; }
 
-        .episode-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 12px;
-            max-height: 250px;
-            overflow-y: auto;
-            padding: 4px;
-        }
+        .episode-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; max-height: 250px; overflow-y: auto; padding: 4px; }
         .episode-grid::-webkit-scrollbar { width: 4px; }
         .episode-grid::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
 
         .episode-btn {
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            border: 1px solid #2a2a2a;
-            padding: 6px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 12px;
-            min-width: 80px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            background: rgba(255,255,255,0.05); color: #fff; border: 1px solid #2a2a2a;
+            padding: 6px 16px; border-radius: 8px; cursor: pointer; transition: 0.3s;
+            font-size: 12px; min-width: 80px; display: flex; align-items: center; gap: 6px;
         }
-        .episode-btn:hover {
-            background: rgba(255,59,59,0.1);
-            border-color: #ff3b3b;
-        }
-        .episode-btn.active {
-            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
-            border-color: #ff3b3b;
-        }
-        .episode-btn.watched-ep {
-            border-color: #00c853;
-            color: #00c853;
-        }
+        .episode-btn:hover { background: rgba(255,59,59,0.1); border-color: #ff3b3b; }
+        .episode-btn.active { background: linear-gradient(135deg, #ff3b3b, #cc2e2e); border-color: #ff3b3b; }
+        .episode-btn.watched-ep { border-color: #00c853; color: #00c853; }
 
-        .player-status {
-            color: #00c853;
-            font-size: 13px;
-            padding: 8px 14px;
-            text-align: center;
-            background: rgba(0,0,0,0.3);
-            border-radius: 10px;
-            margin: 8px 0;
-            border: 1px solid rgba(0,200,83,0.1);
-        }
+        .player-status { color: #00c853; font-size: 13px; padding: 8px 14px; text-align: center; background: rgba(0,0,0,0.3); border-radius: 10px; margin: 8px 0; border: 1px solid rgba(0,200,83,0.1); }
 
-        /* ===== HISTORY ===== */
+        /* History */
         .history-section {
-            max-width: 920px;
-            margin: 16px auto;
-            padding: 16px 20px;
-            background: rgba(26,26,26,0.4);
-            border-radius: 16px;
-            border: 1px solid #1f1f1f;
-            backdrop-filter: blur(4px);
+            max-width: 920px; margin: 16px auto; padding: 16px 20px;
+            background: rgba(26,26,26,0.4); border-radius: 16px; border: 1px solid #1f1f1f; backdrop-filter: blur(4px);
         }
-        .history-section h3 {
-            color: #ffa500;
-            margin-bottom: 10px;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .history-section h3 { color: #ffa500; margin-bottom: 10px; font-size: 16px; display: flex; align-items: center; gap: 8px; }
         .history-section .history-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 16px;
-            background: rgba(21,21,21,0.6);
-            border-radius: 10px;
-            margin: 4px 0;
-            border-left: 3px solid #ffa500;
-            font-size: 13px;
-            color: #ccc;
-            transition: 0.3s;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 16px; background: rgba(21,21,21,0.6); border-radius: 10px;
+            margin: 4px 0; border-left: 3px solid #ffa500; font-size: 13px; color: #ccc; transition: 0.3s;
         }
-        .history-section .history-item:hover {
-            background: rgba(21,21,21,0.9);
-        }
+        .history-section .history-item:hover { background: rgba(21,21,21,0.9); }
         .history-section .history-item .hist-title { color: #fff; font-weight: 500; }
         .history-section .history-item .hist-ep { color: #888; font-size: 11px; }
         .history-section .history-item .hist-continue {
-            color: #00c853;
-            cursor: pointer;
-            font-size: 12px;
-            padding: 4px 16px;
-            border: 1px solid #00c853;
-            border-radius: 20px;
-            transition: 0.3s;
-            background: none;
+            color: #00c853; cursor: pointer; font-size: 12px; padding: 4px 16px;
+            border: 1px solid #00c853; border-radius: 20px; transition: 0.3s; background: none;
         }
-        .history-section .history-item .hist-continue:hover {
-            background: #00c853;
-            color: #000;
-            transform: scale(1.05);
-        }
-        .history-empty { 
-            color: #666; 
-            text-align: center; 
-            padding: 12px; 
-            font-size: 13px; 
-        }
+        .history-section .history-item .hist-continue:hover { background: #00c853; color: #000; transform: scale(1.05); }
+        .history-empty { color: #666; text-align: center; padding: 12px; font-size: 13px; }
 
-        /* ===== COMMENTS ===== */
+        /* Comments */
         .comments-section {
-            max-width: 920px;
-            margin: 20px auto;
-            padding: 20px;
-            background: rgba(26,26,26,0.4);
-            border-radius: 16px;
-            border: 1px solid #1f1f1f;
-            backdrop-filter: blur(4px);
+            max-width: 920px; margin: 20px auto; padding: 20px;
+            background: rgba(26,26,26,0.4); border-radius: 16px; border: 1px solid #1f1f1f; backdrop-filter: blur(4px);
         }
-        .comments-section h3 {
-            color: #ff3b3b;
-            margin-bottom: 16px;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .comment-input-area {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-        }
+        .comments-section h3 { color: #ff3b3b; margin-bottom: 16px; font-size: 18px; display: flex; align-items: center; gap: 10px; }
+        .comment-input-area { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
         .comment-input-area input {
-            flex: 1;
-            min-width: 140px;
-            padding: 12px 16px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid #2a2a2a;
-            color: #fff;
-            border-radius: 12px;
-            font-size: 13px;
-            transition: 0.3s;
+            flex: 1; min-width: 140px; padding: 12px 16px; background: rgba(255,255,255,0.05);
+            border: 1px solid #2a2a2a; color: #fff; border-radius: 12px; font-size: 13px; transition: 0.3s;
         }
-        .comment-input-area input:focus {
-            border-color: #ff3b3b;
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(255,59,59,0.1);
-        }
+        .comment-input-area input:focus { border-color: #ff3b3b; outline: none; box-shadow: 0 0 0 4px rgba(255,59,59,0.1); }
         .comment-input-area input::placeholder { color: #555; }
         .comment-input-area button {
-            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
-            color: #fff;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(255,59,59,0.3);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e); color: #fff; border: none;
+            padding: 12px 24px; border-radius: 12px; cursor: pointer; font-weight: 600;
+            transition: 0.3s; box-shadow: 0 4px 15px rgba(255,59,59,0.3);
+            display: flex; align-items: center; gap: 8px;
         }
-        .comment-input-area button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(255,59,59,0.4);
-        }
+        .comment-input-area button:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(255,59,59,0.4); }
 
         .comment-list { max-height: 400px; overflow-y: auto; }
         .comment-list::-webkit-scrollbar { width: 4px; }
         .comment-list::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
 
         .comment-item {
-            background: rgba(21,21,21,0.6);
-            padding: 12px 16px;
-            border-radius: 12px;
-            margin-bottom: 8px;
-            border-left: 3px solid #ff3b3b;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 8px;
-            transition: 0.3s;
+            background: rgba(21,21,21,0.6); padding: 12px 16px; border-radius: 12px;
+            margin-bottom: 8px; border-left: 3px solid #ff3b3b;
+            display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; transition: 0.3s;
         }
-        .comment-item:hover {
-            background: rgba(21,21,21,0.9);
-        }
+        .comment-item:hover { background: rgba(21,21,21,0.9); }
         .comment-item .comment-text { flex: 1; min-width: 140px; }
-        .comment-item .comment-text .comment-user {
-            color: #ff3b3b;
-            font-weight: 600;
-            font-size: 13px;
-        }
-        .comment-item .comment-text .comment-msg {
-            color: #ccc;
-            font-size: 14px;
-            margin-top: 4px;
-            word-break: break-word;
-        }
-        .comment-item .comment-text .comment-time {
-            color: #666;
-            font-size: 10px;
-            margin-top: 4px;
-        }
-        .comment-item .comment-actions {
-            display: flex;
-            gap: 6px;
-            flex-shrink: 0;
-        }
+        .comment-item .comment-text .comment-user { color: #ff3b3b; font-weight: 600; font-size: 13px; }
+        .comment-item .comment-text .comment-msg { color: #ccc; font-size: 14px; margin-top: 4px; word-break: break-word; }
+        .comment-item .comment-text .comment-time { color: #666; font-size: 10px; margin-top: 4px; }
+        .comment-item .comment-actions { display: flex; gap: 6px; flex-shrink: 0; }
         .comment-item .comment-actions button {
-            background: rgba(255,255,255,0.03);
-            border: none;
-            color: #666;
-            cursor: pointer;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            transition: 0.3s;
+            background: rgba(255,255,255,0.03); border: none; color: #666;
+            cursor: pointer; padding: 4px 10px; border-radius: 6px; font-size: 12px; transition: 0.3s;
         }
-        .comment-item .comment-actions .edit-cmt:hover { 
-            color: #ffa500; 
-            background: rgba(255,165,0,0.1);
-        }
-        .comment-item .comment-actions .del-cmt:hover { 
-            color: #ff3b3b; 
-            background: rgba(255,59,59,0.1);
-        }
-        .comment-item .comment-actions .save-cmt { 
-            color: #00c853; 
-        }
-        .comment-item .comment-actions .save-cmt:hover {
-            background: rgba(0,200,83,0.1);
-        }
-        .comment-item .comment-actions .cancel-cmt { 
-            color: #ff3b3b; 
-        }
-        .comment-item .comment-actions .cancel-cmt:hover {
-            background: rgba(255,59,59,0.1);
-        }
-        .admin-badge-cmt {
-            color: #ff3b3b;
-            font-size: 9px;
-            background: rgba(255,59,59,0.1);
-            padding: 2px 12px;
-            border-radius: 12px;
-            border: 1px solid #ff3b3b;
-            margin-left: 6px;
-        }
-        .mod-badge-cmt {
-            color: #ffa500;
-            font-size: 9px;
-            background: rgba(255,165,0,0.1);
-            padding: 2px 12px;
-            border-radius: 12px;
-            border: 1px solid #ffa500;
-            margin-left: 6px;
-        }
+        .comment-item .comment-actions .edit-cmt:hover { color: #ffa500; background: rgba(255,165,0,0.1); }
+        .comment-item .comment-actions .del-cmt:hover { color: #ff3b3b; background: rgba(255,59,59,0.1); }
+        .comment-item .comment-actions .save-cmt { color: #00c853; }
+        .comment-item .comment-actions .save-cmt:hover { background: rgba(0,200,83,0.1); }
+        .comment-item .comment-actions .cancel-cmt { color: #ff3b3b; }
+        .comment-item .comment-actions .cancel-cmt:hover { background: rgba(255,59,59,0.1); }
+        .admin-badge-cmt { color: #ff3b3b; font-size: 9px; background: rgba(255,59,59,0.1); padding: 2px 12px; border-radius: 12px; border: 1px solid #ff3b3b; margin-left: 6px; }
+        .mod-badge-cmt { color: #ffa500; font-size: 9px; background: rgba(255,165,0,0.1); padding: 2px 12px; border-radius: 12px; border: 1px solid #ffa500; margin-left: 6px; }
         .comment-item.editing .comment-msg { display: none; }
-        .comment-item .edit-input {
-            display: none;
-            width: 100%;
-            padding: 8px 12px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid #2a2a2a;
-            color: #fff;
-            border-radius: 8px;
-            font-size: 13px;
-            margin-top: 6px;
-        }
+        .comment-item .edit-input { display: none; width: 100%; padding: 8px 12px; background: rgba(255,255,255,0.05); border: 1px solid #2a2a2a; color: #fff; border-radius: 8px; font-size: 13px; margin-top: 6px; }
         .comment-item.editing .edit-input { display: block; }
         .comment-item.editing .comment-text .comment-msg { display: none; }
-        .no-comments { 
-            color: #666; 
-            text-align: center; 
-            padding: 20px; 
-            font-size: 14px; 
-        }
+        .no-comments { color: #666; text-align: center; padding: 20px; font-size: 14px; }
 
-        /* ===== ADMIN PAGE ===== */
+        /* Admin Page */
         #adminPage {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0a0a;
-            z-index: 5000;
-            overflow-y: auto;
-            padding: 20px;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #0a0a0a; z-index: 5000; overflow-y: auto; padding: 20px;
         }
         #adminPage .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 24px;
-            background: rgba(26,26,26,0.95);
-            border-bottom: 2px solid #ff3b3b;
-            border-radius: 16px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 24px; background: rgba(26,26,26,0.95); border-bottom: 2px solid #ff3b3b;
+            border-radius: 16px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
         }
-        #adminPage .admin-header h2 { 
-            color: #ff3b3b; 
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        #adminPage .admin-header h2 { color: #ff3b3b; font-size: 20px; display: flex; align-items: center; gap: 10px; }
         #adminPage .admin-header .close-admin {
-            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
-            color: #fff;
-            border: none;
-            padding: 8px 24px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e); color: #fff; border: none;
+            padding: 8px 24px; border-radius: 12px; cursor: pointer; font-weight: 600; transition: 0.3s;
             box-shadow: 0 4px 15px rgba(255,59,59,0.3);
         }
-        #adminPage .admin-header .close-admin:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(255,59,59,0.4);
-        }
+        #adminPage .admin-header .close-admin:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(255,59,59,0.4); }
 
         .admin-panel {
-            background: rgba(26,26,26,0.95);
-            padding: 24px;
-            border-radius: 16px;
-            border: 1px solid #2a2a2a;
-            max-width: 920px;
-            margin: 0 auto;
+            background: rgba(26,26,26,0.95); padding: 24px; border-radius: 16px;
+            border: 1px solid #2a2a2a; max-width: 920px; margin: 0 auto;
         }
-        .admin-panel h3 { 
-            color: #ff3b3b; 
-            margin-bottom: 16px; 
-            font-size: 19px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .admin-panel h4 { 
-            color: #ffa500; 
-            margin: 16px 0 10px; 
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .admin-panel h3 { color: #ff3b3b; margin-bottom: 16px; font-size: 19px; display: flex; align-items: center; gap: 10px; }
+        .admin-panel h4 { color: #ffa500; margin: 16px 0 10px; font-size: 16px; display: flex; align-items: center; gap: 8px; }
         .admin-panel input, .admin-panel textarea, .admin-panel select {
-            width: 100%;
-            padding: 12px 16px;
-            margin: 6px 0;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid #2a2a2a;
-            color: #fff;
-            border-radius: 12px;
-            font-size: 14px;
-            transition: 0.3s;
+            width: 100%; padding: 12px 16px; margin: 6px 0;
+            background: rgba(255,255,255,0.05); border: 1px solid #2a2a2a;
+            color: #fff; border-radius: 12px; font-size: 14px; transition: 0.3s;
         }
-        .admin-panel input:focus, .admin-panel textarea:focus {
-            border-color: #ff3b3b;
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(255,59,59,0.1);
-        }
+        .admin-panel input:focus, .admin-panel textarea:focus { border-color: #ff3b3b; outline: none; box-shadow: 0 0 0 4px rgba(255,59,59,0.1); }
         .admin-panel textarea { min-height: 60px; resize: vertical; }
         .admin-panel button {
-            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
-            color: #fff;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            margin: 4px 4px;
-            transition: 0.3s;
-            box-shadow: 0 4px 15px rgba(255,59,59,0.2);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e); color: #fff; border: none;
+            padding: 10px 24px; border-radius: 12px; cursor: pointer; font-weight: 600;
+            margin: 4px 4px; transition: 0.3s; box-shadow: 0 4px 15px rgba(255,59,59,0.2);
+            display: inline-flex; align-items: center; gap: 8px;
         }
-        .admin-panel button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(255,59,59,0.3);
-        }
-        .admin-panel .mod-btn {
-            background: linear-gradient(135deg, #ffa500, #e69500);
-            box-shadow: 0 4px 15px rgba(255,165,0,0.3);
-        }
-        .admin-panel .mod-btn:hover {
-            box-shadow: 0 6px 25px rgba(255,165,0,0.4);
-        }
+        .admin-panel button:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(255,59,59,0.3); }
+        .admin-panel .mod-btn { background: linear-gradient(135deg, #ffa500, #e69500); box-shadow: 0 4px 15px rgba(255,165,0,0.3); }
+        .admin-panel .mod-btn:hover { box-shadow: 0 6px 25px rgba(255,165,0,0.4); }
 
         .admin-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px; margin-bottom: 20px;
         }
         .admin-stats .stat-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid #2a2a2a;
-            border-radius: 12px;
-            padding: 14px 18px;
-            text-align: center;
-            transition: 0.3s;
+            background: rgba(255,255,255,0.03); border: 1px solid #2a2a2a;
+            border-radius: 12px; padding: 14px 18px; text-align: center; transition: 0.3s;
         }
-        .admin-stats .stat-card:hover {
-            border-color: #ff3b3b;
-            background: rgba(255,59,59,0.05);
-        }
-        .admin-stats .stat-card .stat-number {
-            font-size: 28px;
-            font-weight: 900;
-            color: #ff3b3b;
-        }
-        .admin-stats .stat-card .stat-label {
-            font-size: 12px;
-            color: #888;
-            margin-top: 4px;
-        }
-        .admin-stats .stat-card .stat-icon {
-            font-size: 20px;
-            color: #ffa500;
-            display: block;
-            margin-bottom: 4px;
-        }
+        .admin-stats .stat-card:hover { border-color: #ff3b3b; background: rgba(255,59,59,0.05); }
+        .admin-stats .stat-card .stat-number { font-size: 28px; font-weight: 900; color: #ff3b3b; }
+        .admin-stats .stat-card .stat-label { font-size: 12px; color: #888; margin-top: 4px; }
+        .admin-stats .stat-card .stat-icon { font-size: 20px; color: #ffa500; display: block; margin-bottom: 4px; }
 
         .drop-area {
-            border: 2px dashed rgba(255,59,59,0.3);
-            border-radius: 12px;
-            padding: 24px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            margin: 8px 0;
+            border: 2px dashed rgba(255,59,59,0.3); border-radius: 12px; padding: 24px;
+            text-align: center; cursor: pointer; transition: 0.3s; margin: 8px 0;
             background: rgba(255,255,255,0.02);
         }
-        .drop-area:hover { 
-            background: rgba(255,59,59,0.05); 
-            border-color: #ff3b3b;
-        }
-        .drop-area .preview-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 10px;
-        }
-        .drop-area .preview-item {
-            position: relative;
-            display: inline-block;
-        }
-        .drop-area .preview-item img {
-            max-height: 80px;
-            border-radius: 8px;
-            border: 1px solid #2a2a2a;
-        }
+        .drop-area:hover { background: rgba(255,59,59,0.05); border-color: #ff3b3b; }
+        .drop-area .preview-container { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 10px; }
+        .drop-area .preview-item { position: relative; display: inline-block; }
+        .drop-area .preview-item img { max-height: 80px; border-radius: 8px; border: 1px solid #2a2a2a; }
         .drop-area .preview-item .remove-img {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            background: #ff3b3b;
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.3s;
+            position: absolute; top: -6px; right: -6px; background: #ff3b3b; color: #fff;
+            border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer;
+            font-size: 11px; display: flex; align-items: center; justify-content: center; transition: 0.3s;
         }
-        .drop-area .preview-item .remove-img:hover {
-            transform: scale(1.1);
-        }
+        .drop-area .preview-item .remove-img:hover { transform: scale(1.1); }
 
-        .admin-content-list { 
-            margin-top: 20px; 
-            border-top: 1px solid #2a2a2a; 
-            padding-top: 16px; 
-        }
+        .admin-content-list { margin-top: 20px; border-top: 1px solid #2a2a2a; padding-top: 16px; }
         .admin-content-list .content-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(21,21,21,0.6);
-            padding: 10px 16px;
-            border-radius: 12px;
-            margin: 6px 0;
-            border: 1px solid #2a2a2a;
-            flex-wrap: wrap;
-            gap: 8px;
-            transition: 0.3s;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(21,21,21,0.6); padding: 10px 16px; border-radius: 12px;
+            margin: 6px 0; border: 1px solid #2a2a2a; flex-wrap: wrap; gap: 8px; transition: 0.3s;
         }
-        .admin-content-list .content-item:hover {
-            background: rgba(21,21,21,0.9);
-            border-color: #ff3b3b;
-        }
-        .admin-content-list .content-item .item-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .admin-content-list .content-item .item-info img {
-            width: 40px;
-            height: 40px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid #2a2a2a;
-        }
+        .admin-content-list .content-item:hover { background: rgba(21,21,21,0.9); border-color: #ff3b3b; }
+        .admin-content-list .content-item .item-info { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .admin-content-list .content-item .item-info img { width: 40px; height: 40px; object-fit: cover; border-radius: 8px; border: 1px solid #2a2a2a; }
         .admin-content-list .content-item .item-actions button {
-            padding: 4px 14px;
-            font-size: 12px;
-            margin: 2px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: 600;
+            padding: 4px 14px; font-size: 12px; margin: 2px; border-radius: 8px; border: none; cursor: pointer; transition: 0.3s; font-weight: 600;
         }
-        .admin-content-list .content-item .item-actions .edit-btn {
-            background: #ffa500;
-            color: #fff;
-        }
-        .admin-content-list .content-item .item-actions .edit-btn:hover {
-            background: #e69500;
-            transform: scale(1.05);
-        }
-        .admin-content-list .content-item .item-actions .del-btn {
-            background: #cc2e2e;
-            color: #fff;
-        }
-        .admin-content-list .content-item .item-actions .del-btn:hover {
-            background: #991111;
-            transform: scale(1.05);
-        }
+        .admin-content-list .content-item .item-actions .edit-btn { background: #ffa500; color: #fff; }
+        .admin-content-list .content-item .item-actions .edit-btn:hover { background: #e69500; transform: scale(1.05); }
+        .admin-content-list .content-item .item-actions .del-btn { background: #cc2e2e; color: #fff; }
+        .admin-content-list .content-item .item-actions .del-btn:hover { background: #991111; transform: scale(1.05); }
 
-        .mod-list {
-            margin-top: 12px;
-            border-top: 1px solid #2a2a2a;
-            padding-top: 12px;
-        }
+        .mod-list { margin-top: 12px; border-top: 1px solid #2a2a2a; padding-top: 12px; }
         .mod-list .mod-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(21,21,21,0.6);
-            padding: 8px 16px;
-            border-radius: 10px;
-            margin: 4px 0;
-            border-left: 3px solid #ffa500;
-            transition: 0.3s;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(21,21,21,0.6); padding: 8px 16px; border-radius: 10px;
+            margin: 4px 0; border-left: 3px solid #ffa500; transition: 0.3s;
         }
-        .mod-list .mod-item:hover {
-            background: rgba(21,21,21,0.9);
-        }
-        .mod-list .mod-item .mod-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .mod-list .mod-item .mod-info .mod-icon {
-            color: #ffa500;
-            font-size: 16px;
-        }
+        .mod-list .mod-item:hover { background: rgba(21,21,21,0.9); }
+        .mod-list .mod-item .mod-info { display: flex; align-items: center; gap: 12px; }
+        .mod-list .mod-item .mod-info .mod-icon { color: #ffa500; font-size: 16px; }
         .mod-list .mod-item .mod-actions button {
-            padding: 4px 14px;
-            font-size: 12px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s;
-            background: #cc2e2e;
-            color: #fff;
-            font-weight: 600;
+            padding: 4px 14px; font-size: 12px; border: none; border-radius: 8px;
+            cursor: pointer; transition: 0.3s; background: #cc2e2e; color: #fff; font-weight: 600;
         }
-        .mod-list .mod-item .mod-actions button:hover {
-            background: #991111;
-            transform: scale(1.05);
-        }
+        .mod-list .mod-item .mod-actions button:hover { background: #991111; transform: scale(1.05); }
 
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #555;
-            border-top: 1px solid #1f1f1f;
-            margin-top: 16px;
-            font-size: 13px;
-        }
+        .footer { text-align: center; padding: 20px; color: #555; border-top: 1px solid #1f1f1f; margin-top: 16px; font-size: 13px; }
 
         .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 16px 24px;
-            border-radius: 14px;
-            background: rgba(20,20,20,0.95);
-            border: 1px solid #2a2a2a;
-            color: #fff;
-            font-size: 14px;
-            z-index: 9999;
-            backdrop-filter: blur(12px);
+            position: fixed; bottom: 30px; right: 30px; padding: 16px 24px;
+            border-radius: 14px; background: rgba(20,20,20,0.95); border: 1px solid #2a2a2a;
+            color: #fff; font-size: 14px; z-index: 9999; backdrop-filter: blur(12px);
             box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            transform: translateY(100px);
-            opacity: 0;
+            transform: translateY(100px); opacity: 0;
             transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            display: flex; align-items: center; gap: 12px;
         }
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
+        .toast.show { transform: translateY(0); opacity: 1; }
         .toast.success { border-color: #00c853; }
         .toast.success i { color: #00c853; }
         .toast.error { border-color: #ff3b3b; }
@@ -1690,26 +638,14 @@
         .toast.info i { color: #ffa500; }
 
         .firebase-status {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            font-size: 10px;
-            color: #444;
-            z-index: 999;
-            background: rgba(0,0,0,0.7);
-            padding: 4px 12px;
-            border-radius: 12px;
+            position: fixed; bottom: 10px; left: 10px; font-size: 10px;
+            color: #444; z-index: 999; background: rgba(0,0,0,0.7); padding: 4px 12px; border-radius: 12px;
         }
         .firebase-status.connected { color: #00c853; }
         .firebase-status.disconnected { color: #ff3b3b; }
 
         @media (max-width: 768px) {
-            .navbar { 
-                flex-direction: column; 
-                align-items: stretch; 
-                gap: 10px;
-                padding: 12px 16px;
-            }
+            .navbar { flex-direction: column; align-items: stretch; gap: 10px; padding: 12px 16px; }
             .search-box { max-width: 100%; }
             .content-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; }
             .hero h1 { font-size: 24px; }
@@ -1796,7 +732,7 @@
 
         <div class="section">
             <h2 id="sectionTitle"><i class="fas fa-fire" style="color:#ff3b3b;"></i> सभी कंटेंट</h2>
-            <div id="contentContainer"><div class="loader"><i class="fas fa-spinner"></i> कंटेंट लोड हो रहा है...</div></div>
+            <div id="contentContainer"><div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div></div>
         </div>
 
         <div class="comments-section">
@@ -1815,14 +751,279 @@
     </div>
 
     <!-- ===== AUTH MODALS ===== -->
-    <div class="auth-modal" id="authModal">...</div>
-    <div class="forgot-modal" id="forgotModal">...</div>
-    <div class="admin-auth-overlay" id="adminAuthOverlay">...</div>
-    <div id="adminPage">...</div>
-    <div id="contentModal" class="modal">...</div>
+    <div class="auth-modal" id="authModal">
+        <div class="auth-modal-content">
+            <div class="auth-modal-header">
+                <div class="brand">
+                    <i class="fas fa-film"></i>
+                    <h2>JOD<span>MODS</span></h2>
+                </div>
+                <button class="close-auth" onclick="closeUserAuth()">&times;</button>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login" onclick="switchAuthTab('login')">🔑 लॉगिन</button>
+                <button class="auth-tab" data-tab="register" onclick="switchAuthTab('register')">📝 रजिस्टर</button>
+            </div>
+
+            <div class="auth-form-container">
+                <!-- Login -->
+                <div class="auth-form active" id="loginForm">
+                    <div class="form-group">
+                        <input type="email" id="loginEmail" placeholder="ईमेल" />
+                        <i class="fas fa-envelope form-icon"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="loginPass" placeholder="पासवर्ड" />
+                        <i class="fas fa-lock form-icon"></i>
+                        <button class="toggle-pass" onclick="togglePassword('loginPass')" type="button">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="form-options">
+                        <label><input type="checkbox" id="rememberMe" checked /> मुझे याद रखें</label>
+                        <button class="forgot-pass" onclick="openForgotPassword()">🔑 पासवर्ड भूल गए?</button>
+                    </div>
+                    <button class="auth-submit-btn" onclick="submitUserLogin()">
+                        <i class="fas fa-sign-in-alt"></i> लॉगिन करें
+                    </button>
+                    <div class="auth-error" id="loginError"></div>
+                    <div class="auth-success" id="loginSuccess"></div>
+                </div>
+
+                <!-- Register -->
+                <div class="auth-form" id="registerForm">
+                    <div class="form-group">
+                        <input type="text" id="regName" placeholder="पूरा नाम" />
+                        <i class="fas fa-user form-icon"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="regEmail" placeholder="ईमेल" />
+                        <i class="fas fa-envelope form-icon"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="regPass" placeholder="पासवर्ड" />
+                        <i class="fas fa-lock form-icon"></i>
+                        <button class="toggle-pass" onclick="togglePassword('regPass')" type="button">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="regConfirm" placeholder="पासवर्ड दोबारा" />
+                        <i class="fas fa-check-circle form-icon"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <select id="regSecurityQuestion">
+                            <option value="">🔒 सुरक्षा प्रश्न चुनें</option>
+                            <option value="your_mother_maiden_name">आपकी माता का पहला नाम क्या है?</option>
+                            <option value="your_first_pet">आपके पहले पालतू जानवर का नाम क्या था?</option>
+                            <option value="your_birth_city">आपका जन्म शहर कौन सा है?</option>
+                            <option value="your_favorite_color">आपका पसंदीदा रंग क्या है?</option>
+                            <option value="your_favorite_food">आपका पसंदीदा खाना क्या है?</option>
+                            <option value="your_best_friend">आपके सबसे अच्छे दोस्त का नाम क्या है?</option>
+                            <option value="your_favorite_movie">आपकी पसंदीदा मूवी कौन सी है?</option>
+                            <option value="your_favorite_actor">आपके पसंदीदा अभिनेता का नाम क्या है?</option>
+                            <option value="your_school_name">आपके स्कूल का नाम क्या था?</option>
+                            <option value="your_favorite_book">आपकी पसंदीदा किताब कौन सी है?</option>
+                        </select>
+                        <i class="fas fa-question-circle form-icon"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="regSecurityAnswer" placeholder="सुरक्षा प्रश्न का उत्तर" />
+                        <i class="fas fa-key form-icon"></i>
+                    </div>
+
+                    <div class="form-options">
+                        <label><input type="checkbox" id="termsCheck" checked /> मैं नियमों से सहमत हूँ</label>
+                    </div>
+                    <button class="auth-submit-btn" onclick="submitUserRegister()">
+                        <i class="fas fa-user-plus"></i> रजिस्टर करें
+                    </button>
+                    <div class="auth-error" id="regError"></div>
+                    <div class="auth-success" id="regSuccess"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FORGOT PASSWORD ===== -->
+    <div class="forgot-modal" id="forgotModal">
+        <div class="forgot-modal-content">
+            <button class="close-forgot" onclick="closeForgotPassword()">&times;</button>
+            <h3><i class="fas fa-key"></i> पासवर्ड रीसेट</h3>
+            <p>अपनी पहचान सत्यापित करें</p>
+            
+            <div class="form-group">
+                <input type="email" id="forgotEmail" placeholder="ईमेल" />
+                <i class="fas fa-envelope form-icon"></i>
+            </div>
+            
+            <div class="security-answer-box" id="securityQuestionBox">
+                <i class="fas fa-question-circle"></i>
+                <span id="displaySecurityQuestion">सुरक्षा प्रश्न</span>
+            </div>
+            
+            <div class="form-group" id="securityAnswerGroup" style="display:none;">
+                <input type="text" id="forgotSecurityAnswer" placeholder="सुरक्षा प्रश्न का उत्तर" />
+                <i class="fas fa-key form-icon"></i>
+            </div>
+            
+            <div class="form-group" id="newPasswordGroup" style="display:none;">
+                <input type="password" id="forgotNewPassword" placeholder="नया पासवर्ड" />
+                <i class="fas fa-lock form-icon"></i>
+                <button class="toggle-pass" onclick="togglePassword('forgotNewPassword')" type="button">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            
+            <div class="form-group" id="confirmPasswordGroup" style="display:none;">
+                <input type="password" id="forgotConfirmPassword" placeholder="पासवर्ड दोबारा" />
+                <i class="fas fa-check-circle form-icon"></i>
+            </div>
+            
+            <button class="auth-submit-btn" id="forgotStepBtn" onclick="forgotPasswordStep1()">
+                <i class="fas fa-search"></i> खोजें
+            </button>
+            
+            <div class="auth-error" id="forgotError"></div>
+            <div class="auth-success" id="forgotSuccess"></div>
+        </div>
+    </div>
+
+    <!-- ===== ADMIN LOGIN ===== -->
+    <div class="admin-auth-overlay" id="adminAuthOverlay">
+        <div class="admin-auth-box">
+            <button class="close-admin-auth" onclick="closeAdminAuth()">&times;</button>
+            <div class="auth-brand">
+                <i class="fas fa-user-shield"></i>
+                <h2>JOD<span>MODS</span></h2>
+                <p>🔐 ऐडमिन / मॉड लॉगिन</p>
+            </div>
+            <input type="text" id="adminUserInput" placeholder="यूजरनेम" />
+            <input type="password" id="adminPassInput" placeholder="पासवर्ड" />
+            <button class="auth-submit" onclick="submitAdminLogin()"><i class="fas fa-lock-open"></i> लॉगिन करें</button>
+            <div class="error-msg" id="adminAuthError"></div>
+        </div>
+    </div>
+
+    <!-- ===== ADMIN PAGE ===== -->
+    <div id="adminPage">
+        <div class="admin-header">
+            <h2><i class="fas fa-upload"></i> ऐडमिन/मॉड पैनल</h2>
+            <button class="close-admin" onclick="closeAdminPage()"><i class="fas fa-times"></i> बंद करें</button>
+        </div>
+        <div class="admin-panel">
+            <div class="admin-stats" id="adminStats">
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="fas fa-users"></i></span>
+                    <div class="stat-number" id="statUsers">0</div>
+                    <div class="stat-label">कुल यूजर्स</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="fas fa-film"></i></span>
+                    <div class="stat-number" id="statContent">0</div>
+                    <div class="stat-label">कुल कंटेंट</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="fas fa-eye"></i></span>
+                    <div class="stat-number" id="statViews">0</div>
+                    <div class="stat-label">कुल व्यूज़</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="fas fa-heart"></i></span>
+                    <div class="stat-number" id="statLikes">0</div>
+                    <div class="stat-label">कुल लाइक्स</div>
+                </div>
+            </div>
+
+            <div id="adminControls">
+                <h3><i class="fas fa-plus-circle"></i> नया कंटेंट जोड़ें</h3>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                    <input type="text" id="adminTitle" placeholder="टाइटल" style="flex:2;min-width:150px;">
+                    <input type="text" id="adminType" placeholder="टाइप: movie/series" style="flex:1;min-width:80px;" value="series">
+                    <input type="number" id="adminEpisodes" placeholder="कुल एपिसोड" style="flex:1;min-width:70px;" value="12">
+                    <input type="text" id="adminEditId" placeholder="एडिट ID" style="flex:1;min-width:100px;background:rgba(255,255,255,0.03);color:#666;" readonly>
+                </div>
+
+                <div class="drop-area" id="dropArea">
+                    <i class="fas fa-cloud-upload-alt" style="font-size:28px;color:#ff3b3b;"></i>
+                    <p style="color:#aaa;font-size:14px;margin-top:6px;">थंबनेल ड्रैग & ड्रॉप करें</p>
+                    <input type="file" id="fileInput" accept="image/*" style="display:none;" multiple>
+                    <div class="preview-container" id="previewContainer"></div>
+                </div>
+
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                    <input type="text" id="adminEpisodeLinks" placeholder="एपिसोड लिंक (कॉमा से)" style="flex:3;min-width:150px;">
+                </div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                    <input type="text" id="adminVideoLink" placeholder="डिफॉल्ट वीडियो लिंक" style="flex:2;min-width:150px;">
+                </div>
+
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:12px 0;">
+                    <button onclick="adminAddAnime()"><i class="fas fa-save"></i> सेव करें</button>
+                    <button onclick="adminClearForm()" style="background:#666;"><i class="fas fa-undo"></i> क्लियर</button>
+                    <button onclick="adminResetAll()" style="background:#cc2e2e;"><i class="fas fa-power-off"></i> सबको लॉगआउट</button>
+                </div>
+
+                <div id="modSection" style="display:none; margin-top:20px; border-top: 2px solid #ffa500; padding-top:18px;">
+                    <h3 style="color:#ffa500;"><i class="fas fa-user-cog"></i> मॉडरेटर</h3>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                        <input type="text" id="modUsername" placeholder="मॉड यूजरनेम" style="flex:1;min-width:120px;">
+                        <input type="password" id="modPassword" placeholder="मॉड पासवर्ड" style="flex:1;min-width:120px;">
+                        <button class="mod-btn" onclick="addModerator()"><i class="fas fa-user-plus"></i> मॉड जोड़ें</button>
+                    </div>
+                    <div class="mod-list" id="modList">
+                        <p style="color:#888; padding:12px;">कोई मॉड नहीं</p>
+                    </div>
+                </div>
+
+                <div class="admin-content-list">
+                    <h3><i class="fas fa-list"></i> आपका कंटेंट</h3>
+                    <div id="adminContentList"><p style="color:#888; padding:12px;">लोड हो रहा है...</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== VIDEO MODAL ===== -->
+    <div id="contentModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <h3 class="modal-title" id="modalTitle">शीर्षक</h3>
+            <div class="player-status" id="playerStatus">⏳ प्लेयर लोड हो रहा है...</div>
+            
+            <div class="like-section">
+                <button class="like-btn" id="likeBtn" onclick="toggleLike()">
+                    <i class="fas fa-heart"></i>
+                    <span class="like-count" id="likeCount">0</span>
+                </button>
+                <div class="view-count-display">
+                    <i class="fas fa-eye"></i>
+                    <span id="viewCount">0</span> व्यूज़
+                </div>
+            </div>
+
+            <div id="videoPlayerContainer">
+                <div class="video-wrapper" id="iframeWrapper"><iframe id="videoIframe" src="" allowfullscreen></iframe></div>
+                <div class="custom-video-player" id="videoPlayerWrapper" style="display:none;">
+                    <video id="customVideoPlayer" controls autoplay>
+                        <source id="videoSource" src="" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="action-bar">
+                <button onclick="shareVideo()"><i class="fas fa-share"></i> शेयर</button>
+                <button onclick="reloadVideo()"><i class="fas fa-sync"></i> रीलोड</button>
+            </div>
+            <div id="episodeContainer" class="episode-grid">
+                <p style="color:#888; width:100%;"><i class="fas fa-spinner fa-spin"></i> एपिसोड लोड हो रहे हैं...</p>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // ==================== FIREBASE CONFIG - URL UPDATED! ====================
+        // ==================== FIREBASE CONFIG ====================
         const firebaseConfig = {
             apiKey: "AIzaSyBHSkj3rblPDC4VjogG6LPrmiCn5GvF6-Q",
             authDomain: "jod-mods-65b69.firebaseapp.com",
@@ -1834,14 +1035,12 @@
             measurementId: "G-3TJQQ8513X"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Firebase connection status
+        // ==================== STATUS ====================
         const fbStatus = document.getElementById('firebaseStatus');
-        const connectedRef = database.ref('.info/connected');
-        connectedRef.on('value', (snap) => {
+        database.ref('.info/connected').on('value', (snap) => {
             if (snap.val() === true) {
                 fbStatus.textContent = '☁️ Firebase Connected ✅';
                 fbStatus.className = 'firebase-status connected';
@@ -1852,9 +1051,1320 @@
             }
         });
 
-        // ==================== REST OF THE CODE ====================
-        // ... (baaki ka code same hai, bas firebase config update hai)
-        // NOTE: Pura code maine neeche diya hai, copy karo!
+        // ==================== TOAST ====================
+        let toastTimeout;
+
+        function showToast(type, message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMessage');
+            toast.className = 'toast';
+            if (type === 'success') toast.classList.add('success');
+            else if (type === 'error') toast.classList.add('error');
+            else if (type === 'info') toast.classList.add('info');
+            toastMsg.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ==================== BG CANVAS ====================
+        (function() {
+            const canvas = document.getElementById('bgCanvas');
+            const ctx = canvas.getContext('2d');
+            let w, h;
+            const particles = [];
+            const colors = ['#ff3b3b', '#cc2e2e', '#ff6b6b'];
+
+            function resize() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() { this.reset(); }
+                reset() {
+                    this.x = Math.random() * w;
+                    this.y = Math.random() * h;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.speedY = (Math.random() - 0.5) * 0.5;
+                    this.opacity = Math.random() * 0.4 + 0.1;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.pulse = Math.random() * Math.PI * 2;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.pulse += 0.02;
+                    if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+                    if (this.x < 0) this.x = w;
+                    if (this.x > w) this.x = 0;
+                    if (this.y < 0) this.y = h;
+                    if (this.y > h) this.y = 0;
+                }
+                draw() {
+                    const opacity = this.opacity * (0.7 + 0.3 * Math.sin(this.pulse));
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.globalAlpha = opacity;
+                    ctx.fill();
+                    ctx.shadowColor = this.color;
+                    ctx.shadowBlur = 12;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                    ctx.globalAlpha = 1;
+                }
+            }
+
+            for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+            function animate() {
+                ctx.clearRect(0, 0, w, h);
+                particles.forEach(p => { p.update(); p.draw(); });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        })();
+
+        // ==================== GLOBALS ====================
+        let currentType = 'all';
+        let currentTitle = '';
+        let allEpisodes = [];
+        let currentVideoUrl = '';
+        let currentAnimeId = null;
+        let currentEpisodeNum = 1;
+        let uploadedImages = [];
+        let currentUser = null;
+        let pendingOpenAnime = null;
+        let isAdminLoggedIn = false;
+        let isModLoggedIn = false;
+        let currentAdminUser = null;
+        let forgotStep = 1;
+        let allContentData = {};
+
+        const container = document.getElementById('contentContainer');
+        const modal = document.getElementById('contentModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const videoIframe = document.getElementById('videoIframe');
+        const customVideoPlayer = document.getElementById('customVideoPlayer');
+        const videoSource = document.getElementById('videoSource');
+        const videoPlayerWrapper = document.getElementById('videoPlayerWrapper');
+        const iframeWrapper = document.getElementById('iframeWrapper');
+        const episodeContainer = document.getElementById('episodeContainer');
+        const playerStatus = document.getElementById('playerStatus');
+
+        // ==================== FIREBASE FUNCTIONS ====================
+        function saveContentToFirebase(contentId, data) {
+            return database.ref('content/' + contentId).set(data);
+        }
+
+        function deleteContentFromFirebase(contentId) {
+            return database.ref('content/' + contentId).remove();
+        }
+
+        function listenContent(callback) {
+            database.ref('content').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    allContentData = data;
+                    callback(data);
+                } else {
+                    allContentData = {};
+                    callback({});
+                }
+            });
+        }
+
+        function getContentStatsFromFirebase(contentId) {
+            return new Promise((resolve) => {
+                database.ref('stats/' + contentId).once('value', (snapshot) => {
+                    resolve(snapshot.val() || { views: 0, likes: 0, likedUsers: [] });
+                });
+            });
+        }
+
+        function saveContentStatsToFirebase(contentId, stats) {
+            return database.ref('stats/' + contentId).set(stats);
+        }
+
+        async function getContentViews(contentId) {
+            const stats = await getContentStatsFromFirebase(contentId);
+            return stats.views || 0;
+        }
+
+        async function getContentLikes(contentId) {
+            const stats = await getContentStatsFromFirebase(contentId);
+            return stats.likes || 0;
+        }
+
+        async function addViewToFirebase(contentId) {
+            if (!currentUser) return;
+            const stats = await getContentStatsFromFirebase(contentId);
+            const sessionKey = 'viewed_' + contentId;
+            if (sessionStorage.getItem(sessionKey)) return;
+            stats.views = (stats.views || 0) + 1;
+            sessionStorage.setItem(sessionKey, 'true');
+            await saveContentStatsToFirebase(contentId, stats);
+            updateAdminStats();
+        }
+
+        async function toggleLikeOnFirebase(contentId) {
+            if (!currentUser) {
+                showToast('info', '🔐 लाइक के लिए लॉगिन करें!');
+                openUserAuth('login');
+                return;
+            }
+            const stats = await getContentStatsFromFirebase(contentId);
+            const userEmail = currentUser.email;
+            const likedUsers = stats.likedUsers || [];
+            const index = likedUsers.indexOf(userEmail);
+            
+            if (index > -1) {
+                likedUsers.splice(index, 1);
+                stats.likes = Math.max(0, (stats.likes || 0) - 1);
+                showToast('info', '❤️ लाइक हटा दिया');
+            } else {
+                likedUsers.push(userEmail);
+                stats.likes = (stats.likes || 0) + 1;
+                showToast('success', '❤️ लाइक कर दिया!');
+            }
+            stats.likedUsers = likedUsers;
+            await saveContentStatsToFirebase(contentId, stats);
+            updateLikeUI(contentId);
+            updateAdminStats();
+        }
+
+        async function isContentLiked(contentId) {
+            if (!currentUser) return false;
+            const stats = await getContentStatsFromFirebase(contentId);
+            const likedUsers = stats.likedUsers || [];
+            return likedUsers.includes(currentUser.email);
+        }
+
+        async function updateLikeUI(contentId) {
+            const likeBtn = document.getElementById('likeBtn');
+            const likeCount = document.getElementById('likeCount');
+            if (!likeBtn) return;
+            
+            const stats = await getContentStatsFromFirebase(contentId);
+            const liked = await isContentLiked(contentId);
+            
+            likeCount.textContent = stats.likes || 0;
+            if (liked) {
+                likeBtn.classList.add('liked');
+            } else {
+                likeBtn.classList.remove('liked');
+            }
+            
+            const viewCount = document.getElementById('viewCount');
+            if (viewCount) {
+                viewCount.textContent = stats.views || 0;
+            }
+        }
+
+        // ==================== USER AUTH ====================
+        function getUsers() { return JSON.parse(localStorage.getItem('jodmods_users') || '[]'); }
+        function saveUsers(u) { localStorage.setItem('jodmods_users', JSON.stringify(u)); }
+        function getCurrentUser() {
+            const data = localStorage.getItem('jodmods_current_user');
+            return data ? JSON.parse(data) : null;
+        }
+        function setCurrentUser(user) {
+            if (user) localStorage.setItem('jodmods_current_user', JSON.stringify(user));
+            else localStorage.removeItem('jodmods_current_user');
+            currentUser = user;
+            updateUI();
+        }
+
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.auth-tab[data-tab="${tab}"]`).classList.add('active');
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            document.getElementById(tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
+            document.getElementById('loginError').classList.remove('show');
+            document.getElementById('loginSuccess').classList.remove('show');
+            document.getElementById('regError').classList.remove('show');
+            document.getElementById('regSuccess').classList.remove('show');
+        }
+
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            const icon = input.parentElement.querySelector('.toggle-pass i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        function openUserAuth(mode) {
+            if (currentUser) { showToast('info', 'आप पहले से लॉगिन हैं!'); return; }
+            document.getElementById('authModal').classList.add('active');
+            if (mode === 'register') switchAuthTab('register');
+            else switchAuthTab('login');
+            document.getElementById('loginError').classList.remove('show');
+            document.getElementById('loginSuccess').classList.remove('show');
+            document.getElementById('regError').classList.remove('show');
+            document.getElementById('regSuccess').classList.remove('show');
+        }
+
+        function closeUserAuth() {
+            document.getElementById('authModal').classList.remove('active');
+        }
+
+        function submitUserLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+            const error = document.getElementById('loginError');
+            const success = document.getElementById('loginSuccess');
+            if (!email || !pass) {
+                error.textContent = '⚠️ ईमेल और पासवर्ड जरूरी!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+            const users = getUsers();
+            const user = users.find(u => u.email === email && u.password === pass);
+            if (!user) {
+                error.textContent = '❌ गलत ईमेल या पासवर्ड!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+            setCurrentUser(user);
+            success.textContent = '✅ लॉगिन सफल!';
+            success.classList.add('show');
+            error.classList.remove('show');
+            showToast('success', '🎉 स्वागत है ' + user.name + '!');
+            setTimeout(() => {
+                closeUserAuth();
+                renderComments();
+                loadHistory();
+                if (pendingOpenAnime) {
+                    const { id, title } = pendingOpenAnime;
+                    pendingOpenAnime = null;
+                    setTimeout(() => openAnime(id, title), 300);
+                }
+                updateAdminStats();
+            }, 500);
+        }
+
+        function submitUserRegister() {
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const pass = document.getElementById('regPass').value.trim();
+            const confirm = document.getElementById('regConfirm').value.trim();
+            const securityQuestion = document.getElementById('regSecurityQuestion').value;
+            const securityAnswer = document.getElementById('regSecurityAnswer').value.trim();
+            const terms = document.getElementById('termsCheck').checked;
+            const error = document.getElementById('regError');
+            const success = document.getElementById('regSuccess');
+            if (!name || !email || !pass || !confirm) {
+                error.textContent = '⚠️ सभी फील्ड भरें!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+            if (pass !== confirm) {
+                error.textContent = '❌ पासवर्ड मैच नहीं!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+            if (pass.length < 6) {
+                error.textContent = '❌ पासवर्ड 6+ अक्षर!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+            if (!securityQuestion) {
+                error.textContent = '⚠️ सुरक्षा प्रश्न चुनें!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+            if (!securityAnswer || securityAnswer.length < 2) {
+                error.textContent = '⚠️ सुरक्षा उत्तर भरें!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+            if (!terms) {
+                error.textContent = '⚠️ नियमों से सहमत हों!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+            const users = getUsers();
+            if (users.find(u => u.email === email)) {
+                error.textContent = '❌ यह ईमेल पहले से रजिस्टर है!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+            const questionText = document.getElementById('regSecurityQuestion').options[document.getElementById('regSecurityQuestion').selectedIndex].text;
+            users.push({ 
+                name, email, password: pass, isAdmin: false, isMod: false,
+                securityQuestion: questionText,
+                securityQuestionKey: securityQuestion,
+                securityAnswer: securityAnswer.toLowerCase().trim()
+            });
+            saveUsers(users);
+            success.textContent = '✅ रजिस्टर सफल! अब लॉगिन करें';
+            success.classList.add('show');
+            error.classList.remove('show');
+            showToast('success', '🎉 रजिस्टर सफल!');
+            setTimeout(() => {
+                document.getElementById('regName').value = '';
+                document.getElementById('regEmail').value = '';
+                document.getElementById('regPass').value = '';
+                document.getElementById('regConfirm').value = '';
+                document.getElementById('regSecurityQuestion').value = '';
+                document.getElementById('regSecurityAnswer').value = '';
+                switchAuthTab('login');
+                document.getElementById('loginEmail').value = email;
+                document.getElementById('loginPass').value = pass;
+                success.classList.remove('show');
+                updateAdminStats();
+            }, 1000);
+        }
+
+        function updateUI() {
+            const authSection = document.getElementById('authSection');
+            if (currentUser) {
+                const initial = currentUser.name.charAt(0).toUpperCase();
+                authSection.innerHTML = `
+                    <div class="user-profile-modern" onclick="logoutUser()">
+                        <div class="avatar">${initial}</div>
+                        <span class="username">${currentUser.name}</span>
+                        <i class="fas fa-sign-out-alt logout-icon"></i>
+                    </div>
+                `;
+            } else {
+                authSection.innerHTML = `
+                    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                        <button class="auth-btn-modern login-btn" onclick="openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
+                        <button class="auth-btn-modern register-btn" onclick="openUserAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
+                    </div>
+                `;
+            }
+        }
+
+        function logoutUser() {
+            if (confirm('लॉगआउट करें?')) {
+                setCurrentUser(null);
+                renderComments();
+                loadHistory();
+                showToast('info', '👋 लॉगआउट हो गए!');
+            }
+        }
+
+        // ==================== FORGOT PASSWORD ====================
+        function openForgotPassword() {
+            document.getElementById('forgotModal').classList.add('active');
+            document.getElementById('forgotEmail').value = '';
+            document.getElementById('forgotSecurityAnswer').value = '';
+            document.getElementById('forgotNewPassword').value = '';
+            document.getElementById('forgotConfirmPassword').value = '';
+            document.getElementById('securityQuestionBox').classList.remove('show');
+            document.getElementById('securityAnswerGroup').style.display = 'none';
+            document.getElementById('newPasswordGroup').style.display = 'none';
+            document.getElementById('confirmPasswordGroup').style.display = 'none';
+            document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-search"></i> खोजें';
+            document.getElementById('forgotError').classList.remove('show');
+            document.getElementById('forgotSuccess').classList.remove('show');
+            forgotStep = 1;
+        }
+
+        function closeForgotPassword() {
+            document.getElementById('forgotModal').classList.remove('active');
+        }
+
+        function forgotPasswordStep1() {
+            const email = document.getElementById('forgotEmail').value.trim();
+            const error = document.getElementById('forgotError');
+            const success = document.getElementById('forgotSuccess');
+            error.classList.remove('show');
+            success.classList.remove('show');
+            if (!email) {
+                error.textContent = '⚠️ ईमेल डालें!';
+                error.classList.add('show');
+                return;
+            }
+            const users = getUsers();
+            const user = users.find(u => u.email === email);
+            if (!user) {
+                error.textContent = '❌ यह ईमेल रजिस्टर नहीं!';
+                error.classList.add('show');
+                return;
+            }
+            if (!user.securityQuestion) {
+                error.textContent = '❌ सुरक्षा प्रश्न सेट नहीं!';
+                error.classList.add('show');
+                return;
+            }
+            document.getElementById('displaySecurityQuestion').textContent = '❓ ' + user.securityQuestion;
+            document.getElementById('securityQuestionBox').classList.add('show');
+            document.getElementById('securityAnswerGroup').style.display = 'block';
+            document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-check"></i> सत्यापित करें';
+            forgotStep = 2;
+            document.getElementById('forgotStepBtn').dataset.email = email;
+            error.classList.remove('show');
+            success.classList.remove('show');
+            showToast('info', '🔐 सुरक्षा प्रश्न का उत्तर दें');
+        }
+
+        function forgotPasswordStep2() {
+            const email = document.getElementById('forgotStepBtn').dataset.email;
+            const answer = document.getElementById('forgotSecurityAnswer').value.trim().toLowerCase();
+            const error = document.getElementById('forgotError');
+            const success = document.getElementById('forgotSuccess');
+            error.classList.remove('show');
+            success.classList.remove('show');
+            if (!answer) {
+                error.textContent = '⚠️ उत्तर दें!';
+                error.classList.add('show');
+                return;
+            }
+            const users = getUsers();
+            const user = users.find(u => u.email === email);
+            if (!user) {
+                error.textContent = '❌ यूजर नहीं मिला!';
+                error.classList.add('show');
+                return;
+            }
+            if (user.securityAnswer !== answer) {
+                error.textContent = '❌ गलत उत्तर!';
+                error.classList.add('show');
+                return;
+            }
+            document.getElementById('newPasswordGroup').style.display = 'block';
+            document.getElementById('confirmPasswordGroup').style.display = 'block';
+            document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-save"></i> पासवर्ड बदलें';
+            forgotStep = 3;
+            error.classList.remove('show');
+            showToast('success', '✅ सत्यापित!');
+        }
+
+        function forgotPasswordStep3() {
+            const email = document.getElementById('forgotStepBtn').dataset.email;
+            const newPass = document.getElementById('forgotNewPassword').value.trim();
+            const confirmPass = document.getElementById('forgotConfirmPassword').value.trim();
+            const error = document.getElementById('forgotError');
+            const success = document.getElementById('forgotSuccess');
+            error.classList.remove('show');
+            success.classList.remove('show');
+            if (!newPass || !confirmPass) {
+                error.textContent = '⚠️ पासवर्ड भरें!';
+                error.classList.add('show');
+                return;
+            }
+            if (newPass.length < 6) {
+                error.textContent = '❌ 6+ अक्षर!';
+                error.classList.add('show');
+                return;
+            }
+            if (newPass !== confirmPass) {
+                error.textContent = '❌ पासवर्ड मैच नहीं!';
+                error.classList.add('show');
+                return;
+            }
+            const users = getUsers();
+            const userIndex = users.findIndex(u => u.email === email);
+            if (userIndex === -1) {
+                error.textContent = '❌ यूजर नहीं मिला!';
+                error.classList.add('show');
+                return;
+            }
+            users[userIndex].password = newPass;
+            saveUsers(users);
+            success.textContent = '✅ पासवर्ड बदल दिया!';
+            success.classList.add('show');
+            error.classList.remove('show');
+            showToast('success', '🔑 पासवर्ड बदल दिया!');
+            setTimeout(() => {
+                closeForgotPassword();
+                document.getElementById('loginEmail').value = email;
+                document.getElementById('loginPass').value = newPass;
+            }, 1000);
+        }
+
+        document.getElementById('forgotStepBtn').addEventListener('click', function() {
+            if (forgotStep === 1) forgotPasswordStep1();
+            else if (forgotStep === 2) forgotPasswordStep2();
+            else if (forgotStep === 3) forgotPasswordStep3();
+        });
+
+        // ==================== ADMIN/MOD AUTH ====================
+        function getModerators() {
+            return JSON.parse(localStorage.getItem('jodmods_moderators') || '[]');
+        }
+        function saveModerators(mods) {
+            localStorage.setItem('jodmods_moderators', JSON.stringify(mods));
+        }
+
+        function openAdminAuth() {
+            document.getElementById('adminAuthOverlay').classList.add('active');
+            document.getElementById('adminAuthError').textContent = '';
+            document.getElementById('adminUserInput').value = '';
+            document.getElementById('adminPassInput').value = '';
+        }
+        function closeAdminAuth() { document.getElementById('adminAuthOverlay').classList.remove('active'); }
+
+        function submitAdminLogin() {
+            const user = document.getElementById('adminUserInput').value.trim();
+            const pass = document.getElementById('adminPassInput').value.trim();
+            const error = document.getElementById('adminAuthError');
+            if (user === 'JOD' && pass === 'ARYAN') {
+                isAdminLoggedIn = true;
+                isModLoggedIn = false;
+                currentAdminUser = 'admin';
+                closeAdminAuth();
+                document.getElementById('adminPage').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                document.getElementById('modSection').style.display = 'block';
+                loadAdminContentList();
+                loadModeratorList();
+                updateAdminStats();
+                showToast('success', '👑 ऐडमिन लॉगिन सफल!');
+                error.textContent = '';
+                return;
+            }
+            const mods = getModerators();
+            const foundMod = mods.find(m => m.username === user && m.password === pass);
+            if (foundMod) {
+                isModLoggedIn = true;
+                isAdminLoggedIn = false;
+                currentAdminUser = 'mod';
+                closeAdminAuth();
+                document.getElementById('adminPage').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                document.getElementById('modSection').style.display = 'none';
+                loadAdminContentList();
+                updateAdminStats();
+                showToast('success', '🛠️ मॉड लॉगिन सफल!');
+                error.textContent = '';
+                return;
+            }
+            error.textContent = '❌ गलत यूजरनेम या पासवर्ड!';
+            showToast('error', '❌ गलत लॉगिन!');
+        }
+
+        function closeAdminPage() {
+            document.getElementById('adminPage').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            isAdminLoggedIn = false;
+            isModLoggedIn = false;
+            currentAdminUser = null;
+            showToast('info', '🔒 पैनल बंद');
+        }
+
+        function addModerator() {
+            if (!isAdminLoggedIn) { showToast('error', '❌ केवल ऐडमिन!'); return; }
+            const username = document.getElementById('modUsername').value.trim();
+            const password = document.getElementById('modPassword').value.trim();
+            if (!username || !password) { showToast('error', '⚠️ दोनों भरें!'); return; }
+            const mods = getModerators();
+            if (mods.find(m => m.username === username)) { showToast('error', '❌ यूजरनेम मौजूद!'); return; }
+            mods.push({ username, password });
+            saveModerators(mods);
+            document.getElementById('modUsername').value = '';
+            document.getElementById('modPassword').value = '';
+            loadModeratorList();
+            showToast('success', '✅ मॉड जोड़ दिया!');
+        }
+
+        function removeModerator(username) {
+            if (!isAdminLoggedIn) { showToast('error', '❌ केवल ऐडमिन!'); return; }
+            if (!confirm('मॉड हटाएं?')) return;
+            let mods = getModerators();
+            mods = mods.filter(m => m.username !== username);
+            saveModerators(mods);
+            loadModeratorList();
+            showToast('success', '✅ मॉड हटा दिया!');
+        }
+
+        function loadModeratorList() {
+            const container = document.getElementById('modList');
+            const mods = getModerators();
+            if (mods.length === 0) {
+                container.innerHTML = '<p style="color:#888; padding:12px;">कोई मॉड नहीं</p>';
+                return;
+            }
+            let html = '';
+            mods.forEach(mod => {
+                html += `
+                    <div class="mod-item">
+                        <div class="mod-info">
+                            <span class="mod-icon"><i class="fas fa-user-tie"></i></span>
+                            <span><strong>${mod.username}</strong></span>
+                        </div>
+                        <div class="mod-actions">
+                            <button onclick="removeModerator('${mod.username}')"><i class="fas fa-trash"></i> हटाएँ</button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function adminResetAll() {
+            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ लॉगिन करें!'); return; }
+            if (!confirm('सभी लॉगआउट?')) return;
+            localStorage.removeItem('jodmods_current_user');
+            currentUser = null;
+            updateUI();
+            renderComments();
+            loadHistory();
+            showToast('success', '✅ सब लॉगआउट!');
+        }
+
+        // ==================== ADMIN STATS ====================
+        async function updateAdminStats() {
+            if (!isAdminLoggedIn && !isModLoggedIn) return;
+            
+            const users = getUsers();
+            document.getElementById('statUsers').textContent = users.length;
+            
+            const contentList = Object.keys(allContentData);
+            document.getElementById('statContent').textContent = contentList.length;
+            
+            let totalViews = 0, totalLikes = 0;
+            for (let id of contentList) {
+                const stats = await getContentStatsFromFirebase(id);
+                totalViews += stats.views || 0;
+                totalLikes += stats.likes || 0;
+            }
+            document.getElementById('statViews').textContent = totalViews;
+            document.getElementById('statLikes').textContent = totalLikes;
+        }
+
+        // ==================== IMAGE DROP ====================
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+
+        if (dropArea) {
+            dropArea.addEventListener('dragover', e => { e.preventDefault(); dropArea.style.borderColor = '#ff3b3b'; });
+            dropArea.addEventListener('dragleave', () => { dropArea.style.borderColor = 'rgba(255,59,59,0.3)'; });
+            dropArea.addEventListener('drop', e => {
+                e.preventDefault();
+                dropArea.style.borderColor = 'rgba(255,59,59,0.3)';
+                if (e.dataTransfer.files.length) handleImageFiles(e.dataTransfer.files);
+            });
+            dropArea.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', e => {
+                if (e.target.files.length) handleImageFiles(e.target.files);
+            });
+        }
+
+        function handleImageFiles(files) {
+            for (let file of files) {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = e => {
+                        uploadedImages.push(e.target.result);
+                        updatePreview();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+
+        function updatePreview() {
+            previewContainer.innerHTML = '';
+            uploadedImages.forEach((img, index) => {
+                const div = document.createElement('div');
+                div.className = 'preview-item';
+                div.innerHTML = `<img src="${img}" alt="थंबनेल"><button class="remove-img" onclick="removeImage(${index})">×</button>`;
+                previewContainer.appendChild(div);
+            });
+        }
+
+        function removeImage(index) {
+            uploadedImages.splice(index, 1);
+            updatePreview();
+        }
+
+        // ==================== ADMIN CRUD ====================
+        function adminAddAnime() {
+            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ लॉगिन करें!'); return; }
+            const title = document.getElementById('adminTitle').value.trim();
+            const type = document.getElementById('adminType').value.trim() || 'series';
+            const episodes = parseInt(document.getElementById('adminEpisodes').value) || 12;
+            const links = document.getElementById('adminEpisodeLinks').value.trim();
+            const defaultVideo = document.getElementById('adminVideoLink').value.trim();
+            const editId = document.getElementById('adminEditId').value.trim();
+            if (!title) { showToast('error', '⚠️ टाइटल जरूरी!'); return; }
+
+            let image = uploadedImages.length > 0 ? uploadedImages[0] : 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=' + encodeURIComponent(title);
+            
+            if (editId) {
+                const data = {
+                    title: { romaji: title, english: title },
+                    coverImage: { large: image },
+                    episodes: episodes,
+                    type: type,
+                    episodeLinks: links ? links.split(',').map(s => s.trim()) : [],
+                    defaultVideo: defaultVideo,
+                    addedBy: currentAdminUser === 'admin' ? 'admin' : 'mod',
+                    lastEdited: Date.now()
+                };
+                saveContentToFirebase(editId, data).then(() => {
+                    showToast('success', '✅ अपडेट!');
+                    adminClearForm();
+                    loadAdminContentList();
+                });
+            } else {
+                const newId = 'content_' + Date.now();
+                const data = {
+                    id: newId,
+                    title: { romaji: title, english: title },
+                    coverImage: { large: image },
+                    episodes: episodes,
+                    type: type,
+                    episodeLinks: links ? links.split(',').map(s => s.trim()) : [],
+                    defaultVideo: defaultVideo,
+                    addedBy: currentAdminUser === 'admin' ? 'admin' : 'mod',
+                    createdAt: Date.now()
+                };
+                saveContentToFirebase(newId, data).then(() => {
+                    saveContentStatsToFirebase(newId, { views: 0, likes: 0, likedUsers: [] });
+                    showToast('success', '✅ सेव!');
+                    adminClearForm();
+                    loadAdminContentList();
+                });
+            }
+        }
+
+        function adminClearForm() {
+            document.getElementById('adminTitle').value = '';
+            document.getElementById('adminType').value = 'series';
+            document.getElementById('adminEpisodes').value = '12';
+            document.getElementById('adminEpisodeLinks').value = '';
+            document.getElementById('adminVideoLink').value = '';
+            document.getElementById('adminEditId').value = '';
+            uploadedImages = [];
+            updatePreview();
+        }
+
+        function adminDeleteItem(id) {
+            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ लॉगिन!'); return; }
+            if (isModLoggedIn) {
+                const item = allContentData[id];
+                if (item && item.addedBy === 'admin') {
+                    showToast('error', '⚠️ ऐडमिन कंटेंट नहीं!');
+                    return;
+                }
+            }
+            if (!confirm('हटाएं?')) return;
+            deleteContentFromFirebase(id).then(() => {
+                database.ref('stats/' + id).remove();
+                showToast('success', '✅ हटा दिया!');
+                loadAdminContentList();
+                updateAdminStats();
+            });
+        }
+
+        function adminEditItem(id) {
+            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ लॉगिन!'); return; }
+            const item = allContentData[id];
+            if (!item) return;
+            if (isModLoggedIn && item.addedBy === 'admin') {
+                showToast('error', '⚠️ ऐडमिन कंटेंट नहीं!');
+                return;
+            }
+            document.getElementById('adminTitle').value = item.title.romaji || item.title.english || '';
+            document.getElementById('adminType').value = item.type || 'series';
+            document.getElementById('adminEpisodes').value = item.episodes || 12;
+            document.getElementById('adminEpisodeLinks').value = (item.episodeLinks || []).join(', ');
+            document.getElementById('adminVideoLink').value = item.defaultVideo || '';
+            document.getElementById('adminEditId').value = id;
+            uploadedImages = [];
+            updatePreview();
+            document.querySelector('.admin-panel').scrollIntoView({ behavior: 'smooth' });
+            showToast('info', '✏️ एडिट मोड!');
+        }
+
+        function loadAdminContentList() {
+            const container = document.getElementById('adminContentList');
+            const list = Object.values(allContentData);
+            if (list.length === 0) {
+                container.innerHTML = '<p style="color:#888; padding:12px;">कोई कंटेंट नहीं</p>';
+                return;
+            }
+            let html = '';
+            list.forEach(async (item) => {
+                const title = item.title?.romaji || item.title?.english || 'अज्ञात';
+                const img = item.coverImage?.large || 'https://via.placeholder.com/40x40/1a1a1a/ff3b3b?text=N';
+                const addedBy = item.addedBy === 'admin' ? '👑 ऐडमिन' : '🛠️ मॉड';
+                const canEdit = isAdminLoggedIn || (isModLoggedIn && item.addedBy !== 'admin');
+                const id = item.id || Object.keys(allContentData).find(key => allContentData[key] === item);
+                const stats = await getContentStatsFromFirebase(id);
+                html += `
+                    <div class="content-item">
+                        <div class="item-info">
+                            <img src="${img}" alt="${title}" loading="lazy">
+                            <span><strong>${title}</strong> (${item.type || 'series'}) - ${item.episodes} एपिसोड <span style="color:#888;font-size:11px;">${addedBy}</span></span>
+                            <span style="color:#888;font-size:10px;"><i class="fas fa-eye" style="color:#ffa500;"></i> ${stats.views || 0} <i class="fas fa-heart" style="color:#ff3b3b;margin-left:6px;"></i> ${stats.likes || 0}</span>
+                        </div>
+                        <div class="item-actions">
+                            ${canEdit ? `<button class="edit-btn" onclick="adminEditItem('${id}')"><i class="fas fa-edit"></i> एडिट</button>` : ''}
+                            ${canEdit ? `<button class="del-btn" onclick="adminDeleteItem('${id}')"><i class="fas fa-trash"></i> हटाएँ</button>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // ==================== HISTORY ====================
+        function getHistory() {
+            if (!currentUser) return [];
+            const all = JSON.parse(localStorage.getItem('jodmods_history') || '{}');
+            return all[currentUser.email] || [];
+        }
+
+        function saveHistoryItem(animeId, title, episode) {
+            if (!currentUser) return;
+            const all = JSON.parse(localStorage.getItem('jodmods_history') || '{}');
+            if (!all[currentUser.email]) all[currentUser.email] = [];
+            const existing = all[currentUser.email].find(h => h.animeId === animeId);
+            if (existing) { existing.episode = episode; existing.lastWatched = new Date().toISOString(); }
+            else { all[currentUser.email].push({ animeId, title, episode, lastWatched: new Date().toISOString() }); }
+            localStorage.setItem('jodmods_history', JSON.stringify(all));
+            loadHistory();
+        }
+
+        function loadHistory() {
+            const list = document.getElementById('historyList');
+            const history = getHistory();
+            if (!currentUser) { list.innerHTML = '<div class="history-empty">🔐 लॉगिन करें</div>'; return; }
+            if (history.length === 0) { list.innerHTML = '<div class="history-empty">कोई हिस्ट्री नहीं</div>'; return; }
+            let html = '';
+            history.slice().reverse().forEach(h => {
+                html += `
+                    <div class="history-item">
+                        <span class="hist-title">${h.title}</span>
+                        <span class="hist-ep">एपिसोड ${h.episode}</span>
+                        <button class="hist-continue" onclick="continueWatching('${h.animeId}', '${h.title}', ${h.episode})">▶ जारी रखें</button>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        function continueWatching(id, title, ep) {
+            openAnime(id, title);
+            setTimeout(() => playEpisode(ep), 500);
+        }
+
+        // ==================== COMMENTS ====================
+        function getComments() { return JSON.parse(localStorage.getItem('jodmods_comments') || '[]'); }
+        function saveComments(c) { localStorage.setItem('jodmods_comments', JSON.stringify(c)); }
+
+        function addComment() {
+            const nameInput = document.getElementById('commentName');
+            const msgInput = document.getElementById('commentMsg');
+            let name = nameInput.value.trim();
+            const msg = msgInput.value.trim();
+            if (currentUser) { name = currentUser.name; nameInput.value = name; }
+            if (!name || !msg) { showToast('error', '⚠️ नाम और राय!'); return; }
+            const comments = getComments();
+            comments.push({ 
+                id: Date.now(), 
+                name, 
+                msg, 
+                time: new Date().toLocaleString('hi-IN'), 
+                isAdmin: currentUser ? currentUser.isAdmin || false : false, 
+                isMod: currentUser ? currentUser.isMod || false : false, 
+                email: currentUser ? currentUser.email : null 
+            });
+            saveComments(comments);
+            if (!currentUser) nameInput.value = '';
+            msgInput.value = '';
+            renderComments();
+            showToast('success', '✅ कमेंट भेजा!');
+        }
+
+        function deleteComment(id) {
+            if (!currentUser) { showToast('error', '❌ लॉगिन!'); return; }
+            const comments = getComments();
+            const comment = comments.find(c => c.id === id);
+            if (!comment) return;
+            if (!currentUser.isAdmin && !currentUser.isMod && currentUser.email !== comment.email) {
+                showToast('error', '❌ नहीं हटा सकते!');
+                return;
+            }
+            if (!confirm('हटाएं?')) return;
+            saveComments(comments.filter(c => c.id !== id));
+            renderComments();
+            showToast('success', '✅ हटा दिया!');
+        }
+
+        function editComment(id) {
+            if (!currentUser) { showToast('error', '❌ लॉगिन!'); return; }
+            const comments = getComments();
+            const comment = comments.find(c => c.id === id);
+            if (!comment) return;
+            if (!currentUser.isAdmin && !currentUser.isMod && currentUser.email !== comment.email) {
+                showToast('error', '❌ नहीं एडिट!');
+                return;
+            }
+            const item = document.querySelector(`.comment-item[data-id="${id}"]`);
+            if (!item) return;
+            if (item.classList.contains('editing')) {
+                const input = item.querySelector('.edit-input');
+                const newMsg = input.value.trim();
+                if (!newMsg) { showToast('error', '⚠️ खाली नहीं!'); return; }
+                comment.msg = newMsg;
+                saveComments(comments);
+                renderComments();
+                showToast('success', '✅ अपडेट!');
+                return;
+            }
+            item.classList.add('editing');
+            const input = item.querySelector('.edit-input');
+            input.value = comment.msg;
+            input.focus();
+            const actions = item.querySelector('.comment-actions');
+            actions.innerHTML = `<button class="save-cmt" onclick="editComment(${id})"><i class="fas fa-check"></i> सेव</button><button class="cancel-cmt" onclick="cancelEdit(${id})"><i class="fas fa-times"></i> रद्द</button>`;
+        }
+
+        function cancelEdit(id) { renderComments(); }
+
+        function renderComments() {
+            const list = document.getElementById('commentList');
+            const comments = getComments();
+            if (comments.length === 0) { list.innerHTML = '<div class="no-comments">कोई कमेंट नहीं</div>'; return; }
+            let html = '';
+            comments.slice().reverse().forEach(c => {
+                const isAdmin = c.isAdmin || c.name === 'JOD MODS';
+                const isMod = c.isMod || false;
+                const canEdit = currentUser && (currentUser.isAdmin || currentUser.isMod || currentUser.email === c.email);
+                html += `
+                    <div class="comment-item" data-id="${c.id}">
+                        <div class="comment-text">
+                            <div class="comment-user">
+                                ${c.name}
+                                ${isAdmin ? ' <span class="admin-badge-cmt">★ ऐडमिन</span>' : ''}
+                                ${isMod ? ' <span class="mod-badge-cmt">◆ मॉड</span>' : ''}
+                            </div>
+                            <div class="comment-msg">${c.msg}</div>
+                            <input class="edit-input" type="text" />
+                            <div class="comment-time">${c.time || 'अभी'}</div>
+                        </div>
+                        <div class="comment-actions">
+                            ${canEdit ? `<button class="edit-cmt" onclick="editComment(${c.id})"><i class="fas fa-edit"></i></button>` : ''}
+                            ${canEdit ? `<button class="del-cmt" onclick="deleteComment(${c.id})"><i class="fas fa-trash"></i></button>` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        // ==================== MAIN FUNCTIONS ====================
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                currentType = this.dataset.type;
+                document.getElementById('searchInput').value = '';
+                loadAnime();
+            });
+        });
+
+        document.getElementById('searchInput').addEventListener('keypress', e => {
+            if (e.key === 'Enter') searchAnime();
+        });
+
+        function searchAnime() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) { loadAnime(); return; }
+            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> "${query}" खोज...</div>`;
+            const list = Object.values(allContentData);
+            const results = list.filter(a => a.title.romaji.toLowerCase().includes(query.toLowerCase()) || a.title.english.toLowerCase().includes(query.toLowerCase()));
+            if (results.length === 0) { container.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><p>कोई नहीं मिला</p></div>`; return; }
+            displayAnime(results);
+        }
+
+        function loadAnime() {
+            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> लोड...</div>`;
+            const list = Object.values(allContentData);
+            let filtered = list;
+            if (currentType === 'movies') filtered = list.filter(a => a.type === 'movie' || a.type === 'Movie');
+            else if (currentType === 'series') filtered = list.filter(a => a.type === 'series' || a.type === 'Series' || !a.type);
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-folder-open"></i>
+                        <h3>कोई कंटेंट नहीं</h3>
+                        <p>अभी तक कोई मूवी या सीरीज अपलोड नहीं</p>
+                        <div class="upload-hint">
+                            <i class="fas fa-user-shield"></i> ऐडमिन/मॉड लॉगिन करें
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            displayAnime(filtered);
+        }
+
+        async function displayAnime(items) {
+            let html = `<div class="content-grid">`;
+            const history = getHistory();
+            const watchedIds = history.map(h => h.animeId);
+            for (let item of items) {
+                const title = item.title?.romaji || item.title?.english || 'अज्ञात';
+                const image = item.coverImage?.large || 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image';
+                const id = item.id || 'content_' + Date.now();
+                const episodes = item.episodes || '?';
+                const isWatched = watchedIds.includes(id);
+                const isModContent = item.addedBy === 'mod';
+                const stats = await getContentStatsFromFirebase(id);
+                const liked = await isContentLiked(id);
+                
+                html += `
+                    <div class="content-card" onclick="openAnime('${id}', '${title.replace(/'/g, "\\'")}')">
+                        <img src="${image}" alt="${title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image'"/>
+                        <div class="info">
+                            <h4>${title}</h4>
+                            <p>${episodes} एपिसोड</p>
+                            <span class="badge">100% मुफ्त</span>
+                            <div class="card-stats">
+                                <span><i class="fas fa-eye views-icon"></i> ${stats.views || 0}</span>
+                                <span><i class="fas fa-heart ${liked ? 'liked' : ''}" style="color:${liked ? '#ff3b3b' : '#888'}"></i> ${stats.likes || 0}</span>
+                            </div>
+                        </div>
+                        <span class="free-badge"><i class="fas fa-crown"></i> FREE</span>
+                        ${isModContent ? '<span class="mod-badge"><i class="fas fa-user-tie"></i> मॉड</span>' : '<span class="admin-badge"><i class="fas fa-user-cog"></i> ऐडमिन</span>'}
+                        ${isWatched ? '<span class="watched-badge"><i class="fas fa-check-circle"></i> देखा</span>' : ''}
+                    </div>
+                `;
+            }
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        // ==================== VIDEO PLAYER ====================
+        async function openAnime(id, title) {
+            if (!currentUser) {
+                pendingOpenAnime = { id, title };
+                showToast('info', '🔐 वीडियो के लिए लॉगिन!');
+                openUserAuth('login');
+                return;
+            }
+            if (!id) { showToast('error', '❌ डेटा नहीं'); return; }
+
+            currentAnimeId = id;
+            currentTitle = title;
+            allEpisodes = [];
+            currentVideoUrl = '';
+            currentEpisodeNum = 1;
+
+            modalTitle.textContent = `📺 ${title}`;
+            episodeContainer.innerHTML = `<p style="color:#888; width:100%;"><i class="fas fa-spinner fa-spin"></i> एपिसोड...</p>`;
+            videoIframe.src = '';
+            customVideoPlayer.pause();
+            customVideoPlayer.removeAttribute('src');
+            videoPlayerWrapper.style.display = 'none';
+            iframeWrapper.style.display = 'block';
+            playerStatus.textContent = '⏳ लोड...';
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+
+            await addViewToFirebase(id);
+            await updateLikeUI(id);
+
+            try {
+                const item = allContentData[id];
+                let totalEps = 12, episodeLinks = [], defaultVideo = '';
+                if (item) {
+                    totalEps = item.episodes || 12;
+                    episodeLinks = item.episodeLinks || [];
+                    defaultVideo = item.defaultVideo || '';
+                }
+
+                let mainVideo = defaultVideo || '';
+                if (episodeLinks.length > 0) {
+                    if (episodeLinks.length === 1 && totalEps > 1) {
+                        allEpisodes.push({ number: `1-${totalEps}`, link: episodeLinks[0], range: true, start: 1, end: totalEps });
+                    } else {
+                        for (let i = 0; i < Math.min(episodeLinks.length, totalEps); i++) {
+                            allEpisodes.push({ number: i + 1, link: episodeLinks[i], range: false });
+                        }
+                        for (let i = episodeLinks.length; i < totalEps; i++) {
+                            allEpisodes.push({ number: i + 1, link: mainVideo, range: false });
+                        }
+                    }
+                } else if (mainVideo) {
+                    if (totalEps > 1) allEpisodes.push({ number: `1-${totalEps}`, link: mainVideo, range: true, start: 1, end: totalEps });
+                    else allEpisodes.push({ number: 1, link: mainVideo, range: false });
+                } else {
+                    for (let i = 1; i <= totalEps; i++) allEpisodes.push({ number: i, link: '', range: false });
+                }
+
+                let epHtml = '';
+                const history = getHistory();
+                const watchedEp = history.find(h => h.animeId === id);
+                allEpisodes.forEach(ep => {
+                    let label = ep.range ? `एपिसोड ${ep.start}-${ep.end}` : `एपिसोड ${ep.number}`;
+                    let hasLink = ep.link && ep.link.length > 0;
+                    let icon = hasLink ? 'fa-play' : 'fa-exclamation-triangle';
+                    let style = hasLink ? '' : 'style="opacity:0.5;"';
+                    let isWatched = watchedEp && !ep.range && watchedEp.episode >= ep.number;
+                    epHtml += `<button class="episode-btn ${isWatched ? 'watched-ep' : ''}" onclick="playEpisode('${ep.number}')" ${style}><i class="fas ${icon}"></i> ${label}${!hasLink ? ' (लिंक नहीं)' : ''}${isWatched ? ' ✅' : ''}</button>`;
+                });
+                episodeContainer.innerHTML = epHtml;
+
+                if (allEpisodes.length > 0) {
+                    if (watchedEp && !allEpisodes[0].range) playEpisode(Math.min(watchedEp.episode, allEpisodes.length));
+                    else playEpisode(allEpisodes[0].number);
+                }
+            } catch(e) {
+                console.error(e);
+                allEpisodes = [];
+                for (let i = 1; i <= 12; i++) allEpisodes.push({ number: i, link: '', range: false });
+                let epHtml = '';
+                allEpisodes.forEach(ep => {
+                    epHtml += `<button class="episode-btn" onclick="playEpisode(${ep.number})"><i class="fas fa-play"></i> एपिसोड ${ep.number}</button>`;
+                });
+                episodeContainer.innerHTML = epHtml;
+                if (allEpisodes.length > 0) playEpisode(allEpisodes[0].number);
+            }
+        }
+
+        function playEpisode(epNum) {
+            const episode = allEpisodes.find(ep => ep.number == epNum);
+            if (!episode) { showToast('error', '❌ नहीं मिला'); return; }
+            currentEpisodeNum = epNum;
+            document.querySelectorAll('.episode-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.episode-btn').forEach(btn => {
+                if (btn.textContent.includes(epNum.toString()) || btn.textContent.includes(`एपिसोड ${epNum}`)) {
+                    btn.classList.add('active');
+                }
+            });
+            let videoUrl = episode.link || '';
+            if (!videoUrl) {
+                showToast('error', '⚠️ लिंक नहीं');
+                playerStatus.textContent = '❌ लिंक नहीं';
+                playerStatus.style.color = '#ff6b6b';
+                return;
+            }
+            currentVideoUrl = videoUrl;
+            if (currentUser && currentAnimeId) saveHistoryItem(currentAnimeId, currentTitle, epNum);
+
+            const isDirect = videoUrl.startsWith('data:video/') || videoUrl.match(/\.(mp4|webm|mkv|mov|avi|flv|wmv|m4v|3gp)$/i) || videoUrl.includes('blob:');
+
+            if (isDirect) {
+                iframeWrapper.style.display = 'none';
+                videoPlayerWrapper.style.display = 'block';
+                videoSource.src = videoUrl;
+                customVideoPlayer.load();
+                customVideoPlayer.play();
+                playerStatus.textContent = `✅ ${episode.range ? 'एपिसोड 1-'+episode.end : 'एपिसोड '+epNum}`;
+                playerStatus.style.color = '#00c853';
+            } else {
+                videoPlayerWrapper.style.display = 'none';
+                iframeWrapper.style.display = 'block';
+                videoIframe.src = videoUrl;
+                playerStatus.textContent = `✅ ${episode.range ? 'एपिसोड 1-'+episode.end : 'एपिसोड '+epNum}`;
+                playerStatus.style.color = '#00c853';
+            }
+        }
+
+        async function toggleLike() {
+            if (!currentAnimeId) return;
+            await toggleLikeOnFirebase(currentAnimeId);
+            await updateLikeUI(currentAnimeId);
+            loadAnime();
+        }
+
+        function reloadVideo() {
+            if (!currentVideoUrl) { showToast('error', '⚠️ कोई वीडियो नहीं'); return; }
+            const isDirect = currentVideoUrl.startsWith('data:video/') || currentVideoUrl.match(/\.(mp4|webm|mkv|mov|avi)$/i) || currentVideoUrl.includes('blob:');
+            if (isDirect) {
+                videoSource.src = currentVideoUrl;
+                customVideoPlayer.load();
+                customVideoPlayer.play();
+            } else {
+                videoIframe.src = currentVideoUrl;
+            }
+            playerStatus.textContent = `🔄 रीलोड...`;
+            setTimeout(() => playerStatus.textContent = `✅ एपिसोड ${currentEpisodeNum}`, 1000);
+            showToast('info', '🔄 रीलोड!');
+        }
+
+        function shareVideo() {
+            if (navigator.share) {
+                navigator.share({ title: currentTitle || 'JOD MODS OTT', text: `🎬 ${currentTitle || 'वीडियो'} देखें!`, url: window.location.href }).catch(() => {});
+            } else {
+                showToast('info', '📤 शेयर: ' + window.location.href);
+            }
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            videoIframe.src = '';
+            customVideoPlayer.pause();
+            customVideoPlayer.removeAttribute('src');
+            videoPlayerWrapper.style.display = 'none';
+            iframeWrapper.style.display = 'block';
+            currentVideoUrl = '';
+            document.body.style.overflow = 'auto';
+            updateAdminStats();
+        }
+
+        modal.addEventListener('click', e => { if (e.target === this) closeModal(); });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                if (modal.style.display === 'flex') closeModal();
+                else if (document.getElementById('adminPage').style.display === 'block') closeAdminPage();
+                else if (document.getElementById('adminAuthOverlay').classList.contains('active')) closeAdminAuth();
+                else if (document.getElementById('authModal').classList.contains('active')) closeUserAuth();
+                else if (document.getElementById('forgotModal').classList.contains('active')) closeForgotPassword();
+            }
+        });
+
+        // ==================== INIT ====================
+        listenContent((data) => {
+            allContentData = data;
+            loadAnime();
+            if (isAdminLoggedIn || isModLoggedIn) {
+                loadAdminContentList();
+                updateAdminStats();
+            }
+        });
+
+        currentUser = getCurrentUser();
+        updateUI();
+        renderComments();
+        loadHistory();
+        updateAdminStats();
+
+        const users = getUsers();
+        if (!users.find(u => u.email === 'admin@jodmods.com')) {
+            users.push({ 
+                name: 'JOD MODS', 
+                email: 'admin@jodmods.com', 
+                password: 'admin123', 
+                isAdmin: true, 
+                isMod: false,
+                securityQuestion: 'आपकी पसंदीदा मूवी?',
+                securityQuestionKey: 'your_favorite_movie',
+                securityAnswer: 'jod mods'
+            });
+            saveUsers(users);
+        }
+        if (isAdminLoggedIn) loadModeratorList();
+
+        console.log('✅ JOD MODS OTT with Firebase Loaded!');
     </script>
 </body>
 </html>
