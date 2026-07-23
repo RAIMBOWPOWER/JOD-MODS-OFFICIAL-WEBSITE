@@ -381,19 +381,6 @@
         .admin-panel button:hover {
             background: #cc2e2e;
         }
-        .admin-panel .admin-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 8px 0;
-        }
-        .admin-panel .admin-row input {
-            flex: 1;
-            min-width: 120px;
-        }
-        .admin-panel .admin-row button {
-            flex-shrink: 0;
-        }
         .admin-login {
             display: flex;
             gap: 10px;
@@ -551,6 +538,26 @@
             font-size: 14px;
         }
 
+        .info-box {
+            background: #1a1a1a;
+            border-left: 4px solid #ff3b3b;
+            padding: 10px 14px;
+            margin: 8px 0;
+            border-radius: 6px;
+        }
+        .info-box strong { color: #ff3b3b; }
+        .info-box .example {
+            color: #00c853;
+            font-family: monospace;
+            font-size: 12px;
+            display: block;
+            margin-top: 4px;
+        }
+        .info-box .warning {
+            color: #ff6b6b;
+            font-size: 12px;
+        }
+
         @media (max-width: 600px) {
             .navbar { flex-direction: column; align-items: stretch; }
             .search-box { max-width: 100%; }
@@ -582,7 +589,7 @@
 
     <div class="hero">
         <h1>🇮🇳 <span>JOD MODS</span> OTT</h1>
-        <p>🔥 सिर्फ ऐडमिन द्वारा जोड़ा गया कंटेंट • 100% मुफ्त</p>
+        <p>🔥 सिर्फ ऐडमिन कंटेंट • 100% मुफ्त • डायरेक्ट वीडियो प्ले</p>
         <div class="tags">
             <span>🔥 ऐडमिन कंटेंट</span>
             <span>⭐ 100% मुफ्त</span>
@@ -602,9 +609,9 @@
             </div>
             <div id="adminControls" style="display:none;">
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                    <input type="text" id="adminTitle" placeholder="टाइटल (जैसे नारुतो शिप्पुडेन)" style="flex:2;min-width:180px;">
+                    <input type="text" id="adminTitle" placeholder="टाइटल (जैसे: नारुतो शिप्पुडेन)" style="flex:2;min-width:180px;">
                     <input type="text" id="adminType" placeholder="टाइप: movie / series" style="flex:1;min-width:100px;" value="series">
-                    <input type="number" id="adminEpisodes" placeholder="एपिसोड संख्या" style="flex:1;min-width:80px;" value="12">
+                    <input type="number" id="adminEpisodes" placeholder="कुल एपिसोड" style="flex:1;min-width:80px;" value="12">
                 </div>
                 
                 <div class="drop-area" id="dropArea">
@@ -614,24 +621,46 @@
                     <div class="preview-container" id="previewContainer"></div>
                 </div>
 
-                <div class="video-drop-area" id="videoDropArea">
+                <!-- VIDEO URL SECTION - IMPORTANT -->
+                <div class="info-box" style="border-left-color:#ff3b3b;background:#1a0a0a;">
+                    <strong>⚠️ जरूरी: वीडियो लिंक कैसे डालें?</strong>
+                    <p style="color:#aaa;font-size:12px;margin-top:4px;">
+                        आपको <strong>सीधा वीडियो फ़ाइल लिंक</strong> देना होगा (जो .mp4, .webm, .mkv आदि पर खत्म हो) 
+                        या फिर <strong>embed लिंक</strong> (जैसे YouTube, Vimeo का embed URL)।
+                    </p>
+                    <p style="color:#ff6b6b;font-size:12px;margin-top:4px;">
+                        ❌ <strong>गलत:</strong> https://yourwebsite.com/video-page (यह वेबसाइट खोलेगा)
+                    </p>
+                    <p style="color:#00c853;font-size:12px;margin-top:2px;">
+                        ✅ <strong>सही:</strong> https://yourwebsite.com/videos/episode1.mp4 (सीधा वीडियो)
+                    </p>
+                    <p style="color:#00c853;font-size:12px;margin-top:2px;">
+                        ✅ <strong>सही:</strong> https://www.youtube.com/embed/VIDEO_ID (एम्बेड लिंक)
+                    </p>
+                    <span class="example">💡 अगर आपके पास सिर्फ वेबपेज लिंक है, तो वह वीडियो नहीं चलेगा।</span>
+                </div>
+
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                    <input type="text" id="adminEpisodeLinks" placeholder="एपिसोड लिंक (कॉमा से अलग करें)" style="flex:3;min-width:200px;">
+                </div>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+                    <input type="text" id="adminVideoLink" placeholder="डिफॉल्ट वीडियो लिंक (सभी एपिसोड के लिए एक)" style="flex:2;min-width:200px;">
+                </div>
+
+                <div class="video-drop-area" id="videoDropArea" style="margin-top:8px;">
                     <i class="fas fa-video" style="font-size:24px;color:#00c853;"></i>
-                    <p style="color:#aaa;font-size:13px;">वीडियो फ़ाइल ड्रैग & ड्रॉप करें (MP4, WebM, etc.)</p>
+                    <p style="color:#aaa;font-size:13px;">या वीडियो फ़ाइल ड्रैग & ड्रॉप करें (MP4, WebM) - यह सीधे प्ले होगा</p>
                     <input type="file" id="videoFileInput" accept="video/*" style="display:none;">
                     <div id="videoPreviewContainer" style="margin-top:8px;"></div>
                 </div>
 
-                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                    <input type="text" id="adminEpisodeLinks" placeholder="एपिसोड लिंक (कॉमा से अलग करें: EP1_URL,EP2_URL,...)" style="flex:3;min-width:200px;">
-                </div>
-                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
-                    <input type="text" id="adminVideoLink" placeholder="डिफॉल्ट वीडियो लिंक (या खाली छोड़ें)" style="flex:2;min-width:200px;">
-                </div>
                 <button onclick="adminAddAnime()"><i class="fas fa-plus-circle"></i> कंटेंट जोड़ें/अपडेट करें</button>
                 <button onclick="adminDeleteCurrent()" style="background:#cc2e2e;"><i class="fas fa-trash"></i> कंटेंट हटाएँ</button>
-                <p style="color:#888;font-size:11px;margin-top:8px;">💡 एपिसोड लिंक डालें: EP1_LINK,EP2_LINK,EP3_LINK ... (या सिर्फ एक डिफॉल्ट वीडियो लिंक)</p>
-                <p style="color:#888;font-size:11px;">📹 अगर आप वीडियो अपलोड करते हैं तो वह सीधे हमारे प्लेयर में चलेगा (बिना किसी दूसरी वेबसाइट के)</p>
-                <p style="color:#ff3b3b;font-size:11px;">⚠️ सारा डिफॉल्ट एनीमे हटा दिया गया है। सिर्फ ऐडमिन द्वारा जोड़ा गया कंटेंट दिखेगा।</p>
+                <p style="color:#888;font-size:11px;margin-top:8px;">
+                    💡 <strong>टिप:</strong> अगर सारे एपिसोड की अलग-अलग लिंक हैं तो कॉमा से अलग करें। 
+                    अगर एक ही लिंक सबके लिए है तो "डिफॉल्ट वीडियो लिंक" में डालें।
+                </p>
+                <p style="color:#ff3b3b;font-size:11px;">⚠️ सारा डिफॉल्ट एनीमे हटा दिया गया है। सिर्फ ऐडमिन कंटेंट दिखेगा।</p>
             </div>
         </div>
     </div>
@@ -652,9 +681,11 @@
             <div class="player-status" id="playerStatus">⏳ प्लेयर लोड हो रहा है...</div>
 
             <div id="videoPlayerContainer">
+                <!-- Iframe wrapper for embed links -->
                 <div class="video-wrapper" id="iframeWrapper">
                     <iframe id="videoIframe" src="" allowfullscreen></iframe>
                 </div>
+                <!-- Direct video player for file URLs -->
                 <div class="custom-video-player" id="videoPlayerWrapper" style="display:none;">
                     <video id="customVideoPlayer" controls autoplay>
                         <source id="videoSource" src="" type="video/mp4">
@@ -871,6 +902,18 @@
                 videoToUse = uploadedVideo;
             }
 
+            // अगर वीडियो लिंक डाला है तो चेक करें कि वह डायरेक्ट वीडियो है या embed
+            // अगर URL में .mp4, .webm, .mkv नहीं है और embed भी नहीं है तो warning दें
+            if (videoToUse && !videoToUse.startsWith('data:video/')) {
+                const isDirectVideo = videoToUse.match(/\.(mp4|webm|mkv|mov|avi|flv|wmv|m4v|3gp)$/i);
+                const isEmbed = videoToUse.includes('/embed/') || videoToUse.includes('youtube.com') || videoToUse.includes('vimeo.com') || videoToUse.includes('dailymotion.com');
+                if (!isDirectVideo && !isEmbed) {
+                    if (!confirm('⚠️ यह लिंक डायरेक्ट वीडियो फ़ाइल (जैसे .mp4) या embed लिंक नहीं लगता।\nक्या आपको यकीन है कि यह सही है?\n\n"'+videoToUse+'"\n\nअगर यह कोई वेबपेज है तो वीडियो नहीं चलेगा!')) {
+                        return;
+                    }
+                }
+            }
+
             const customAnime = {
                 id: 'custom_' + Date.now(),
                 title: { romaji: title, english: title },
@@ -1055,38 +1098,88 @@
                 totalActualEpisodes = totalEps;
                 epCount.textContent = totalActualEpisodes;
 
-                // ===== एपिसोड बनाएं - स्मार्ट तरीका =====
-                // अगर episodeLinks में सिर्फ 1 आइटम है और totalEps > 1 तो हम एक रेंज बटन बनाएंगे
-                const hasSingleLink = (episodeLinks.length === 1 && totalEps > 1);
-                // अगर एक से ज्यादा लिंक हैं तो हर एक के लिए अलग बटन
-                // अगर कोई लिंक नहीं है तो डिफॉल्ट वीडियो का उपयोग करें (या खाली)
+                // ===== स्मार्ट एपिसोड बनाएं =====
+                // अगर episodeLinks में 1 आइटम है और totalEps > 1 → रेंज बटन
+                // अगर episodeLinks में totalEps के बराबर आइटम हैं → अलग-अलग बटन
+                // अगर defaultVideo है → सबके लिए एक ही
+                // अगर कुछ नहीं → खाली
 
-                if (hasSingleLink) {
-                    // एक ही लिंक, सारे एपिसोड एक साथ
-                    const link = episodeLinks[0] || defaultVideo;
-                    allEpisodes.push({
-                        number: `1-${totalEps}`,
-                        link: link,
-                        isUploaded: isUploadedVideo,
-                        range: true,
-                        start: 1,
-                        end: totalEps
-                    });
-                } else {
-                    // अलग-अलग एपिसोड
-                    for (let i = 1; i <= totalEps; i++) {
-                        let epLink = '';
-                        if (episodeLinks && episodeLinks[i-1]) {
-                            epLink = episodeLinks[i-1];
-                        } else if (defaultVideo) {
-                            epLink = defaultVideo;
-                        } else {
-                            epLink = '';
+                const hasMultipleLinks = episodeLinks.length > 1;
+                const hasSingleLink = episodeLinks.length === 1;
+                const hasDefaultVideo = defaultVideo && !isUploadedVideo;
+
+                // अगर अपलोडेड वीडियो है तो उसे प्राथमिकता दें
+                let mainVideo = '';
+                if (isUploadedVideo && defaultVideo) {
+                    mainVideo = defaultVideo;
+                } else if (defaultVideo) {
+                    mainVideo = defaultVideo;
+                }
+
+                if (isUploadedVideo && !defaultVideo) {
+                    // यूजर ने वीडियो अपलोड किया है लेकिन defaultVideo में कुछ नहीं डाला
+                    // तो हम uploadedVideo का उपयोग करेंगे
+                    mainVideo = uploadedVideo || '';
+                }
+
+                // अगर episodeLinks हैं तो उनका उपयोग करें
+                if (episodeLinks.length > 0) {
+                    if (episodeLinks.length === 1 && totalEps > 1) {
+                        // एक लिंक, कई एपिसोड → रेंज
+                        allEpisodes.push({
+                            number: `1-${totalEps}`,
+                            link: episodeLinks[0],
+                            isUploaded: isUploadedVideo,
+                            range: true,
+                            start: 1,
+                            end: totalEps
+                        });
+                    } else {
+                        // कई लिंक, हर एपिसोड के लिए अलग
+                        for (let i = 0; i < Math.min(episodeLinks.length, totalEps); i++) {
+                            allEpisodes.push({
+                                number: i + 1,
+                                link: episodeLinks[i],
+                                isUploaded: isUploadedVideo,
+                                range: false
+                            });
                         }
+                        // बाकी एपिसोड के लिए डिफॉल्ट वीडियो
+                        for (let i = episodeLinks.length; i < totalEps; i++) {
+                            allEpisodes.push({
+                                number: i + 1,
+                                link: mainVideo,
+                                isUploaded: isUploadedVideo,
+                                range: false
+                            });
+                        }
+                    }
+                } else if (mainVideo) {
+                    // कोई episodeLinks नहीं, सिर्फ defaultVideo है
+                    if (totalEps > 1) {
+                        allEpisodes.push({
+                            number: `1-${totalEps}`,
+                            link: mainVideo,
+                            isUploaded: isUploadedVideo,
+                            range: true,
+                            start: 1,
+                            end: totalEps
+                        });
+                    } else {
+                        allEpisodes.push({
+                            number: 1,
+                            link: mainVideo,
+                            isUploaded: isUploadedVideo,
+                            range: false
+                        });
+                    }
+                } else {
+                    // कुछ नहीं है
+                    for (let i = 1; i <= totalEps; i++) {
                         allEpisodes.push({
                             number: i,
-                            link: epLink,
-                            isUploaded: isUploadedVideo,
+                            link: '',
+                            isUploaded: false,
                             range: false
                         });
                     }
@@ -1096,16 +1189,19 @@
                 let epHtml = '';
                 allEpisodes.forEach(ep => {
                     let label = ep.range ? `एपिसोड ${ep.start}-${ep.end}` : `एपिसोड ${ep.number}`;
+                    let hasLink = ep.link && ep.link.length > 0;
+                    let icon = hasLink ? 'fa-play' : 'fa-exclamation-triangle';
+                    let style = hasLink ? '' : 'style="opacity:0.5;"';
                     epHtml += `
-                        <button class="episode-btn" onclick="playEpisode('${ep.number}')">
-                            <i class="fas fa-play"></i> ${label}
+                        <button class="episode-btn" onclick="playEpisode('${ep.number}')" ${style}>
+                            <i class="fas ${icon}"></i> ${label}
+                            ${!hasLink ? ' (लिंक नहीं)' : ''}
                         </button>
                     `;
                 });
                 episodeContainer.innerHTML = epHtml;
 
                 if (allEpisodes.length > 0) {
-                    // पहला एपिसोड चलाएँ
                     playEpisode(allEpisodes[0].number);
                 }
 
@@ -1130,12 +1226,11 @@
             }
         }
 
-        // ==================== एपिसोड चलाएँ ====================
+        // ==================== एपिसोड चलाएँ (फिक्स्ड - सिर्फ वीडियो चलेगा) ====================
         function playEpisode(epNum) {
             const episode = allEpisodes.find(ep => ep.number == epNum);
             if (!episode) { alert('एपिसोड नहीं मिला'); return; }
 
-            // अगर रेंज है तो epNum स्ट्रिंग होगा, हम currentEpisodeNum को स्टोर करेंगे
             currentEpisodeNum = epNum;
 
             document.querySelectorAll('.episode-btn').forEach(btn => btn.classList.remove('active'));
@@ -1148,14 +1243,33 @@
             let videoUrl = episode.link || '';
             if (!videoUrl) {
                 alert('⚠️ इस एपिसोड के लिए कोई वीडियो लिंक नहीं है। ऐडमिन से जोड़ें।');
+                playerStatus.textContent = '❌ कोई वीडियो लिंक नहीं';
+                playerStatus.style.color = '#ff6b6b';
                 return;
             }
 
             currentVideoUrl = videoUrl;
 
-            // तय करें कि कौन सा प्लेयर इस्तेमाल करना है
-            if (videoUrl.startsWith('data:video/') || videoUrl.match(/\.(mp4|webm|mkv|mov|avi)$/i) || videoUrl.includes('blob:')) {
-                // डायरेक्ट वीडियो फ़ाइल
+            // ===== वीडियो प्ले करने का तरीका =====
+            // 1. अगर data:video/ से शुरू होता है → अपलोड की गई वीडियो
+            // 2. अगर .mp4, .webm, .mkv आदि पर खत्म होता है → डायरेक्ट वीडियो
+            // 3. अगर embed/ या youtube.com या vimeo.com है → iframe में खोलें
+            // 4. बाकी सब → iframe में खोलें (लेकिन चेतावनी दें कि यह पूरी वेबसाइट खोल सकता है)
+
+            const isDataVideo = videoUrl.startsWith('data:video/');
+            const isDirectVideo = videoUrl.match(/\.(mp4|webm|mkv|mov|avi|flv|wmv|m4v|3gp)$/i) || videoUrl.includes('blob:');
+            const isEmbed = videoUrl.includes('/embed/') || videoUrl.includes('youtube.com') || videoUrl.includes('vimeo.com') || videoUrl.includes('dailymotion.com');
+
+            // अगर यह डायरेक्ट वीडियो नहीं है और embed भी नहीं है तो चेतावनी
+            if (!isDataVideo && !isDirectVideo && !isEmbed) {
+                if (!confirm('⚠️ यह लिंक डायरेक्ट वीडियो फ़ाइल (जैसे .mp4) या embed लिंक नहीं लगता।\n\nलिंक: ' + videoUrl + '\n\nअगर यह कोई वेबपेज है तो वह iframe में खुल जाएगा।\nक्या आप फिर भी खोलना चाहते हैं?')) {
+                    return;
+                }
+            }
+
+            // अब प्ले करें
+            if (isDataVideo || isDirectVideo) {
+                // डायरेक्ट वीडियो - हमारे कस्टम प्लेयर में
                 iframeWrapper.style.display = 'none';
                 videoPlayerWrapper.style.display = 'block';
                 videoSource.src = videoUrl;
@@ -1164,12 +1278,20 @@
                 playerStatus.textContent = `✅ JOD MODS • ${episode.range ? 'एपिसोड 1-'+episode.end : 'एपिसोड '+epNum} (डायरेक्ट वीडियो)`;
                 playerStatus.style.color = '#00c853';
             } else {
-                // Embed लिंक (YouTube, Vimeo, etc.) - iframe में खोलें
+                // Embed या वेबपेज - iframe में
                 videoPlayerWrapper.style.display = 'none';
                 iframeWrapper.style.display = 'block';
                 videoIframe.src = videoUrl;
                 playerStatus.textContent = `✅ JOD MODS • ${episode.range ? 'एपिसोड 1-'+episode.end : 'एपिसोड '+epNum}`;
                 playerStatus.style.color = '#00c853';
+                
+                // अगर embed नहीं है तो चेतावनी दें
+                if (!isEmbed) {
+                    setTimeout(() => {
+                        playerStatus.textContent = `⚠️ ध्यान दें: यह एक वेबपेज लिंक है, iframe में खुल रहा है`;
+                        playerStatus.style.color = '#ff6b6b';
+                    }, 3000);
+                }
             }
         }
 
@@ -1180,7 +1302,10 @@
                 return;
             }
             
-            if (currentVideoUrl.startsWith('data:video/') || currentVideoUrl.match(/\.(mp4|webm|mkv|mov|avi)$/i) || currentVideoUrl.includes('blob:')) {
+            const isDataVideo = currentVideoUrl.startsWith('data:video/');
+            const isDirectVideo = currentVideoUrl.match(/\.(mp4|webm|mkv|mov|avi|flv|wmv|m4v|3gp)$/i) || currentVideoUrl.includes('blob:');
+            
+            if (isDataVideo || isDirectVideo) {
                 videoSource.src = currentVideoUrl;
                 customVideoPlayer.load();
                 customVideoPlayer.play();
@@ -1203,7 +1328,10 @@
                 return;
             }
             
-            if (currentVideoUrl.startsWith('data:video/') || currentVideoUrl.match(/\.(mp4|webm|mkv|mov|avi)$/i)) {
+            const isDataVideo = currentVideoUrl.startsWith('data:video/');
+            const isDirectVideo = currentVideoUrl.match(/\.(mp4|webm|mkv|mov|avi|flv|wmv|m4v|3gp)$/i) || currentVideoUrl.includes('blob:');
+            
+            if (isDataVideo || isDirectVideo) {
                 const link = document.createElement('a');
                 link.href = currentVideoUrl;
                 link.download = `${currentTitle}_episode_${currentEpisodeNum}.mp4`;
