@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>JOD MODS OTT</title>
+    <title>JOD MODS OTT - Premium</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        /* ===== RESET & BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
         body { 
             background: #0a0a0a; 
             color: #fff; 
@@ -17,6 +18,7 @@
         ::-webkit-scrollbar-track { background: #1a1a1a; }
         ::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
 
+        /* ===== ANIMATED BG ===== */
         #bgCanvas {
             position: fixed;
             top: 0;
@@ -27,6 +29,7 @@
             pointer-events: none;
         }
 
+        /* ===== GLOW TEXT ===== */
         .glow-text {
             animation: glowPulse 3s ease-in-out infinite;
         }
@@ -35,28 +38,35 @@
             50% { text-shadow: 0 0 25px rgba(255,59,59,0.5), 0 0 50px rgba(255,59,59,0.2); }
         }
 
+        /* ===== NAVBAR ===== */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 16px;
-            background: rgba(26,26,26,0.92);
+            padding: 10px 20px;
+            background: rgba(26,26,26,0.95);
             border-bottom: 2px solid #ff3b3b;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
         }
-        .logo { font-size: 20px; font-weight: 900; }
+        .logo { 
+            font-size: 22px; 
+            font-weight: 900; 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
         .logo span { color: #ff3b3b; }
-        .logo i { color: #ff3b3b; margin-right: 6px; }
+        .logo i { color: #ff3b3b; font-size: 24px; }
 
         .nav-links {
             display: flex;
-            gap: 6px;
-            font-size: 12px;
+            gap: 8px;
+            font-size: 13px;
             font-weight: 500;
             flex-wrap: wrap;
         }
@@ -64,240 +74,349 @@
             color: #ccc;
             text-decoration: none;
             cursor: pointer;
-            padding: 4px 12px;
-            border-radius: 20px;
+            padding: 6px 16px;
+            border-radius: 25px;
             transition: 0.3s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #ff3b3b;
+            transition: 0.3s;
+            transform: translateX(-50%);
+        }
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 60%;
         }
         .nav-links a:hover, .nav-links a.active {
             color: #fff;
-            background: #ff3b3b;
+            background: rgba(255,59,59,0.1);
         }
 
         .search-box {
             display: flex;
             align-items: center;
-            background: #222;
-            padding: 4px 12px;
+            background: rgba(34,34,34,0.8);
+            padding: 6px 16px;
             border-radius: 30px;
             flex: 1;
-            max-width: 240px;
-            min-width: 120px;
+            max-width: 280px;
+            min-width: 140px;
             border: 1px solid transparent;
             transition: 0.3s;
+            backdrop-filter: blur(4px);
         }
-        .search-box:focus-within { border-color: #ff3b3b; }
+        .search-box:focus-within { 
+            border-color: #ff3b3b;
+            box-shadow: 0 0 20px rgba(255,59,59,0.1);
+        }
         .search-box input {
             background: transparent;
             border: none;
             color: #fff;
             outline: none;
-            padding: 4px 6px;
+            padding: 6px 10px;
             width: 100%;
-            font-size: 12px;
+            font-size: 13px;
         }
-        .search-box input::placeholder { color: #888; }
-        .search-box i { color: #888; cursor: pointer; }
+        .search-box input::placeholder { color: #666; }
+        .search-box i { color: #666; cursor: pointer; transition: 0.3s; }
         .search-box i:hover { color: #ff3b3b; }
 
-        .auth-buttons {
+        .auth-section {
             display: flex;
-            gap: 5px;
+            gap: 8px;
             align-items: center;
         }
-        .auth-btn {
-            background: transparent;
+
+        /* ===== MODERN AUTH BUTTONS ===== */
+        .auth-btn-modern {
+            padding: 8px 22px;
+            border-radius: 25px;
+            border: none;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .auth-btn-modern.login-btn {
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(255,59,59,0.3);
+        }
+        .auth-btn-modern.login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255,59,59,0.4);
+        }
+        .auth-btn-modern.register-btn {
+            background: rgba(255,255,255,0.08);
             color: #ccc;
             border: 1px solid #444;
-            padding: 4px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 11px;
-            font-weight: 600;
-            transition: 0.3s;
         }
-        .auth-btn:hover {
-            background: #ff3b3b;
-            border-color: #ff3b3b;
+        .auth-btn-modern.register-btn:hover {
+            background: rgba(255,255,255,0.15);
             color: #fff;
-        }
-        .auth-btn.login-btn {
-            background: #ff3b3b;
             border-color: #ff3b3b;
-            color: #fff;
         }
-        .auth-btn.login-btn:hover { background: #cc2e2e; }
 
-        .user-profile {
+        .user-profile-modern {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 10px;
             cursor: pointer;
-            padding: 3px 10px;
-            border-radius: 20px;
+            padding: 4px 14px 4px 4px;
+            border-radius: 30px;
             transition: 0.3s;
+            background: rgba(255,255,255,0.05);
             border: 1px solid transparent;
         }
-        .user-profile:hover {
+        .user-profile-modern:hover {
             border-color: #ff3b3b;
             background: rgba(255,59,59,0.1);
         }
-        .user-profile .avatar {
-            width: 28px;
-            height: 28px;
+        .user-profile-modern .avatar {
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
-            background: #ff3b3b;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 14px;
             color: #fff;
+            flex-shrink: 0;
         }
-        .user-profile .username {
-            font-size: 12px;
+        .user-profile-modern .username {
+            font-size: 13px;
             color: #ccc;
-            max-width: 60px;
+            max-width: 80px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-
-        .upload-btn {
-            background: #ff3b3b;
-            color: #fff;
-            border: none;
-            padding: 5px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 11px;
+        .user-profile-modern .logout-icon {
+            color: #666;
+            font-size: 14px;
             transition: 0.3s;
         }
-        .upload-btn:hover {
-            background: #cc2e2e;
-            transform: scale(1.05);
-        }
-
-        .hero {
-            background: rgba(26,26,26,0.4);
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #333;
-        }
-        .hero h1 { font-size: 26px; font-weight: 900; }
-        .hero h1 span { color: #ff3b3b; }
-        .hero p { font-size: 13px; color: #aaa; margin-top: 4px; }
-        .hero .tags {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
-        .hero .tags span {
-            background: rgba(34,34,34,0.8);
-            padding: 3px 14px;
-            border-radius: 20px;
-            font-size: 10px;
+        .user-profile-modern:hover .logout-icon {
             color: #ff3b3b;
-            border: 1px solid #333;
         }
 
-        .loader { text-align: center; padding: 40px; font-size: 16px; color: #ff3b3b; }
-        .loader i { animation: spin 1s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        .section { padding: 14px 16px; }
-        .section h2 {
-            font-size: 18px;
-            margin-bottom: 12px;
-            border-left: 4px solid #ff3b3b;
-            padding-left: 10px;
+        .upload-btn-modern {
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 12px;
+            transition: 0.3s;
             display: flex;
             align-items: center;
             gap: 8px;
+            box-shadow: 0 4px 15px rgba(255,59,59,0.3);
+        }
+        .upload-btn-modern:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 25px rgba(255,59,59,0.4);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(180deg, rgba(26,26,26,0.3) 0%, rgba(10,10,10,0.9) 100%);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid #1f1f1f;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,59,59,0.03) 0%, transparent 70%);
+            animation: heroGlow 20s linear infinite;
+        }
+        @keyframes heroGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .hero h1 { 
+            font-size: 32px; 
+            font-weight: 900; 
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 span { color: #ff3b3b; }
+        .hero p { 
+            font-size: 14px; 
+            color: #aaa; 
+            margin-top: 6px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero .tags {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero .tags span {
+            background: rgba(34,34,34,0.8);
+            padding: 4px 18px;
+            border-radius: 25px;
+            font-size: 11px;
+            color: #ff3b3b;
+            border: 1px solid #333;
+            backdrop-filter: blur(4px);
+            transition: 0.3s;
+        }
+        .hero .tags span:hover {
+            border-color: #ff3b3b;
+            transform: translateY(-2px);
+        }
+
+        /* ===== CONTENT ===== */
+        .section { padding: 16px 20px; }
+        .section h2 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid #ff3b3b;
+            padding-left: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         .section h2 i { color: #ff3b3b; }
 
         .content-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 14px;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 18px;
         }
+
         .content-card {
-            background: #151515;
-            border-radius: 10px;
+            background: rgba(21,21,21,0.9);
+            border-radius: 14px;
             overflow: hidden;
-            transition: 0.3s;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
             border: 1px solid #252525;
             position: relative;
+            backdrop-filter: blur(4px);
         }
         .content-card:hover {
-            transform: scale(1.04);
+            transform: translateY(-8px) scale(1.02);
             border-color: #ff3b3b;
-            box-shadow: 0 0 25px rgba(255,59,59,0.2);
+            box-shadow: 0 12px 40px rgba(255,59,59,0.15);
         }
         .content-card img {
             width: 100%;
-            height: 190px;
+            height: 220px;
             object-fit: cover;
             background: #1a1a1a;
+            transition: 0.3s;
         }
-        .content-card .info { padding: 6px 10px; }
-        .content-card .info h4 { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .content-card .info p { font-size: 9px; color: #888; }
+        .content-card:hover img {
+            transform: scale(1.05);
+        }
+        .content-card .info { 
+            padding: 10px 14px; 
+            background: linear-gradient(0deg, rgba(10,10,10,0.9) 0%, transparent 100%);
+            position: relative;
+        }
+        .content-card .info h4 { 
+            font-size: 14px; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            font-weight: 600;
+        }
+        .content-card .info p { 
+            font-size: 11px; 
+            color: #888; 
+            margin-top: 2px;
+        }
         .content-card .badge {
             background: #ff3b3b;
-            padding: 1px 8px;
+            padding: 2px 12px;
             border-radius: 20px;
-            font-size: 8px;
-            font-weight: 600;
+            font-size: 9px;
+            font-weight: 700;
             display: inline-block;
-            margin-top: 2px;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .free-badge {
             position: absolute;
-            top: 6px;
-            right: 6px;
-            background: #00c853;
-            padding: 2px 10px;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #00c853, #00e676);
+            padding: 3px 14px;
             border-radius: 20px;
-            font-size: 8px;
-            font-weight: 600;
+            font-size: 9px;
+            font-weight: 700;
             color: #fff;
+            box-shadow: 0 4px 15px rgba(0,200,83,0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .admin-badge {
             position: absolute;
-            top: 6px;
-            left: 6px;
-            background: #ff3b3b;
-            padding: 2px 10px;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
+            padding: 3px 14px;
             border-radius: 20px;
-            font-size: 8px;
-            font-weight: 600;
+            font-size: 9px;
+            font-weight: 700;
             color: #fff;
+            box-shadow: 0 4px 15px rgba(255,59,59,0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .mod-badge {
             position: absolute;
-            top: 6px;
-            left: 6px;
-            background: #ffa500;
-            padding: 2px 10px;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(135deg, #ffa500, #ff8c00);
+            padding: 3px 14px;
             border-radius: 20px;
-            font-size: 8px;
-            font-weight: 600;
+            font-size: 9px;
+            font-weight: 700;
             color: #fff;
+            box-shadow: 0 4px 15px rgba(255,165,0,0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .watched-badge {
             position: absolute;
-            bottom: 40px;
-            left: 6px;
-            background: rgba(0,0,0,0.7);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 8px;
+            bottom: 50px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            padding: 3px 12px;
+            border-radius: 15px;
+            font-size: 9px;
             color: #00c853;
+            backdrop-filter: blur(4px);
         }
         .lock-overlay {
             position: absolute;
@@ -305,17 +424,43 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(3px);
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 10px;
+            border-radius: 14px;
             z-index: 5;
+            transition: 0.3s;
         }
-        .lock-overlay i { font-size: 35px; color: #ff3b3b; opacity: 0.8; }
+        .lock-overlay i { 
+            font-size: 40px; 
+            color: #ff3b3b; 
+            opacity: 0.8;
+            animation: lockPulse 2s ease-in-out infinite;
+        }
+        @keyframes lockPulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
 
-        .modal {
+        /* ===== LOADER ===== */
+        .loader { 
+            text-align: center; 
+            padding: 60px 20px; 
+            font-size: 16px; 
+            color: #ff3b3b;
+        }
+        .loader i { 
+            animation: spin 1s linear infinite; 
+            font-size: 30px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* ===== MODERN LOGIN MODAL ===== */
+        .auth-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -323,23 +468,404 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.92);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            padding: 20px;
+        }
+        .auth-modal.active { display: flex; }
+        .auth-modal-content {
+            background: rgba(20,20,20,0.95);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 440px;
+            padding: 0;
+            border: 1px solid rgba(255,59,59,0.2);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+            overflow: hidden;
+            position: relative;
+            animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .auth-modal-header {
+            padding: 28px 28px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .auth-modal-header .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .auth-modal-header .brand i {
+            font-size: 28px;
+            color: #ff3b3b;
+        }
+        .auth-modal-header .brand h2 {
+            font-size: 20px;
+            font-weight: 900;
+        }
+        .auth-modal-header .brand h2 span { color: #ff3b3b; }
+        .auth-modal-header .close-auth {
+            background: rgba(255,255,255,0.05);
+            border: none;
+            color: #666;
+            font-size: 22px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .auth-modal-header .close-auth:hover {
+            background: rgba(255,59,59,0.1);
+            color: #ff3b3b;
+            transform: rotate(90deg);
+        }
+
+        .auth-tabs {
+            display: flex;
+            padding: 20px 28px 0;
+            gap: 4px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        .auth-tab {
+            flex: 1;
+            padding: 12px 0;
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            text-align: center;
+        }
+        .auth-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #ff3b3b;
+            transition: 0.3s;
+            transform: translateX(-50%);
+        }
+        .auth-tab.active {
+            color: #fff;
+        }
+        .auth-tab.active::after {
+            width: 60%;
+        }
+        .auth-tab:hover {
+            color: #fff;
+        }
+
+        .auth-form-container {
+            padding: 28px;
+        }
+        .auth-form {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .auth-form.active { display: flex; }
+
+        .form-group {
+            position: relative;
+        }
+        .form-group .form-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #555;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 14px 14px 14px 44px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 14px;
+            transition: 0.3s;
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: #ff3b3b;
+            box-shadow: 0 0 0 4px rgba(255,59,59,0.1);
+            background: rgba(255,255,255,0.08);
+        }
+        .form-group input:focus + .form-icon,
+        .form-group input:focus ~ .form-icon {
+            color: #ff3b3b;
+        }
+        .form-group input::placeholder { color: #555; }
+        .form-group .toggle-pass {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+            padding: 4px;
+        }
+        .form-group .toggle-pass:hover { color: #fff; }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: #888;
+        }
+        .form-options label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .form-options label input[type="checkbox"] {
+            accent-color: #ff3b3b;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .form-options .forgot-pass {
+            color: #ff3b3b;
+            cursor: pointer;
+            transition: 0.3s;
+            background: none;
+            border: none;
+            font-size: 13px;
+        }
+        .form-options .forgot-pass:hover {
+            text-decoration: underline;
+        }
+
+        .auth-submit-btn {
+            padding: 14px;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 20px rgba(255,59,59,0.3);
+        }
+        .auth-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(255,59,59,0.4);
+        }
+        .auth-submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: #444;
+            font-size: 12px;
+        }
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #2a2a2a;
+        }
+
+        .social-auth {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+        .social-auth button {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            background: rgba(255,255,255,0.03);
+            color: #888;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .social-auth button:hover {
+            border-color: #ff3b3b;
+            color: #ff3b3b;
+            background: rgba(255,59,59,0.05);
+            transform: translateY(-2px);
+        }
+
+        .auth-error {
+            color: #ff3b3b;
+            font-size: 13px;
+            padding: 10px 14px;
+            background: rgba(255,59,59,0.08);
+            border-radius: 10px;
+            border: 1px solid rgba(255,59,59,0.1);
+            display: none;
+        }
+        .auth-error.show { display: block; }
+
+        .auth-success {
+            color: #00c853;
+            font-size: 13px;
+            padding: 10px 14px;
+            background: rgba(0,200,83,0.08);
+            border-radius: 10px;
+            border: 1px solid rgba(0,200,83,0.1);
+            display: none;
+        }
+        .auth-success.show { display: block; }
+
+        /* ===== ADMIN/MOD LOGIN ===== */
+        .admin-auth-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.92);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(20px);
+        }
+        .admin-auth-overlay.active { display: flex; }
+        .admin-auth-box {
+            background: rgba(20,20,20,0.95);
+            padding: 30px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid rgba(255,59,59,0.2);
+            animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .admin-auth-box .close-admin-auth {
+            float: right;
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 24px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .admin-auth-box .close-admin-auth:hover { color: #ff3b3b; }
+        .admin-auth-box .auth-brand {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .admin-auth-box .auth-brand i { 
+            font-size: 48px; 
+            color: #ff3b3b;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .admin-auth-box .auth-brand h2 {
+            color: #fff;
+            font-size: 24px;
+        }
+        .admin-auth-box .auth-brand h2 span { color: #ff3b3b; }
+        .admin-auth-box .auth-brand p { color: #888; font-size: 13px; margin-top: 4px; }
+        .admin-auth-box input {
+            width: 100%;
+            padding: 14px 16px;
+            margin: 8px 0;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #2a2a2a;
+            color: #fff;
+            border-radius: 12px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .admin-auth-box input:focus {
+            border-color: #ff3b3b;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(255,59,59,0.1);
+        }
+        .admin-auth-box input::placeholder { color: #555; }
+        .admin-auth-box .auth-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: 0.3s;
+            box-shadow: 0 4px 20px rgba(255,59,59,0.3);
+        }
+        .admin-auth-box .auth-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(255,59,59,0.4);
+        }
+        .admin-auth-box .error-msg {
+            color: #ff3b3b;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 12px;
+            padding: 10px;
+            background: rgba(255,59,59,0.08);
+            border-radius: 10px;
+            border: 1px solid rgba(255,59,59,0.1);
+        }
+
+        /* ===== VIDEO MODAL ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            padding: 10px;
-            backdrop-filter: blur(8px);
+            padding: 16px;
+            backdrop-filter: blur(12px);
         }
         .modal.active { display: flex; }
         .modal-content {
-            background: #141414;
-            padding: 14px;
-            border-radius: 14px;
+            background: rgba(20,20,20,0.98);
+            padding: 20px;
+            border-radius: 20px;
             width: 95%;
-            max-width: 880px;
-            max-height: 90vh;
+            max-width: 920px;
+            max-height: 92vh;
             overflow-y: auto;
-            border: 1px solid #ff3b3b;
+            border: 1px solid rgba(255,59,59,0.2);
             position: relative;
+            animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .modal-content::-webkit-scrollbar { width: 4px; }
         .modal-content::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
@@ -348,29 +874,34 @@
             position: sticky;
             top: 0;
             float: right;
-            font-size: 22px;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
             color: #fff;
-            cursor: pointer;
-            background: #ff3b3b;
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            z-index: 10;
-            border: none;
         }
-        .close-modal:hover { background: #cc2e2e; }
-        .modal-title { color: #fff; font-size: 18px; margin: 4px 0; }
+        .close-modal:hover { transform: scale(1.1) rotate(90deg); }
+        .modal-title { 
+            color: #fff; 
+            font-size: 20px; 
+            margin: 6px 0 12px;
+            padding-right: 50px;
+        }
 
         .video-wrapper {
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
-            border-radius: 10px;
+            border-radius: 12px;
             background: #000;
         }
         .video-wrapper iframe {
@@ -386,7 +917,7 @@
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
-            border-radius: 10px;
+            border-radius: 12px;
             background: #000;
         }
         .custom-video-player video {
@@ -400,36 +931,36 @@
 
         .action-bar {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
-            margin: 10px 0;
+            margin: 12px 0;
         }
         .action-bar button {
-            background: #222;
+            background: rgba(255,255,255,0.05);
             color: #fff;
-            border: 1px solid #444;
-            padding: 5px 14px;
-            border-radius: 8px;
+            border: 1px solid #2a2a2a;
+            padding: 8px 18px;
+            border-radius: 10px;
             cursor: pointer;
             transition: 0.3s;
-            font-size: 12px;
+            font-size: 13px;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
         }
         .action-bar button:hover {
-            background: #ff3b3b;
+            background: rgba(255,59,59,0.1);
             border-color: #ff3b3b;
+            transform: translateY(-2px);
         }
         .action-bar button i { color: #ff3b3b; }
-        .action-bar button:hover i { color: #fff; }
 
         .episode-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 10px;
-            max-height: 300px;
+            gap: 8px;
+            margin-top: 12px;
+            max-height: 250px;
             overflow-y: auto;
             padding: 4px;
         }
@@ -437,22 +968,25 @@
         .episode-grid::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
 
         .episode-btn {
-            background: #222;
+            background: rgba(255,255,255,0.05);
             color: #fff;
-            border: 1px solid #444;
-            padding: 4px 12px;
-            border-radius: 6px;
+            border: 1px solid #2a2a2a;
+            padding: 6px 16px;
+            border-radius: 8px;
             cursor: pointer;
             transition: 0.3s;
-            font-size: 10px;
-            min-width: 70px;
+            font-size: 12px;
+            min-width: 80px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         .episode-btn:hover {
-            background: #ff3b3b;
+            background: rgba(255,59,59,0.1);
             border-color: #ff3b3b;
         }
         .episode-btn.active {
-            background: #ff3b3b;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
             border-color: #ff3b3b;
         }
         .episode-btn.watched-ep {
@@ -462,442 +996,243 @@
 
         .player-status {
             color: #00c853;
-            font-size: 11px;
-            padding: 6px;
-            text-align: center;
-            background: #1a1a1a;
-            border-radius: 8px;
-            margin: 6px 0;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 14px;
-            color: #555;
-            border-top: 1px solid #1f1f1f;
-            margin-top: 8px;
-            font-size: 11px;
-        }
-
-        .no-results { text-align: center; padding: 40px; color: #888; }
-        .no-results i { font-size: 30px; color: #ff3b3b; margin-bottom: 6px; }
-
-        .empty-state { text-align: center; padding: 50px 20px; }
-        .empty-state i { font-size: 50px; color: #ff3b3b; margin-bottom: 12px; }
-        .empty-state h3 { font-size: 20px; color: #fff; margin-bottom: 6px; }
-        .empty-state p { color: #888; font-size: 13px; }
-
-        /* ===== AUTH OVERLAYS ===== */
-        .auth-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(12px);
-        }
-        .auth-overlay.active { display: flex; }
-        .auth-box {
-            background: #1a1a1a;
-            padding: 30px 28px;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 380px;
-            border: 1px solid #ff3b3b;
-            position: relative;
-        }
-        .auth-box .close-auth {
-            position: absolute;
-            top: 10px;
-            right: 14px;
-            font-size: 22px;
-            color: #666;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-        .auth-box .close-auth:hover { color: #ff3b3b; }
-        .auth-box .auth-brand {
-            text-align: center;
-            margin-bottom: 18px;
-        }
-        .auth-box .auth-brand i { font-size: 40px; color: #ff3b3b; }
-        .auth-box .auth-brand h2 { color: #fff; font-size: 22px; margin-top: 6px; }
-        .auth-box .auth-brand h2 span { color: #ff3b3b; }
-        .auth-box .auth-brand p { color: #888; font-size: 12px; margin-top: 2px; }
-
-        .auth-box input {
-            width: 100%;
-            padding: 10px 14px;
-            margin: 6px 0;
-            background: #222;
-            border: 1px solid #444;
-            color: #fff;
-            border-radius: 8px;
             font-size: 13px;
-            transition: 0.3s;
-        }
-        .auth-box input:focus {
-            border-color: #ff3b3b;
-            outline: none;
-        }
-        .auth-box input::placeholder { color: #555; }
-
-        .auth-box .auth-submit {
-            width: 100%;
-            padding: 10px;
-            background: #ff3b3b;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
-        }
-        .auth-box .auth-submit:hover { background: #cc2e2e; }
-
-        .auth-box .switch-auth {
-            text-align: center;
-            margin-top: 12px;
-            color: #666;
-            font-size: 12px;
-        }
-        .auth-box .switch-auth span {
-            color: #ff3b3b;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .auth-box .switch-auth span:hover { text-decoration: underline; }
-        .auth-box .error-msg {
-            color: #ff3b3b;
-            font-size: 12px;
-            text-align: center;
-            margin-top: 8px;
-            padding: 6px;
-            background: rgba(255,59,59,0.08);
-            border-radius: 6px;
-        }
-
-        /* ===== ADMIN/MOD LOGIN ===== */
-        .admin-auth-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.92);
-            z-index: 3000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(12px);
-        }
-        .admin-auth-overlay.active { display: flex; }
-        .admin-auth-box {
-            background: #1a1a1a;
-            padding: 30px 28px;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 380px;
-            border: 1px solid #ff3b3b;
-            position: relative;
-        }
-        .admin-auth-box .close-admin-auth {
-            position: absolute;
-            top: 10px;
-            right: 14px;
-            font-size: 22px;
-            color: #666;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-        .admin-auth-box .close-admin-auth:hover { color: #ff3b3b; }
-        .admin-auth-box .auth-brand {
-            text-align: center;
-            margin-bottom: 18px;
-        }
-        .admin-auth-box .auth-brand i { font-size: 40px; color: #ff3b3b; }
-        .admin-auth-box .auth-brand h2 { color: #fff; font-size: 22px; margin-top: 6px; }
-        .admin-auth-box .auth-brand h2 span { color: #ff3b3b; }
-        .admin-auth-box .auth-brand p { color: #888; font-size: 12px; margin-top: 2px; }
-        .admin-auth-box input {
-            width: 100%;
-            padding: 10px 14px;
-            margin: 6px 0;
-            background: #222;
-            border: 1px solid #444;
-            color: #fff;
-            border-radius: 8px;
-            font-size: 13px;
-        }
-        .admin-auth-box input:focus {
-            border-color: #ff3b3b;
-            outline: none;
-        }
-        .admin-auth-box input::placeholder { color: #555; }
-        .admin-auth-box .auth-submit {
-            width: 100%;
-            padding: 10px;
-            background: #ff3b3b;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
-        }
-        .admin-auth-box .auth-submit:hover { background: #cc2e2e; }
-        .admin-auth-box .error-msg {
-            color: #ff3b3b;
-            font-size: 12px;
-            text-align: center;
-            margin-top: 8px;
-            padding: 6px;
-            background: rgba(255,59,59,0.08);
-            border-radius: 6px;
-        }
-
-        /* ===== LOGIN REQUIRED ===== */
-        .login-required-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(10px);
-            z-index: 999;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            padding: 20px;
-        }
-        .login-required-overlay.active { display: flex; }
-        .login-required-box {
-            background: #1a1a1a;
-            padding: 35px;
-            border-radius: 16px;
-            text-align: center;
-            border: 1px solid #ff3b3b;
-            max-width: 400px;
-            width: 100%;
-        }
-        .login-required-box i { font-size: 50px; color: #ff3b3b; margin-bottom: 12px; }
-        .login-required-box h2 { color: #fff; font-size: 22px; margin-bottom: 6px; }
-        .login-required-box p { color: #888; font-size: 13px; margin-bottom: 18px; }
-        .login-required-box .auth-btns {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .login-required-box .auth-btns button {
-            padding: 8px 28px;
-            border: none;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .login-required-box .auth-btns .login-btn2 {
-            background: #ff3b3b;
-            color: #fff;
-        }
-        .login-required-box .auth-btns .login-btn2:hover { background: #cc2e2e; }
-        .login-required-box .auth-btns .register-btn2 {
-            background: #222;
-            color: #ccc;
-            border: 1px solid #444;
-        }
-        .login-required-box .auth-btns .register-btn2:hover { background: #333; }
-
-        /* ===== COMMENTS ===== */
-        .comments-section {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 16px;
-            background: rgba(26,26,26,0.6);
-            border-radius: 12px;
-            border: 1px solid #333;
-        }
-        .comments-section h3 {
-            color: #ff3b3b;
-            margin-bottom: 12px;
-            font-size: 16px;
-        }
-        .comment-input-area {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 14px;
-        }
-        .comment-input-area input {
-            flex: 1;
-            min-width: 120px;
             padding: 8px 14px;
-            background: #222;
-            border: 1px solid #444;
-            color: #fff;
-            border-radius: 8px;
-            font-size: 12px;
-        }
-        .comment-input-area input:focus {
-            border-color: #ff3b3b;
-            outline: none;
-        }
-        .comment-input-area input::placeholder { color: #666; }
-        .comment-input-area button {
-            background: #ff3b3b;
-            color: #fff;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-        .comment-input-area button:hover { background: #cc2e2e; }
-
-        .comment-list { max-height: 350px; overflow-y: auto; }
-        .comment-list::-webkit-scrollbar { width: 4px; }
-        .comment-list::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
-
-        .comment-item {
-            background: #151515;
-            padding: 10px 14px;
-            border-radius: 8px;
-            margin-bottom: 6px;
-            border-left: 3px solid #ff3b3b;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-        .comment-item .comment-text { flex: 1; min-width: 120px; }
-        .comment-item .comment-text .comment-user {
-            color: #ff3b3b;
-            font-weight: 600;
-            font-size: 12px;
-        }
-        .comment-item .comment-text .comment-msg {
-            color: #ccc;
-            font-size: 13px;
-            margin-top: 2px;
-            word-break: break-word;
-        }
-        .comment-item .comment-text .comment-time {
-            color: #666;
-            font-size: 9px;
-            margin-top: 3px;
-        }
-        .comment-item .comment-actions {
-            display: flex;
-            gap: 4px;
-            flex-shrink: 0;
-        }
-        .comment-item .comment-actions button {
-            background: transparent;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 11px;
-            transition: 0.3s;
-        }
-        .comment-item .comment-actions .edit-cmt:hover { color: #ffa500; background: #222; }
-        .comment-item .comment-actions .del-cmt:hover { color: #ff3b3b; background: #222; }
-        .comment-item .comment-actions .save-cmt { color: #00c853; }
-        .comment-item .comment-actions .save-cmt:hover { background: #222; }
-        .comment-item .comment-actions .cancel-cmt { color: #ff3b3b; }
-        .comment-item .comment-actions .cancel-cmt:hover { background: #222; }
-        .comment-item .comment-actions .admin-badge-cmt {
-            color: #ff3b3b;
-            font-size: 9px;
-            background: #222;
-            padding: 1px 8px;
+            text-align: center;
+            background: rgba(0,0,0,0.3);
             border-radius: 10px;
-            border: 1px solid #ff3b3b;
+            margin: 8px 0;
+            border: 1px solid rgba(0,200,83,0.1);
         }
-        .comment-item .comment-actions .mod-badge-cmt {
-            color: #ffa500;
-            font-size: 9px;
-            background: #222;
-            padding: 1px 8px;
-            border-radius: 10px;
-            border: 1px solid #ffa500;
-        }
-        .comment-item.editing .comment-msg { display: none; }
-        .comment-item .edit-input {
-            display: none;
-            width: 100%;
-            padding: 6px 10px;
-            background: #222;
-            border: 1px solid #444;
-            color: #fff;
-            border-radius: 6px;
-            font-size: 12px;
-            margin-top: 4px;
-        }
-        .comment-item.editing .edit-input { display: block; }
-        .comment-item.editing .comment-text .comment-msg { display: none; }
-        .no-comments { color: #666; text-align: center; padding: 16px; font-size: 13px; }
 
         /* ===== HISTORY ===== */
         .history-section {
-            max-width: 900px;
-            margin: 14px auto;
-            padding: 12px 18px;
+            max-width: 920px;
+            margin: 16px auto;
+            padding: 16px 20px;
             background: rgba(26,26,26,0.4);
-            border-radius: 12px;
-            border: 1px solid #333;
+            border-radius: 16px;
+            border: 1px solid #1f1f1f;
+            backdrop-filter: blur(4px);
         }
         .history-section h3 {
             color: #ffa500;
-            margin-bottom: 8px;
-            font-size: 15px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         .history-section .history-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 5px 12px;
-            background: #151515;
-            border-radius: 6px;
-            margin: 3px 0;
-            border-left: 2px solid #ffa500;
-            font-size: 12px;
+            padding: 8px 16px;
+            background: rgba(21,21,21,0.6);
+            border-radius: 10px;
+            margin: 4px 0;
+            border-left: 3px solid #ffa500;
+            font-size: 13px;
             color: #ccc;
+            transition: 0.3s;
         }
-        .history-section .history-item .hist-title { color: #fff; }
-        .history-section .history-item .hist-ep { color: #888; font-size: 10px; }
+        .history-section .history-item:hover {
+            background: rgba(21,21,21,0.9);
+        }
+        .history-section .history-item .hist-title { color: #fff; font-weight: 500; }
+        .history-section .history-item .hist-ep { color: #888; font-size: 11px; }
         .history-section .history-item .hist-continue {
             color: #00c853;
             cursor: pointer;
-            font-size: 11px;
-            padding: 2px 12px;
+            font-size: 12px;
+            padding: 4px 16px;
             border: 1px solid #00c853;
-            border-radius: 12px;
+            border-radius: 20px;
             transition: 0.3s;
+            background: none;
         }
         .history-section .history-item .hist-continue:hover {
             background: #00c853;
             color: #000;
+            transform: scale(1.05);
         }
-        .history-empty { color: #666; text-align: center; padding: 8px; font-size: 12px; }
+        .history-empty { 
+            color: #666; 
+            text-align: center; 
+            padding: 12px; 
+            font-size: 13px; 
+        }
+
+        /* ===== COMMENTS ===== */
+        .comments-section {
+            max-width: 920px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(26,26,26,0.4);
+            border-radius: 16px;
+            border: 1px solid #1f1f1f;
+            backdrop-filter: blur(4px);
+        }
+        .comments-section h3 {
+            color: #ff3b3b;
+            margin-bottom: 16px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .comment-input-area {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .comment-input-area input {
+            flex: 1;
+            min-width: 140px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #2a2a2a;
+            color: #fff;
+            border-radius: 12px;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+        .comment-input-area input:focus {
+            border-color: #ff3b3b;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(255,59,59,0.1);
+        }
+        .comment-input-area input::placeholder { color: #555; }
+        .comment-input-area button {
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255,59,59,0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .comment-input-area button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255,59,59,0.4);
+        }
+
+        .comment-list { max-height: 400px; overflow-y: auto; }
+        .comment-list::-webkit-scrollbar { width: 4px; }
+        .comment-list::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
+
+        .comment-item {
+            background: rgba(21,21,21,0.6);
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border-left: 3px solid #ff3b3b;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 8px;
+            transition: 0.3s;
+        }
+        .comment-item:hover {
+            background: rgba(21,21,21,0.9);
+        }
+        .comment-item .comment-text { flex: 1; min-width: 140px; }
+        .comment-item .comment-text .comment-user {
+            color: #ff3b3b;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .comment-item .comment-text .comment-msg {
+            color: #ccc;
+            font-size: 14px;
+            margin-top: 4px;
+            word-break: break-word;
+        }
+        .comment-item .comment-text .comment-time {
+            color: #666;
+            font-size: 10px;
+            margin-top: 4px;
+        }
+        .comment-item .comment-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .comment-item .comment-actions button {
+            background: rgba(255,255,255,0.03);
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+        .comment-item .comment-actions .edit-cmt:hover { 
+            color: #ffa500; 
+            background: rgba(255,165,0,0.1);
+        }
+        .comment-item .comment-actions .del-cmt:hover { 
+            color: #ff3b3b; 
+            background: rgba(255,59,59,0.1);
+        }
+        .comment-item .comment-actions .save-cmt { 
+            color: #00c853; 
+        }
+        .comment-item .comment-actions .save-cmt:hover {
+            background: rgba(0,200,83,0.1);
+        }
+        .comment-item .comment-actions .cancel-cmt { 
+            color: #ff3b3b; 
+        }
+        .comment-item .comment-actions .cancel-cmt:hover {
+            background: rgba(255,59,59,0.1);
+        }
+        .admin-badge-cmt {
+            color: #ff3b3b;
+            font-size: 9px;
+            background: rgba(255,59,59,0.1);
+            padding: 2px 12px;
+            border-radius: 12px;
+            border: 1px solid #ff3b3b;
+            margin-left: 6px;
+        }
+        .mod-badge-cmt {
+            color: #ffa500;
+            font-size: 9px;
+            background: rgba(255,165,0,0.1);
+            padding: 2px 12px;
+            border-radius: 12px;
+            border: 1px solid #ffa500;
+            margin-left: 6px;
+        }
+        .comment-item.editing .comment-msg { display: none; }
+        .comment-item .edit-input {
+            display: none;
+            width: 100%;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #2a2a2a;
+            color: #fff;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+        .comment-item.editing .edit-input { display: block; }
+        .comment-item.editing .comment-text .comment-msg { display: none; }
+        .no-comments { 
+            color: #666; 
+            text-align: center; 
+            padding: 20px; 
+            font-size: 14px; 
+        }
 
         /* ===== ADMIN PAGE ===== */
         #adminPage {
@@ -910,92 +1245,131 @@
             background: #0a0a0a;
             z-index: 5000;
             overflow-y: auto;
-            padding: 16px;
+            padding: 20px;
         }
         #adminPage .admin-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 18px;
-            background: #1a1a1a;
+            padding: 14px 24px;
+            background: rgba(26,26,26,0.95);
             border-bottom: 2px solid #ff3b3b;
-            border-radius: 12px;
-            margin-bottom: 16px;
+            border-radius: 16px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
         }
-        #adminPage .admin-header h2 { color: #ff3b3b; font-size: 17px; }
+        #adminPage .admin-header h2 { 
+            color: #ff3b3b; 
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
         #adminPage .admin-header .close-admin {
-            background: #ff3b3b;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
             color: #fff;
             border: none;
-            padding: 6px 18px;
-            border-radius: 8px;
+            padding: 8px 24px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: 600;
             transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255,59,59,0.3);
         }
-        #adminPage .admin-header .close-admin:hover { background: #cc2e2e; }
+        #adminPage .admin-header .close-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255,59,59,0.4);
+        }
 
         .admin-panel {
-            background: #1a1a1a;
-            padding: 18px;
-            border-radius: 12px;
-            border: 1px solid #ff3b3b;
-            max-width: 900px;
+            background: rgba(26,26,26,0.95);
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid #2a2a2a;
+            max-width: 920px;
             margin: 0 auto;
         }
-        .admin-panel h3 { color: #ff3b3b; margin-bottom: 12px; font-size: 17px; }
-        .admin-panel h4 { color: #ffa500; margin: 10px 0 6px; font-size: 14px; }
+        .admin-panel h3 { 
+            color: #ff3b3b; 
+            margin-bottom: 16px; 
+            font-size: 19px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .admin-panel h4 { 
+            color: #ffa500; 
+            margin: 16px 0 10px; 
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
         .admin-panel input, .admin-panel textarea, .admin-panel select {
             width: 100%;
-            padding: 8px 12px;
-            margin: 4px 0;
-            background: #222;
-            border: 1px solid #444;
+            padding: 12px 16px;
+            margin: 6px 0;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid #2a2a2a;
             color: #fff;
-            border-radius: 8px;
-            font-size: 13px;
+            border-radius: 12px;
+            font-size: 14px;
+            transition: 0.3s;
         }
         .admin-panel input:focus, .admin-panel textarea:focus {
             border-color: #ff3b3b;
             outline: none;
+            box-shadow: 0 0 0 4px rgba(255,59,59,0.1);
         }
-        .admin-panel textarea { min-height: 50px; resize: vertical; }
+        .admin-panel textarea { min-height: 60px; resize: vertical; }
         .admin-panel button {
-            background: #ff3b3b;
+            background: linear-gradient(135deg, #ff3b3b, #cc2e2e);
             color: #fff;
             border: none;
-            padding: 8px 20px;
-            border-radius: 8px;
+            padding: 10px 24px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: 600;
             margin: 4px 4px;
             transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255,59,59,0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-        .admin-panel button:hover { background: #cc2e2e; }
+        .admin-panel button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255,59,59,0.3);
+        }
         .admin-panel .mod-btn {
-            background: #ffa500;
+            background: linear-gradient(135deg, #ffa500, #e69500);
+            box-shadow: 0 4px 15px rgba(255,165,0,0.3);
         }
-        .admin-panel .mod-btn:hover { background: #cc8400; }
+        .admin-panel .mod-btn:hover {
+            box-shadow: 0 6px 25px rgba(255,165,0,0.4);
+        }
 
         .drop-area {
-            border: 2px dashed #ff3b3b;
-            border-radius: 8px;
-            padding: 18px;
+            border: 2px dashed rgba(255,59,59,0.3);
+            border-radius: 12px;
+            padding: 24px;
             text-align: center;
             cursor: pointer;
             transition: 0.3s;
-            margin: 6px 0;
-            background: #111;
+            margin: 8px 0;
+            background: rgba(255,255,255,0.02);
         }
-        .drop-area:hover { background: #222; border-color: #ff6b6b; }
+        .drop-area:hover { 
+            background: rgba(255,59,59,0.05); 
+            border-color: #ff3b3b;
+        }
         .drop-area .preview-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
             justify-content: center;
-            margin-top: 6px;
+            margin-top: 10px;
         }
         .drop-area .preview-item {
             position: relative;
@@ -1003,8 +1377,8 @@
         }
         .drop-area .preview-item img {
             max-height: 80px;
-            border-radius: 6px;
-            border: 1px solid #444;
+            border-radius: 8px;
+            border: 1px solid #2a2a2a;
         }
         .drop-area .preview-item .remove-img {
             position: absolute;
@@ -1014,106 +1388,204 @@
             color: #fff;
             border: none;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 11px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: 0.3s;
         }
-        .drop-area .preview-item .remove-img:hover { background: #cc2e2e; }
+        .drop-area .preview-item .remove-img:hover {
+            transform: scale(1.1);
+        }
 
-        .admin-content-list { margin-top: 16px; border-top: 1px solid #333; padding-top: 12px; }
+        .admin-content-list { 
+            margin-top: 20px; 
+            border-top: 1px solid #2a2a2a; 
+            padding-top: 16px; 
+        }
         .admin-content-list .content-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #151515;
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin: 4px 0;
-            border: 1px solid #252525;
+            background: rgba(21,21,21,0.6);
+            padding: 10px 16px;
+            border-radius: 12px;
+            margin: 6px 0;
+            border: 1px solid #2a2a2a;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
+            transition: 0.3s;
+        }
+        .admin-content-list .content-item:hover {
+            background: rgba(21,21,21,0.9);
+            border-color: #ff3b3b;
         }
         .admin-content-list .content-item .item-info {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
         }
         .admin-content-list .content-item .item-info img {
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             object-fit: cover;
-            border-radius: 6px;
+            border-radius: 8px;
+            border: 1px solid #2a2a2a;
         }
         .admin-content-list .content-item .item-actions button {
-            padding: 3px 10px;
-            font-size: 11px;
+            padding: 4px 14px;
+            font-size: 12px;
             margin: 2px;
-            border-radius: 6px;
+            border-radius: 8px;
             border: none;
             cursor: pointer;
             transition: 0.3s;
+            font-weight: 600;
         }
         .admin-content-list .content-item .item-actions .edit-btn {
             background: #ffa500;
             color: #fff;
         }
-        .admin-content-list .content-item .item-actions .edit-btn:hover { background: #cc8400; }
+        .admin-content-list .content-item .item-actions .edit-btn:hover {
+            background: #e69500;
+            transform: scale(1.05);
+        }
         .admin-content-list .content-item .item-actions .del-btn {
             background: #cc2e2e;
             color: #fff;
         }
-        .admin-content-list .content-item .item-actions .del-btn:hover { background: #991111; }
+        .admin-content-list .content-item .item-actions .del-btn:hover {
+            background: #991111;
+            transform: scale(1.05);
+        }
 
-        /* ===== MODERATOR LIST ===== */
+        /* ===== MOD LIST ===== */
         .mod-list {
             margin-top: 12px;
-            border-top: 1px solid #333;
-            padding-top: 10px;
+            border-top: 1px solid #2a2a2a;
+            padding-top: 12px;
         }
         .mod-list .mod-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #151515;
-            padding: 6px 12px;
-            border-radius: 6px;
+            background: rgba(21,21,21,0.6);
+            padding: 8px 16px;
+            border-radius: 10px;
             margin: 4px 0;
-            border-left: 2px solid #ffa500;
+            border-left: 3px solid #ffa500;
+            transition: 0.3s;
+        }
+        .mod-list .mod-item:hover {
+            background: rgba(21,21,21,0.9);
         }
         .mod-list .mod-item .mod-info {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         .mod-list .mod-item .mod-info .mod-icon {
             color: #ffa500;
-            font-size: 14px;
+            font-size: 16px;
         }
         .mod-list .mod-item .mod-actions button {
-            padding: 2px 10px;
-            font-size: 11px;
+            padding: 4px 14px;
+            font-size: 12px;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
             transition: 0.3s;
             background: #cc2e2e;
             color: #fff;
+            font-weight: 600;
         }
-        .mod-list .mod-item .mod-actions button:hover { background: #991111; }
+        .mod-list .mod-item .mod-actions button:hover {
+            background: #991111;
+            transform: scale(1.05);
+        }
 
-        @media (max-width: 600px) {
-            .navbar { flex-direction: column; align-items: stretch; }
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #555;
+            border-top: 1px solid #1f1f1f;
+            margin-top: 16px;
+            font-size: 13px;
+        }
+
+        .empty-state { text-align: center; padding: 60px 20px; }
+        .empty-state i { font-size: 60px; color: #ff3b3b; margin-bottom: 16px; display: block; }
+        .empty-state h3 { font-size: 22px; color: #fff; margin-bottom: 8px; }
+        .empty-state p { color: #888; font-size: 14px; }
+
+        .no-results { text-align: center; padding: 60px 20px; color: #888; }
+        .no-results i { font-size: 40px; color: #ff3b3b; display: block; margin-bottom: 12px; }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 24px;
+            border-radius: 14px;
+            background: rgba(20,20,20,0.95);
+            border: 1px solid #2a2a2a;
+            color: #fff;
+            font-size: 14px;
+            z-index: 9999;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast.success { border-color: #00c853; }
+        .toast.success i { color: #00c853; }
+        .toast.error { border-color: #ff3b3b; }
+        .toast.error i { color: #ff3b3b; }
+        .toast.info { border-color: #ffa500; }
+        .toast.info i { color: #ffa500; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .navbar { 
+                flex-direction: column; 
+                align-items: stretch; 
+                gap: 10px;
+                padding: 12px 16px;
+            }
             .search-box { max-width: 100%; }
-            .content-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
-            .hero h1 { font-size: 20px; }
+            .content-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; }
+            .hero h1 { font-size: 24px; }
             .nav-links { justify-content: center; }
-            .auth-box { padding: 20px; margin: 10px; }
-            .admin-auth-box { padding: 20px; margin: 10px; }
+            .auth-section { justify-content: center; }
+            .auth-modal-content { margin: 10px; max-width: 100%; }
+            .admin-panel { padding: 16px; }
+            .history-section { margin: 10px; padding: 12px 16px; }
+            .comments-section { margin: 10px; padding: 16px; }
+            .modal-content { padding: 16px; }
+        }
+
+        @media (max-width: 480px) {
+            .content-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+            .content-card img { height: 170px; }
+            .hero h1 { font-size: 20px; }
+            .auth-btn-modern { padding: 6px 14px; font-size: 12px; }
+            .upload-btn-modern { padding: 6px 14px; font-size: 11px; }
+            .auth-modal-content { padding: 0; }
+            .auth-form-container { padding: 20px; }
         }
     </style>
 </head>
@@ -1121,56 +1593,54 @@
 
     <canvas id="bgCanvas"></canvas>
 
-    <!-- ===== LOGIN REQUIRED OVERLAY ===== -->
-    <div class="login-required-overlay" id="loginRequiredOverlay">
-        <div class="login-required-box">
-            <i class="fas fa-lock"></i>
-            <h2>🔐 लॉगिन जरूरी!</h2>
-            <p>वीडियो देखने के लिए पहले लॉगिन या रजिस्टर करें</p>
-            <div class="auth-btns">
-                <button class="login-btn2" onclick="closeLoginRequired(); openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
-                <button class="register-btn2" onclick="closeLoginRequired(); openUserAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
-            </div>
-        </div>
+    <!-- ===== TOAST ===== -->
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">सफल!</span>
     </div>
 
     <!-- ===== MAIN PAGE ===== -->
     <div id="mainPage">
         <div class="navbar">
-            <div class="logo"><i class="fas fa-film"></i>JOD<span>MODS</span> OTT</div>
+            <div class="logo"><i class="fas fa-film"></i>JOD<span>MODS</span></div>
+            
             <div class="nav-links">
                 <a class="active" data-type="all"><i class="fas fa-th-list"></i> सभी</a>
                 <a data-type="movies"><i class="fas fa-film"></i> मूवी</a>
                 <a data-type="series"><i class="fas fa-tv"></i> सीरीज</a>
             </div>
-            <div style="display:flex; gap:5px; flex-wrap:wrap; align-items:center;">
-                <button class="upload-btn" onclick="openAdminAuth()"><i class="fas fa-upload"></i> अपलोड</button>
-                <div id="authSection">
-                    <div class="auth-buttons">
-                        <button class="auth-btn" onclick="openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
-                        <button class="auth-btn" onclick="openUserAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
-                    </div>
-                </div>
-                <div class="search-box">
+
+            <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; width:100%; max-width:100%;">
+                <button class="upload-btn-modern" onclick="openAdminAuth()"><i class="fas fa-upload"></i> अपलोड</button>
+                
+                <div class="search-box" style="flex:1; min-width:120px;">
                     <input type="text" id="searchInput" placeholder="🔍 खोजें..." />
                     <i class="fas fa-search" onclick="searchAnime()"></i>
+                </div>
+
+                <div class="auth-section" id="authSection">
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <button class="auth-btn-modern login-btn" onclick="openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
+                        <button class="auth-btn-modern register-btn" onclick="openUserAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="hero">
             <h1 class="glow-text">🇮🇳 <span>JOD MODS</span> OTT</h1>
-            <p>🔥 सिर्फ ऐडमिन/मॉड कंटेंट • 100% मुफ्त • डायरेक्ट वीडियो प्ले</p>
+            <p>🔥 सिर्फ ऐडमिन/मॉड कंटेंट • 100% मुफ्त • प्रीमियम अनुभव</p>
             <div class="tags">
                 <span>🔥 ऐडमिन कंटेंट</span>
                 <span>⭐ 100% मुफ्त</span>
                 <span>📺 अपनी मर्जी का</span>
+                <span>🚀 फास्ट प्लेयर</span>
             </div>
         </div>
 
         <div class="history-section" id="historySection">
             <h3><i class="fas fa-history"></i> आपकी हिस्ट्री</h3>
-            <div id="historyList"><div class="history-empty">लॉगिन करें और देखें</div></div>
+            <div id="historyList"><div class="history-empty">🔐 लॉगिन करें और अपनी हिस्ट्री देखें</div></div>
         </div>
 
         <div class="section">
@@ -1188,27 +1658,97 @@
             <div class="comment-list" id="commentList"><div class="no-comments">कोई कमेंट नहीं। पहली राय दें!</div></div>
         </div>
 
-        <div class="footer"><p>JOD MODS OTT © 2025 – सिर्फ ऐडमिन/मॉड कंटेंट <i class="fas fa-heart" style="color:#ff3b3b;"></i></p></div>
+        <div class="footer">
+            <p>JOD MODS OTT © 2025 – सिर्फ ऐडमिन/मॉड कंटेंट <i class="fas fa-heart" style="color:#ff3b3b;"></i></p>
+        </div>
     </div>
 
-    <!-- ===== USER LOGIN ===== -->
-    <div class="auth-overlay" id="userAuthOverlay">
-        <div class="auth-box">
-            <button class="close-auth" onclick="closeUserAuth()">&times;</button>
-            <div class="auth-brand">
-                <i class="fas fa-film"></i>
-                <h2>JOD<span>MODS</span></h2>
-                <p id="authSubText">अपने अकाउंट में लॉगिन करें</p>
+    <!-- ===== MODERN AUTH MODAL ===== -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-modal-content">
+            <div class="auth-modal-header">
+                <div class="brand">
+                    <i class="fas fa-film"></i>
+                    <h2>JOD<span>MODS</span></h2>
+                </div>
+                <button class="close-auth" onclick="closeUserAuth()">&times;</button>
             </div>
-            <div id="authForm">
-                <input type="text" id="authName" placeholder="आपका नाम" style="display:none;" />
-                <input type="email" id="authEmail" placeholder="ईमेल" />
-                <input type="password" id="authPass" placeholder="पासवर्ड" />
-                <input type="password" id="authConfirm" placeholder="पासवर्ड दोबारा" style="display:none;" />
-                <button class="auth-submit" id="authSubmit" onclick="submitUserAuth()">लॉगिन करें</button>
-                <div class="error-msg" id="authError"></div>
-                <div class="switch-auth">
-                    <span id="switchText">नए हैं? <span onclick="switchUserAuth()">रजिस्टर करें</span></span>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login" onclick="switchAuthTab('login')">🔑 लॉगिन</button>
+                <button class="auth-tab" data-tab="register" onclick="switchAuthTab('register')">📝 रजिस्टर</button>
+            </div>
+
+            <div class="auth-form-container">
+                <!-- Login Form -->
+                <div class="auth-form active" id="loginForm">
+                    <div class="form-group">
+                        <input type="email" id="loginEmail" placeholder="ईमेल" />
+                        <i class="fas fa-envelope form-icon"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="loginPass" placeholder="पासवर्ड" />
+                        <i class="fas fa-lock form-icon"></i>
+                        <button class="toggle-pass" onclick="togglePassword('loginPass')" type="button">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="form-options">
+                        <label>
+                            <input type="checkbox" id="rememberMe" checked /> मुझे याद रखें
+                        </label>
+                        <button class="forgot-pass" onclick="showToast('info', '📧 जल्द ही पासवर्ड रीसेट लिंक भेजा जाएगा!')">पासवर्ड भूल गए?</button>
+                    </div>
+                    <button class="auth-submit-btn" onclick="submitUserLogin()">
+                        <i class="fas fa-sign-in-alt"></i> लॉगिन करें
+                    </button>
+                    <div class="auth-divider">या</div>
+                    <div class="social-auth">
+                        <button onclick="showToast('info', '🚀 सोशल लॉगिन जल्द आ रहा है!')"><i class="fab fa-google"></i></button>
+                        <button onclick="showToast('info', '🚀 सोशल लॉगिन जल्द आ रहा है!')"><i class="fab fa-facebook-f"></i></button>
+                        <button onclick="showToast('info', '🚀 सोशल लॉगिन जल्द आ रहा है!')"><i class="fab fa-twitter"></i></button>
+                    </div>
+                    <div class="auth-error" id="loginError"></div>
+                    <div class="auth-success" id="loginSuccess"></div>
+                </div>
+
+                <!-- Register Form -->
+                <div class="auth-form" id="registerForm">
+                    <div class="form-group">
+                        <input type="text" id="regName" placeholder="पूरा नाम" />
+                        <i class="fas fa-user form-icon"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="regEmail" placeholder="ईमेल" />
+                        <i class="fas fa-envelope form-icon"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="regPass" placeholder="पासवर्ड" />
+                        <i class="fas fa-lock form-icon"></i>
+                        <button class="toggle-pass" onclick="togglePassword('regPass')" type="button">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="regConfirm" placeholder="पासवर्ड दोबारा" />
+                        <i class="fas fa-check-circle form-icon"></i>
+                    </div>
+                    <div class="form-options">
+                        <label>
+                            <input type="checkbox" id="termsCheck" checked /> मैं नियमों से सहमत हूँ
+                        </label>
+                    </div>
+                    <button class="auth-submit-btn" onclick="submitUserRegister()">
+                        <i class="fas fa-user-plus"></i> रजिस्टर करें
+                    </button>
+                    <div class="auth-divider">या</div>
+                    <div class="social-auth">
+                        <button onclick="showToast('info', '🚀 सोशल रजिस्टर जल्द आ रहा है!')"><i class="fab fa-google"></i></button>
+                        <button onclick="showToast('info', '🚀 सोशल रजिस्टर जल्द आ रहा है!')"><i class="fab fa-facebook-f"></i></button>
+                        <button onclick="showToast('info', '🚀 सोशल रजिस्टर जल्द आ रहा है!')"><i class="fab fa-twitter"></i></button>
+                    </div>
+                    <div class="auth-error" id="regError"></div>
+                    <div class="auth-success" id="regSuccess"></div>
                 </div>
             </div>
         </div>
@@ -1225,7 +1765,7 @@
             </div>
             <input type="text" id="adminUserInput" placeholder="यूजरनेम" />
             <input type="password" id="adminPassInput" placeholder="पासवर्ड" />
-            <button class="auth-submit" onclick="submitAdminLogin()">लॉगिन करें</button>
+            <button class="auth-submit" onclick="submitAdminLogin()"><i class="fas fa-lock-open"></i> लॉगिन करें</button>
             <div class="error-msg" id="adminAuthError"></div>
         </div>
     </div>
@@ -1237,37 +1777,37 @@
             <button class="close-admin" onclick="closeAdminPage()"><i class="fas fa-times"></i> बंद करें</button>
         </div>
         <div class="admin-panel">
-            <div id="adminControls" style="display:block;">
+            <div id="adminControls">
                 <h3><i class="fas fa-plus-circle"></i> नया कंटेंट जोड़ें / एडिट करें</h3>
-                <div style="display:flex; gap:6px; flex-wrap:wrap; margin:6px 0;">
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
                     <input type="text" id="adminTitle" placeholder="टाइटल" style="flex:2;min-width:150px;">
                     <input type="text" id="adminType" placeholder="टाइप: movie / series" style="flex:1;min-width:80px;" value="series">
                     <input type="number" id="adminEpisodes" placeholder="कुल एपिसोड" style="flex:1;min-width:70px;" value="12">
-                    <input type="text" id="adminEditId" placeholder="एडिट ID" style="flex:1;min-width:100px;background:#111;color:#888;" readonly>
+                    <input type="text" id="adminEditId" placeholder="एडिट ID" style="flex:1;min-width:100px;background:rgba(255,255,255,0.03);color:#666;" readonly>
                 </div>
 
                 <div class="drop-area" id="dropArea">
-                    <i class="fas fa-cloud-upload-alt" style="font-size:20px;color:#ff3b3b;"></i>
-                    <p style="color:#aaa;font-size:12px;">थंबनेल ड्रैग & ड्रॉप करें या क्लिक करें</p>
+                    <i class="fas fa-cloud-upload-alt" style="font-size:28px;color:#ff3b3b;"></i>
+                    <p style="color:#aaa;font-size:14px;margin-top:6px;">थंबनेल ड्रैग & ड्रॉप करें या क्लिक करें</p>
                     <input type="file" id="fileInput" accept="image/*" style="display:none;" multiple>
                     <div class="preview-container" id="previewContainer"></div>
                 </div>
 
-                <div style="display:flex; gap:6px; flex-wrap:wrap; margin:6px 0;">
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
                     <input type="text" id="adminEpisodeLinks" placeholder="एपिसोड लिंक (कॉमा से अलग करें)" style="flex:3;min-width:150px;">
                 </div>
-                <div style="display:flex; gap:6px; flex-wrap:wrap; margin:6px 0;">
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
                     <input type="text" id="adminVideoLink" placeholder="डिफॉल्ट वीडियो लिंक" style="flex:2;min-width:150px;">
                 </div>
 
-                <div style="display:flex; gap:6px; flex-wrap:wrap; margin:8px 0;">
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin:12px 0;">
                     <button onclick="adminAddAnime()"><i class="fas fa-save"></i> सेव करें</button>
                     <button onclick="adminClearForm()" style="background:#666;"><i class="fas fa-undo"></i> क्लियर</button>
                     <button onclick="adminResetAll()" style="background:#cc2e2e;"><i class="fas fa-power-off"></i> सबको लॉगआउट</button>
                 </div>
 
-                <!-- ===== MODERATOR MANAGEMENT (Only Admin) ===== -->
-                <div id="modSection" style="display:none; margin-top:16px; border-top: 2px solid #ffa500; padding-top:14px;">
+                <!-- Mod Section -->
+                <div id="modSection" style="display:none; margin-top:20px; border-top: 2px solid #ffa500; padding-top:18px;">
                     <h3 style="color:#ffa500;"><i class="fas fa-user-cog"></i> मॉडरेटर मैनेजमेंट</h3>
                     <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
                         <input type="text" id="modUsername" placeholder="मॉड यूजरनेम" style="flex:1;min-width:120px;">
@@ -1275,13 +1815,13 @@
                         <button class="mod-btn" onclick="addModerator()"><i class="fas fa-user-plus"></i> मॉड जोड़ें</button>
                     </div>
                     <div class="mod-list" id="modList">
-                        <p style="color:#888; padding:8px;">कोई मॉड नहीं</p>
+                        <p style="color:#888; padding:12px;">कोई मॉड नहीं</p>
                     </div>
                 </div>
 
                 <div class="admin-content-list">
                     <h3><i class="fas fa-list"></i> आपका कंटेंट</h3>
-                    <div id="adminContentList"><p style="color:#888; padding:8px;">लोड हो रहा है...</p></div>
+                    <div id="adminContentList"><p style="color:#888; padding:12px;">लोड हो रहा है...</p></div>
                 </div>
             </div>
         </div>
@@ -1313,7 +1853,23 @@
     </div>
 
     <script>
-        // ==================== CANVAS BACKGROUND ====================
+        // ==================== TOAST ====================
+        let toastTimeout;
+
+        function showToast(type, message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMessage');
+            toast.className = 'toast';
+            if (type === 'success') toast.classList.add('success');
+            else if (type === 'error') toast.classList.add('error');
+            else if (type === 'info') toast.classList.add('info');
+            toastMsg.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ==================== CANVAS BG ====================
         (function() {
             const canvas = document.getElementById('bgCanvas');
             const ctx = canvas.getContext('2d');
@@ -1333,10 +1889,10 @@
                 reset() {
                     this.x = Math.random() * w;
                     this.y = Math.random() * h;
-                    this.size = Math.random() * 2.5 + 1;
+                    this.size = Math.random() * 3 + 1;
                     this.speedX = (Math.random() - 0.5) * 0.5;
                     this.speedY = (Math.random() - 0.5) * 0.5;
-                    this.opacity = Math.random() * 0.5 + 0.1;
+                    this.opacity = Math.random() * 0.4 + 0.1;
                     this.color = colors[Math.floor(Math.random() * colors.length)];
                     this.pulse = Math.random() * Math.PI * 2;
                 }
@@ -1358,14 +1914,14 @@
                     ctx.globalAlpha = opacity;
                     ctx.fill();
                     ctx.shadowColor = this.color;
-                    ctx.shadowBlur = 10;
+                    ctx.shadowBlur = 12;
                     ctx.fill();
                     ctx.shadowBlur = 0;
                     ctx.globalAlpha = 1;
                 }
             }
 
-            for (let i = 0; i < 50; i++) particles.push(new Particle());
+            for (let i = 0; i < 60; i++) particles.push(new Particle());
 
             function animate() {
                 ctx.clearRect(0, 0, w, h);
@@ -1386,7 +1942,6 @@
         let uploadedImages = [];
         let editingId = null;
         let currentUser = null;
-        let userAuthMode = 'login';
         let pendingOpenAnime = null;
         let isAdminLoggedIn = false;
         let isModLoggedIn = false;
@@ -1404,10 +1959,6 @@
         const episodeContainer = document.getElementById('episodeContainer');
         const playerStatus = document.getElementById('playerStatus');
 
-        // ==================== LOGIN REQUIRED ====================
-        function showLoginRequired() { document.getElementById('loginRequiredOverlay').classList.add('active'); }
-        function closeLoginRequired() { document.getElementById('loginRequiredOverlay').classList.remove('active'); }
-
         // ==================== USER AUTH ====================
         function getUsers() { return JSON.parse(localStorage.getItem('jodmods_users') || '[]'); }
         function saveUsers(u) { localStorage.setItem('jodmods_users', JSON.stringify(u)); }
@@ -1422,110 +1973,178 @@
             updateUI();
         }
 
-        function openUserAuth(mode) {
-            closeLoginRequired();
-            if (currentUser) { alert('आप पहले से लॉगिन हैं!'); return; }
-            userAuthMode = mode || 'login';
-            const subText = document.getElementById('authSubText');
-            const nameField = document.getElementById('authName');
-            const confirmField = document.getElementById('authConfirm');
-            const submitBtn = document.getElementById('authSubmit');
-            const switchText = document.getElementById('switchText');
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.auth-tab[data-tab="${tab}"]`).classList.add('active');
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            document.getElementById(tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
+            document.getElementById('loginError').classList.remove('show');
+            document.getElementById('loginSuccess').classList.remove('show');
+            document.getElementById('regError').classList.remove('show');
+            document.getElementById('regSuccess').classList.remove('show');
+        }
 
-            if (mode === 'register') {
-                subText.textContent = 'नया अकाउंट बनाएं';
-                nameField.style.display = 'block';
-                confirmField.style.display = 'block';
-                submitBtn.textContent = 'रजिस्टर करें';
-                switchText.innerHTML = 'पहले से हैं? <span onclick="switchUserAuth()">लॉगिन करें</span>';
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            const icon = input.parentElement.querySelector('.toggle-pass i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
             } else {
-                subText.textContent = 'अपने अकाउंट में लॉगिन करें';
-                nameField.style.display = 'none';
-                confirmField.style.display = 'none';
-                submitBtn.textContent = 'लॉगिन करें';
-                switchText.innerHTML = 'नए हैं? <span onclick="switchUserAuth()">रजिस्टर करें</span>';
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
             }
-            document.getElementById('authError').textContent = '';
-            document.getElementById('authEmail').value = '';
-            document.getElementById('authPass').value = '';
-            document.getElementById('authName').value = '';
-            document.getElementById('authConfirm').value = '';
-            document.getElementById('userAuthOverlay').classList.add('active');
-        }
-        function closeUserAuth() { document.getElementById('userAuthOverlay').classList.remove('active'); }
-        function switchUserAuth() {
-            const current = document.getElementById('authSubText').textContent;
-            if (current.includes('लॉगिन')) openUserAuth('register');
-            else openUserAuth('login');
         }
 
-        function submitUserAuth() {
-            const email = document.getElementById('authEmail').value.trim();
-            const pass = document.getElementById('authPass').value.trim();
-            const name = document.getElementById('authName').value.trim();
-            const confirm = document.getElementById('authConfirm').value.trim();
-            const error = document.getElementById('authError');
+        function openUserAuth(mode) {
+            if (currentUser) { showToast('info', 'आप पहले से लॉगिन हैं!'); return; }
+            document.getElementById('authModal').classList.add('active');
+            if (mode === 'register') switchAuthTab('register');
+            else switchAuthTab('login');
+            document.getElementById('loginError').classList.remove('show');
+            document.getElementById('loginSuccess').classList.remove('show');
+            document.getElementById('regError').classList.remove('show');
+            document.getElementById('regSuccess').classList.remove('show');
+        }
 
-            if (!email || !pass) { error.textContent = 'ईमेल और पासवर्ड जरूरी है!'; return; }
-            const users = getUsers();
+        function closeUserAuth() {
+            document.getElementById('authModal').classList.remove('active');
+        }
 
-            if (userAuthMode === 'register') {
-                if (!name) { error.textContent = 'नाम जरूरी है!'; return; }
-                if (pass !== confirm) { error.textContent = 'पासवर्ड मैच नहीं!'; return; }
-                if (users.find(u => u.email === email)) {
-                    error.textContent = 'यह ईमेल पहले से रजिस्टर है!';
-                    return;
-                }
-                users.push({ name, email, password: pass, isAdmin: false, isMod: false });
-                saveUsers(users);
-                error.textContent = '✅ रजिस्टर सफल! अब लॉगिन करें।';
-                error.style.color = '#00c853';
-                setTimeout(() => openUserAuth('login'), 1500);
+        function submitUserLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+            const error = document.getElementById('loginError');
+            const success = document.getElementById('loginSuccess');
+
+            if (!email || !pass) {
+                error.textContent = '⚠️ ईमेल और पासवर्ड दोनों जरूरी हैं!';
+                error.classList.add('show');
+                success.classList.remove('show');
                 return;
             }
+
+            const users = getUsers();
             const user = users.find(u => u.email === email && u.password === pass);
-            if (!user) { error.textContent = 'गलत ईमेल या पासवर्ड!'; return; }
-            setCurrentUser(user);
-            closeUserAuth();
-            renderComments();
-            loadHistory();
-            if (pendingOpenAnime) {
-                const { id, title } = pendingOpenAnime;
-                pendingOpenAnime = null;
-                setTimeout(() => openAnime(id, title), 300);
+            if (!user) {
+                error.textContent = '❌ गलत ईमेल या पासवर्ड!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
             }
-            location.reload();
+
+            setCurrentUser(user);
+            success.textContent = '✅ लॉगिन सफल!';
+            success.classList.add('show');
+            error.classList.remove('show');
+            showToast('success', '🎉 स्वागत है ' + user.name + '!');
+
+            setTimeout(() => {
+                closeUserAuth();
+                renderComments();
+                loadHistory();
+                if (pendingOpenAnime) {
+                    const { id, title } = pendingOpenAnime;
+                    pendingOpenAnime = null;
+                    setTimeout(() => openAnime(id, title), 300);
+                }
+                loadAnime();
+            }, 600);
+        }
+
+        function submitUserRegister() {
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const pass = document.getElementById('regPass').value.trim();
+            const confirm = document.getElementById('regConfirm').value.trim();
+            const terms = document.getElementById('termsCheck').checked;
+            const error = document.getElementById('regError');
+            const success = document.getElementById('regSuccess');
+
+            if (!name || !email || !pass || !confirm) {
+                error.textContent = '⚠️ सभी फील्ड भरें!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+            if (pass !== confirm) {
+                error.textContent = '❌ पासवर्ड मैच नहीं कर रहे!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+            if (pass.length < 6) {
+                error.textContent = '❌ पासवर्ड कम से कम 6 अक्षर का होना चाहिए!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+            if (!terms) {
+                error.textContent = '⚠️ कृपया नियमों से सहमत हों!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+
+            const users = getUsers();
+            if (users.find(u => u.email === email)) {
+                error.textContent = '❌ यह ईमेल पहले से रजिस्टर है!';
+                error.classList.add('show');
+                success.classList.remove('show');
+                return;
+            }
+
+            users.push({ name, email, password: pass, isAdmin: false, isMod: false });
+            saveUsers(users);
+            success.textContent = '✅ रजिस्टर सफल! अब आप लॉगिन कर सकते हैं।';
+            success.classList.add('show');
+            error.classList.remove('show');
+            showToast('success', '🎉 रजिस्टर सफल! अब लॉगिन करें');
+
+            setTimeout(() => {
+                document.getElementById('regName').value = '';
+                document.getElementById('regEmail').value = '';
+                document.getElementById('regPass').value = '';
+                document.getElementById('regConfirm').value = '';
+                switchAuthTab('login');
+                document.getElementById('loginEmail').value = email;
+                document.getElementById('loginPass').value = pass;
+                success.classList.remove('show');
+            }, 1500);
         }
 
         function updateUI() {
             const authSection = document.getElementById('authSection');
             if (currentUser) {
+                const initial = currentUser.name.charAt(0).toUpperCase();
                 authSection.innerHTML = `
-                    <div class="user-profile" onclick="logoutUser()" title="लॉगआउट करें">
-                        <div class="avatar">${currentUser.name.charAt(0).toUpperCase()}</div>
+                    <div class="user-profile-modern" onclick="logoutUser()" title="लॉगआउट करें">
+                        <div class="avatar">${initial}</div>
                         <span class="username">${currentUser.name}</span>
+                        <i class="fas fa-sign-out-alt logout-icon"></i>
                     </div>
                 `;
             } else {
                 authSection.innerHTML = `
-                    <div class="auth-buttons">
-                        <button class="auth-btn" onclick="openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
-                        <button class="auth-btn" onclick="openUserAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
+                    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                        <button class="auth-btn-modern login-btn" onclick="openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
+                        <button class="auth-btn-modern register-btn" onclick="openUserAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
                     </div>
                 `;
             }
         }
+
         function logoutUser() {
             if (confirm('लॉगआउट करना चाहते हैं?')) {
                 setCurrentUser(null);
                 renderComments();
                 loadHistory();
-                location.reload();
+                loadAnime();
+                showToast('info', '👋 आप लॉगआउट हो गए!');
             }
         }
 
         // ==================== ADMIN/MOD AUTH ====================
-        // Admin: JOD / ARYAN | Moderators: stored in localStorage
         function getModerators() {
             return JSON.parse(localStorage.getItem('jodmods_moderators') || '[]');
         }
@@ -1546,7 +2165,6 @@
             const pass = document.getElementById('adminPassInput').value.trim();
             const error = document.getElementById('adminAuthError');
 
-            // Check Admin
             if (user === 'JOD' && pass === 'ARYAN') {
                 isAdminLoggedIn = true;
                 isModLoggedIn = false;
@@ -1557,11 +2175,11 @@
                 document.getElementById('modSection').style.display = 'block';
                 loadAdminContentList();
                 loadModeratorList();
+                showToast('success', '👑 ऐडमिन लॉगिन सफल!');
                 error.textContent = '';
                 return;
             }
 
-            // Check Moderators
             const mods = getModerators();
             const foundMod = mods.find(m => m.username === user && m.password === pass);
             if (foundMod) {
@@ -1573,11 +2191,13 @@
                 document.body.style.overflow = 'hidden';
                 document.getElementById('modSection').style.display = 'none';
                 loadAdminContentList();
+                showToast('success', '🛠️ मॉड लॉगिन सफल!');
                 error.textContent = '';
                 return;
             }
 
             error.textContent = '❌ गलत यूजरनेम या पासवर्ड!';
+            showToast('error', '❌ गलत यूजरनेम या पासवर्ड!');
         }
 
         function closeAdminPage() {
@@ -1586,38 +2206,40 @@
             isAdminLoggedIn = false;
             isModLoggedIn = false;
             currentAdminUser = null;
+            showToast('info', '🔒 पैनल बंद हो गया');
         }
 
-        // ===== MODERATOR MANAGEMENT (Admin Only) =====
+        // ===== MODERATOR MANAGEMENT =====
         function addModerator() {
-            if (!isAdminLoggedIn) { alert('केवल ऐडमिन ही मॉड जोड़ सकता है!'); return; }
+            if (!isAdminLoggedIn) { showToast('error', '❌ केवल ऐडमिन ही मॉड जोड़ सकता है!'); return; }
             const username = document.getElementById('modUsername').value.trim();
             const password = document.getElementById('modPassword').value.trim();
-            if (!username || !password) { alert('यूजरनेम और पासवर्ड दोनों जरूरी!'); return; }
+            if (!username || !password) { showToast('error', '⚠️ यूजरनेम और पासवर्ड दोनों जरूरी!'); return; }
             const mods = getModerators();
-            if (mods.find(m => m.username === username)) { alert('यह यूजरनेम पहले से मौजूद है!'); return; }
+            if (mods.find(m => m.username === username)) { showToast('error', '❌ यह यूजरनेम पहले से मौजूद है!'); return; }
             mods.push({ username, password });
             saveModerators(mods);
             document.getElementById('modUsername').value = '';
             document.getElementById('modPassword').value = '';
             loadModeratorList();
-            alert('✅ मॉड जोड़ दिया गया!');
+            showToast('success', '✅ मॉड जोड़ दिया गया!');
         }
 
         function removeModerator(username) {
-            if (!isAdminLoggedIn) { alert('केवल ऐडमिन ही मॉड हटा सकता है!'); return; }
+            if (!isAdminLoggedIn) { showToast('error', '❌ केवल ऐडमिन ही मॉड हटा सकता है!'); return; }
             if (!confirm('क्या आप मॉड ' + username + ' को हटाना चाहते हैं?')) return;
             let mods = getModerators();
             mods = mods.filter(m => m.username !== username);
             saveModerators(mods);
             loadModeratorList();
+            showToast('success', '✅ मॉड हटा दिया गया!');
         }
 
         function loadModeratorList() {
             const container = document.getElementById('modList');
             const mods = getModerators();
             if (mods.length === 0) {
-                container.innerHTML = '<p style="color:#888; padding:8px;">कोई मॉड नहीं</p>';
+                container.innerHTML = '<p style="color:#888; padding:12px;">कोई मॉड नहीं</p>';
                 return;
             }
             let html = '';
@@ -1638,15 +2260,14 @@
         }
 
         function adminResetAll() {
-            if (!isAdminLoggedIn && !isModLoggedIn) { alert('पहले लॉगिन करें!'); return; }
+            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ पहले लॉगिन करें!'); return; }
             if (!confirm('⚠️ सभी यूजर्स को लॉगआउट करें?')) return;
             localStorage.removeItem('jodmods_current_user');
             currentUser = null;
             updateUI();
             renderComments();
             loadHistory();
-            closeLoginRequired();
-            alert('✅ सभी यूजर्स लॉगआउट कर दिए गए!');
+            showToast('success', '✅ सभी यूजर्स लॉगआउट कर दिए गए!');
         }
 
         // ==================== ADMIN: IMAGE DROP ====================
@@ -1655,11 +2276,11 @@
         const previewContainer = document.getElementById('previewContainer');
 
         if (dropArea) {
-            dropArea.addEventListener('dragover', e => { e.preventDefault(); dropArea.classList.add('dragover'); });
-            dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
+            dropArea.addEventListener('dragover', e => { e.preventDefault(); dropArea.style.borderColor = '#ff3b3b'; });
+            dropArea.addEventListener('dragleave', () => { dropArea.style.borderColor = 'rgba(255,59,59,0.3)'; });
             dropArea.addEventListener('drop', e => {
                 e.preventDefault();
-                dropArea.classList.remove('dragover');
+                dropArea.style.borderColor = 'rgba(255,59,59,0.3)';
                 if (e.dataTransfer.files.length) handleImageFiles(e.dataTransfer.files);
             });
             dropArea.addEventListener('click', () => fileInput.click());
@@ -1680,6 +2301,7 @@
                 }
             }
         }
+
         function updatePreview() {
             previewContainer.innerHTML = '';
             uploadedImages.forEach((img, index) => {
@@ -1689,6 +2311,7 @@
                 previewContainer.appendChild(div);
             });
         }
+
         function removeImage(index) {
             uploadedImages.splice(index, 1);
             updatePreview();
@@ -1699,14 +2322,14 @@
         function saveCustomAnimeList(list) { localStorage.setItem('jodmods_custom_anime', JSON.stringify(list)); }
 
         function adminAddAnime() {
-            if (!isAdminLoggedIn && !isModLoggedIn) { alert('पहले ऐडमिन या मॉड लॉगिन करें!'); return; }
+            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ पहले ऐडमिन या मॉड लॉगिन करें!'); return; }
             const title = document.getElementById('adminTitle').value.trim();
             const type = document.getElementById('adminType').value.trim() || 'series';
             const episodes = parseInt(document.getElementById('adminEpisodes').value) || 12;
             const links = document.getElementById('adminEpisodeLinks').value.trim();
             const defaultVideo = document.getElementById('adminVideoLink').value.trim();
             const editId = document.getElementById('adminEditId').value.trim();
-            if (!title) { alert('टाइटल जरूरी है!'); return; }
+            if (!title) { showToast('error', '⚠️ टाइटल जरूरी है!'); return; }
 
             let image = uploadedImages.length > 0 ? uploadedImages[0] : 'https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=' + encodeURIComponent(title);
             let list = getCustomAnimeList();
@@ -1715,13 +2338,25 @@
                 const idx = list.findIndex(a => a.id === editId);
                 if (idx !== -1) {
                     list[idx] = { ...list[idx], title: { romaji: title, english: title }, coverImage: { large: image }, episodes, type, episodeLinks: links ? links.split(',').map(s => s.trim()) : [], defaultVideo };
+                    showToast('success', '✅ कंटेंट अपडेट हो गया!');
                 }
             } else {
-                list.push({ id: 'custom_' + Date.now(), title: { romaji: title, english: title }, coverImage: { large: image }, episodes, type, custom: true, episodeLinks: links ? links.split(',').map(s => s.trim()) : [], defaultVideo, adminAdded: true, addedBy: currentAdminUser === 'admin' ? 'admin' : 'mod' });
+                list.push({ 
+                    id: 'custom_' + Date.now(), 
+                    title: { romaji: title, english: title }, 
+                    coverImage: { large: image }, 
+                    episodes, 
+                    type, 
+                    custom: true, 
+                    episodeLinks: links ? links.split(',').map(s => s.trim()) : [], 
+                    defaultVideo, 
+                    adminAdded: true, 
+                    addedBy: currentAdminUser === 'admin' ? 'admin' : 'mod' 
+                });
+                showToast('success', '✅ नया कंटेंट सेव हो गया!');
             }
             saveCustomAnimeList(list);
             adminClearForm();
-            alert('✅ कंटेंट सेव हो गया!');
             loadAdminContentList();
             loadAnime();
         }
@@ -1739,13 +2374,12 @@
         }
 
         function adminDeleteItem(id) {
-            if (!isAdminLoggedIn && !isModLoggedIn) { alert('पहले लॉगिन करें!'); return; }
-            // Check if mod trying to delete admin content
+            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ पहले लॉगिन करें!'); return; }
             if (isModLoggedIn) {
                 const list = getCustomAnimeList();
                 const item = list.find(a => a.id === id);
                 if (item && item.addedBy === 'admin') {
-                    alert('⚠️ मॉड ऐडमिन का कंटेंट नहीं हटा सकता!');
+                    showToast('error', '⚠️ मॉड ऐडमिन का कंटेंट नहीं हटा सकता!');
                     return;
                 }
             }
@@ -1755,16 +2389,16 @@
             saveCustomAnimeList(list);
             loadAdminContentList();
             loadAnime();
+            showToast('success', '✅ कंटेंट हटा दिया गया!');
         }
 
         function adminEditItem(id) {
-            if (!isAdminLoggedIn && !isModLoggedIn) { alert('पहले लॉगिन करें!'); return; }
+            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ पहले लॉगिन करें!'); return; }
             const list = getCustomAnimeList();
             const item = list.find(a => a.id === id);
             if (!item) return;
-            // Mod can only edit their own content
             if (isModLoggedIn && item.addedBy === 'admin') {
-                alert('⚠️ मॉड ऐडमिन का कंटेंट एडिट नहीं कर सकता!');
+                showToast('error', '⚠️ मॉड ऐडमिन का कंटेंट एडिट नहीं कर सकता!');
                 return;
             }
             document.getElementById('adminTitle').value = item.title.romaji || item.title.english || '';
@@ -1776,13 +2410,14 @@
             uploadedImages = [];
             updatePreview();
             document.querySelector('.admin-panel').scrollIntoView({ behavior: 'smooth' });
+            showToast('info', '✏️ एडिट मोड में!');
         }
 
         function loadAdminContentList() {
             const list = getCustomAnimeList();
             const container = document.getElementById('adminContentList');
             if (list.length === 0) {
-                container.innerHTML = '<p style="color:#888; padding:8px;">कोई कंटेंट नहीं।</p>';
+                container.innerHTML = '<p style="color:#888; padding:12px;">कोई कंटेंट नहीं।</p>';
                 return;
             }
             let html = '';
@@ -1790,15 +2425,16 @@
                 const title = item.title?.romaji || item.title?.english || 'अज्ञात';
                 const img = item.coverImage?.large || 'https://via.placeholder.com/40x40/1a1a1a/ff3b3b?text=N';
                 const addedBy = item.addedBy === 'admin' ? '👑 ऐडमिन' : '🛠️ मॉड';
+                const canEdit = isAdminLoggedIn || (isModLoggedIn && item.addedBy !== 'admin');
                 html += `
                     <div class="content-item">
                         <div class="item-info">
-                            <img src="${img}" alt="${title}">
-                            <span><strong>${title}</strong> (${item.type || 'series'}) - ${item.episodes} एपिसोड <span style="color:#888;font-size:10px;">${addedBy}</span></span>
+                            <img src="${img}" alt="${title}" loading="lazy">
+                            <span><strong>${title}</strong> (${item.type || 'series'}) - ${item.episodes} एपिसोड <span style="color:#888;font-size:11px;">${addedBy}</span></span>
                         </div>
                         <div class="item-actions">
-                            ${(isAdminLoggedIn || (isModLoggedIn && item.addedBy !== 'admin')) ? `<button class="edit-btn" onclick="adminEditItem('${item.id}')"><i class="fas fa-edit"></i> एडिट</button>` : ''}
-                            ${(isAdminLoggedIn || (isModLoggedIn && item.addedBy !== 'admin')) ? `<button class="del-btn" onclick="adminDeleteItem('${item.id}')"><i class="fas fa-trash"></i> हटाएँ</button>` : ''}
+                            ${canEdit ? `<button class="edit-btn" onclick="adminEditItem('${item.id}')"><i class="fas fa-edit"></i> एडिट</button>` : ''}
+                            ${canEdit ? `<button class="del-btn" onclick="adminDeleteItem('${item.id}')"><i class="fas fa-trash"></i> हटाएँ</button>` : ''}
                         </div>
                     </div>
                 `;
@@ -1812,6 +2448,7 @@
             const all = JSON.parse(localStorage.getItem('jodmods_history') || '{}');
             return all[currentUser.email] || [];
         }
+
         function saveHistoryItem(animeId, title, episode) {
             if (!currentUser) return;
             const all = JSON.parse(localStorage.getItem('jodmods_history') || '{}');
@@ -1822,10 +2459,11 @@
             localStorage.setItem('jodmods_history', JSON.stringify(all));
             loadHistory();
         }
+
         function loadHistory() {
             const list = document.getElementById('historyList');
             const history = getHistory();
-            if (!currentUser) { list.innerHTML = '<div class="history-empty">लॉगिन करें</div>'; return; }
+            if (!currentUser) { list.innerHTML = '<div class="history-empty">🔐 लॉगिन करें</div>'; return; }
             if (history.length === 0) { list.innerHTML = '<div class="history-empty">कोई हिस्ट्री नहीं</div>'; return; }
             let html = '';
             history.slice().reverse().forEach(h => {
@@ -1833,12 +2471,13 @@
                     <div class="history-item">
                         <span class="hist-title">${h.title}</span>
                         <span class="hist-ep">एपिसोड ${h.episode}</span>
-                        <span class="hist-continue" onclick="continueWatching('${h.animeId}', '${h.title}', ${h.episode})">▶ जारी रखें</span>
+                        <button class="hist-continue" onclick="continueWatching('${h.animeId}', '${h.title}', ${h.episode})">▶ जारी रखें</button>
                     </div>
                 `;
             });
             list.innerHTML = html;
         }
+
         function continueWatching(id, title, ep) {
             openAnime(id, title);
             setTimeout(() => playEpisode(ep), 500);
@@ -1854,41 +2493,58 @@
             let name = nameInput.value.trim();
             const msg = msgInput.value.trim();
             if (currentUser) { name = currentUser.name; nameInput.value = name; }
-            if (!name || !msg) { alert('नाम और राय दोनों जरूरी है!'); return; }
+            if (!name || !msg) { showToast('error', '⚠️ नाम और राय दोनों जरूरी है!'); return; }
             const comments = getComments();
-            comments.push({ id: Date.now(), name, msg, time: new Date().toLocaleString('hi-IN'), isAdmin: currentUser ? currentUser.isAdmin || false : false, isMod: currentUser ? currentUser.isMod || false : false, email: currentUser ? currentUser.email : null });
+            comments.push({ 
+                id: Date.now(), 
+                name, 
+                msg, 
+                time: new Date().toLocaleString('hi-IN'), 
+                isAdmin: currentUser ? currentUser.isAdmin || false : false, 
+                isMod: currentUser ? currentUser.isMod || false : false, 
+                email: currentUser ? currentUser.email : null 
+            });
             saveComments(comments);
             if (!currentUser) nameInput.value = '';
             msgInput.value = '';
             renderComments();
+            showToast('success', '✅ कमेंट भेज दिया गया!');
         }
 
         function deleteComment(id) {
-            if (!currentUser) { alert('लॉगिन करें!'); return; }
+            if (!currentUser) { showToast('error', '❌ लॉगिन करें!'); return; }
             const comments = getComments();
             const comment = comments.find(c => c.id === id);
             if (!comment) return;
-            if (!currentUser.isAdmin && !currentUser.isMod && currentUser.email !== comment.email) { alert('आप इस कमेंट को नहीं हटा सकते!'); return; }
+            if (!currentUser.isAdmin && !currentUser.isMod && currentUser.email !== comment.email) {
+                showToast('error', '❌ आप इस कमेंट को नहीं हटा सकते!');
+                return;
+            }
             if (!confirm('क्या आप यह कमेंट हटाना चाहते हैं?')) return;
             saveComments(comments.filter(c => c.id !== id));
             renderComments();
+            showToast('success', '✅ कमेंट हटा दिया गया!');
         }
 
         function editComment(id) {
-            if (!currentUser) { alert('लॉगिन करें!'); return; }
+            if (!currentUser) { showToast('error', '❌ लॉगिन करें!'); return; }
             const comments = getComments();
             const comment = comments.find(c => c.id === id);
             if (!comment) return;
-            if (!currentUser.isAdmin && !currentUser.isMod && currentUser.email !== comment.email) { alert('आप इस कमेंट को एडिट नहीं कर सकते!'); return; }
+            if (!currentUser.isAdmin && !currentUser.isMod && currentUser.email !== comment.email) {
+                showToast('error', '❌ आप इस कमेंट को एडिट नहीं कर सकते!');
+                return;
+            }
             const item = document.querySelector(`.comment-item[data-id="${id}"]`);
             if (!item) return;
             if (item.classList.contains('editing')) {
                 const input = item.querySelector('.edit-input');
                 const newMsg = input.value.trim();
-                if (!newMsg) { alert('कमेंट खाली नहीं हो सकता!'); return; }
+                if (!newMsg) { showToast('error', '⚠️ कमेंट खाली नहीं हो सकता!'); return; }
                 comment.msg = newMsg;
                 saveComments(comments);
                 renderComments();
+                showToast('success', '✅ कमेंट अपडेट हो गया!');
                 return;
             }
             item.classList.add('editing');
@@ -1984,7 +2640,7 @@
                 const isModContent = item.addedBy === 'mod';
                 html += `
                     <div class="content-card" onclick="${isLoggedIn ? `openAnime('${id}', '${title.replace(/'/g, "\\'")}')` : `showLoginRequiredForAnime('${id}', '${title.replace(/'/g, "\\'")}')`}">
-                        <img src="${image}" alt="${title}" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image'"/>
+                        <img src="${image}" alt="${title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/ff3b3b?text=No+Image'"/>
                         ${!isLoggedIn ? `<div class="lock-overlay"><i class="fas fa-lock"></i></div>` : ''}
                         <div class="info">
                             <h4>${title}</h4>
@@ -2003,13 +2659,14 @@
 
         function showLoginRequiredForAnime(id, title) {
             pendingOpenAnime = { id, title };
-            showLoginRequired();
+            showToast('info', '🔐 कृपया पहले लॉगिन करें!');
+            openUserAuth('login');
         }
 
         // ==================== VIDEO PLAYER ====================
         async function openAnime(id, title) {
             if (!currentUser) { showLoginRequiredForAnime(id, title); return; }
-            if (!id) { alert('डेटा उपलब्ध नहीं'); return; }
+            if (!id) { showToast('error', '❌ डेटा उपलब्ध नहीं'); return; }
 
             currentAnimeId = id;
             currentTitle = title;
@@ -2090,7 +2747,7 @@
 
         function playEpisode(epNum) {
             const episode = allEpisodes.find(ep => ep.number == epNum);
-            if (!episode) { alert('एपिसोड नहीं मिला'); return; }
+            if (!episode) { showToast('error', '❌ एपिसोड नहीं मिला'); return; }
             currentEpisodeNum = epNum;
             document.querySelectorAll('.episode-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.episode-btn').forEach(btn => {
@@ -2100,7 +2757,7 @@
             });
             let videoUrl = episode.link || '';
             if (!videoUrl) {
-                alert('⚠️ इस एपिसोड के लिए कोई वीडियो लिंक नहीं है।');
+                showToast('error', '⚠️ इस एपिसोड के लिए कोई वीडियो लिंक नहीं है।');
                 playerStatus.textContent = '❌ कोई वीडियो लिंक नहीं';
                 playerStatus.style.color = '#ff6b6b';
                 return;
@@ -2129,7 +2786,7 @@
         }
 
         function reloadVideo() {
-            if (!currentVideoUrl) { alert('⚠️ कोई वीडियो नहीं चल रहा!'); return; }
+            if (!currentVideoUrl) { showToast('error', '⚠️ कोई वीडियो नहीं चल रहा!'); return; }
             const isDirect = currentVideoUrl.startsWith('data:video/') || currentVideoUrl.match(/\.(mp4|webm|mkv|mov|avi)$/i) || currentVideoUrl.includes('blob:');
             if (isDirect) {
                 videoSource.src = currentVideoUrl;
@@ -2140,13 +2797,14 @@
             }
             playerStatus.textContent = `🔄 रीलोड हो रहा है...`;
             setTimeout(() => playerStatus.textContent = `✅ JOD MODS • एपिसोड ${currentEpisodeNum}`, 1000);
+            showToast('info', '🔄 वीडियो रीलोड हो गया!');
         }
 
         function shareVideo() {
             if (navigator.share) {
                 navigator.share({ title: currentTitle || 'JOD MODS OTT', text: `🎬 ${currentTitle || 'वीडियो'} देखें - JOD MODS OTT पर 100% मुफ्त!`, url: window.location.href }).catch(() => {});
             } else {
-                alert(`📤 शेयर करें: ${window.location.href}`);
+                showToast('info', '📤 शेयर करें: ' + window.location.href);
             }
         }
 
@@ -2163,13 +2821,15 @@
 
         modal.addEventListener('click', e => { if (e.target === this) closeModal(); });
         document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') closeModal();
-            if (e.key === 'Escape' && document.getElementById('adminPage').style.display === 'block') closeAdminPage();
-            if (e.key === 'Escape' && document.getElementById('adminAuthOverlay').classList.contains('active')) closeAdminAuth();
-            if (e.key === 'Escape' && document.getElementById('userAuthOverlay').classList.contains('active')) closeUserAuth();
+            if (e.key === 'Escape') {
+                if (modal.style.display === 'flex') closeModal();
+                else if (document.getElementById('adminPage').style.display === 'block') closeAdminPage();
+                else if (document.getElementById('adminAuthOverlay').classList.contains('active')) closeAdminAuth();
+                else if (document.getElementById('authModal').classList.contains('active')) closeUserAuth();
+            }
         });
 
-        // ==================== START ====================
+        // ==================== INIT ====================
         if (!localStorage.getItem('jodmods_initialized')) {
             localStorage.setItem('jodmods_hide_default', 'true');
             localStorage.setItem('jodmods_initialized', 'true');
@@ -2185,7 +2845,6 @@
             users.push({ name: 'JOD MODS', email: 'admin@jodmods.com', password: 'admin123', isAdmin: true, isMod: false });
             saveUsers(users);
         }
-        // Load mod list if admin
         if (isAdminLoggedIn) loadModeratorList();
     </script>
 </body>
