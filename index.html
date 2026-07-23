@@ -17,8 +17,8 @@
         ::-webkit-scrollbar-track { background: #1a1a1a; }
         ::-webkit-scrollbar-thumb { background: #ff3b3b; border-radius: 10px; }
 
-        /* ===== PARTICLES ===== */
-        #particles {
+        /* ===== PREMIUM ANIMATED BACKGROUND ===== */
+        #bgCanvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -26,20 +26,6 @@
             height: 100%;
             z-index: -1;
             pointer-events: none;
-            overflow: hidden;
-        }
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            animation: float linear infinite;
-        }
-        .particle:nth-child(odd) { background: rgba(255,59,59,0.3); }
-        .particle:nth-child(even) { background: rgba(255,255,255,0.1); }
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg) scale(0); opacity: 0; }
-            20% { opacity: 1; }
-            80% { opacity: 1; }
-            100% { transform: translateY(-10vh) rotate(720deg) scale(1); opacity: 0; }
         }
 
         /* ===== GLOW TEXT ===== */
@@ -1122,7 +1108,57 @@
             box-shadow: 0 8px 30px rgba(255,59,59,0.3);
         }
 
-        .admin-login { display: none; }
+        /* ===== ADMIN LOGIN ===== */
+        .admin-login-box {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 14px;
+            border: 1px solid #ff3b3b;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .admin-login-box h3 {
+            color: #ff3b3b;
+            margin-bottom: 15px;
+        }
+        .admin-login-box input {
+            width: 100%;
+            padding: 12px 16px;
+            margin: 8px 0;
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .admin-login-box input:focus {
+            border-color: #ff3b3b;
+            outline: none;
+        }
+        .admin-login-box button {
+            width: 100%;
+            padding: 12px;
+            background: #ff3b3b;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        .admin-login-box button:hover {
+            background: #cc2e2e;
+            transform: scale(1.02);
+        }
+        .admin-login-box .admin-error {
+            color: #ff3b3b;
+            font-size: 12px;
+            margin-top: 8px;
+        }
 
         .drop-area {
             border: 2px dashed #ff3b3b;
@@ -1333,8 +1369,8 @@
 </head>
 <body>
 
-    <!-- ===== PARTICLES ===== -->
-    <div id="particles"></div>
+    <!-- ===== CANVAS BACKGROUND ===== -->
+    <canvas id="bgCanvas"></canvas>
 
     <!-- ===== LOGIN REQUIRED OVERLAY ===== -->
     <div class="login-required-overlay" id="loginRequiredOverlay">
@@ -1361,7 +1397,7 @@
                 <a data-type="series"><i class="fas fa-tv"></i> सीरीज</a>
             </div>
             <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-                <button class="upload-btn" onclick="openAdminPage()"><i class="fas fa-upload"></i> ONLY UPLOAD JODxCHEATS</button>
+                <button class="upload-btn" onclick="openAdminPage()"><i class="fas fa-upload"></i> अपलोड</button>
                 <div id="authSection">
                     <div class="auth-buttons">
                         <button class="auth-btn" onclick="openAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
@@ -1456,12 +1492,24 @@
     <!-- ===== ADMIN PAGE ===== -->
     <div id="adminPage">
         <div class="admin-header">
-            <h2><i class="fas fa-upload"></i> ONLY UPLOAD JODxCHEATS</h2>
+            <h2><i class="fas fa-upload"></i> ऐडमिन पैनल</h2>
             <button class="close-admin" onclick="closeAdminPage()"><i class="fas fa-times"></i> बंद करें</button>
         </div>
 
         <div class="admin-panel">
-            <div id="adminControls" style="display:block;">
+            <!-- Admin Login - Required First -->
+            <div id="adminLoginSection">
+                <div class="admin-login-box">
+                    <h3><i class="fas fa-lock"></i> ऐडमिन लॉगिन</h3>
+                    <input type="text" id="adminUser" placeholder="यूजरनेम" />
+                    <input type="password" id="adminPass" placeholder="पासवर्ड" />
+                    <button onclick="adminLogin()">लॉगिन करें</button>
+                    <div class="admin-error" id="adminError"></div>
+                </div>
+            </div>
+
+            <!-- Admin Controls - Only Show After Login -->
+            <div id="adminControls" style="display:none;">
                 <h3><i class="fas fa-plus-circle"></i> नया कंटेंट जोड़ें / एडिट करें</h3>
                 
                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
@@ -1533,22 +1581,90 @@
     </div>
 
     <script>
-        // ==================== PARTICLES ====================
-        (function createParticles() {
-            const container = document.getElementById('particles');
-            const colors = ['rgba(255,59,59,0.3)', 'rgba(255,59,59,0.2)', 'rgba(255,255,255,0.08)'];
-            for (let i = 0; i < 45; i++) {
-                const p = document.createElement('div');
-                p.className = 'particle';
-                const size = Math.random() * 8 + 2;
-                p.style.width = size + 'px';
-                p.style.height = size + 'px';
-                p.style.left = Math.random() * 100 + '%';
-                p.style.background = colors[Math.floor(Math.random() * colors.length)];
-                p.style.animationDuration = (Math.random() * 25 + 15) + 's';
-                p.style.animationDelay = (Math.random() * 25) + 's';
-                container.appendChild(p);
+        // ==================== PREMIUM CANVAS BACKGROUND ====================
+        (function initCanvas() {
+            const canvas = document.getElementById('bgCanvas');
+            const ctx = canvas.getContext('2d');
+            let w, h;
+            const particles = [];
+            const colors = ['#ff3b3b', '#cc2e2e', '#ff6b6b', '#ff8a8a', '#ff1744'];
+
+            function resize() {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
             }
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() { this.reset(); }
+                reset() {
+                    this.x = Math.random() * w;
+                    this.y = Math.random() * h;
+                    this.size = Math.random() * 3 + 1;
+                    this.speedX = (Math.random() - 0.5) * 0.8;
+                    this.speedY = (Math.random() - 0.5) * 0.8;
+                    this.opacity = Math.random() * 0.6 + 0.2;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.pulse = Math.random() * Math.PI * 2;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.pulse += 0.02;
+                    if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+                    if (this.x < 0) this.x = w;
+                    if (this.x > w) this.x = 0;
+                    if (this.y < 0) this.y = h;
+                    if (this.y > h) this.y = 0;
+                }
+                draw() {
+                    const opacity = this.opacity * (0.7 + 0.3 * Math.sin(this.pulse));
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.globalAlpha = opacity;
+                    ctx.fill();
+                    // Glow
+                    ctx.shadowColor = this.color;
+                    ctx.shadowBlur = 15;
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                    ctx.globalAlpha = 1;
+                }
+            }
+
+            // Lines between particles
+            function drawLines() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 150) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            const alpha = (1 - dist / 150) * 0.3;
+                            ctx.strokeStyle = `rgba(255,59,59,${alpha})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            for (let i = 0; i < 80; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, w, h);
+                particles.forEach(p => { p.update(); p.draw(); });
+                drawLines();
+                requestAnimationFrame(animate);
+            }
+            animate();
         })();
 
         // ==================== GLOBALS ====================
@@ -1564,6 +1680,7 @@
         let currentUser = null;
         let authMode = 'login';
         let pendingOpenAnime = null;
+        let isAdminLoggedIn = false;
 
         // ==================== DOM REFS ====================
         const container = document.getElementById('contentContainer');
@@ -1612,6 +1729,7 @@
         }
 
         function adminResetAll() {
+            if (!isAdminLoggedIn) { alert('पहले ऐडमिन लॉगिन करें!'); return; }
             if (!confirm('⚠️ क्या आप सभी यूजर्स को लॉगआउट करना चाहते हैं? सबका सेशन खत्म हो जाएगा!')) return;
             localStorage.removeItem('jodmods_current_user');
             currentUser = null;
@@ -1622,6 +1740,25 @@
             alert('✅ सभी यूजर्स लॉगआउट कर दिए गए!');
         }
 
+        // ==================== ADMIN LOGIN ====================
+        function adminLogin() {
+            const user = document.getElementById('adminUser').value.trim();
+            const pass = document.getElementById('adminPass').value.trim();
+            const error = document.getElementById('adminError');
+
+            if (user === 'JOD' && pass === 'MODS') {
+                isAdminLoggedIn = true;
+                document.getElementById('adminLoginSection').style.display = 'none';
+                document.getElementById('adminControls').style.display = 'block';
+                error.textContent = '';
+                loadAdminContentList();
+                document.getElementById('adminUser').value = '';
+                document.getElementById('adminPass').value = '';
+            } else {
+                error.textContent = '❌ गलत यूजरनेम या पासवर्ड!';
+            }
+        }
+
         function openAuth(mode) {
             closeLoginRequired();
             if (currentUser) {
@@ -1630,7 +1767,6 @@
             }
             authMode = mode || 'login';
             const overlay = document.getElementById('authOverlay');
-            const title = document.getElementById('authTitle');
             const subText = document.getElementById('authSubText');
             const nameField = document.getElementById('authName');
             const confirmGroup = document.getElementById('confirmGroup');
@@ -1756,7 +1892,13 @@
         function openAdminPage() {
             document.getElementById('adminPage').style.display = 'block';
             document.body.style.overflow = 'hidden';
-            loadAdminContentList();
+            // Reset admin login state
+            isAdminLoggedIn = false;
+            document.getElementById('adminLoginSection').style.display = 'block';
+            document.getElementById('adminControls').style.display = 'none';
+            document.getElementById('adminError').textContent = '';
+            document.getElementById('adminUser').value = '';
+            document.getElementById('adminPass').value = '';
         }
 
         function closeAdminPage() {
@@ -1824,6 +1966,8 @@
         }
 
         function adminAddAnime() {
+            if (!isAdminLoggedIn) { alert('पहले ऐडमिन लॉगिन करें!'); return; }
+            
             const title = document.getElementById('adminTitle').value.trim();
             const type = document.getElementById('adminType').value.trim() || 'series';
             const episodes = parseInt(document.getElementById('adminEpisodes').value) || 12;
@@ -1885,6 +2029,7 @@
         }
 
         function adminDeleteItem(id) {
+            if (!isAdminLoggedIn) { alert('पहले ऐडमिन लॉगिन करें!'); return; }
             if (!confirm('क्या आप यह कंटेंट हटाना चाहते हैं?')) return;
             let list = getCustomAnimeList();
             list = list.filter(a => a.id !== id);
@@ -1894,6 +2039,7 @@
         }
 
         function adminEditItem(id) {
+            if (!isAdminLoggedIn) { alert('पहले ऐडमिन लॉगिन करें!'); return; }
             const list = getCustomAnimeList();
             const item = list.find(a => a.id === id);
             if (!item) return;
