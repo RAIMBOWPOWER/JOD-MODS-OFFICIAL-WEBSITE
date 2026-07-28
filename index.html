@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
@@ -13,14 +13,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
     <style>
-        /* ===== COPY PROTECTION - NO SELECTION ===== */
+        /* ===== COPY PROTECTION ===== */
         * {
             -webkit-user-select: none !important;
             -moz-user-select: none !important;
             -ms-user-select: none !important;
             user-select: none !important;
         }
-        /* Allow selection in input fields */
         input, textarea, select, .search-box input, #commentMsg, .form-group input, .form-group select {
             -webkit-user-select: text !important;
             -moz-user-select: text !important;
@@ -65,7 +64,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* ===== ROTATION ANIMATION ===== */
+        /* ===== ROTATION ===== */
         @keyframes rotate360 {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -2119,7 +2118,7 @@
     <!-- ===== TOAST ===== -->
     <div id="toast" class="toast">
         <i class="fas fa-check-circle"></i>
-        <span id="toastMessage">सफल!</span>
+        <span id="toastMessage">Success!</span>
     </div>
 
     <!-- ===== MAIN PAGE ===== -->
@@ -2133,24 +2132,24 @@
                     <span class="live-dot"></span>
                 </div>
                 <div class="nav-links">
-                    <a class="active" data-type="all"><i class="fas fa-th-list"></i> सभी</a>
-                    <a data-type="movies"><i class="fas fa-film"></i> मूवी</a>
-                    <a data-type="series"><i class="fas fa-tv"></i> सीरीज</a>
+                    <a class="active" data-type="all"><i class="fas fa-th-list"></i> All</a>
+                    <a data-type="movies"><i class="fas fa-film"></i> Movies</a>
+                    <a data-type="series"><i class="fas fa-tv"></i> Series</a>
                 </div>
             </div>
 
             <div class="navbar-right">
                 <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="🔍 खोजें..." />
+                    <input type="text" id="searchInput" placeholder="🔍 Search..." />
                     <i class="fas fa-search" onclick="searchAnime()"></i>
                 </div>
 
-                <button class="btn-primary" onclick="openAdminAuth()"><i class="fas fa-upload"></i> अपलोड</button>
+                <button class="btn-primary" onclick="openAdminAuth()"><i class="fas fa-upload"></i> Upload</button>
 
                 <div class="auth-section" id="authSection">
                     <div style="display:flex; gap:3px; align-items:center;">
-                        <button class="btn-outline" onclick="openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
-                        <button class="btn-primary" onclick="openUserAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
+                        <button class="btn-outline" onclick="openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> Login</button>
+                        <button class="btn-primary" onclick="openUserAuth('register')"><i class="fas fa-user-plus"></i> Register</button>
                     </div>
                 </div>
             </div>
@@ -2159,40 +2158,40 @@
         <!-- HERO -->
         <div class="hero">
             <h1>🇮🇳 <span class="glitch">JOD MODS</span> OTT 🔥</h1>
-            <p>⚡ सिर्फ ऐडमिन/मॉड कंटेंट • 100% मुफ्त • LIVE</p>
+            <p>⚡ Admin/Mod Content • 100% Free • LIVE</p>
             <div class="tags">
-                <span>🔥 ऐडमिन</span>
-                <span>⭐ मुफ्त</span>
-                <span>📺 अपनी मर्जी</span>
-                <span>🚀 फास्ट</span>
-                <span>🎵 बीट</span>
+                <span>🔥 Admin</span>
+                <span>⭐ Free</span>
+                <span>📺 Your Choice</span>
+                <span>🚀 Fast</span>
+                <span>🎵 Beat</span>
             </div>
         </div>
 
         <!-- HISTORY -->
         <div class="history-section">
-            <h3><i class="fas fa-history"></i> आपकी हिस्ट्री</h3>
-            <div id="historyList"><div class="history-empty">🔐 लॉगिन करें</div></div>
+            <h3><i class="fas fa-history"></i> Your History</h3>
+            <div id="historyList"><div class="history-empty">🔐 Login to view</div></div>
         </div>
 
         <!-- CONTENT -->
         <div class="section">
             <div class="section-header">
-                <h2 id="sectionTitle"><i class="fas fa-fire"></i> सभी कंटेंट</h2>
-                <span class="view-all" id="viewAllBtn">सभी देखें →</span>
+                <h2 id="sectionTitle"><i class="fas fa-fire"></i> All Content</h2>
+                <span class="view-all" id="viewAllBtn">View All →</span>
             </div>
-            <div id="contentContainer"><div class="loader"><i class="fas fa-spinner"></i> लोड हो रहा है...</div></div>
+            <div id="contentContainer"><div class="loader"><i class="fas fa-spinner"></i> Loading...</div></div>
         </div>
 
         <!-- COMMENTS -->
         <div class="comments-section">
-            <h3><i class="fas fa-comments"></i> कमेंट्स</h3>
+            <h3><i class="fas fa-comments"></i> Comments</h3>
             <div class="comment-input-area">
                 <input type="text" id="commentName" style="display:none;" />
-                <input type="text" id="commentMsg" placeholder="अपनी राय लिखें..." />
-                <button onclick="addComment()"><i class="fas fa-paper-plane"></i> भेजें</button>
+                <input type="text" id="commentMsg" placeholder="Write your opinion..." />
+                <button onclick="addComment()"><i class="fas fa-paper-plane"></i> Send</button>
             </div>
-            <div class="comment-list" id="commentList"><div class="no-comments">कोई कमेंट नहीं</div></div>
+            <div class="comment-list" id="commentList"><div class="no-comments">No comments yet</div></div>
         </div>
 
         <!-- FOOTER -->
@@ -2213,30 +2212,30 @@
             </div>
 
             <div class="auth-tabs">
-                <button class="auth-tab active" data-tab="login" onclick="switchAuthTab('login')">🔑 लॉगिन</button>
-                <button class="auth-tab" data-tab="register" onclick="switchAuthTab('register')">📝 रजिस्टर</button>
+                <button class="auth-tab active" data-tab="login" onclick="switchAuthTab('login')">🔑 Login</button>
+                <button class="auth-tab" data-tab="register" onclick="switchAuthTab('register')">📝 Register</button>
             </div>
 
             <div class="auth-form-container">
                 <!-- Login -->
                 <div class="auth-form active" id="loginForm">
                     <div class="form-group">
-                        <input type="email" id="loginEmail" placeholder="ईमेल" />
+                        <input type="email" id="loginEmail" placeholder="Email" />
                         <i class="fas fa-envelope form-icon"></i>
                     </div>
                     <div class="form-group">
-                        <input type="password" id="loginPass" placeholder="पासवर्ड" />
+                        <input type="password" id="loginPass" placeholder="Password" />
                         <i class="fas fa-lock form-icon"></i>
                         <button class="toggle-pass" onclick="togglePassword('loginPass')" type="button">
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>
                     <div class="form-options">
-                        <label><input type="checkbox" id="rememberMe" checked /> मुझे याद रखें</label>
-                        <button class="forgot-pass" onclick="openForgotPassword()">🔑 पासवर्ड भूल गए?</button>
+                        <label><input type="checkbox" id="rememberMe" checked /> Remember Me</label>
+                        <button class="forgot-pass" onclick="openForgotPassword()">🔑 Forgot Password?</button>
                     </div>
                     <button class="auth-submit-btn" onclick="submitUserLogin()">
-                        <i class="fas fa-sign-in-alt"></i> लॉगिन करें
+                        <i class="fas fa-sign-in-alt"></i> Login
                     </button>
                     <div class="auth-error" id="loginError"></div>
                     <div class="auth-success" id="loginSuccess"></div>
@@ -2245,49 +2244,49 @@
                 <!-- Register -->
                 <div class="auth-form" id="registerForm">
                     <div class="form-group">
-                        <input type="text" id="regName" placeholder="पूरा नाम" />
+                        <input type="text" id="regName" placeholder="Full Name" />
                         <i class="fas fa-user form-icon"></i>
                     </div>
                     <div class="form-group">
-                        <input type="email" id="regEmail" placeholder="ईमेल" />
+                        <input type="email" id="regEmail" placeholder="Email" />
                         <i class="fas fa-envelope form-icon"></i>
                     </div>
                     <div class="form-group">
-                        <input type="password" id="regPass" placeholder="पासवर्ड" />
+                        <input type="password" id="regPass" placeholder="Password" />
                         <i class="fas fa-lock form-icon"></i>
                         <button class="toggle-pass" onclick="togglePassword('regPass')" type="button">
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>
                     <div class="form-group">
-                        <input type="password" id="regConfirm" placeholder="पासवर्ड दोबारा" />
+                        <input type="password" id="regConfirm" placeholder="Confirm Password" />
                         <i class="fas fa-check-circle form-icon"></i>
                     </div>
                     <div class="form-group">
                         <select id="regSecurityQuestion">
-                            <option value="">🔒 सुरक्षा प्रश्न चुनें</option>
-                            <option value="your_mother_maiden_name">आपकी माता का पहला नाम क्या है?</option>
-                            <option value="your_first_pet">आपके पहले पालतू जानवर का नाम क्या था?</option>
-                            <option value="your_birth_city">आपका जन्म शहर कौन सा है?</option>
-                            <option value="your_favorite_color">आपका पसंदीदा रंग क्या है?</option>
-                            <option value="your_favorite_food">आपका पसंदीदा खाना क्या है?</option>
-                            <option value="your_best_friend">आपके सबसे अच्छे दोस्त का नाम क्या है?</option>
-                            <option value="your_favorite_movie">आपकी पसंदीदा मूवी कौन सी है?</option>
-                            <option value="your_favorite_actor">आपके पसंदीदा अभिनेता का नाम क्या है?</option>
-                            <option value="your_school_name">आपके स्कूल का नाम क्या था?</option>
-                            <option value="your_favorite_book">आपकी पसंदीदा किताब कौन सी है?</option>
+                            <option value="">🔒 Select Security Question</option>
+                            <option value="your_mother_maiden_name">What is your mother's maiden name?</option>
+                            <option value="your_first_pet">What was your first pet's name?</option>
+                            <option value="your_birth_city">What is your birth city?</option>
+                            <option value="your_favorite_color">What is your favorite color?</option>
+                            <option value="your_favorite_food">What is your favorite food?</option>
+                            <option value="your_best_friend">What is your best friend's name?</option>
+                            <option value="your_favorite_movie">What is your favorite movie?</option>
+                            <option value="your_favorite_actor">What is your favorite actor's name?</option>
+                            <option value="your_school_name">What was your school name?</option>
+                            <option value="your_favorite_book">What is your favorite book?</option>
                         </select>
                         <i class="fas fa-question-circle form-icon"></i>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="regSecurityAnswer" placeholder="सुरक्षा प्रश्न का उत्तर" />
+                        <input type="text" id="regSecurityAnswer" placeholder="Security Answer" />
                         <i class="fas fa-key form-icon"></i>
                     </div>
                     <div class="form-options">
-                        <label><input type="checkbox" id="termsCheck" checked /> मैं नियमों से सहमत हूँ</label>
+                        <label><input type="checkbox" id="termsCheck" checked /> I agree to the terms</label>
                     </div>
                     <button class="auth-submit-btn" onclick="submitUserRegister()">
-                        <i class="fas fa-user-plus"></i> रजिस्टर करें
+                        <i class="fas fa-user-plus"></i> Register
                     </button>
                     <div class="auth-error" id="regError"></div>
                     <div class="auth-success" id="regSuccess"></div>
@@ -2300,33 +2299,33 @@
     <div class="forgot-modal" id="forgotModal">
         <div class="forgot-modal-content">
             <button class="close-forgot" onclick="closeForgotPassword()">&times;</button>
-            <h3><i class="fas fa-key"></i> पासवर्ड रीसेट</h3>
-            <p>अपनी पहचान सत्यापित करें</p>
+            <h3><i class="fas fa-key"></i> Reset Password</h3>
+            <p>Verify your identity</p>
             <div class="form-group">
-                <input type="email" id="forgotEmail" placeholder="ईमेल" />
+                <input type="email" id="forgotEmail" placeholder="Email" />
                 <i class="fas fa-envelope form-icon"></i>
             </div>
             <div class="security-answer-box" id="securityQuestionBox">
                 <i class="fas fa-question-circle"></i>
-                <span id="displaySecurityQuestion">सुरक्षा प्रश्न</span>
+                <span id="displaySecurityQuestion">Security Question</span>
             </div>
             <div class="form-group" id="securityAnswerGroup" style="display:none;">
-                <input type="text" id="forgotSecurityAnswer" placeholder="सुरक्षा प्रश्न का उत्तर" />
+                <input type="text" id="forgotSecurityAnswer" placeholder="Security Answer" />
                 <i class="fas fa-key form-icon"></i>
             </div>
             <div class="form-group" id="newPasswordGroup" style="display:none;">
-                <input type="password" id="forgotNewPassword" placeholder="नया पासवर्ड" />
+                <input type="password" id="forgotNewPassword" placeholder="New Password" />
                 <i class="fas fa-lock form-icon"></i>
                 <button class="toggle-pass" onclick="togglePassword('forgotNewPassword')" type="button">
                     <i class="fas fa-eye"></i>
                 </button>
             </div>
             <div class="form-group" id="confirmPasswordGroup" style="display:none;">
-                <input type="password" id="forgotConfirmPassword" placeholder="पासवर्ड दोबारा" />
+                <input type="password" id="forgotConfirmPassword" placeholder="Confirm Password" />
                 <i class="fas fa-check-circle form-icon"></i>
             </div>
             <button class="auth-submit-btn" id="forgotStepBtn" onclick="forgotPasswordStep1()">
-                <i class="fas fa-search"></i> खोजें
+                <i class="fas fa-search"></i> Find
             </button>
             <div class="auth-error" id="forgotError"></div>
             <div class="auth-success" id="forgotSuccess"></div>
@@ -2340,11 +2339,11 @@
             <div class="auth-brand">
                 <i class="fas fa-user-shield"></i>
                 <h2>JOD<span>MODS</span></h2>
-                <p>🔐 ऐडमिन / मॉड लॉगिन</p>
+                <p>🔐 Admin / Mod Login</p>
             </div>
-            <input type="text" id="adminUserInput" placeholder="यूजरनेम" />
-            <input type="password" id="adminPassInput" placeholder="पासवर्ड" />
-            <button class="auth-submit" onclick="submitAdminLogin()"><i class="fas fa-lock-open"></i> लॉगिन करें</button>
+            <input type="text" id="adminUserInput" placeholder="Username" />
+            <input type="password" id="adminPassInput" placeholder="Password" />
+            <button class="auth-submit" onclick="submitAdminLogin()"><i class="fas fa-lock-open"></i> Login</button>
             <div class="error-msg" id="adminAuthError"></div>
         </div>
     </div>
@@ -2352,73 +2351,73 @@
     <!-- ===== ADMIN PAGE ===== -->
     <div id="adminPage">
         <div class="admin-header">
-            <h2><i class="fas fa-upload"></i> ऐडमिन/मॉड पैनल</h2>
-            <button class="close-admin" onclick="closeAdminPage()"><i class="fas fa-times"></i> बंद करें</button>
+            <h2><i class="fas fa-upload"></i> Admin/Mod Panel</h2>
+            <button class="close-admin" onclick="closeAdminPage()"><i class="fas fa-times"></i> Close</button>
         </div>
         <div class="admin-panel">
             <div class="admin-stats" id="adminStats">
                 <div class="stat-card">
                     <span class="stat-icon"><i class="fas fa-users"></i></span>
                     <div class="stat-number" id="statUsers">0</div>
-                    <div class="stat-label">कुल यूजर्स</div>
+                    <div class="stat-label">Total Users</div>
                 </div>
                 <div class="stat-card">
                     <span class="stat-icon"><i class="fas fa-film"></i></span>
                     <div class="stat-number" id="statContent">0</div>
-                    <div class="stat-label">कुल कंटेंट</div>
+                    <div class="stat-label">Total Content</div>
                 </div>
                 <div class="stat-card">
                     <span class="stat-icon"><i class="fas fa-eye"></i></span>
                     <div class="stat-number" id="statViews">0</div>
-                    <div class="stat-label">कुल व्यूज़</div>
+                    <div class="stat-label">Total Views</div>
                 </div>
                 <div class="stat-card">
                     <span class="stat-icon"><i class="fas fa-heart"></i></span>
                     <div class="stat-number" id="statLikes">0</div>
-                    <div class="stat-label">कुल लाइक्स</div>
+                    <div class="stat-label">Total Likes</div>
                 </div>
             </div>
 
             <div id="adminControls">
-                <h3><i class="fas fa-plus-circle"></i> नया कंटेंट जोड़ें</h3>
+                <h3><i class="fas fa-plus-circle"></i> Add New Content</h3>
                 <div style="display:flex; gap:4px; flex-wrap:wrap; margin:4px 0;">
-                    <input type="text" id="adminTitle" placeholder="टाइटल" style="flex:2;min-width:100px;">
-                    <input type="text" id="adminType" placeholder="टाइप" style="flex:1;min-width:60px;" value="series">
-                    <input type="text" id="adminEditId" placeholder="एडिट ID" style="flex:1;min-width:70px;background:rgba(255,255,255,0.03);color:var(--text-secondary);" readonly>
+                    <input type="text" id="adminTitle" placeholder="Title" style="flex:2;min-width:100px;">
+                    <input type="text" id="adminType" placeholder="Type" style="flex:1;min-width:60px;" value="series">
+                    <input type="text" id="adminEditId" placeholder="Edit ID" style="flex:1;min-width:70px;background:rgba(255,255,255,0.03);color:var(--text-secondary);" readonly>
                 </div>
 
                 <div class="drop-area" id="dropArea">
                     <i class="fas fa-cloud-upload-alt" style="font-size:18px;color:var(--primary);"></i>
-                    <p style="color:var(--text-secondary);font-size:11px;margin-top:2px;">थंबनेल ड्रैग & ड्रॉप करें</p>
+                    <p style="color:var(--text-secondary);font-size:11px;margin-top:2px;">Drag & Drop Thumbnail</p>
                     <input type="file" id="fileInput" accept="image/*" style="display:none;" multiple>
                     <div class="preview-container" id="previewContainer"></div>
                 </div>
 
                 <div style="display:flex; gap:4px; flex-wrap:wrap; margin:4px 0;">
-                    <input type="text" id="adminTelegramLink" placeholder="📱 टेलीग्राम वीडियो लिंक" style="flex:3;min-width:160px;">
+                    <input type="text" id="adminTelegramLink" placeholder="📱 Telegram Video Link" style="flex:3;min-width:160px;">
                 </div>
 
                 <div style="display:flex; gap:4px; flex-wrap:wrap; margin:6px 0;">
-                    <button onclick="adminAddAnime()"><i class="fas fa-save"></i> सेव</button>
-                    <button onclick="adminClearForm()" style="background:#6b7280;"><i class="fas fa-undo"></i> क्लियर</button>
-                    <button onclick="adminResetAll()" style="background:var(--danger);"><i class="fas fa-power-off"></i> सबको लॉगआउट</button>
+                    <button onclick="adminAddAnime()"><i class="fas fa-save"></i> Save</button>
+                    <button onclick="adminClearForm()" style="background:#6b7280;"><i class="fas fa-undo"></i> Clear</button>
+                    <button onclick="adminResetAll()" style="background:var(--danger);"><i class="fas fa-power-off"></i> Logout All</button>
                 </div>
 
                 <div id="modSection" style="display:none; margin-top:12px; border-top: 2px solid #f59e0b; padding-top:10px;">
-                    <h3 style="color:#f59e0b;"><i class="fas fa-user-cog"></i> मॉडरेटर</h3>
+                    <h3 style="color:#f59e0b;"><i class="fas fa-user-cog"></i> Moderator</h3>
                     <div style="display:flex; gap:4px; flex-wrap:wrap; margin:4px 0;">
-                        <input type="text" id="modUsername" placeholder="मॉड यूजरनेम" style="flex:1;min-width:80px;">
-                        <input type="password" id="modPassword" placeholder="मॉड पासवर्ड" style="flex:1;min-width:80px;">
-                        <button class="mod-btn" onclick="addModerator()"><i class="fas fa-user-plus"></i> मॉड जोड़ें</button>
+                        <input type="text" id="modUsername" placeholder="Mod Username" style="flex:1;min-width:80px;">
+                        <input type="password" id="modPassword" placeholder="Mod Password" style="flex:1;min-width:80px;">
+                        <button class="mod-btn" onclick="addModerator()"><i class="fas fa-user-plus"></i> Add Mod</button>
                     </div>
                     <div class="mod-list" id="modList">
-                        <p style="color:var(--text-secondary); padding:8px;">कोई मॉड नहीं</p>
+                        <p style="color:var(--text-secondary); padding:8px;">No mods</p>
                     </div>
                 </div>
 
                 <div class="admin-content-list">
-                    <h3><i class="fas fa-list"></i> आपका कंटेंट</h3>
-                    <div id="adminContentList"><p style="color:var(--text-secondary); padding:8px;">लोड हो रहा है...</p></div>
+                    <h3><i class="fas fa-list"></i> Your Content</h3>
+                    <div id="adminContentList"><p style="color:var(--text-secondary); padding:8px;">Loading...</p></div>
                 </div>
             </div>
         </div>
@@ -2428,8 +2427,8 @@
     <div id="contentModal" class="modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal()">&times;</button>
-            <h3 class="modal-title" id="modalTitle">शीर्षक</h3>
-            <div class="player-status" id="playerStatus">📽️ वीडियो तैयार</div>
+            <h3 class="modal-title" id="modalTitle">Title</h3>
+            <div class="player-status" id="playerStatus">📽️ Video Ready</div>
 
             <div class="like-section">
                 <button class="like-btn" id="likeBtn" onclick="toggleLike()">
@@ -2438,14 +2437,14 @@
                 </button>
                 <div class="view-count-display">
                     <i class="fas fa-eye"></i>
-                    <span id="viewCount">0</span> व्यूज़
+                    <span id="viewCount">0</span> Views
                 </div>
             </div>
 
             <div class="go-video-section" id="goVideoSection">
                 <div class="telegram-icon"><i class="fab fa-telegram-plane"></i></div>
-                <h3>🎬 वीडियो देखने के लिए</h3>
-                <p>टेलीग्राम पर जाएँ और वीडियो चलाएँ</p>
+                <h3>🎬 To Watch Video</h3>
+                <p>Go to Telegram and play the video</p>
                 <a class="go-video-btn" id="goVideoBtn" href="#" target="_blank" rel="noopener">
                     <i class="fab fa-telegram-plane"></i>
                     <span>Go to Video</span>
@@ -2454,8 +2453,8 @@
             </div>
 
             <div class="action-bar">
-                <button onclick="shareVideo()"><i class="fas fa-share"></i> शेयर</button>
-                <button onclick="reloadVideo()"><i class="fas fa-sync"></i> रीलोड</button>
+                <button onclick="shareVideo()"><i class="fas fa-share"></i> Share</button>
+                <button onclick="reloadVideo()"><i class="fas fa-sync"></i> Reload</button>
             </div>
         </div>
     </div>
@@ -2465,7 +2464,7 @@
     <!-- ============================================================ -->
     <script>
         // ============================================================
-        // COPY PROTECTION - Block right-click and keyboard shortcuts
+        // COPY PROTECTION
         // ============================================================
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
@@ -2473,29 +2472,25 @@
         });
 
         document.addEventListener('keydown', function(e) {
-            // Block Ctrl+C, Ctrl+A, Ctrl+U, Ctrl+S, F12, etc.
             if (e.ctrlKey && (e.key === 'c' || e.key === 'C' || e.key === 'a' || e.key === 'A' ||
                     e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S' ||
                     e.key === 'x' || e.key === 'X' || e.key === 'v' || e.key === 'V')) {
-                // Allow copy/paste in input fields
                 const tag = e.target.tagName.toLowerCase();
                 if (tag === 'input' || tag === 'textarea' || tag === 'select') {
                     return;
                 }
                 e.preventDefault();
-                showToast('info', '🔒 कॉपी नहीं कर सकते!');
+                showToast('info', '🔒 Cannot copy!');
                 return false;
             }
-            // Block F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
             if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' ||
                     e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c'))) {
                 e.preventDefault();
-                showToast('info', '🔒 डेवलपर टूल बंद है!');
+                showToast('info', '🔒 Dev tools blocked!');
                 return false;
             }
         });
 
-        // Also block selection via mouse
         document.addEventListener('selectstart', function(e) {
             const tag = e.target.tagName ? e.target.tagName.toLowerCase() : '';
             if (tag !== 'input' && tag !== 'textarea' && tag !== 'select') {
@@ -2542,12 +2537,11 @@
         }
 
         // ============================================================
-        // BUTTON ROTATION - apply rotation on any button click
+        // BUTTON ROTATION
         // ============================================================
         function applyRotation(element) {
             if (!element) return;
             element.classList.remove('btn-rotate');
-            // Force reflow
             void element.offsetWidth;
             element.classList.add('btn-rotate');
             setTimeout(() => {
@@ -2555,7 +2549,6 @@
             }, 700);
         }
 
-        // Intercept all button clicks for rotation
         document.addEventListener('click', function(e) {
             const btn = e.target.closest('button, .btn-primary, .btn-outline, .auth-submit-btn, .auth-submit, .go-video-btn, .mod-btn, .close-admin, .close-modal, .close-auth, .close-forgot, .close-admin-auth, .del-btn, .edit-btn, .hist-continue, .like-btn, .action-bar button, .comment-actions button, .music-toggle');
             if (btn) {
@@ -2564,13 +2557,11 @@
         }, true);
 
         // ============================================================
-        // MUSIC PLAYER - loop enabled via 'loop' attribute
+        // MUSIC PLAYER - loop via 'loop' attribute
         // ============================================================
         let musicPlaying = false;
         const audio = document.getElementById('bgMusic');
         const musicToggle = document.getElementById('musicToggle');
-
-        // Audio already has 'loop' attribute, so it will auto-restart
 
         function toggleMusic() {
             if (musicPlaying) {
@@ -2606,7 +2597,7 @@
         window.addEventListener('load', () => { setTimeout(tryAutoPlayMusic, 300); });
 
         // ============================================================
-        // BG CANVAS - LIGHTWEIGHT
+        // BG CANVAS
         // ============================================================
         (function() {
             const canvas = document.getElementById('bgCanvas');
@@ -2752,7 +2743,7 @@
 
         async function toggleLikeOnFirebase(contentId) {
             if (!currentUser) {
-                showToast('info', '🔐 लाइक के लिए लॉगिन!');
+                showToast('info', '🔐 Login to like!');
                 openUserAuth('login');
                 return;
             }
@@ -2765,11 +2756,11 @@
             if (index > -1) {
                 likedUsers.splice(index, 1);
                 current.likes = Math.max(0, (current.likes || 0) - 1);
-                showToast('info', '❤️ लाइक हटा');
+                showToast('info', '❤️ Like removed');
             } else {
                 likedUsers.push(userEmail);
                 current.likes = (current.likes || 0) + 1;
-                showToast('success', '❤️ लाइक!');
+                showToast('success', '❤️ Liked!');
             }
             current.likedUsers = likedUsers;
             await window._db.ref('stats/' + contentId).set(current);
@@ -2845,7 +2836,7 @@
         }
 
         function openUserAuth(mode) {
-            if (currentUser) { showToast('info', 'पहले से लॉगिन!'); return; }
+            if (currentUser) { showToast('info', 'Already logged in!'); return; }
             document.getElementById('authModal').classList.add('active');
             if (mode === 'register') switchAuthTab('register');
             else switchAuthTab('login');
@@ -2865,7 +2856,7 @@
             const error = document.getElementById('loginError');
             const success = document.getElementById('loginSuccess');
             if (!email || !pass) {
-                error.textContent = '⚠️ ईमेल और पासवर्ड जरूरी!';
+                error.textContent = '⚠️ Email and password required!';
                 error.classList.add('show');
                 success.classList.remove('show');
                 return;
@@ -2873,16 +2864,16 @@
             const users = getUsers();
             const user = users.find(u => u.email === email && u.password === pass);
             if (!user) {
-                error.textContent = '❌ गलत ईमेल या पासवर्ड!';
+                error.textContent = '❌ Wrong email or password!';
                 error.classList.add('show');
                 success.classList.remove('show');
                 return;
             }
             setCurrentUser(user);
-            success.textContent = '✅ लॉगिन सफल!';
+            success.textContent = '✅ Login successful!';
             success.classList.add('show');
             error.classList.remove('show');
-            showToast('success', '🎉 स्वागत है!');
+            showToast('success', '🎉 Welcome!');
             setTimeout(() => {
                 closeUserAuth();
                 renderComments();
@@ -2907,44 +2898,44 @@
             const error = document.getElementById('regError');
             const success = document.getElementById('regSuccess');
             if (!name || !email || !pass || !confirm) {
-                error.textContent = '⚠️ सभी फील्ड भरें!';
+                error.textContent = '⚠️ All fields are required!';
                 error.classList.add('show');
                 success.classList.remove('show');
                 return;
             }
             if (pass !== confirm) {
-                error.textContent = '❌ पासवर्ड मैच नहीं!';
+                error.textContent = '❌ Passwords do not match!';
                 error.classList.add('show');
                 success.classList.remove('show');
                 return;
             }
             if (pass.length < 6) {
-                error.textContent = '❌ 6+ अक्षर!';
+                error.textContent = '❌ Password must be at least 6 characters!';
                 error.classList.add('show');
                 success.classList.remove('show');
                 return;
             }
             if (!securityQuestion) {
-                error.textContent = '⚠️ सुरक्षा प्रश्न चुनें!';
+                error.textContent = '⚠️ Please select a security question!';
                 error.classList.add('show');
                 success.classList.remove('show');
                 return;
             }
             if (!securityAnswer || securityAnswer.length < 2) {
-                error.textContent = '⚠️ सुरक्षा उत्तर!';
+                error.textContent = '⚠️ Please provide a security answer!';
                 error.classList.add('show');
                 success.classList.remove('show');
                 return;
             }
             if (!terms) {
-                error.textContent = '⚠️ नियम मानें!';
+                error.textContent = '⚠️ You must agree to the terms!';
                 error.classList.add('show');
                 success.classList.remove('show');
                 return;
             }
             const users = getUsers();
             if (users.find(u => u.email === email)) {
-                error.textContent = '❌ ईमेल पहले से रजिस्टर!';
+                error.textContent = '❌ Email already registered!';
                 error.classList.add('show');
                 success.classList.remove('show');
                 return;
@@ -2962,10 +2953,10 @@
                 securityAnswer: securityAnswer.toLowerCase().trim()
             });
             saveUsers(users);
-            success.textContent = '✅ रजिस्टर सफल!';
+            success.textContent = '✅ Registration successful!';
             success.classList.add('show');
             error.classList.remove('show');
-            showToast('success', '🎉 रजिस्टर!');
+            showToast('success', '🎉 Registered!');
             setTimeout(() => {
                 document.getElementById('regName').value = '';
                 document.getElementById('regEmail').value = '';
@@ -2995,19 +2986,19 @@
             } else {
                 authSection.innerHTML = `
                             <div style="display:flex; gap:3px; align-items:center; flex-wrap:wrap;">
-                                <button class="btn-outline" onclick="openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> लॉगिन</button>
-                                <button class="btn-primary" onclick="openUserAuth('register')"><i class="fas fa-user-plus"></i> रजिस्टर</button>
+                                <button class="btn-outline" onclick="openUserAuth('login')"><i class="fas fa-sign-in-alt"></i> Login</button>
+                                <button class="btn-primary" onclick="openUserAuth('register')"><i class="fas fa-user-plus"></i> Register</button>
                             </div>
                         `;
             }
         }
 
         function logoutUser() {
-            if (confirm('लॉगआउट करें?')) {
+            if (confirm('Logout?')) {
                 setCurrentUser(null);
                 renderComments();
                 loadHistory();
-                showToast('info', '👋 लॉगआउट!');
+                showToast('info', '👋 Logged out!');
             }
         }
 
@@ -3024,7 +3015,7 @@
             document.getElementById('securityAnswerGroup').style.display = 'none';
             document.getElementById('newPasswordGroup').style.display = 'none';
             document.getElementById('confirmPasswordGroup').style.display = 'none';
-            document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-search"></i> खोजें';
+            document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-search"></i> Find';
             document.getElementById('forgotError').classList.remove('show');
             document.getElementById('forgotSuccess').classList.remove('show');
             forgotStep = 1;
@@ -3041,31 +3032,31 @@
             error.classList.remove('show');
             success.classList.remove('show');
             if (!email) {
-                error.textContent = '⚠️ ईमेल डालें!';
+                error.textContent = '⚠️ Enter your email!';
                 error.classList.add('show');
                 return;
             }
             const users = getUsers();
             const user = users.find(u => u.email === email);
             if (!user) {
-                error.textContent = '❌ रजिस्टर नहीं!';
+                error.textContent = '❌ Not registered!';
                 error.classList.add('show');
                 return;
             }
             if (!user.securityQuestion) {
-                error.textContent = '❌ सुरक्षा प्रश्न नहीं!';
+                error.textContent = '❌ No security question set!';
                 error.classList.add('show');
                 return;
             }
             document.getElementById('displaySecurityQuestion').textContent = '❓ ' + user.securityQuestion;
             document.getElementById('securityQuestionBox').classList.add('show');
             document.getElementById('securityAnswerGroup').style.display = 'block';
-            document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-check"></i> सत्यापित करें';
+            document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-check"></i> Verify';
             forgotStep = 2;
             document.getElementById('forgotStepBtn').dataset.email = email;
             error.classList.remove('show');
             success.classList.remove('show');
-            showToast('info', '🔐 सुरक्षा उत्तर दें');
+            showToast('info', '🔐 Answer security question');
         }
 
         function forgotPasswordStep2() {
@@ -3076,28 +3067,28 @@
             error.classList.remove('show');
             success.classList.remove('show');
             if (!answer) {
-                error.textContent = '⚠️ उत्तर दें!';
+                error.textContent = '⚠️ Answer required!';
                 error.classList.add('show');
                 return;
             }
             const users = getUsers();
             const user = users.find(u => u.email === email);
             if (!user) {
-                error.textContent = '❌ यूजर नहीं!';
+                error.textContent = '❌ User not found!';
                 error.classList.add('show');
                 return;
             }
             if (user.securityAnswer !== answer) {
-                error.textContent = '❌ गलत उत्तर!';
+                error.textContent = '❌ Wrong answer!';
                 error.classList.add('show');
                 return;
             }
             document.getElementById('newPasswordGroup').style.display = 'block';
             document.getElementById('confirmPasswordGroup').style.display = 'block';
-            document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-save"></i> पासवर्ड बदलें';
+            document.getElementById('forgotStepBtn').innerHTML = '<i class="fas fa-save"></i> Change Password';
             forgotStep = 3;
             error.classList.remove('show');
-            showToast('success', '✅ सत्यापित!');
+            showToast('success', '✅ Verified!');
         }
 
         function forgotPasswordStep3() {
@@ -3109,33 +3100,33 @@
             error.classList.remove('show');
             success.classList.remove('show');
             if (!newPass || !confirmPass) {
-                error.textContent = '⚠️ पासवर्ड भरें!';
+                error.textContent = '⚠️ Enter password!';
                 error.classList.add('show');
                 return;
             }
             if (newPass.length < 6) {
-                error.textContent = '❌ 6+ अक्षर!';
+                error.textContent = '❌ 6+ characters!';
                 error.classList.add('show');
                 return;
             }
             if (newPass !== confirmPass) {
-                error.textContent = '❌ मैच नहीं!';
+                error.textContent = '❌ Passwords do not match!';
                 error.classList.add('show');
                 return;
             }
             const users = getUsers();
             const userIndex = users.findIndex(u => u.email === email);
             if (userIndex === -1) {
-                error.textContent = '❌ यूजर नहीं!';
+                error.textContent = '❌ User not found!';
                 error.classList.add('show');
                 return;
             }
             users[userIndex].password = newPass;
             saveUsers(users);
-            success.textContent = '✅ पासवर्ड बदल दिया!';
+            success.textContent = '✅ Password changed!';
             success.classList.add('show');
             error.classList.remove('show');
-            showToast('success', '🔑 पासवर्ड बदला!');
+            showToast('success', '🔑 Password changed!');
             setTimeout(() => {
                 closeForgotPassword();
                 document.getElementById('loginEmail').value = email;
@@ -3184,7 +3175,7 @@
                 loadAdminContentList();
                 loadModeratorList();
                 updateAdminStats();
-                showToast('success', '👑 ऐडमिन!');
+                showToast('success', '👑 Admin!');
                 error.textContent = '';
                 return;
             }
@@ -3200,12 +3191,12 @@
                 document.getElementById('modSection').style.display = 'none';
                 loadAdminContentList();
                 updateAdminStats();
-                showToast('success', '🛠️ मॉड!');
+                showToast('success', '🛠️ Mod!');
                 error.textContent = '';
                 return;
             }
-            error.textContent = '❌ गलत!';
-            showToast('error', '❌ गलत!');
+            error.textContent = '❌ Invalid credentials!';
+            showToast('error', '❌ Invalid!');
         }
 
         function closeAdminPage() {
@@ -3214,39 +3205,39 @@
             isAdminLoggedIn = false;
             isModLoggedIn = false;
             currentAdminUser = null;
-            showToast('info', '🔒 बंद');
+            showToast('info', '🔒 Closed');
         }
 
         function addModerator() {
-            if (!isAdminLoggedIn) { showToast('error', '❌ केवल ऐडमिन!'); return; }
+            if (!isAdminLoggedIn) { showToast('error', '❌ Admin only!'); return; }
             const username = document.getElementById('modUsername').value.trim();
             const password = document.getElementById('modPassword').value.trim();
-            if (!username || !password) { showToast('error', '⚠️ दोनों भरें!'); return; }
+            if (!username || !password) { showToast('error', '⚠️ Both fields required!'); return; }
             const mods = getModerators();
-            if (mods.find(m => m.username === username)) { showToast('error', '❌ मौजूद!'); return; }
+            if (mods.find(m => m.username === username)) { showToast('error', '❌ Already exists!'); return; }
             mods.push({ username, password });
             saveModerators(mods);
             document.getElementById('modUsername').value = '';
             document.getElementById('modPassword').value = '';
             loadModeratorList();
-            showToast('success', '✅ मॉड जोड़ा!');
+            showToast('success', '✅ Mod added!');
         }
 
         function removeModerator(username) {
-            if (!isAdminLoggedIn) { showToast('error', '❌ केवल ऐडमिन!'); return; }
-            if (!confirm('हटाएं?')) return;
+            if (!isAdminLoggedIn) { showToast('error', '❌ Admin only!'); return; }
+            if (!confirm('Remove?')) return;
             let mods = getModerators();
             mods = mods.filter(m => m.username !== username);
             saveModerators(mods);
             loadModeratorList();
-            showToast('success', '✅ हटा!');
+            showToast('success', '✅ Removed!');
         }
 
         function loadModeratorList() {
             const container = document.getElementById('modList');
             const mods = getModerators();
             if (mods.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-secondary); padding:8px;">कोई मॉड नहीं</p>';
+                container.innerHTML = '<p style="color:var(--text-secondary); padding:8px;">No mods</p>';
                 return;
             }
             let html = '';
@@ -3258,7 +3249,7 @@
                                     <span><strong>${mod.username}</strong></span>
                                 </div>
                                 <div class="mod-actions">
-                                    <button onclick="removeModerator('${mod.username}')"><i class="fas fa-trash"></i> हटाएँ</button>
+                                    <button onclick="removeModerator('${mod.username}')"><i class="fas fa-trash"></i> Delete</button>
                                 </div>
                             </div>
                         `;
@@ -3267,14 +3258,14 @@
         }
 
         function adminResetAll() {
-            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ लॉगिन!'); return; }
-            if (!confirm('सब लॉगआउट?')) return;
+            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
+            if (!confirm('Logout all users?')) return;
             localStorage.removeItem('jodmods_current_user');
             currentUser = null;
             updateUI();
             renderComments();
             loadHistory();
-            showToast('success', '✅ सब लॉगआउट!');
+            showToast('success', '✅ All logged out!');
         }
 
         // ============================================================
@@ -3340,7 +3331,7 @@
                 const div = document.createElement('div');
                 div.className = 'preview-item';
                 div.innerHTML =
-                    `<img src="${img}" alt="थंबनेल"><button class="remove-img" onclick="removeImage(${index})">×</button>`;
+                    `<img src="${img}" alt="Thumbnail"><button class="remove-img" onclick="removeImage(${index})">×</button>`;
                 previewContainer.appendChild(div);
             });
         }
@@ -3351,16 +3342,16 @@
         }
 
         // ============================================================
-        // ADMIN CRUD - Delete also removes from all users' history
+        // ADMIN CRUD
         // ============================================================
         function adminAddAnime() {
-            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ लॉगिन!'); return; }
+            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
             const title = document.getElementById('adminTitle').value.trim();
             const type = document.getElementById('adminType').value.trim() || 'series';
             const telegramLink = document.getElementById('adminTelegramLink').value.trim();
             const editId = document.getElementById('adminEditId').value.trim();
-            if (!title) { showToast('error', '⚠️ टाइटल!'); return; }
-            if (!telegramLink) { showToast('error', '⚠️ टेलीग्राम लिंक डालें!'); return; }
+            if (!title) { showToast('error', '⚠️ Title required!'); return; }
+            if (!telegramLink) { showToast('error', '⚠️ Telegram link required!'); return; }
 
             let image = uploadedImages.length > 0 ? uploadedImages[0] :
                 'https://via.placeholder.com/300x400/1a1a1a/8b5cf6?text=' + encodeURIComponent(title);
@@ -3375,7 +3366,7 @@
                     lastEdited: Date.now()
                 };
                 saveContentToFirebase(editId, data).then(() => {
-                    showToast('success', '✅ अपडेट!');
+                    showToast('success', '✅ Updated!');
                     adminClearForm();
                     loadAdminContentList();
                 });
@@ -3393,7 +3384,7 @@
                 saveContentToFirebase(newId, data).then(() => {
                     window._db.ref('stats/' + newId).set({ views: 0, likes: 0, likedUsers: [] });
                     statsCache[newId] = { views: 0, likes: 0, likedUsers: [] };
-                    showToast('success', '✅ सेव!');
+                    showToast('success', '✅ Saved!');
                     adminClearForm();
                     loadAdminContentList();
                 });
@@ -3410,15 +3401,15 @@
         }
 
         function adminDeleteItem(id) {
-            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ लॉगिन!'); return; }
+            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
             if (isModLoggedIn) {
                 const item = allContentData[id];
                 if (item && item.addedBy === 'admin') {
-                    showToast('error', '⚠️ ऐडमिन कंटेंट!');
+                    showToast('error', '⚠️ Admin content!');
                     return;
                 }
             }
-            if (!confirm('हटाएं?')) return;
+            if (!confirm('Delete this content?')) return;
 
             // Remove from all users' history
             const allUsers = getUsers();
@@ -3438,23 +3429,22 @@
                 }
             });
 
-            // Delete from Firebase
             deleteContentFromFirebase(id).then(() => {
                 window._db.ref('stats/' + id).remove();
                 delete statsCache[id];
-                showToast('success', '✅ हटा! (हिस्ट्री भी साफ)');
+                showToast('success', '✅ Deleted! (history cleared)');
                 loadAdminContentList();
                 updateAdminStats();
-                loadHistory(); // Refresh history for current user
+                loadHistory();
             });
         }
 
         function adminEditItem(id) {
-            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ लॉगिन!'); return; }
+            if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
             const item = allContentData[id];
             if (!item) return;
             if (isModLoggedIn && item.addedBy === 'admin') {
-                showToast('error', '⚠️ ऐडमिन कंटेंट!');
+                showToast('error', '⚠️ Admin content!');
                 return;
             }
             document.getElementById('adminTitle').value = item.title.romaji || item.title.english || '';
@@ -3464,21 +3454,21 @@
             uploadedImages = [];
             updatePreview();
             document.querySelector('.admin-panel').scrollIntoView({ behavior: 'smooth' });
-            showToast('info', '✏️ एडिट!');
+            showToast('info', '✏️ Editing!');
         }
 
         function loadAdminContentList() {
             const container = document.getElementById('adminContentList');
             const list = Object.values(allContentData);
             if (list.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-secondary); padding:8px;">कोई कंटेंट नहीं</p>';
+                container.innerHTML = '<p style="color:var(--text-secondary); padding:8px;">No content</p>';
                 return;
             }
             let html = '';
             list.forEach((item) => {
-                const title = item.title?.romaji || item.title?.english || 'अज्ञात';
+                const title = item.title?.romaji || item.title?.english || 'Unknown';
                 const img = item.coverImage?.large || 'https://via.placeholder.com/40x40/1a1a1a/8b5cf6?text=N';
-                const addedBy = item.addedBy === 'admin' ? '👑 ऐडमिन' : '🛠️ मॉड';
+                const addedBy = item.addedBy === 'admin' ? '👑 Admin' : '🛠️ Mod';
                 const canEdit = isAdminLoggedIn || (isModLoggedIn && item.addedBy !== 'admin');
                 const id = item.id || Object.keys(allContentData).find(key => allContentData[key] === item);
                 const stats = statsCache[id] || { views: 0, likes: 0 };
@@ -3525,16 +3515,15 @@
         function loadHistory() {
             const list = document.getElementById('historyList');
             const history = getHistory();
-            if (!currentUser) { list.innerHTML = '<div class="history-empty">🔐 लॉगिन करें</div>'; return; }
-            // Filter out deleted content
+            if (!currentUser) { list.innerHTML = '<div class="history-empty">🔐 Login to view</div>'; return; }
             const filtered = history.filter(h => allContentData[h.animeId]);
-            if (filtered.length === 0) { list.innerHTML = '<div class="history-empty">कोई हिस्ट्री नहीं</div>'; return; }
+            if (filtered.length === 0) { list.innerHTML = '<div class="history-empty">No history</div>'; return; }
             let html = '';
             filtered.slice().reverse().forEach(h => {
                 html += `
                             <div class="history-item">
                                 <span class="hist-title">${h.title}</span>
-                                <button class="hist-continue" onclick="continueWatching('${h.animeId}', '${h.title}')">▶ जारी रखें</button>
+                                <button class="hist-continue" onclick="continueWatching('${h.animeId}', '${h.title}')">▶ Continue</button>
                             </div>
                         `;
             });
@@ -3554,19 +3543,19 @@
 
         function addComment() {
             if (!currentUser) {
-                showToast('info', '🔐 कमेंट के लिए लॉगिन!');
+                showToast('info', '🔐 Login to comment!');
                 openUserAuth('login');
                 return;
             }
             const msgInput = document.getElementById('commentMsg');
             const msg = msgInput.value.trim();
-            if (!msg) { showToast('error', '⚠️ कुछ लिखें!'); return; }
+            if (!msg) { showToast('error', '⚠️ Write something!'); return; }
             const comments = getComments();
             comments.push({
                 id: Date.now(),
                 name: currentUser.name,
                 msg: msg,
-                time: new Date().toLocaleString('hi-IN'),
+                time: new Date().toLocaleString('en-US'),
                 isAdmin: currentUser.isAdmin || false,
                 isMod: currentUser.isMod || false,
                 email: currentUser.email
@@ -3574,31 +3563,31 @@
             saveComments(comments);
             msgInput.value = '';
             renderComments();
-            showToast('success', '✅ कमेंट!');
+            showToast('success', '✅ Commented!');
         }
 
         function deleteComment(id) {
-            if (!currentUser) { showToast('error', '❌ लॉगिन!'); return; }
+            if (!currentUser) { showToast('error', '❌ Login required!'); return; }
             const comments = getComments();
             const comment = comments.find(c => c.id === id);
             if (!comment) return;
             if (!currentUser.isAdmin && !currentUser.isMod && currentUser.email !== comment.email) {
-                showToast('error', '❌ नहीं!');
+                showToast('error', '❌ Not allowed!');
                 return;
             }
-            if (!confirm('हटाएं?')) return;
+            if (!confirm('Delete comment?')) return;
             saveComments(comments.filter(c => c.id !== id));
             renderComments();
-            showToast('success', '✅ हटा!');
+            showToast('success', '✅ Deleted!');
         }
 
         function editComment(id) {
-            if (!currentUser) { showToast('error', '❌ लॉगिन!'); return; }
+            if (!currentUser) { showToast('error', '❌ Login required!'); return; }
             const comments = getComments();
             const comment = comments.find(c => c.id === id);
             if (!comment) return;
             if (!currentUser.isAdmin && !currentUser.isMod && currentUser.email !== comment.email) {
-                showToast('error', '❌ नहीं!');
+                showToast('error', '❌ Not allowed!');
                 return;
             }
             const item = document.querySelector(`.comment-item[data-id="${id}"]`);
@@ -3606,11 +3595,11 @@
             if (item.classList.contains('editing')) {
                 const input = item.querySelector('.edit-input');
                 const newMsg = input.value.trim();
-                if (!newMsg) { showToast('error', '⚠️ खाली नहीं!'); return; }
+                if (!newMsg) { showToast('error', '⚠️ Cannot be empty!'); return; }
                 comment.msg = newMsg;
                 saveComments(comments);
                 renderComments();
-                showToast('success', '✅ अपडेट!');
+                showToast('success', '✅ Updated!');
                 return;
             }
             item.classList.add('editing');
@@ -3619,7 +3608,7 @@
             input.focus();
             const actions = item.querySelector('.comment-actions');
             actions.innerHTML =
-                `<button class="save-cmt" onclick="editComment(${id})"><i class="fas fa-check"></i> सेव</button><button class="cancel-cmt" onclick="cancelEdit(${id})"><i class="fas fa-times"></i> रद्द</button>`;
+                `<button class="save-cmt" onclick="editComment(${id})"><i class="fas fa-check"></i> Save</button><button class="cancel-cmt" onclick="cancelEdit(${id})"><i class="fas fa-times"></i> Cancel</button>`;
         }
 
         function cancelEdit(id) { renderComments(); }
@@ -3627,7 +3616,7 @@
         function renderComments() {
             const list = document.getElementById('commentList');
             const comments = getComments();
-            if (comments.length === 0) { list.innerHTML = '<div class="no-comments">कोई कमेंट नहीं</div>'; return; }
+            if (comments.length === 0) { list.innerHTML = '<div class="no-comments">No comments</div>'; return; }
             let html = '';
             comments.slice().reverse().forEach(c => {
                 const isAdmin = c.isAdmin || false;
@@ -3639,12 +3628,12 @@
                                 <div class="comment-text">
                                     <div class="comment-user">
                                         ${c.name}
-                                        ${isAdmin ? ' <span style="color:var(--primary);font-size:8px;background:rgba(124,58,237,0.1);padding:1px 10px;border-radius:12px;border:1px solid var(--primary);margin-left:4px;">★ ऐडमिन</span>' : ''}
-                                        ${isMod ? ' <span style="color:#f59e0b;font-size:8px;background:rgba(245,158,11,0.1);padding:1px 10px;border-radius:12px;border:1px solid #f59e0b;margin-left:4px;">◆ मॉड</span>' : ''}
+                                        ${isAdmin ? ' <span style="color:var(--primary);font-size:8px;background:rgba(124,58,237,0.1);padding:1px 10px;border-radius:12px;border:1px solid var(--primary);margin-left:4px;">★ Admin</span>' : ''}
+                                        ${isMod ? ' <span style="color:#f59e0b;font-size:8px;background:rgba(245,158,11,0.1);padding:1px 10px;border-radius:12px;border:1px solid #f59e0b;margin-left:4px;">◆ Mod</span>' : ''}
                                     </div>
                                     <div class="comment-msg">${c.msg}</div>
                                     <input class="edit-input" type="text" />
-                                    <div class="comment-time">${c.time || 'अभी'}</div>
+                                    <div class="comment-time">${c.time || 'now'}</div>
                                 </div>
                                 <div class="comment-actions">
                                     ${canEdit ? `<button class="edit-cmt" onclick="editComment(${c.id})"><i class="fas fa-edit"></i></button>` : ''}
@@ -3676,21 +3665,21 @@
         function searchAnime() {
             const query = document.getElementById('searchInput').value.trim().toLowerCase();
             if (!query) { loadAnime(); return; }
-            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> "${query}"...</div>`;
+            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> Searching "${query}"...</div>`;
             const list = Object.values(allContentData);
             const results = list.filter(a => {
                 const title = (a.title?.romaji || a.title?.english || '').toLowerCase();
                 return title.includes(query);
             });
             if (results.length === 0) {
-                container.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><h3>नहीं मिला</h3><p>"${query}"</p></div>`;
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-search"></i><h3>Not found</h3><p>"${query}"</p></div>`;
                 return;
             }
             displayAnime(results);
         }
 
         function loadAnime() {
-            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> लोड...</div>`;
+            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> Loading...</div>`;
             const list = Object.values(allContentData);
             let filtered = list;
             if (currentType === 'movies') filtered = list.filter(a => a.type === 'movie' || a.type === 'Movie');
@@ -3700,8 +3689,8 @@
                 container.innerHTML = `
                             <div class="empty-state">
                                 <i class="fas fa-folder-open"></i>
-                                <h3>कोई कंटेंट नहीं</h3>
-                                <p>अभी तक कोई मूवी या सीरीज अपलोड नहीं</p>
+                                <h3>No content</h3>
+                                <p>No movies or series uploaded yet</p>
                             </div>
                         `;
                 return;
@@ -3719,7 +3708,7 @@
             const watchedIds = history.map(h => h.animeId);
 
             for (let item of items) {
-                const title = item.title?.romaji || item.title?.english || 'अज्ञात';
+                const title = item.title?.romaji || item.title?.english || 'Unknown';
                 const image = item.coverImage?.large || 'https://via.placeholder.com/300x400/1a1a1a/8b5cf6?text=No+Image';
                 const id = item.id || 'content_' + Date.now();
                 const isWatched = watchedIds.includes(id) && allContentData[id];
@@ -3732,16 +3721,16 @@
                                 <img src="${image}" alt="${title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/8b5cf6?text=No+Image'"/>
                                 <div class="info">
                                     <h4>${title}</h4>
-                                    <p>${item.type || 'सीरीज'}</p>
-                                    <span class="badge">100% मुफ्त</span>
+                                    <p>${item.type || 'Series'}</p>
+                                    <span class="badge">100% Free</span>
                                     <div class="card-stats">
                                         <span><i class="fas fa-eye views-icon"></i> ${stats.views || 0}</span>
                                         <span><i class="fas fa-heart ${liked ? 'liked' : ''}" style="color:${liked ? 'var(--danger)' : 'var(--text-secondary)'}"></i> ${stats.likes || 0}</span>
                                     </div>
                                 </div>
                                 <span class="free-badge"><i class="fas fa-crown"></i> FREE</span>
-                                ${isModContent ? '<span class="mod-badge"><i class="fas fa-user-tie"></i> मॉड</span>' : '<span class="admin-badge"><i class="fas fa-user-cog"></i> ऐडमिन</span>'}
-                                ${isWatched ? '<span class="watched-badge"><i class="fas fa-check-circle"></i> देखा</span>' : ''}
+                                ${isModContent ? '<span class="mod-badge"><i class="fas fa-user-tie"></i> MOD</span>' : '<span class="admin-badge"><i class="fas fa-user-cog"></i> ADMIN</span>'}
+                                ${isWatched ? '<span class="watched-badge"><i class="fas fa-check-circle"></i> Watched</span>' : ''}
                             </div>
                         `;
             }
@@ -3755,15 +3744,14 @@
         async function openAnime(id, title) {
             if (!currentUser) {
                 pendingOpenAnime = { id, title };
-                showToast('info', '🔐 लॉगिन!');
+                showToast('info', '🔐 Login required!');
                 openUserAuth('login');
                 return;
             }
-            if (!id) { showToast('error', '❌ डेटा नहीं'); return; }
+            if (!id) { showToast('error', '❌ No data'); return; }
 
-            // Check if content still exists
             if (!allContentData[id]) {
-                showToast('error', '❌ कंटेंट हटा दिया गया!');
+                showToast('error', '❌ Content deleted!');
                 loadHistory();
                 return;
             }
@@ -3772,7 +3760,7 @@
             currentTitle = title;
 
             modalTitle.textContent = `📺 ${title}`;
-            playerStatus.textContent = '📽️ तैयार';
+            playerStatus.textContent = '📽️ Video Ready';
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
 
@@ -3786,7 +3774,7 @@
                 tgLink = item.telegramLink;
             } else {
                 tgLink = '#';
-                playerStatus.textContent = '⚠️ लिंक नहीं मिला!';
+                playerStatus.textContent = '⚠️ Link not found!';
                 playerStatus.style.color = '#ef4444';
             }
 
@@ -3810,10 +3798,10 @@
         function reloadVideo() {
             if (currentTelegramLink && currentTelegramLink !== '#') {
                 goVideoBtn.href = currentTelegramLink;
-                showToast('info', '🔄 लिंक रिफ्रेश!');
-                playerStatus.textContent = '✅ रिफ्रेश!';
+                showToast('info', '🔄 Link refreshed!');
+                playerStatus.textContent = '✅ Refreshed!';
             } else {
-                showToast('error', '⚠️ कोई लिंक नहीं');
+                showToast('error', '⚠️ No link');
             }
         }
 
@@ -3822,12 +3810,12 @@
             if (navigator.share) {
                 navigator.share({
                     title: currentTitle || 'JOD MODS OTT',
-                    text: `🎬 ${currentTitle || 'वीडियो'} देखें!`,
+                    text: `🎬 ${currentTitle || 'Video'} - Watch now!`,
                     url: shareUrl
                 }).catch(() => {});
             } else {
                 navigator.clipboard.writeText(shareUrl).then(() => {
-                    showToast('success', '📤 लिंक कॉपी!');
+                    showToast('success', '📤 Link copied!');
                 }).catch(() => {
                     showToast('info', '📤 ' + shareUrl);
                 });
@@ -3861,11 +3849,11 @@
             const videoId = params.get('video');
             if (videoId && allContentData[videoId]) {
                 const item = allContentData[videoId];
-                const title = item.title?.romaji || item.title?.english || 'वीडियो';
+                const title = item.title?.romaji || item.title?.english || 'Video';
                 setTimeout(() => {
                     if (!currentUser) {
                         pendingOpenAnime = { id: videoId, title: title };
-                        showToast('info', '🔐 वीडियो के लिए लॉगिन!');
+                        showToast('info', '🔐 Login to watch!');
                         openUserAuth('login');
                     } else {
                         openAnime(videoId, title);
@@ -3886,7 +3874,7 @@
                 updateAdminStats();
             }
             checkSharedVideo();
-            loadHistory(); // Refresh history to remove deleted items
+            loadHistory();
         });
 
         currentUser = getCurrentUser();
@@ -3895,7 +3883,6 @@
         loadHistory();
         updateAdminStats();
 
-        // Seed admin user
         const users = getUsers();
         if (!users.find(u => u.email === 'admin@jodmods.com')) {
             users.push({
@@ -3904,7 +3891,7 @@
                 password: 'admin123',
                 isAdmin: true,
                 isMod: false,
-                securityQuestion: 'आपकी पसंदीदा मूवी?',
+                securityQuestion: 'What is your favorite movie?',
                 securityQuestionKey: 'your_favorite_movie',
                 securityAnswer: 'jod mods'
             });
@@ -3917,13 +3904,11 @@
             document.getElementById('sectionTitle').scrollIntoView({ behavior: 'smooth' });
         }, { passive: true });
 
-        // Fix: Reload history when content changes (deletion)
         setInterval(() => {
             if (currentUser) {
                 const currentHistory = getHistory();
                 const filtered = currentHistory.filter(h => allContentData[h.animeId]);
                 if (filtered.length !== currentHistory.length) {
-                    // Update history to remove deleted items
                     const all = JSON.parse(localStorage.getItem('jodmods_history') || '{}');
                     if (all[currentUser.email]) {
                         all[currentUser.email] = filtered;
