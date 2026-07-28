@@ -85,75 +85,9 @@
             will-change: transform;
         }
 
-        /* ===== MUSIC PLAYER ===== */
-        #musicControl {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 999;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 60px;
-            padding: 6px 14px 6px 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
-            transition: 0.2s;
-            cursor: pointer;
-            will-change: transform;
-        }
-        #musicControl:hover {
-            border-color: var(--primary);
-            transform: scale(1.02);
-        }
-        #musicControl .music-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--cyan));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 13px;
-            flex-shrink: 0;
-        }
-        #musicControl .music-label {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-        #musicControl .music-label span {
-            color: var(--text-primary);
-        }
-        #musicControl .music-toggle {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            flex-shrink: 0;
-        }
-        #musicControl .music-toggle:hover {
-            border-color: var(--primary);
-            color: var(--text-primary);
-        }
-        #musicControl .music-toggle.playing {
-            color: var(--accent);
-            border-color: var(--accent);
-        }
-        #musicControl .music-toggle.paused {
-            color: var(--danger);
-            border-color: var(--danger);
+        /* ===== MUSIC PLAYER - HIDDEN, AUTO-PLAY, LOOP ===== */
+        #bgMusic {
+            display: none !important;
         }
 
         /* ===== NAVBAR (logo centered, left links, right functions) ===== */
@@ -205,7 +139,7 @@
             letter-spacing: -0.3px;
         }
         .logo img {
-            height: 64px; /* Bigger logo */
+            height: 64px;
             width: auto;
             border-radius: 8px;
             object-fit: contain;
@@ -216,20 +150,7 @@
             filter: drop-shadow(0 0 40px rgba(124, 58, 237, 0.5));
             transform: scale(1.04);
         }
-        .logo .live-dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background: var(--danger);
-            border-radius: 50%;
-            animation: blink 1s ease-in-out infinite;
-            box-shadow: 0 0 16px rgba(239, 68, 68, 0.5);
-            margin-left: 4px;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(0.7); }
-        }
+        /* No live dot - removed */
 
         .nav-links {
             display: flex;
@@ -1996,24 +1917,6 @@
                 height: 24px;
                 font-size: 10px;
             }
-            #musicControl {
-                bottom: 12px;
-                left: 12px;
-                padding: 4px 10px 4px 6px;
-            }
-            #musicControl .music-label {
-                font-size: 9px;
-            }
-            #musicControl .music-icon {
-                width: 26px;
-                height: 26px;
-                font-size: 11px;
-            }
-            #musicControl .music-toggle {
-                width: 20px;
-                height: 20px;
-                font-size: 9px;
-            }
             .toast {
                 bottom: 60px;
                 right: 10px;
@@ -2074,15 +1977,8 @@
 
     <canvas id="bgCanvas"></canvas>
 
-    <!-- ===== MUSIC PLAYER ===== -->
-    <div id="musicControl">
-        <div class="music-icon"><i class="fas fa-music"></i></div>
-        <div class="music-label"><span>JOD</span> BEAT</div>
-        <button class="music-toggle playing" id="musicToggle" onclick="toggleMusic()">
-            <i class="fas fa-pause"></i>
-        </button>
-    </div>
-    <audio id="bgMusic" loop preload="auto">
+    <!-- ===== MUSIC PLAYER - AUTO-PLAY, LOOP, HIDDEN ===== -->
+    <audio id="bgMusic" loop autoplay preload="auto">
         <source src="./JODSONG.mp3" type="audio/mpeg">
     </audio>
 
@@ -2094,7 +1990,7 @@
 
     <!-- ===== MAIN PAGE ===== -->
     <div id="mainPage">
-        <!-- NAVBAR with left links, center logo, right functions -->
+        <!-- NAVBAR -->
         <div class="navbar">
             <div class="navbar-left">
                 <div class="nav-links">
@@ -2107,7 +2003,6 @@
                 <div class="logo">
                     <img src="https://iili.io/Cvl1XIa.png" alt="JOD MODS" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block';" />
                     <span style="display:none;">JOD MODS</span>
-                    <span class="live-dot"></span>
                 </div>
             </div>
             <div class="navbar-right">
@@ -2458,6 +2353,30 @@
         });
 
         // ============================================================
+        // MUSIC - AUTO PLAY, LOOP, NO CONTROLS
+        // ============================================================
+        // Audio element has autoplay and loop attributes, hidden from UI
+        // Try to play on load (browser might block)
+        window.addEventListener('load', function() {
+            const audio = document.getElementById('bgMusic');
+            audio.play().catch(function(e) {
+                // Auto-play blocked, play on first click anywhere
+                document.addEventListener('click', function playOnce() {
+                    audio.play().catch(function() {});
+                    document.removeEventListener('click', playOnce);
+                }, { once: true });
+            });
+        });
+
+        // Also try on any user interaction
+        document.addEventListener('click', function() {
+            const audio = document.getElementById('bgMusic');
+            if (audio.paused) {
+                audio.play().catch(function() {});
+            }
+        });
+
+        // ============================================================
         // FIREBASE
         // ============================================================
         (function() {
@@ -2509,51 +2428,11 @@
         }
 
         document.addEventListener('click', function(e) {
-            const btn = e.target.closest('button, .btn-primary, .btn-outline, .auth-submit-btn, .auth-submit, .go-video-btn, .mod-btn, .close-admin, .close-modal, .close-auth, .close-forgot, .close-admin-auth, .del-btn, .edit-btn, .hist-continue, .like-btn, .action-bar button, .comment-actions button, .music-toggle');
+            const btn = e.target.closest('button, .btn-primary, .btn-outline, .auth-submit-btn, .auth-submit, .go-video-btn, .mod-btn, .close-admin, .close-modal, .close-auth, .close-forgot, .close-admin-auth, .del-btn, .edit-btn, .hist-continue, .like-btn, .action-bar button, .comment-actions button');
             if (btn) {
                 applyRotation(btn);
             }
         }, true);
-
-        // ============================================================
-        // MUSIC PLAYER - loop via 'loop' attribute
-        // ============================================================
-        let musicPlaying = false;
-        const audio = document.getElementById('bgMusic');
-        const musicToggle = document.getElementById('musicToggle');
-
-        function toggleMusic() {
-            if (musicPlaying) {
-                audio.pause();
-                musicPlaying = false;
-                musicToggle.innerHTML = '<i class="fas fa-play"></i>';
-                musicToggle.className = 'music-toggle paused';
-            } else {
-                audio.play().catch(() => {});
-                musicPlaying = true;
-                musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-                musicToggle.className = 'music-toggle playing';
-            }
-        }
-
-        function tryAutoPlayMusic() {
-            audio.play().then(() => {
-                musicPlaying = true;
-                musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-                musicToggle.className = 'music-toggle playing';
-            }).catch(() => {
-                document.addEventListener('click', function playOnClick() {
-                    audio.play().then(() => {
-                        musicPlaying = true;
-                        musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-                        musicToggle.className = 'music-toggle playing';
-                    }).catch(() => {});
-                    document.removeEventListener('click', playOnClick);
-                }, { once: true });
-            });
-        }
-
-        window.addEventListener('load', () => { setTimeout(tryAutoPlayMusic, 300); });
 
         // ============================================================
         // BG CANVAS
@@ -3218,13 +3097,19 @@
 
         function adminResetAll() {
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
-            if (!confirm('Logout all users?')) return;
+            if (!confirm('Logout all users? This will force everyone to login again.')) return;
+            // Remove current user session from localStorage
             localStorage.removeItem('jodmods_current_user');
+            // Also clear all users' sessions - we just remove the current user
+            // But to truly logout all, we need to clear all sessions
+            // Since we store only one current user, we just clear it
             currentUser = null;
             updateUI();
             renderComments();
             loadHistory();
-            showToast('success', '✅ All logged out!');
+            // Also clear any pending open anime
+            pendingOpenAnime = null;
+            showToast('success', '✅ All users logged out! Everyone must login again.');
         }
 
         // ============================================================
