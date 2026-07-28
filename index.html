@@ -156,7 +156,7 @@
             border-color: var(--danger);
         }
 
-        /* ===== NAVBAR (logo centered, left nav links, right functions) ===== */
+        /* ===== NAVBAR (logo centered, left links, right functions) ===== */
         .navbar {
             display: flex;
             align-items: center;
@@ -169,7 +169,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            min-height: 64px;
+            min-height: 70px;
             flex-wrap: nowrap;
         }
 
@@ -182,10 +182,10 @@
 
         .navbar-center {
             flex: 1;
-            text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
         .navbar-right {
@@ -205,7 +205,7 @@
             letter-spacing: -0.3px;
         }
         .logo img {
-            height: 64px; /* Increased from 48px */
+            height: 64px; /* Bigger logo */
             width: auto;
             border-radius: 8px;
             object-fit: contain;
@@ -1935,7 +1935,7 @@
                 gap: 4px;
             }
             .logo img {
-                height: 48px; /* Slightly smaller on mobile */
+                height: 48px;
             }
             .search-box {
                 min-width: 80px;
@@ -2094,7 +2094,7 @@
 
     <!-- ===== MAIN PAGE ===== -->
     <div id="mainPage">
-        <!-- NAVBAR with left nav links, center logo, right functions -->
+        <!-- NAVBAR with left links, center logo, right functions -->
         <div class="navbar">
             <div class="navbar-left">
                 <div class="nav-links">
@@ -2127,13 +2127,13 @@
             </div>
         </div>
 
-        <!-- HISTORY (directly below navbar) -->
+        <!-- HISTORY -->
         <div class="history-section">
             <h3><i class="fas fa-history"></i> Your History</h3>
             <div id="historyList"><div class="history-empty">🔐 Login to view</div></div>
         </div>
 
-        <!-- CONTENT (series/movies start here) -->
+        <!-- CONTENT -->
         <div class="section">
             <div class="section-header">
                 <h2 id="sectionTitle"><i class="fas fa-fire"></i> All Content</h2>
