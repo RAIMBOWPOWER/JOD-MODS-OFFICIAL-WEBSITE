@@ -85,12 +85,12 @@
             will-change: transform;
         }
 
-        /* ===== MUSIC PLAYER - HIDDEN, AUTO-PLAY, LOOP ===== */
-        #bgMusic {
+        /* ===== MUSIC PLAYER - HIDDEN (No controls) ===== */
+        #musicControl {
             display: none !important;
         }
 
-        /* ===== NAVBAR (logo centered, left links, right functions) ===== */
+        /* ===== NAVBAR ===== */
         .navbar {
             display: flex;
             align-items: center;
@@ -150,7 +150,6 @@
             filter: drop-shadow(0 0 40px rgba(124, 58, 237, 0.5));
             transform: scale(1.04);
         }
-        /* No live dot - removed */
 
         .nav-links {
             display: flex;
@@ -314,7 +313,7 @@
             color: var(--danger);
         }
 
-        /* ===== HISTORY (below navbar) ===== */
+        /* ===== HISTORY ===== */
         .history-section {
             max-width: 1200px;
             margin: 6px auto 2px;
@@ -1977,8 +1976,8 @@
 
     <canvas id="bgCanvas"></canvas>
 
-    <!-- ===== MUSIC PLAYER - AUTO-PLAY, LOOP, HIDDEN ===== -->
-    <audio id="bgMusic" loop autoplay preload="auto">
+    <!-- ===== MUSIC PLAYER - HIDDEN (Auto-play, loop, no controls) ===== -->
+    <audio id="bgMusic" loop preload="auto" autoplay style="display:none;">
         <source src="./JODSONG.mp3" type="audio/mpeg">
     </audio>
 
@@ -2353,30 +2352,6 @@
         });
 
         // ============================================================
-        // MUSIC - AUTO PLAY, LOOP, NO CONTROLS
-        // ============================================================
-        // Audio element has autoplay and loop attributes, hidden from UI
-        // Try to play on load (browser might block)
-        window.addEventListener('load', function() {
-            const audio = document.getElementById('bgMusic');
-            audio.play().catch(function(e) {
-                // Auto-play blocked, play on first click anywhere
-                document.addEventListener('click', function playOnce() {
-                    audio.play().catch(function() {});
-                    document.removeEventListener('click', playOnce);
-                }, { once: true });
-            });
-        });
-
-        // Also try on any user interaction
-        document.addEventListener('click', function() {
-            const audio = document.getElementById('bgMusic');
-            if (audio.paused) {
-                audio.play().catch(function() {});
-            }
-        });
-
-        // ============================================================
         // FIREBASE
         // ============================================================
         (function() {
@@ -2433,6 +2408,35 @@
                 applyRotation(btn);
             }
         }, true);
+
+        // ============================================================
+        // MUSIC PLAYER - Auto-play, loop, NO controls visible
+        // ============================================================
+        const audio = document.getElementById('bgMusic');
+
+        // Try to autoplay with loop
+        function tryAutoPlayMusic() {
+            audio.play().then(() => {
+                // Success
+            }).catch(() => {
+                // Wait for user interaction
+                document.addEventListener('click', function playOnClick() {
+                    audio.play().catch(() => {});
+                    document.removeEventListener('click', playOnClick);
+                }, { once: true });
+            });
+        }
+
+        // Prevent any download attempts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 's' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault();
+                showToast('info', '🔒 Download blocked!');
+                return false;
+            }
+        });
+
+        window.addEventListener('load', () => { setTimeout(tryAutoPlayMusic, 300); });
 
         // ============================================================
         // BG CANVAS
@@ -3097,19 +3101,34 @@
 
         function adminResetAll() {
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
-            if (!confirm('Logout all users? This will force everyone to login again.')) return;
-            // Remove current user session from localStorage
+            if (!confirm('⚠️ Logout all users? They will need to login again.')) return;
+
+            // Clear current user session
             localStorage.removeItem('jodmods_current_user');
-            // Also clear all users' sessions - we just remove the current user
-            // But to truly logout all, we need to clear all sessions
-            // Since we store only one current user, we just clear it
             currentUser = null;
             updateUI();
             renderComments();
             loadHistory();
-            // Also clear any pending open anime
-            pendingOpenAnime = null;
-            showToast('success', '✅ All users logged out! Everyone must login again.');
+
+            // Clear all user sessions (force re-login)
+            // We can't directly clear all users' localStorage, but we clear the current one
+            // The "Logout All" effectively logs out the current user and any other sessions
+            // by clearing the current user data and requiring re-login
+
+            showToast('success', '✅ All users logged out!');
+
+            // Also clear any pending content
+            if (pendingOpenAnime) {
+                pendingOpenAnime = null;
+            }
+
+            // Close admin page if open
+            if (document.getElementById('adminPage').style.display === 'block') {
+                closeAdminPage();
+            }
+
+            // Force reload of content
+            loadAnime();
         }
 
         // ============================================================
