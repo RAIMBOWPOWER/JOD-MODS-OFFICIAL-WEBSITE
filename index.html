@@ -156,7 +156,7 @@
             border-color: var(--danger);
         }
 
-        /* ===== NAVBAR ===== */
+        /* ===== NAVBAR (logo centered) ===== */
         .navbar {
             display: flex;
             align-items: center;
@@ -165,50 +165,66 @@
             background: var(--nav-bg);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
-            flex-wrap: wrap;
-            gap: 4px;
+            gap: 8px;
             position: sticky;
             top: 0;
             z-index: 100;
-            min-height: 48px;
+            min-height: 56px;
+            flex-wrap: nowrap;
         }
 
         .navbar-left {
             display: flex;
             align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 6px;
+            flex: 0 0 auto;
+        }
+
+        .navbar-center {
+            flex: 1;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex: 0 0 auto;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 18px;
+            justify-content: center;
+            gap: 4px;
+            font-size: 20px;
             font-weight: 800;
             letter-spacing: -0.3px;
         }
         .logo img {
-            height: 36px;
+            height: 48px;
             width: auto;
-            border-radius: 6px;
+            border-radius: 8px;
             object-fit: contain;
-            filter: drop-shadow(0 0 12px rgba(124, 58, 237, 0.2));
+            filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.3));
             transition: 0.3s;
         }
         .logo img:hover {
-            filter: drop-shadow(0 0 24px rgba(124, 58, 237, 0.4));
+            filter: drop-shadow(0 0 40px rgba(124, 58, 237, 0.5));
             transform: scale(1.04);
         }
         .logo .live-dot {
             display: inline-block;
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             background: var(--danger);
             border-radius: 50%;
             animation: blink 1s ease-in-out infinite;
-            box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
-            margin-left: 2px;
+            box-shadow: 0 0 16px rgba(239, 68, 68, 0.5);
+            margin-left: 4px;
         }
         @keyframes blink {
             0%, 100% { opacity: 1; transform: scale(1); }
@@ -247,13 +263,6 @@
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff;
             box-shadow: 0 0 20px rgba(124, 58, 237, 0.25);
-        }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            flex-wrap: wrap;
         }
 
         .search-box {
@@ -384,59 +393,75 @@
             color: var(--danger);
         }
 
-        /* ===== HERO ===== */
-        .hero {
-            padding: 14px 14px 10px;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-            background: radial-gradient(ellipse at 50% 0%, rgba(124, 58, 237, 0.04) 0%, transparent 60%);
-        }
-        .hero h1 {
-            font-size: 22px;
-            font-weight: 900;
-            letter-spacing: -0.3px;
-        }
-        .hero h1 .glitch {
-            background: linear-gradient(135deg, var(--primary), var(--cyan), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% 200%;
-        }
-        .hero p {
-            color: var(--text-secondary);
-            font-size: 12px;
-            margin-top: 2px;
-        }
-        .hero .tags {
-            display: flex;
-            justify-content: center;
-            gap: 4px;
-            flex-wrap: wrap;
-            margin-top: 6px;
-        }
-        .hero .tags span {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 1px 12px;
-            border-radius: 30px;
-            font-size: 9px;
-            color: var(--primary-light);
+        /* ===== HISTORY (below navbar) ===== */
+        .history-section {
+            max-width: 1200px;
+            margin: 6px auto 2px;
+            padding: 4px 14px;
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: 8px;
             border: 1px solid var(--border-color);
+        }
+        .history-section h3 {
+            color: var(--primary-light);
+            margin-bottom: 4px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .history-section .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 12px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            margin: 2px 0;
+            border-left: 2px solid var(--primary);
+            font-size: 11px;
+            color: var(--text-secondary);
             transition: 0.2s;
         }
-        .hero .tags span:hover {
-            border-color: var(--primary);
-            transform: translateY(-1px);
+        .history-section .history-item:hover {
+            background: var(--bg-card-hover);
+        }
+        .history-section .history-item .hist-title {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 11px;
+            pointer-events: none;
+        }
+        .history-section .history-item .hist-continue {
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 9px;
+            padding: 1px 12px;
+            border: 1px solid var(--accent);
+            border-radius: 30px;
+            transition: 0.2s;
+            background: none;
+        }
+        .history-section .history-item .hist-continue:hover {
+            background: var(--accent);
+            color: #000;
+        }
+        .history-empty {
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 6px;
+            font-size: 11px;
         }
 
-        /* ===== SECTION ===== */
+        /* ===== CONTENT SECTION ===== */
         .section {
-            padding: 10px 14px 6px;
+            padding: 8px 14px 6px;
         }
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .section-header h2 {
             font-size: 16px;
@@ -644,63 +669,6 @@
         .empty-state p {
             color: var(--text-secondary);
             font-size: 12px;
-        }
-
-        /* ===== HISTORY ===== */
-        .history-section {
-            max-width: 1200px;
-            margin: 0 auto 2px;
-            padding: 6px 14px;
-        }
-        .history-section h3 {
-            color: var(--primary-light);
-            margin-bottom: 6px;
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .history-section .history-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 4px 12px;
-            background: var(--bg-card);
-            border-radius: 8px;
-            margin: 2px 0;
-            border-left: 2px solid var(--primary);
-            font-size: 11px;
-            color: var(--text-secondary);
-            transition: 0.2s;
-        }
-        .history-section .history-item:hover {
-            background: var(--bg-card-hover);
-        }
-        .history-section .history-item .hist-title {
-            color: var(--text-primary);
-            font-weight: 500;
-            font-size: 11px;
-            pointer-events: none;
-        }
-        .history-section .history-item .hist-continue {
-            color: var(--accent);
-            cursor: pointer;
-            font-size: 9px;
-            padding: 1px 12px;
-            border: 1px solid var(--accent);
-            border-radius: 30px;
-            transition: 0.2s;
-            background: none;
-        }
-        .history-section .history-item .hist-continue:hover {
-            background: var(--accent);
-            color: #000;
-        }
-        .history-empty {
-            color: var(--text-secondary);
-            text-align: center;
-            padding: 6px;
-            font-size: 11px;
         }
 
         /* ===== MODAL ===== */
@@ -1945,20 +1913,29 @@
         @media (max-width: 768px) {
             .navbar {
                 padding: 4px 10px;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 3px;
+                flex-wrap: wrap;
                 min-height: auto;
+                gap: 4px;
             }
             .navbar-left {
-                width: 100%;
-                justify-content: space-between;
+                order: 1;
+                flex: 0 0 auto;
+            }
+            .navbar-center {
+                order: 2;
+                flex: 1 1 100%;
+                text-align: center;
+                margin: 2px 0;
             }
             .navbar-right {
+                order: 3;
+                flex: 0 0 auto;
                 width: 100%;
-                flex-direction: row;
-                flex-wrap: wrap;
-                gap: 3px;
+                justify-content: flex-end;
+                gap: 4px;
+            }
+            .logo img {
+                height: 38px;
             }
             .search-box {
                 min-width: 80px;
@@ -1974,11 +1951,8 @@
             .content-card img {
                 height: 140px;
             }
-            .hero h1 {
-                font-size: 18px;
-            }
             .section {
-                padding: 8px 10px 4px;
+                padding: 6px 10px 4px;
             }
             .history-section {
                 padding: 4px 10px;
@@ -2057,9 +2031,6 @@
             .content-card img {
                 height: 120px;
             }
-            .hero h1 {
-                font-size: 16px;
-            }
             .nav-links a {
                 padding: 2px 8px;
                 font-size: 10px;
@@ -2094,7 +2065,7 @@
                 font-size: 16px;
             }
             .logo img {
-                height: 28px;
+                height: 32px;
             }
         }
     </style>
@@ -2123,21 +2094,22 @@
 
     <!-- ===== MAIN PAGE ===== -->
     <div id="mainPage">
-        <!-- NAVBAR -->
+        <!-- NAVBAR with centered logo -->
         <div class="navbar">
             <div class="navbar-left">
-                <div class="logo">
-                    <img src="https://iili.io/Cvl1XIa.png" alt="JOD MODS" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block';" />
-                    <span style="display:none;">JOD MODS</span>
-                    <span class="live-dot"></span>
-                </div>
                 <div class="nav-links">
                     <a class="active" data-type="all"><i class="fas fa-th-list"></i> All</a>
                     <a data-type="movies"><i class="fas fa-film"></i> Movies</a>
                     <a data-type="series"><i class="fas fa-tv"></i> Series</a>
                 </div>
             </div>
-
+            <div class="navbar-center">
+                <div class="logo">
+                    <img src="https://iili.io/Cvl1XIa.png" alt="JOD MODS" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block';" />
+                    <span style="display:none;">JOD MODS</span>
+                    <span class="live-dot"></span>
+                </div>
+            </div>
             <div class="navbar-right">
                 <div class="search-box">
                     <input type="text" id="searchInput" placeholder="🔍 Search..." />
@@ -2155,26 +2127,13 @@
             </div>
         </div>
 
-        <!-- HERO -->
-        <div class="hero">
-            <h1>🇮🇳 <span class="glitch">JOD MODS</span> OTT 🔥</h1>
-            <p>⚡ Admin/Mod Content • 100% Free • LIVE</p>
-            <div class="tags">
-                <span>🔥 Admin</span>
-                <span>⭐ Free</span>
-                <span>📺 Your Choice</span>
-                <span>🚀 Fast</span>
-                <span>🎵 Beat</span>
-            </div>
-        </div>
-
-        <!-- HISTORY -->
+        <!-- HISTORY (directly below navbar) -->
         <div class="history-section">
             <h3><i class="fas fa-history"></i> Your History</h3>
             <div id="historyList"><div class="history-empty">🔐 Login to view</div></div>
         </div>
 
-        <!-- CONTENT -->
+        <!-- CONTENT (series/movies start here) -->
         <div class="section">
             <div class="section-header">
                 <h2 id="sectionTitle"><i class="fas fa-fire"></i> All Content</h2>
