@@ -702,12 +702,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 28px 16px;
+            padding: 24px 16px;
             background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.04) 0%, transparent 60%);
             border-radius: 14px;
             border: 1px dashed var(--border-color);
             margin: 10px 0;
-            min-height: 180px;
+            min-height: 160px;
             transition: 0.2s;
         }
         .go-video-section:hover {
@@ -715,21 +715,21 @@
             background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.06) 0%, transparent 60%);
         }
         .go-video-section .telegram-icon {
-            font-size: 52px;
+            font-size: 48px;
             color: #0088cc;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             pointer-events: none;
         }
         .go-video-section h3 {
             color: var(--text-primary);
-            font-size: 18px;
-            margin-bottom: 4px;
+            font-size: 17px;
+            margin-bottom: 2px;
             pointer-events: none;
         }
         .go-video-section p {
             color: var(--text-secondary);
             font-size: 13px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             text-align: center;
             pointer-events: none;
         }
@@ -737,15 +737,15 @@
             background: linear-gradient(135deg, #0088cc, #005f8a);
             color: #fff;
             border: none;
-            padding: 14px 42px;
+            padding: 14px 40px;
             border-radius: 60px;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.25s;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             box-shadow: 0 4px 28px rgba(0, 136, 204, 0.25);
             text-decoration: none;
         }
@@ -754,31 +754,34 @@
             box-shadow: 0 8px 40px rgba(0, 136, 204, 0.35);
         }
         .go-video-btn i {
-            font-size: 22px;
+            font-size: 20px;
         }
         .go-video-btn .arrow {
-            font-size: 20px;
+            font-size: 18px;
             transition: 0.25s;
         }
         .go-video-btn:hover .arrow {
-            transform: translateX(8px);
+            transform: translateX(6px);
         }
 
-        /* ===== PARTS BUTTONS ===== */
+        /* ===== PARTS BUTTONS - Below Go to Video ===== */
         .parts-section {
-            display: flex;
+            display: none;
             gap: 10px;
             flex-wrap: wrap;
             justify-content: center;
-            margin: 10px 0;
-            padding: 10px;
+            margin: 8px 0 4px;
+            padding: 10px 12px;
             background: rgba(255, 255, 255, 0.02);
             border-radius: 12px;
             border: 1px solid var(--border-color);
         }
+        .parts-section.visible {
+            display: flex;
+        }
         .parts-section .parts-label {
             color: var(--text-secondary);
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -788,13 +791,13 @@
             color: var(--primary);
         }
         .part-btn {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border-color);
             color: var(--text-secondary);
-            padding: 6px 18px;
+            padding: 6px 16px;
             border-radius: 30px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             transition: 0.2s;
             display: flex;
@@ -804,13 +807,20 @@
         .part-btn:hover {
             border-color: var(--primary);
             color: var(--text-primary);
-            background: rgba(124, 58, 237, 0.06);
+            background: rgba(124, 58, 237, 0.08);
+            transform: translateY(-1px);
         }
         .part-btn.active {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff;
             border-color: var(--primary);
             box-shadow: 0 0 20px rgba(124, 58, 237, 0.2);
+        }
+        .part-btn .part-number {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0 6px;
+            border-radius: 10px;
+            font-size: 10px;
         }
 
         /* ===== LIKE & VIEWS SECTION ===== */
@@ -819,7 +829,7 @@
             align-items: center;
             justify-content: center;
             gap: 24px;
-            margin: 12px 0 8px;
+            margin: 10px 0 6px;
             padding: 10px 18px;
             background: rgba(255, 255, 255, 0.02);
             border-radius: 12px;
@@ -884,7 +894,7 @@
             text-align: center;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 8px;
-            margin: 6px 0;
+            margin: 4px 0;
             border: 1px solid rgba(16, 185, 129, 0.05);
             pointer-events: none;
         }
@@ -893,7 +903,7 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin: 8px 0;
+            margin: 6px 0;
             justify-content: center;
         }
         .action-bar button {
@@ -1386,8 +1396,8 @@
             .admin-stats .stat-card .stat-number { font-size: 18px; }
             .auth-modal-content { margin: 6px; max-width: 100%; }
             .auth-form-container { padding: 12px 14px; }
-            .go-video-section { padding: 20px 12px; min-height: 140px; }
-            .go-video-btn { padding: 12px 28px; font-size: 16px; }
+            .go-video-section { padding: 18px 12px; min-height: 140px; }
+            .go-video-btn { padding: 12px 28px; font-size: 15px; }
             .user-profile .username { max-width: 50px; font-size: 13px; }
             .user-profile .avatar { width: 28px; height: 28px; font-size: 12px; }
             .toast { bottom: 70px; right: 10px; left: 10px; font-size: 13px; padding: 10px 16px; }
@@ -1400,7 +1410,7 @@
             .social-links { gap: 8px; padding: 6px 12px; }
             .social-links a { font-size: 12px; padding: 4px 12px; }
             .parts-section { gap: 6px; padding: 8px; }
-            .part-btn { padding: 4px 14px; font-size: 12px; }
+            .part-btn { padding: 4px 12px; font-size: 11px; }
         }
 
         @media (max-width: 480px) {
@@ -1424,7 +1434,7 @@
             .social-links a { font-size: 11px; padding: 3px 10px; }
             .social-links a i { font-size: 14px; }
             .parts-section { gap: 4px; padding: 6px; }
-            .part-btn { padding: 3px 10px; font-size: 11px; }
+            .part-btn { padding: 3px 10px; font-size: 10px; }
         }
     </style>
 </head>
@@ -1806,12 +1816,7 @@
             <h3 class="modal-title" id="modalTitle">Title</h3>
             <div class="player-status" id="playerStatus">📽️ Video Ready</div>
 
-            <!-- PARTS SECTION -->
-            <div class="parts-section" id="partsSection" style="display:none;">
-                <span class="parts-label"><i class="fas fa-layer-group"></i> Parts:</span>
-                <div id="partsButtons"></div>
-            </div>
-
+            <!-- GO TO VIDEO - Main Button -->
             <div class="go-video-section" id="goVideoSection">
                 <div class="telegram-icon"><i class="fab fa-telegram-plane"></i></div>
                 <h3>🎬 Watch Video</h3>
@@ -1821,6 +1826,12 @@
                     <span>Go to Video</span>
                     <span class="arrow">→</span>
                 </a>
+            </div>
+
+            <!-- PARTS BUTTONS - Below Go to Video -->
+            <div class="parts-section" id="partsSection">
+                <span class="parts-label"><i class="fas fa-layer-group"></i> Other Parts:</span>
+                <div id="partsButtons"></div>
             </div>
 
             <!-- LIKE & VIEWS -->
@@ -2028,7 +2039,6 @@
         let statsCache = {};
         let statsCacheTime = 0;
         let currentParts = [];
-        let currentPartLinks = {};
         let selectedPart = 1;
 
         const container = document.getElementById('contentContainer');
@@ -2714,22 +2724,33 @@
             container.innerHTML = html;
         }
 
+        // ============================================================
+        // RENDER PARTS BUTTONS IN MODAL - BELOW GO TO VIDEO
+        // ============================================================
         function renderPartsUI(parts) {
             const section = document.getElementById('partsSection');
             const buttonsContainer = document.getElementById('partsButtons');
             
-            if (!parts || parts.length === 0) {
-                section.style.display = 'none';
+            if (!parts || parts.length === 0 || parts.length <= 1) {
+                section.classList.remove('visible');
                 return;
             }
             
-            section.style.display = 'flex';
+            section.classList.add('visible');
             buttonsContainer.innerHTML = '';
             
             // Sort parts
             const sortedParts = [...parts].sort((a, b) => a.number - b.number);
             
-            sortedParts.forEach(p => {
+            // Show only parts other than part 1 (since part 1 is the main video)
+            const otherParts = sortedParts.filter(p => p.number !== 1);
+            
+            if (otherParts.length === 0) {
+                section.classList.remove('visible');
+                return;
+            }
+            
+            otherParts.forEach(p => {
                 const btn = document.createElement('button');
                 btn.className = 'part-btn' + (p.number === selectedPart ? ' active' : '');
                 btn.innerHTML = `<i class="fas fa-play"></i> Part ${p.number}`;
@@ -2808,7 +2829,7 @@
         }
 
         // ============================================================
-        // ADMIN CRUD - FIXED
+        // ADMIN CRUD
         // ============================================================
         function adminAddAnime() {
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
@@ -2853,7 +2874,6 @@
                     showToast('success', '✅ Updated!');
                     adminClearForm();
                     loadAdminContentList();
-                    // Force reload content
                     loadAnime();
                 });
             } else {
@@ -2865,7 +2885,6 @@
                     showToast('success', '✅ Saved!');
                     adminClearForm();
                     loadAdminContentList();
-                    // Force reload content
                     loadAnime();
                 });
             }
@@ -2927,10 +2946,8 @@
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
             const item = allContentData[id];
             if (!item) { 
-                // Try to find by id in values
                 const found = Object.values(allContentData).find(v => v.id === id);
                 if (found) {
-                    // Update reference
                     const key = Object.keys(allContentData).find(k => allContentData[k] === found);
                     if (key) {
                         allContentData[key] = found;
@@ -3007,7 +3024,7 @@
         }
 
         // ============================================================
-        // HISTORY (Internal only)
+        // HISTORY
         // ============================================================
         function getHistory() {
             if (!currentUser) return [];
@@ -3028,9 +3045,7 @@
             localStorage.setItem('jodmods_history', JSON.stringify(all));
         }
 
-        function loadHistory() {
-            // Internal only
-        }
+        function loadHistory() {}
 
         // ============================================================
         // COMMENTS
@@ -3368,7 +3383,7 @@
         }
 
         // ============================================================
-        // CONTENT MODAL - COMPLETELY FIXED
+        // CONTENT MODAL - FIXED
         // ============================================================
         async function openAnime(id, title) {
             if (!currentUser) {
@@ -3379,21 +3394,17 @@
             }
             if (!id) { showToast('error', '❌ No data'); return; }
 
-            // Try multiple ways to find the content
             let item = null;
             
-            // 1. Direct lookup
             if (allContentData[id]) {
                 item = allContentData[id];
             }
             
-            // 2. Search by id in values
             if (!item) {
                 const values = Object.values(allContentData);
                 const found = values.find(v => v.id === id);
                 if (found) {
                     item = found;
-                    // Update reference in allContentData
                     const key = Object.keys(allContentData).find(k => allContentData[k] === found);
                     if (key) {
                         allContentData[key] = found;
@@ -3401,7 +3412,6 @@
                 }
             }
             
-            // 3. Search by matching title (if title provided)
             if (!item && title) {
                 const values = Object.values(allContentData);
                 const found = values.find(v => {
@@ -3414,11 +3424,9 @@
                 }
             }
             
-            // 4. Last resort: try to find by matching any content
             if (!item) {
                 const values = Object.values(allContentData);
                 if (values.length > 0) {
-                    // Try to find by id string match
                     const found = values.find(v => String(v.id).includes(String(id)) || String(id).includes(String(v.id)));
                     if (found) {
                         item = found;
@@ -3429,7 +3437,6 @@
             
             if (!item) {
                 showToast('error', '❌ Content not found! Please refresh.');
-                // Refresh content
                 loadAnime();
                 if (modal.style.display === 'flex') {
                     closeModal();
@@ -3437,11 +3444,9 @@
                 return;
             }
 
-            // Get proper ID
             const finalId = item.id || id;
             currentAnimeId = finalId;
             
-            // Get title
             const finalTitle = title || item.title?.romaji || item.title?.english || 'Unknown';
             currentTitle = finalTitle;
             selectedPart = 1;
@@ -3461,7 +3466,6 @@
             
             if (partsArray.length > 0) {
                 partsArray.sort((a, b) => a.number - b.number);
-                renderPartsUI(partsArray);
                 
                 // Set main link to part 1
                 const part1 = partsArray.find(p => p.number === 1);
@@ -3473,9 +3477,11 @@
                     goVideoBtn.href = partsArray[0].link;
                     selectedPart = partsArray[0].number;
                 }
+                
+                // Render parts buttons (shows part 2, 3, etc. below the main button)
+                renderPartsUI(partsArray);
             } else {
-                document.getElementById('partsSection').style.display = 'none';
-                // Fallback to old telegramLink
+                document.getElementById('partsSection').classList.remove('visible');
                 if (item.telegramLink) {
                     currentTelegramLink = item.telegramLink;
                     goVideoBtn.href = item.telegramLink;
@@ -3532,7 +3538,7 @@
             updateAdminStats();
             goVideoBtn.href = '#';
             currentTelegramLink = '';
-            document.getElementById('partsSection').style.display = 'none';
+            document.getElementById('partsSection').classList.remove('visible');
         }
 
         modal.addEventListener('click', e => { if (e.target === modal) closeModal(); }, { passive: true });
@@ -3590,7 +3596,7 @@
         updateAdminStats();
 
         // ============================================================
-        // ADMIN ACCOUNT - UPDATED
+        // ADMIN ACCOUNT
         // ============================================================
         const users = getUsers();
         const adminExists = users.find(u => u.email === 'aryanmana121@gmail.com');
@@ -3619,13 +3625,9 @@
             document.getElementById('sectionTitle').scrollIntoView({ behavior: 'smooth' });
         }, { passive: true });
 
-        // ============================================================
-        // FORCE REFRESH - FIX FOR CONTENT NOT FOUND
-        // ============================================================
-        // Reload content every 30 seconds to keep it fresh
+        // Auto-refresh content
         setInterval(() => {
             if (document.getElementById('adminPage').style.display !== 'block') {
-                // Only reload if not in admin panel
                 const currentContent = container.innerHTML;
                 if (!currentContent.includes('No content')) {
                     loadAnime();
