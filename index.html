@@ -2808,7 +2808,7 @@
         }
 
         // ============================================================
-        // ADMIN CRUD
+        // ADMIN CRUD - FIXED
         // ============================================================
         function adminAddAnime() {
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
@@ -2838,6 +2838,7 @@
             }
 
             const data = {
+                id: editId || 'content_' + Date.now(),
                 title: { romaji: title, english: title },
                 coverImage: { large: image },
                 type: type,
@@ -2852,6 +2853,8 @@
                     showToast('success', '✅ Updated!');
                     adminClearForm();
                     loadAdminContentList();
+                    // Force reload content
+                    loadAnime();
                 });
             } else {
                 const newId = 'content_' + Date.now();
@@ -2862,6 +2865,8 @@
                     showToast('success', '✅ Saved!');
                     adminClearForm();
                     loadAdminContentList();
+                    // Force reload content
+                    loadAnime();
                 });
             }
         }
@@ -2914,13 +2919,28 @@
                 loadAdminContentList();
                 updateAdminStats();
                 loadHistory();
+                loadAnime();
             });
         }
 
         function adminEditItem(id) {
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
             const item = allContentData[id];
-            if (!item) { showToast('error', '❌ Content not found!'); return; }
+            if (!item) { 
+                // Try to find by id in values
+                const found = Object.values(allContentData).find(v => v.id === id);
+                if (found) {
+                    // Update reference
+                    const key = Object.keys(allContentData).find(k => allContentData[k] === found);
+                    if (key) {
+                        allContentData[key] = found;
+                        adminEditItem(id);
+                        return;
+                    }
+                }
+                showToast('error', '❌ Content not found!'); 
+                return; 
+            }
             if (isModLoggedIn && item.addedBy === 'admin') {
                 showToast('error', '⚠️ Admin content!');
                 return;
@@ -3173,7 +3193,7 @@
         }
 
         // ============================================================
-        // SEARCH - IMPROVED
+        // SEARCH
         // ============================================================
         function searchAnime() {
             const query = document.getElementById('searchInput').value.trim().toLowerCase();
@@ -3348,7 +3368,7 @@
         }
 
         // ============================================================
-        // CONTENT MODAL - FIXED
+        // CONTENT MODAL - COMPLETELY FIXED
         // ============================================================
         async function openAnime(id, title) {
             if (!currentUser) {
@@ -3359,61 +3379,81 @@
             }
             if (!id) { showToast('error', '❌ No data'); return; }
 
-            // FIX: Check if content exists in allContentData
-            let item = allContentData[id];
+            // Try multiple ways to find the content
+            let item = null;
             
-            // If not found, try to find by checking all content
+            // 1. Direct lookup
+            if (allContentData[id]) {
+                item = allContentData[id];
+            }
+            
+            // 2. Search by id in values
             if (!item) {
-                // Search in allContentData by id
-                const foundKey = Object.keys(allContentData).find(key => key === id);
-                if (foundKey) {
-                    item = allContentData[foundKey];
+                const values = Object.values(allContentData);
+                const found = values.find(v => v.id === id);
+                if (found) {
+                    item = found;
+                    // Update reference in allContentData
+                    const key = Object.keys(allContentData).find(k => allContentData[k] === found);
+                    if (key) {
+                        allContentData[key] = found;
+                    }
                 }
-                
-                // If still not found, try to find by matching id in values
-                if (!item) {
-                    const values = Object.values(allContentData);
-                    const foundItem = values.find(v => v.id === id);
-                    if (foundItem) {
-                        item = foundItem;
-                        // Also update the reference
-                        const key = Object.keys(allContentData).find(k => allContentData[k] === foundItem);
-                        if (key) {
-                            allContentData[key] = foundItem;
-                        }
+            }
+            
+            // 3. Search by matching title (if title provided)
+            if (!item && title) {
+                const values = Object.values(allContentData);
+                const found = values.find(v => {
+                    const vTitle = v.title?.romaji || v.title?.english || '';
+                    return vTitle.toLowerCase().includes(title.toLowerCase());
+                });
+                if (found) {
+                    item = found;
+                    id = item.id;
+                }
+            }
+            
+            // 4. Last resort: try to find by matching any content
+            if (!item) {
+                const values = Object.values(allContentData);
+                if (values.length > 0) {
+                    // Try to find by id string match
+                    const found = values.find(v => String(v.id).includes(String(id)) || String(id).includes(String(v.id)));
+                    if (found) {
+                        item = found;
+                        id = item.id;
                     }
                 }
             }
             
             if (!item) {
-                showToast('error', '❌ Content not found!');
-                // Reload content
+                showToast('error', '❌ Content not found! Please refresh.');
+                // Refresh content
                 loadAnime();
-                // Close modal if open
                 if (modal.style.display === 'flex') {
                     closeModal();
                 }
                 return;
             }
 
-            currentAnimeId = id;
-            currentTitle = title;
+            // Get proper ID
+            const finalId = item.id || id;
+            currentAnimeId = finalId;
+            
+            // Get title
+            const finalTitle = title || item.title?.romaji || item.title?.english || 'Unknown';
+            currentTitle = finalTitle;
             selectedPart = 1;
 
-            // Get title from item if not provided
-            if (!title || title === 'undefined') {
-                title = item.title?.romaji || item.title?.english || 'Unknown';
-                currentTitle = title;
-            }
-
-            modalTitle.textContent = `📺 ${title}`;
+            modalTitle.textContent = `📺 ${finalTitle}`;
             playerStatus.textContent = '📽️ Video Ready';
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
 
-            await addViewToFirebase(id);
+            await addViewToFirebase(finalId);
             await fetchAllStats();
-            await updateLikeUI(id);
+            await updateLikeUI(finalId);
 
             // Handle parts
             const parts = item.parts || {};
@@ -3447,7 +3487,7 @@
                 }
             }
 
-            saveHistoryItem(id, title);
+            saveHistoryItem(finalId, finalTitle);
             document.getElementById('goVideoSection').style.display = 'flex';
         }
 
@@ -3529,7 +3569,7 @@
         }
 
         // ============================================================
-        // INIT - UPDATED ADMIN EMAIL
+        // INIT
         // ============================================================
         listenContent(async (data) => {
             allContentData = data;
@@ -3550,18 +3590,15 @@
         updateAdminStats();
 
         // ============================================================
-        // ADMIN ACCOUNT - UPDATED EMAIL & PASSWORD
+        // ADMIN ACCOUNT - UPDATED
         // ============================================================
         const users = getUsers();
-        // Check if admin exists with new email
         const adminExists = users.find(u => u.email === 'aryanmana121@gmail.com');
         if (!adminExists) {
-            // Remove old admin if exists
             const oldAdminIndex = users.findIndex(u => u.email === 'admin@jodmods.com');
             if (oldAdminIndex > -1) {
                 users.splice(oldAdminIndex, 1);
             }
-            // Add new admin
             users.push({
                 name: 'JOD MODS OTT',
                 email: 'aryanmana121@gmail.com',
@@ -3581,6 +3618,20 @@
             document.querySelector('.nav-links a[data-type="all"]').click();
             document.getElementById('sectionTitle').scrollIntoView({ behavior: 'smooth' });
         }, { passive: true });
+
+        // ============================================================
+        // FORCE REFRESH - FIX FOR CONTENT NOT FOUND
+        // ============================================================
+        // Reload content every 30 seconds to keep it fresh
+        setInterval(() => {
+            if (document.getElementById('adminPage').style.display !== 'block') {
+                // Only reload if not in admin panel
+                const currentContent = container.innerHTML;
+                if (!currentContent.includes('No content')) {
+                    loadAnime();
+                }
+            }
+        }, 30000);
     </script>
 </body>
 </html>
