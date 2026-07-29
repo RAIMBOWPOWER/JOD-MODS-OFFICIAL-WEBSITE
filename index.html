@@ -1462,7 +1462,7 @@
 
     <canvas id="bgCanvas"></canvas>
 
-    <!-- ===== MUSIC PLAYER - HIDDEN ===== -->
+    <!-- ===== MUSIC PLAYER - HIDDEN WITH LOOP ===== -->
     <audio id="bgMusic" loop preload="auto" autoplay style="display:none;">
         <source src="./JODSONG.mp3" type="audio/mpeg">
     </audio>
@@ -1960,7 +1960,7 @@
         }, true);
 
         // ============================================================
-        // MUSIC PLAYER
+        // MUSIC PLAYER - FIXED: LOOP PROPERLY
         // ============================================================
         const audio = document.getElementById('bgMusic');
 
@@ -1973,12 +1973,19 @@
             });
         }
 
+        // Prevent download
         document.addEventListener('keydown', function(e) {
             if (e.key === 's' && (e.ctrlKey || e.metaKey)) {
                 e.preventDefault();
                 showToast('info', '🔒 Download blocked!');
                 return false;
             }
+        });
+
+        // Also handle audio ended event to ensure loop
+        audio.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play().catch(() => {});
         });
 
         window.addEventListener('load', () => { setTimeout(tryAutoPlayMusic, 300); });
@@ -2743,7 +2750,7 @@
         }
 
         // ============================================================
-        // RENDER OTHER PARTS - FIXED FOR VIEWS/LIKES
+        // RENDER OTHER PARTS
         // ============================================================
         function renderOtherParts(parts) {
             const section = document.getElementById('otherPartsSection');
@@ -2773,7 +2780,6 @@
                     <span>Part ${p.number}</span>
                     <span class="arrow">→</span>
                 `;
-                // FIX: Use window.open to open link directly
                 btn.onclick = function(e) {
                     e.stopPropagation();
                     if (p.link && p.link !== '#') {
@@ -3467,14 +3473,12 @@
             await fetchAllStats();
             await updateLikeUI(finalId);
 
-            // Handle parts
             const parts = item.parts || {};
             const partsArray = Object.keys(parts).map(key => ({ number: parseInt(key), link: parts[key] }));
             
             if (partsArray.length > 0) {
                 partsArray.sort((a, b) => a.number - b.number);
                 
-                // Set main link to part 1
                 const part1 = partsArray.find(p => p.number === 1);
                 if (part1) {
                     currentTelegramLink = part1.link;
@@ -3485,7 +3489,6 @@
                     selectedPart = partsArray[0].number;
                 }
                 
-                // Render other parts - Part 2, 3, etc.
                 renderOtherParts(partsArray);
             } else {
                 document.getElementById('otherPartsSection').classList.remove('visible');
@@ -3632,14 +3635,10 @@
             document.getElementById('sectionTitle').scrollIntoView({ behavior: 'smooth' });
         }, { passive: true });
 
-        setInterval(() => {
-            if (document.getElementById('adminPage').style.display !== 'block') {
-                const currentContent = container.innerHTML;
-                if (!currentContent.includes('No content')) {
-                    loadAnime();
-                }
-            }
-        }, 30000);
+        // ============================================================
+        // AUTO-REFRESH REMOVED - Only manual refresh now
+        // ============================================================
+        // No auto-refresh timer
     </script>
 </body>
 </html>
