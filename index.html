@@ -812,12 +812,6 @@
             border-color: var(--primary);
             box-shadow: 0 0 20px rgba(124, 58, 237, 0.2);
         }
-        .part-btn .part-number {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0 8px;
-            border-radius: 12px;
-            font-size: 11px;
-        }
 
         /* ===== LIKE & VIEWS SECTION ===== */
         .like-views-section {
@@ -3354,7 +3348,7 @@
         }
 
         // ============================================================
-        // CONTENT MODAL
+        // CONTENT MODAL - FIXED
         // ============================================================
         async function openAnime(id, title) {
             if (!currentUser) {
@@ -3365,17 +3359,52 @@
             }
             if (!id) { showToast('error', '❌ No data'); return; }
 
-            const item = allContentData[id];
+            // FIX: Check if content exists in allContentData
+            let item = allContentData[id];
+            
+            // If not found, try to find by checking all content
+            if (!item) {
+                // Search in allContentData by id
+                const foundKey = Object.keys(allContentData).find(key => key === id);
+                if (foundKey) {
+                    item = allContentData[foundKey];
+                }
+                
+                // If still not found, try to find by matching id in values
+                if (!item) {
+                    const values = Object.values(allContentData);
+                    const foundItem = values.find(v => v.id === id);
+                    if (foundItem) {
+                        item = foundItem;
+                        // Also update the reference
+                        const key = Object.keys(allContentData).find(k => allContentData[k] === foundItem);
+                        if (key) {
+                            allContentData[key] = foundItem;
+                        }
+                    }
+                }
+            }
+            
             if (!item) {
                 showToast('error', '❌ Content not found!');
                 // Reload content
                 loadAnime();
+                // Close modal if open
+                if (modal.style.display === 'flex') {
+                    closeModal();
+                }
                 return;
             }
 
             currentAnimeId = id;
             currentTitle = title;
             selectedPart = 1;
+
+            // Get title from item if not provided
+            if (!title || title === 'undefined') {
+                title = item.title?.romaji || item.title?.english || 'Unknown';
+                currentTitle = title;
+            }
 
             modalTitle.textContent = `📺 ${title}`;
             playerStatus.textContent = '📽️ Video Ready';
@@ -3500,7 +3529,7 @@
         }
 
         // ============================================================
-        // INIT
+        // INIT - UPDATED ADMIN EMAIL
         // ============================================================
         listenContent(async (data) => {
             allContentData = data;
@@ -3520,12 +3549,23 @@
         renderFullComments();
         updateAdminStats();
 
+        // ============================================================
+        // ADMIN ACCOUNT - UPDATED EMAIL & PASSWORD
+        // ============================================================
         const users = getUsers();
-        if (!users.find(u => u.email === 'admin@jodmods.com')) {
+        // Check if admin exists with new email
+        const adminExists = users.find(u => u.email === 'aryanmana121@gmail.com');
+        if (!adminExists) {
+            // Remove old admin if exists
+            const oldAdminIndex = users.findIndex(u => u.email === 'admin@jodmods.com');
+            if (oldAdminIndex > -1) {
+                users.splice(oldAdminIndex, 1);
+            }
+            // Add new admin
             users.push({
                 name: 'JOD MODS OTT',
-                email: 'admin@jodmods.com',
-                password: 'admin123',
+                email: 'aryanmana121@gmail.com',
+                password: 'JODxCHEATS',
                 isAdmin: true,
                 isMod: false,
                 securityQuestion: 'What is your favorite movie?',
@@ -3534,6 +3574,7 @@
             });
             saveUsers(users);
         }
+
         if (isAdminLoggedIn) loadModeratorList();
 
         document.getElementById('viewAllBtn').addEventListener('click', function() {
