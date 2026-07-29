@@ -90,6 +90,43 @@
             display: none !important;
         }
 
+        /* ===== SOCIAL LINKS ===== */
+        .social-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.01);
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .social-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+            transition: 0.2s;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .social-links a:hover {
+            border-color: var(--primary);
+            color: var(--text-primary);
+            background: rgba(124, 58, 237, 0.06);
+            transform: translateY(-2px);
+        }
+        .social-links a i {
+            font-size: 18px;
+        }
+        .social-links a.youtube i { color: #ff0000; }
+        .social-links a.telegram i { color: #0088cc; }
+
         /* ===== NAVBAR ===== */
         .navbar {
             display: flex;
@@ -727,7 +764,62 @@
             transform: translateX(8px);
         }
 
-        /* ===== LIKE & VIEWS SECTION (Below video button) ===== */
+        /* ===== PARTS BUTTONS ===== */
+        .parts-section {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .parts-section .parts-label {
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .parts-section .parts-label i {
+            color: var(--primary);
+        }
+        .part-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .part-btn:hover {
+            border-color: var(--primary);
+            color: var(--text-primary);
+            background: rgba(124, 58, 237, 0.06);
+        }
+        .part-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.2);
+        }
+        .part-btn .part-number {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0 8px;
+            border-radius: 12px;
+            font-size: 11px;
+        }
+
+        /* ===== LIKE & VIEWS SECTION ===== */
         .like-views-section {
             display: flex;
             align-items: center;
@@ -830,7 +922,7 @@
             color: var(--text-primary);
         }
 
-        /* ===== COMMENTS - Now a button that opens full page ===== */
+        /* ===== COMMENTS ===== */
         .comments-section {
             max-width: 1400px;
             margin: 10px auto;
@@ -1096,6 +1188,23 @@
             color: var(--primary-light);
             font-weight: 700;
         }
+        .footer .social-footer {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 8px;
+        }
+        .footer .social-footer a {
+            color: var(--text-secondary);
+            font-size: 20px;
+            transition: 0.2s;
+        }
+        .footer .social-footer a:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .footer .social-footer a.youtube:hover { color: #ff0000; }
+        .footer .social-footer a.telegram:hover { color: #0088cc; }
 
         /* ===== TOAST ===== */
         .toast {
@@ -1142,7 +1251,7 @@
             color: #f59e0b;
         }
 
-        /* ===== AUTH MODALS (same as before, kept for reference) ===== */
+        /* ===== AUTH MODALS ===== */
         .auth-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.94); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(16px); padding: 14px; }
         .auth-modal.active { display: flex; }
         .auth-modal-content { background: var(--bg-card); border-radius: 16px; width: 100%; max-width: 400px; border: 1px solid var(--border-color); box-shadow: 0 8px 48px rgba(0,0,0,0.6); overflow: hidden; animation: modalSlideIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -1182,7 +1291,7 @@
         .auth-success { color: var(--accent); font-size: 13px; padding: 6px 10px; background: rgba(16,185,129,0.04); border-radius: 6px; border: 1px solid rgba(16,185,129,0.06); display: none; }
         .auth-success.show { display: block; }
 
-        /* Admin panel (simplified for space) */
+        /* ===== ADMIN PANEL ===== */
         #adminPage { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); z-index: 5000; overflow-y: auto; padding: 14px; }
         .admin-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--bg-card); border-bottom: 2px solid var(--primary); border-radius: 12px; margin-bottom: 12px; flex-wrap: wrap; gap: 6px; }
         .admin-header h2 { color: var(--primary-light); font-size: 17px; display: flex; align-items: center; gap: 6px; }
@@ -1228,7 +1337,7 @@
         .mod-list .mod-item .mod-actions button { padding: 4px 14px; font-size: 12px; border: none; border-radius: 30px; cursor: pointer; transition: 0.2s; background: var(--danger); color: #fff; font-weight: 600; }
         .mod-list .mod-item .mod-actions button:hover { background: #b91c1c; }
 
-        /* Admin Auth */
+        /* ===== ADMIN AUTH ===== */
         .admin-auth-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.94); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(16px); }
         .admin-auth-overlay.active { display: flex; }
         .admin-auth-box { background: var(--bg-card); padding: 24px; border-radius: 16px; width: 100%; max-width: 380px; border: 1px solid var(--border-color); animation: modalSlideIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -1246,7 +1355,7 @@
         .admin-auth-box .auth-submit:hover { transform: translateY(-2px); box-shadow: 0 4px 24px rgba(124,58,237,0.25); }
         .admin-auth-box .error-msg { color: var(--danger); font-size: 13px; text-align: center; margin-top: 8px; padding: 6px; background: rgba(239,68,68,0.04); border-radius: 6px; border: 1px solid rgba(239,68,68,0.06); }
 
-        /* Forgot Password */
+        /* ===== FORGOT PASSWORD ===== */
         .forgot-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.94); z-index: 2500; justify-content: center; align-items: center; backdrop-filter: blur(16px); padding: 14px; }
         .forgot-modal.active { display: flex; }
         .forgot-modal-content { background: var(--bg-card); border-radius: 16px; width: 100%; max-width: 380px; padding: 22px; border: 1px solid var(--border-color); animation: modalSlideIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
@@ -1294,6 +1403,10 @@
             .view-count-display { font-size: 13px; }
             .category-buttons { gap: 6px; padding: 8px 12px; }
             .category-btn { padding: 6px 14px; font-size: 12px; }
+            .social-links { gap: 8px; padding: 6px 12px; }
+            .social-links a { font-size: 12px; padding: 4px 12px; }
+            .parts-section { gap: 6px; padding: 8px; }
+            .part-btn { padding: 4px 14px; font-size: 12px; }
         }
 
         @media (max-width: 480px) {
@@ -1314,6 +1427,10 @@
             .category-btn i { font-size: 12px; }
             .comments-full-container .comment-input-area input#commentMsgFull { font-size: 13px; padding: 8px 14px; }
             .comments-full-container .comment-input-area button { font-size: 13px; padding: 8px 18px; }
+            .social-links a { font-size: 11px; padding: 3px 10px; }
+            .social-links a i { font-size: 14px; }
+            .parts-section { gap: 4px; padding: 6px; }
+            .part-btn { padding: 3px 10px; font-size: 11px; }
         }
     </style>
 </head>
@@ -1345,9 +1462,9 @@
             </div>
             <div class="navbar-center">
                 <div class="logo">
-                    <img src="https://iili.io/Cvl1XIa.png" alt="JOD MODS" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block';" />
-                    <span style="display:none;">JOD MODS</span>
-                    <span class="brand-name">JOD MODS</span>
+                    <img src="https://iili.io/Cvl1XIa.png" alt="JOD MODS OTT" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block';" />
+                    <span style="display:none;">JOD MODS OTT</span>
+                    <span class="brand-name">JOD MODS OTT</span>
                 </div>
             </div>
             <div class="navbar-right">
@@ -1367,7 +1484,17 @@
             </div>
         </div>
 
-        <!-- CATEGORY BUTTONS (New) -->
+        <!-- SOCIAL LINKS -->
+        <div class="social-links">
+            <a href="https://www.youtube.com/@JodBuildStudio" target="_blank" class="youtube">
+                <i class="fab fa-youtube"></i> YouTube
+            </a>
+            <a href="https://t.me/+3EyVESxeIiYzMGJl" target="_blank" class="telegram">
+                <i class="fab fa-telegram-plane"></i> Telegram
+            </a>
+        </div>
+
+        <!-- CATEGORY BUTTONS -->
         <div class="category-buttons" id="categoryButtons">
             <button class="category-btn active" data-cat="all" onclick="filterCategory('all')">
                 <i class="fas fa-fire"></i> All
@@ -1395,7 +1522,7 @@
             <div id="contentContainer"><div class="loader"><i class="fas fa-spinner"></i> Loading...</div></div>
         </div>
 
-        <!-- COMMENTS SECTION (Button to open full page) -->
+        <!-- COMMENTS SECTION -->
         <div class="comments-section">
             <div class="comments-header">
                 <h3><i class="fas fa-comments"></i> Community <span class="comment-count-badge" id="commentCountBadge">0</span></h3>
@@ -1411,6 +1538,10 @@
         <!-- FOOTER -->
         <div class="footer">
             <p><span class="brand-footer">JOD MODS OTT</span> © 2025 <i class="fas fa-heart"></i> | <span style="color:var(--primary);">🔥 LIVE</span></p>
+            <div class="social-footer">
+                <a href="https://www.youtube.com/@JodBuildStudio" target="_blank" class="youtube" title="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://t.me/+3EyVESxeIiYzMGJl" target="_blank" class="telegram" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
+            </div>
         </div>
     </div>
 
@@ -1437,7 +1568,7 @@
             <div class="auth-modal-header">
                 <div class="brand">
                     <i class="fas fa-film"></i>
-                    <h2>JOD<span>MODS</span></h2>
+                    <h2>JOD<span>MODS OTT</span></h2>
                 </div>
                 <button class="close-auth" onclick="closeUserAuth()">&times;</button>
             </div>
@@ -1567,7 +1698,7 @@
             <button class="close-admin-auth" onclick="closeAdminAuth()">&times;</button>
             <div class="auth-brand">
                 <i class="fas fa-user-shield"></i>
-                <h2>JOD<span>MODS</span></h2>
+                <h2>JOD<span>MODS OTT</span></h2>
                 <p>🔐 Admin / Mod Login</p>
             </div>
             <input type="text" id="adminUserInput" placeholder="Username" />
@@ -1615,6 +1746,18 @@
                     <input type="text" id="adminEditId" placeholder="Edit ID" style="flex:1;min-width:80px;background:rgba(255,255,255,0.03);color:var(--text-secondary);" readonly>
                 </div>
 
+                <!-- Parts Management -->
+                <div style="display:flex; gap:6px; flex-wrap:wrap; margin:6px 0; border:1px solid var(--border-color); padding:10px; border-radius:8px;">
+                    <h4 style="color:var(--cyan); font-size:13px; width:100%; margin-bottom:4px;">
+                        <i class="fas fa-layer-group"></i> Add Part Link
+                    </h4>
+                    <input type="text" id="adminPartNumber" placeholder="Part # (1, 2, 3...)" style="flex:1;min-width:80px;">
+                    <input type="text" id="adminPartLink" placeholder="Part Telegram Link" style="flex:2;min-width:150px;">
+                    <button onclick="adminAddPart()" style="background:linear-gradient(135deg, var(--cyan), #0891b2);">
+                        <i class="fas fa-plus"></i> Add Part
+                    </button>
+                </div>
+
                 <div class="drop-area" id="dropArea">
                     <i class="fas fa-cloud-upload-alt" style="font-size:20px;color:var(--primary);"></i>
                     <p style="color:var(--text-secondary);font-size:13px;margin-top:4px;">Drag & Drop Thumbnail</p>
@@ -1623,7 +1766,17 @@
                 </div>
 
                 <div style="display:flex; gap:6px; flex-wrap:wrap; margin:6px 0;">
-                    <input type="text" id="adminTelegramLink" placeholder="📱 Telegram Video Link" style="flex:3;min-width:180px;">
+                    <input type="text" id="adminTelegramLink" placeholder="📱 Part 1 Link (Main Video)" style="flex:3;min-width:180px;">
+                </div>
+
+                <!-- Parts List -->
+                <div id="adminPartsList" style="margin:6px 0; padding:6px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border-color);">
+                    <h4 style="color:var(--primary-light); font-size:12px; margin-bottom:4px;">
+                        <i class="fas fa-list"></i> Added Parts
+                    </h4>
+                    <div id="partsListContainer" style="display:flex; gap:4px; flex-wrap:wrap;">
+                        <span style="color:var(--text-secondary);font-size:12px;">No parts added</span>
+                    </div>
                 </div>
 
                 <div style="display:flex; gap:6px; flex-wrap:wrap; margin:8px 0;">
@@ -1659,6 +1812,12 @@
             <h3 class="modal-title" id="modalTitle">Title</h3>
             <div class="player-status" id="playerStatus">📽️ Video Ready</div>
 
+            <!-- PARTS SECTION -->
+            <div class="parts-section" id="partsSection" style="display:none;">
+                <span class="parts-label"><i class="fas fa-layer-group"></i> Parts:</span>
+                <div id="partsButtons"></div>
+            </div>
+
             <div class="go-video-section" id="goVideoSection">
                 <div class="telegram-icon"><i class="fab fa-telegram-plane"></i></div>
                 <h3>🎬 Watch Video</h3>
@@ -1670,7 +1829,7 @@
                 </a>
             </div>
 
-            <!-- LIKE & VIEWS - Below video button -->
+            <!-- LIKE & VIEWS -->
             <div class="like-views-section">
                 <button class="like-btn" id="likeBtn" onclick="toggleLike()">
                     <i class="fas fa-thumbs-up"></i>
@@ -1771,12 +1930,12 @@
         }
 
         document.addEventListener('click', function(e) {
-            const btn = e.target.closest('button, .btn-primary, .btn-outline, .auth-submit-btn, .auth-submit, .go-video-btn, .mod-btn, .close-admin, .close-modal, .close-auth, .close-forgot, .close-admin-auth, .del-btn, .edit-btn, .hist-continue, .like-btn, .action-bar button, .comment-actions button, .category-btn, .comment-open-btn, .close-comments');
+            const btn = e.target.closest('button, .btn-primary, .btn-outline, .auth-submit-btn, .auth-submit, .go-video-btn, .mod-btn, .close-admin, .close-modal, .close-auth, .close-forgot, .close-admin-auth, .del-btn, .edit-btn, .like-btn, .action-bar button, .category-btn, .comment-open-btn, .close-comments, .part-btn');
             if (btn) { applyRotation(btn); }
         }, true);
 
         // ============================================================
-        // MUSIC PLAYER - Auto-play, loop, NO controls visible
+        // MUSIC PLAYER
         // ============================================================
         const audio = document.getElementById('bgMusic');
 
@@ -1874,6 +2033,9 @@
         let allContentData = {};
         let statsCache = {};
         let statsCacheTime = 0;
+        let currentParts = [];
+        let currentPartLinks = {};
+        let selectedPart = 1;
 
         const container = document.getElementById('contentContainer');
         const modal = document.getElementById('contentModal');
@@ -2501,6 +2663,105 @@
         }
 
         // ============================================================
+        // PARTS MANAGEMENT
+        // ============================================================
+        function adminAddPart() {
+            const partNum = document.getElementById('adminPartNumber').value.trim();
+            const partLink = document.getElementById('adminPartLink').value.trim();
+            
+            if (!partNum || !partLink) {
+                showToast('error', '⚠️ Part number and link required!');
+                return;
+            }
+            
+            const num = parseInt(partNum);
+            if (isNaN(num) || num < 1) {
+                showToast('error', '⚠️ Enter valid part number (1, 2, 3...)');
+                return;
+            }
+            
+            // Check if part already exists
+            const existingIndex = currentParts.findIndex(p => p.number === num);
+            if (existingIndex > -1) {
+                currentParts[existingIndex].link = partLink;
+            } else {
+                currentParts.push({ number: num, link: partLink });
+            }
+            
+            // Sort parts by number
+            currentParts.sort((a, b) => a.number - b.number);
+            renderPartsList();
+            document.getElementById('adminPartNumber').value = '';
+            document.getElementById('adminPartLink').value = '';
+            showToast('success', `✅ Part ${num} added!`);
+        }
+
+        function adminRemovePart(number) {
+            currentParts = currentParts.filter(p => p.number !== number);
+            renderPartsList();
+            showToast('info', `🗑️ Part ${number} removed`);
+        }
+
+        function renderPartsList() {
+            const container = document.getElementById('partsListContainer');
+            if (currentParts.length === 0) {
+                container.innerHTML = '<span style="color:var(--text-secondary);font-size:12px;">No parts added</span>';
+                return;
+            }
+            let html = '';
+            currentParts.forEach(p => {
+                html += `
+                            <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.04);padding:2px 10px;border-radius:16px;border:1px solid var(--border-color);font-size:12px;">
+                                Part ${p.number}
+                                <button onclick="adminRemovePart(${p.number})" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:12px;">×</button>
+                            </span>
+                        `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderPartsUI(parts) {
+            const section = document.getElementById('partsSection');
+            const buttonsContainer = document.getElementById('partsButtons');
+            
+            if (!parts || parts.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+            
+            section.style.display = 'flex';
+            buttonsContainer.innerHTML = '';
+            
+            // Sort parts
+            const sortedParts = [...parts].sort((a, b) => a.number - b.number);
+            
+            sortedParts.forEach(p => {
+                const btn = document.createElement('button');
+                btn.className = 'part-btn' + (p.number === selectedPart ? ' active' : '');
+                btn.innerHTML = `<i class="fas fa-play"></i> Part ${p.number}`;
+                btn.onclick = () => switchPart(p.number, p.link);
+                buttonsContainer.appendChild(btn);
+            });
+        }
+
+        function switchPart(number, link) {
+            selectedPart = number;
+            currentTelegramLink = link;
+            goVideoBtn.href = link;
+            
+            // Update active state
+            document.querySelectorAll('.part-btn').forEach(btn => btn.classList.remove('active'));
+            const btns = document.querySelectorAll('.part-btn');
+            btns.forEach(btn => {
+                if (btn.textContent.includes(`Part ${number}`)) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            showToast('info', `📺 Part ${number} selected`);
+        }
+
+        // ============================================================
         // IMAGE DROP
         // ============================================================
         const dropArea = document.getElementById('dropArea');
@@ -2561,21 +2822,38 @@
             const type = document.getElementById('adminType').value.trim() || 'series';
             const telegramLink = document.getElementById('adminTelegramLink').value.trim();
             const editId = document.getElementById('adminEditId').value.trim();
+            
             if (!title) { showToast('error', '⚠️ Title required!'); return; }
-            if (!telegramLink) { showToast('error', '⚠️ Telegram link required!'); return; }
+            if (!telegramLink && currentParts.length === 0) { 
+                showToast('error', '⚠️ At least one part link required!'); 
+                return; 
+            }
 
             let image = uploadedImages.length > 0 ? uploadedImages[0] :
                 'https://via.placeholder.com/300x400/1a1a1a/8b5cf6?text=' + encodeURIComponent(title);
 
+            // Build parts object
+            const partsObj = {};
+            currentParts.forEach(p => {
+                partsObj[p.number] = p.link;
+            });
+            
+            // Add main link as part 1 if not already added
+            if (telegramLink && !currentParts.find(p => p.number === 1)) {
+                partsObj[1] = telegramLink;
+            }
+
+            const data = {
+                title: { romaji: title, english: title },
+                coverImage: { large: image },
+                type: type,
+                parts: partsObj,
+                addedBy: currentAdminUser === 'admin' ? 'admin' : 'mod',
+                createdAt: Date.now()
+            };
+
             if (editId) {
-                const data = {
-                    title: { romaji: title, english: title },
-                    coverImage: { large: image },
-                    type: type,
-                    telegramLink: telegramLink,
-                    addedBy: currentAdminUser === 'admin' ? 'admin' : 'mod',
-                    lastEdited: Date.now()
-                };
+                data.lastEdited = Date.now();
                 saveContentToFirebase(editId, data).then(() => {
                     showToast('success', '✅ Updated!');
                     adminClearForm();
@@ -2583,15 +2861,7 @@
                 });
             } else {
                 const newId = 'content_' + Date.now();
-                const data = {
-                    id: newId,
-                    title: { romaji: title, english: title },
-                    coverImage: { large: image },
-                    type: type,
-                    telegramLink: telegramLink,
-                    addedBy: currentAdminUser === 'admin' ? 'admin' : 'mod',
-                    createdAt: Date.now()
-                };
+                data.id = newId;
                 saveContentToFirebase(newId, data).then(() => {
                     window._db.ref('stats/' + newId).set({ views: 0, likes: 0, likedUsers: [] });
                     statsCache[newId] = { views: 0, likes: 0, likedUsers: [] };
@@ -2607,7 +2877,11 @@
             document.getElementById('adminType').value = 'series';
             document.getElementById('adminTelegramLink').value = '';
             document.getElementById('adminEditId').value = '';
+            document.getElementById('adminPartNumber').value = '';
+            document.getElementById('adminPartLink').value = '';
+            currentParts = [];
             uploadedImages = [];
+            renderPartsList();
             updatePreview();
         }
 
@@ -2652,15 +2926,31 @@
         function adminEditItem(id) {
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
             const item = allContentData[id];
-            if (!item) return;
+            if (!item) { showToast('error', '❌ Content not found!'); return; }
             if (isModLoggedIn && item.addedBy === 'admin') {
                 showToast('error', '⚠️ Admin content!');
                 return;
             }
+            
             document.getElementById('adminTitle').value = item.title.romaji || item.title.english || '';
             document.getElementById('adminType').value = item.type || 'series';
-            document.getElementById('adminTelegramLink').value = item.telegramLink || '';
             document.getElementById('adminEditId').value = id;
+            
+            // Load parts
+            currentParts = [];
+            if (item.parts) {
+                Object.keys(item.parts).forEach(key => {
+                    currentParts.push({ number: parseInt(key), link: item.parts[key] });
+                });
+                currentParts.sort((a, b) => a.number - b.number);
+            }
+            renderPartsList();
+            
+            // Load main link (part 1)
+            if (item.parts && item.parts[1]) {
+                document.getElementById('adminTelegramLink').value = item.parts[1];
+            }
+            
             uploadedImages = [];
             updatePreview();
             document.querySelector('.admin-panel').scrollIntoView({ behavior: 'smooth' });
@@ -2682,11 +2972,14 @@
                 const canEdit = isAdminLoggedIn || (isModLoggedIn && item.addedBy !== 'admin');
                 const id = item.id || Object.keys(allContentData).find(key => allContentData[key] === item);
                 const stats = statsCache[id] || { views: 0, likes: 0 };
+                const partsCount = item.parts ? Object.keys(item.parts).length : 0;
                 html += `
                             <div class="content-item">
                                 <div class="item-info">
                                     <img src="${img}" alt="${title}" loading="lazy">
-                                    <span><strong>${title}</strong> (${item.type || 'series'}) <span style="color:var(--text-secondary);font-size:12px;">${addedBy}</span></span>
+                                    <span><strong>${title}</strong> (${item.type || 'series'}) 
+                                    <span style="color:var(--text-secondary);font-size:12px;">${addedBy}</span>
+                                    ${partsCount > 0 ? `<span style="color:var(--cyan);font-size:11px;">📦 ${partsCount} parts</span>` : ''}</span>
                                     <span style="color:var(--text-secondary);font-size:11px;"><i class="fas fa-eye" style="color:#f59e0b;"></i> ${stats.views || 0} <i class="fas fa-heart" style="color:var(--danger);margin-left:4px;"></i> ${stats.likes || 0}</span>
                                 </div>
                                 <div class="item-actions">
@@ -2700,7 +2993,7 @@
         }
 
         // ============================================================
-        // HISTORY (Kept internal, no UI display)
+        // HISTORY (Internal only)
         // ============================================================
         function getHistory() {
             if (!currentUser) return [];
@@ -2722,8 +3015,7 @@
         }
 
         function loadHistory() {
-            // History is kept internally but not displayed
-            // This function is kept for compatibility
+            // Internal only
         }
 
         // ============================================================
@@ -2887,6 +3179,84 @@
         }
 
         // ============================================================
+        // SEARCH - IMPROVED
+        // ============================================================
+        function searchAnime() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            if (!query) { 
+                loadAnime(); 
+                return; 
+            }
+            
+            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> Searching "${query}"...</div>`;
+            
+            const list = Object.values(allContentData);
+            
+            const results = list.filter(a => {
+                const title = (a.title?.romaji || a.title?.english || '').toLowerCase();
+                return title.includes(query);
+            });
+            
+            results.sort((a, b) => {
+                const titleA = (a.title?.romaji || a.title?.english || '').toLowerCase();
+                const titleB = (b.title?.romaji || b.title?.english || '').toLowerCase();
+                
+                const exactA = titleA === query ? 1 : 0;
+                const exactB = titleB === query ? 1 : 0;
+                if (exactA !== exactB) return exactB - exactA;
+                
+                const startsA = titleA.startsWith(query) ? 1 : 0;
+                const startsB = titleB.startsWith(query) ? 1 : 0;
+                if (startsA !== startsB) return startsB - startsA;
+                
+                return titleA.length - titleB.length;
+            });
+            
+            if (results.length === 0) {
+                const fuzzyResults = list.filter(a => {
+                    const title = (a.title?.romaji || a.title?.english || '').toLowerCase();
+                    const words = title.split(' ');
+                    return words.some(word => word.startsWith(query) || word.includes(query));
+                });
+                
+                if (fuzzyResults.length > 0) {
+                    displayAnime(fuzzyResults);
+                    showToast('info', `🔍 Found ${fuzzyResults.length} similar results`);
+                    return;
+                }
+                
+                container.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-search"></i>
+                                <h3>No results found</h3>
+                                <p>Try searching with different keywords</p>
+                                <p style="color:var(--text-secondary);font-size:12px;margin-top:4px;">"${query}"</p>
+                            </div>
+                        `;
+                return;
+            }
+            
+            displayAnime(results);
+            showToast('success', `🔍 Found ${results.length} results for "${query}"`);
+        }
+
+        let searchTimeout;
+
+        document.getElementById('searchInput').addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            const query = this.value.trim();
+            if (query.length === 0) { loadAnime(); return; }
+            if (query.length >= 2) {
+                searchTimeout = setTimeout(() => { searchAnime(); }, 300);
+            }
+        }, { passive: true });
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') { clearTimeout(searchTimeout);
+                searchAnime(); }
+        }, { passive: true });
+
+        // ============================================================
         // MAIN: LOAD & DISPLAY
         // ============================================================
         document.querySelectorAll('.nav-links a').forEach(link => {
@@ -2899,39 +3269,15 @@
             }, { passive: true });
         });
 
-        document.getElementById('searchInput').addEventListener('keypress', e => {
-            if (e.key === 'Enter') searchAnime();
-        }, { passive: true });
-
-        function searchAnime() {
-            const query = document.getElementById('searchInput').value.trim().toLowerCase();
-            if (!query) { loadAnime(); return; }
-            container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> Searching "${query}"...</div>`;
-            const list = Object.values(allContentData);
-            const results = list.filter(a => {
-                const title = (a.title?.romaji || a.title?.english || '').toLowerCase();
-                return title.includes(query);
-            });
-            if (results.length === 0) {
-                container.innerHTML =
-                `<div class="empty-state"><i class="fas fa-search"></i><h3>Not found</h3><p>"${query}"</p></div>`;
-                return;
-            }
-            displayAnime(results);
-        }
-
         function loadAnime() {
             container.innerHTML = `<div class="loader"><i class="fas fa-spinner"></i> Loading...</div>`;
             let list = Object.values(allContentData);
 
-            // Filter by type
             if (currentType === 'movies') list = list.filter(a => a.type === 'movie' || a.type === 'Movie');
             else if (currentType === 'series') list = list.filter(a => a.type === 'series' || a.type === 'Series' || !a
             .type);
 
-            // Filter by category
             if (currentCategory === 'trending') {
-                // Sort by views (trending)
                 list.sort((a, b) => {
                     const statsA = statsCache[a.id] || { views: 0 };
                     const statsB = statsCache[b.id] || { views: 0 };
@@ -2939,7 +3285,6 @@
                 });
                 list = list.slice(0, 12);
             } else if (currentCategory === 'latest') {
-                // Sort by creation date
                 list.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 list = list.slice(0, 12);
             } else if (currentCategory === 'mostviewed') {
@@ -2984,14 +3329,15 @@
                 const isModContent = item.addedBy === 'mod';
                 const stats = statsCache[id] || { views: 0, likes: 0 };
                 const liked = currentUser ? (stats.likedUsers || []).includes(currentUser.email) : false;
+                const partsCount = item.parts ? Object.keys(item.parts).length : 0;
 
                 html += `
                             <div class="content-card" onclick="openAnime('${id}', '${title.replace(/'/g, "\\'")}')">
                                 <img src="${image}" alt="${title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/8b5cf6?text=No+Image'"/>
                                 <div class="info">
                                     <h4>${title}</h4>
-                                    <p>${item.type || 'Series'}</p>
-                                    <span class="badge">100% Free</span>
+                                    <p>${item.type || 'Series'} ${partsCount > 0 ? '📦' : ''}</p>
+                                    <span class="badge">${partsCount > 0 ? partsCount + ' Parts' : '100% Free'}</span>
                                     <div class="card-stats">
                                         <span><i class="fas fa-eye views-icon"></i> ${stats.views || 0}</span>
                                         <span><i class="fas fa-heart ${liked ? 'liked' : ''}" style="color:${liked ? 'var(--danger)' : 'var(--text-secondary)'}"></i> ${stats.likes || 0}</span>
@@ -3019,13 +3365,17 @@
             }
             if (!id) { showToast('error', '❌ No data'); return; }
 
-            if (!allContentData[id]) {
-                showToast('error', '❌ Content deleted!');
+            const item = allContentData[id];
+            if (!item) {
+                showToast('error', '❌ Content not found!');
+                // Reload content
+                loadAnime();
                 return;
             }
 
             currentAnimeId = id;
             currentTitle = title;
+            selectedPart = 1;
 
             modalTitle.textContent = `📺 ${title}`;
             playerStatus.textContent = '📽️ Video Ready';
@@ -3036,21 +3386,39 @@
             await fetchAllStats();
             await updateLikeUI(id);
 
-            const item = allContentData[id];
-            let tgLink = '';
-            if (item && item.telegramLink) {
-                tgLink = item.telegramLink;
+            // Handle parts
+            const parts = item.parts || {};
+            const partsArray = Object.keys(parts).map(key => ({ number: parseInt(key), link: parts[key] }));
+            
+            if (partsArray.length > 0) {
+                partsArray.sort((a, b) => a.number - b.number);
+                renderPartsUI(partsArray);
+                
+                // Set main link to part 1
+                const part1 = partsArray.find(p => p.number === 1);
+                if (part1) {
+                    currentTelegramLink = part1.link;
+                    goVideoBtn.href = part1.link;
+                } else {
+                    currentTelegramLink = partsArray[0].link;
+                    goVideoBtn.href = partsArray[0].link;
+                    selectedPart = partsArray[0].number;
+                }
             } else {
-                tgLink = '#';
-                playerStatus.textContent = '⚠️ Link not found!';
-                playerStatus.style.color = '#ef4444';
+                document.getElementById('partsSection').style.display = 'none';
+                // Fallback to old telegramLink
+                if (item.telegramLink) {
+                    currentTelegramLink = item.telegramLink;
+                    goVideoBtn.href = item.telegramLink;
+                } else {
+                    currentTelegramLink = '#';
+                    goVideoBtn.href = '#';
+                    playerStatus.textContent = '⚠️ No video link found!';
+                    playerStatus.style.color = '#ef4444';
+                }
             }
 
-            currentTelegramLink = tgLink;
-            goVideoBtn.href = tgLink;
-
             saveHistoryItem(id, title);
-
             document.getElementById('goVideoSection').style.display = 'flex';
         }
 
@@ -3095,6 +3463,7 @@
             updateAdminStats();
             goVideoBtn.href = '#';
             currentTelegramLink = '';
+            document.getElementById('partsSection').style.display = 'none';
         }
 
         modal.addEventListener('click', e => { if (e.target === modal) closeModal(); }, { passive: true });
@@ -3154,7 +3523,7 @@
         const users = getUsers();
         if (!users.find(u => u.email === 'admin@jodmods.com')) {
             users.push({
-                name: 'JOD MODS',
+                name: 'JOD MODS OTT',
                 email: 'admin@jodmods.com',
                 password: 'admin123',
                 isAdmin: true,
