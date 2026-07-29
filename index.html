@@ -2743,7 +2743,7 @@
         }
 
         // ============================================================
-        // RENDER OTHER PARTS - SAME STYLE AS MAIN BUTTON
+        // RENDER OTHER PARTS - FIXED FOR VIEWS/LIKES
         // ============================================================
         function renderOtherParts(parts) {
             const section = document.getElementById('otherPartsSection');
@@ -2773,10 +2773,15 @@
                     <span>Part ${p.number}</span>
                     <span class="arrow">→</span>
                 `;
-                // Direct link open - same as Go to Video
-                btn.onclick = function() {
-                    window.open(p.link, '_blank');
-                    showToast('info', `📺 Opening Part ${p.number}...`);
+                // FIX: Use window.open to open link directly
+                btn.onclick = function(e) {
+                    e.stopPropagation();
+                    if (p.link && p.link !== '#') {
+                        window.open(p.link, '_blank');
+                        showToast('info', `📺 Opening Part ${p.number}...`);
+                    } else {
+                        showToast('error', '⚠️ No link available!');
+                    }
                 };
                 buttonsContainer.appendChild(btn);
             });
@@ -3480,7 +3485,7 @@
                     selectedPart = partsArray[0].number;
                 }
                 
-                // Render other parts - Part 2, 3, etc. (SAME SIZE & STYLE AS MAIN)
+                // Render other parts - Part 2, 3, etc.
                 renderOtherParts(partsArray);
             } else {
                 document.getElementById('otherPartsSection').classList.remove('visible');
