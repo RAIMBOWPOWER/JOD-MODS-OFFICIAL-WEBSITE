@@ -711,107 +711,75 @@
             pointer-events: none;
         }
 
-        /* ===== VIDEOS SECTION - ALL PARTS IN ONE BOX ===== */
-        .videos-section {
+        /* ===== GO TO VIDEO ===== */
+        .go-video-section {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 16px 16px 12px;
+            padding: 24px 16px 20px;
             background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.04) 0%, transparent 60%);
             border-radius: 14px;
-            border: 1px solid var(--border-color);
+            border: 1px dashed var(--border-color);
             margin: 10px 0 6px;
+            min-height: 160px;
             transition: 0.2s;
         }
-        .videos-section:hover {
+        .go-video-section:hover {
             border-color: var(--primary);
             background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.06) 0%, transparent 60%);
         }
-        .videos-section .video-icon {
-            font-size: 44px;
+        .go-video-section .telegram-icon {
+            font-size: 48px;
             color: #0088cc;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             pointer-events: none;
         }
-        .videos-section .video-label {
+        .go-video-section h3 {
+            color: var(--text-primary);
+            font-size: 17px;
+            margin-bottom: 2px;
+            pointer-events: none;
+        }
+        .go-video-section p {
             color: var(--text-secondary);
-            font-size: 12px;
-            margin-bottom: 8px;
+            font-size: 13px;
+            margin-bottom: 12px;
+            text-align: center;
             pointer-events: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
-        .videos-section .video-label i {
-            color: var(--primary);
-        }
-        .video-btn {
+        .go-video-btn {
             background: linear-gradient(135deg, #0088cc, #005f8a);
             color: #fff;
             border: none;
-            padding: 14px 32px;
+            padding: 16px 48px;
             border-radius: 60px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.25s;
             display: flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 28px rgba(0, 136, 204, 0.2);
+            gap: 12px;
+            box-shadow: 0 4px 28px rgba(0, 136, 204, 0.25);
             text-decoration: none;
             width: 100%;
-            max-width: 340px;
+            max-width: 360px;
             justify-content: center;
         }
-        .video-btn:hover {
-            transform: translateY(-2px) scale(1.02);
+        .go-video-btn:hover {
+            transform: translateY(-3px) scale(1.02);
             box-shadow: 0 8px 40px rgba(0, 136, 204, 0.35);
         }
-        .video-btn i {
-            font-size: 20px;
+        .go-video-btn i {
+            font-size: 22px;
         }
-        .video-btn .arrow {
-            font-size: 18px;
+        .go-video-btn .arrow {
+            font-size: 20px;
             transition: 0.25s;
         }
-        .video-btn:hover .arrow {
-            transform: translateX(6px);
-        }
-        .video-btn .part-badge {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 2px 10px;
-            border-radius: 30px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-        .video-btn.active {
-            border: 2px solid var(--primary);
-            box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
-        }
-        .video-btn.part-2 {
-            background: linear-gradient(135deg, #1a1a2e, #2a1f4a);
-            border: 2px solid var(--border-color);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-        .video-btn.part-2:hover {
-            border-color: var(--primary);
-            background: rgba(124, 58, 237, 0.1);
-        }
-        .video-btn.part-3 {
-            background: linear-gradient(135deg, #1a1a2e, #2a1f4a);
-            border: 2px solid var(--border-color);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-        .video-btn.part-3:hover {
-            border-color: var(--primary);
-            background: rgba(124, 58, 237, 0.1);
-        }
-        .video-btn .part-title {
-            font-size: 12px;
-            font-weight: 400;
-            opacity: 0.8;
+        .go-video-btn:hover .arrow {
+            transform: translateX(8px);
         }
 
         /* ===== LIKE & VIEWS SECTION ===== */
@@ -1387,8 +1355,8 @@
             .admin-stats .stat-card .stat-number { font-size: 18px; }
             .auth-modal-content { margin: 6px; max-width: 100%; }
             .auth-form-container { padding: 12px 14px; }
-            .videos-section { padding: 12px 10px; }
-            .video-btn { padding: 12px 24px; font-size: 14px; max-width: 100%; }
+            .go-video-section { padding: 16px 10px; min-height: 120px; }
+            .go-video-btn { padding: 14px 32px; font-size: 16px; max-width: 100%; }
             .user-profile .username { max-width: 50px; font-size: 13px; }
             .user-profile .avatar { width: 28px; height: 28px; font-size: 12px; }
             .toast { bottom: 70px; right: 10px; left: 10px; font-size: 13px; padding: 10px 16px; }
@@ -1412,8 +1380,8 @@
             .like-btn { font-size: 18px; padding: 2px 12px; }
             .admin-stats { grid-template-columns: 1fr 1fr; }
             .admin-stats .stat-card .stat-number { font-size: 16px; }
-            .video-btn { padding: 10px 18px; font-size: 13px; max-width: 100%; }
-            .video-btn i { font-size: 16px; }
+            .go-video-btn { padding: 12px 24px; font-size: 15px; max-width: 100%; }
+            .go-video-btn i { font-size: 18px; }
             .logo img { height: 44px; }
             .logo .brand-name { font-size: 10px; }
             .category-btn { padding: 4px 12px; font-size: 11px; }
@@ -1737,19 +1705,6 @@
                     <input type="text" id="adminEditId" placeholder="Edit ID" style="flex:1;min-width:80px;background:rgba(255,255,255,0.03);color:var(--text-secondary);" readonly>
                 </div>
 
-                <!-- Parts Management - WITH TITLE -->
-                <div style="display:flex; gap:6px; flex-wrap:wrap; margin:6px 0; border:1px solid var(--border-color); padding:10px; border-radius:8px;">
-                    <h4 style="color:var(--cyan); font-size:13px; width:100%; margin-bottom:4px;">
-                        <i class="fas fa-layer-group"></i> Add Part Link
-                    </h4>
-                    <input type="text" id="adminPartNumber" placeholder="Part # (1, 2, 3...)" style="flex:1;min-width:80px;">
-                    <input type="text" id="adminPartTitle" placeholder="Part Title (e.g. Episode 1)" style="flex:2;min-width:120px;">
-                    <input type="text" id="adminPartLink" placeholder="Part Telegram Link" style="flex:3;min-width:150px;">
-                    <button onclick="adminAddPart()" style="background:linear-gradient(135deg, var(--cyan), #0891b2);">
-                        <i class="fas fa-plus"></i> Add Part
-                    </button>
-                </div>
-
                 <div class="drop-area" id="dropArea">
                     <i class="fas fa-cloud-upload-alt" style="font-size:20px;color:var(--primary);"></i>
                     <p style="color:var(--text-secondary);font-size:13px;margin-top:4px;">Drag & Drop Thumbnail</p>
@@ -1758,17 +1713,7 @@
                 </div>
 
                 <div style="display:flex; gap:6px; flex-wrap:wrap; margin:6px 0;">
-                    <input type="text" id="adminTelegramLink" placeholder="📱 Part 1 Link (Main Video)" style="flex:3;min-width:180px;">
-                </div>
-
-                <!-- Parts List -->
-                <div id="adminPartsList" style="margin:6px 0; padding:6px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border-color);">
-                    <h4 style="color:var(--primary-light); font-size:12px; margin-bottom:4px;">
-                        <i class="fas fa-list"></i> Added Parts
-                    </h4>
-                    <div id="partsListContainer" style="display:flex; gap:4px; flex-wrap:wrap;">
-                        <span style="color:var(--text-secondary);font-size:12px;">No parts added</span>
-                    </div>
+                    <input type="text" id="adminTelegramLink" placeholder="📱 Telegram Video Link" style="flex:3;min-width:180px;">
                 </div>
 
                 <div style="display:flex; gap:6px; flex-wrap:wrap; margin:8px 0;">
@@ -1804,11 +1749,16 @@
             <h3 class="modal-title" id="modalTitle">Title</h3>
             <div class="player-status" id="playerStatus">📽️ Video Ready</div>
 
-            <!-- VIDEOS SECTION - ALL PARTS IN ONE BOX -->
-            <div class="videos-section" id="videosSection">
-                <div class="video-icon"><i class="fab fa-telegram-plane"></i></div>
-                <div class="video-label"><i class="fas fa-play-circle"></i> Select Part to Watch</div>
-                <div id="videoButtons" style="width:100%;display:flex;flex-direction:column;align-items:center;gap:8px;"></div>
+            <!-- GO TO VIDEO -->
+            <div class="go-video-section" id="goVideoSection">
+                <div class="telegram-icon"><i class="fab fa-telegram-plane"></i></div>
+                <h3>🎬 Watch Video</h3>
+                <p>Click below to watch on Telegram</p>
+                <a class="go-video-btn" id="goVideoBtn" href="#" target="_blank" rel="noopener">
+                    <i class="fab fa-telegram-plane"></i>
+                    <span>Go to Video</span>
+                    <span class="arrow">→</span>
+                </a>
             </div>
 
             <!-- LIKE & VIEWS -->
@@ -1912,7 +1862,7 @@
         }
 
         document.addEventListener('click', function(e) {
-            const btn = e.target.closest('button, .btn-primary, .btn-outline, .auth-submit-btn, .auth-submit, .video-btn, .mod-btn, .close-admin, .close-modal, .close-auth, .close-forgot, .close-admin-auth, .del-btn, .edit-btn, .like-btn, .action-bar button, .category-btn, .comment-open-btn, .close-comments');
+            const btn = e.target.closest('button, .btn-primary, .btn-outline, .auth-submit-btn, .auth-submit, .go-video-btn, .mod-btn, .close-admin, .close-modal, .close-auth, .close-forgot, .close-admin-auth, .del-btn, .edit-btn, .like-btn, .action-bar button, .category-btn, .comment-open-btn, .close-comments');
             if (btn) { applyRotation(btn); }
         }, true);
 
@@ -2022,12 +1972,11 @@
         let allContentData = {};
         let statsCache = {};
         let statsCacheTime = 0;
-        let currentParts = [];
-        let selectedPart = 1;
 
         const container = document.getElementById('contentContainer');
         const modal = document.getElementById('contentModal');
         const modalTitle = document.getElementById('modalTitle');
+        const goVideoBtn = document.getElementById('goVideoBtn');
         const playerStatus = document.getElementById('playerStatus');
 
         // ============================================================
@@ -2650,133 +2599,6 @@
         }
 
         // ============================================================
-        // PARTS MANAGEMENT - WITH TITLE
-        // ============================================================
-        function adminAddPart() {
-            const partNum = document.getElementById('adminPartNumber').value.trim();
-            const partTitle = document.getElementById('adminPartTitle').value.trim();
-            const partLink = document.getElementById('adminPartLink').value.trim();
-            
-            if (!partNum || !partLink) {
-                showToast('error', '⚠️ Part number and link required!');
-                return;
-            }
-            
-            const num = parseInt(partNum);
-            if (isNaN(num) || num < 1) {
-                showToast('error', '⚠️ Enter valid part number (1, 2, 3...)');
-                return;
-            }
-            
-            const existingIndex = currentParts.findIndex(p => p.number === num);
-            if (existingIndex > -1) {
-                currentParts[existingIndex].link = partLink;
-                currentParts[existingIndex].title = partTitle || 'Part ' + num;
-            } else {
-                currentParts.push({ 
-                    number: num, 
-                    title: partTitle || 'Part ' + num,
-                    link: partLink 
-                });
-            }
-            
-            currentParts.sort((a, b) => a.number - b.number);
-            renderPartsList();
-            document.getElementById('adminPartNumber').value = '';
-            document.getElementById('adminPartTitle').value = '';
-            document.getElementById('adminPartLink').value = '';
-            showToast('success', `✅ Part ${num} added!`);
-        }
-
-        function adminRemovePart(number) {
-            currentParts = currentParts.filter(p => p.number !== number);
-            renderPartsList();
-            showToast('info', `🗑️ Part ${number} removed`);
-        }
-
-        function renderPartsList() {
-            const container = document.getElementById('partsListContainer');
-            if (currentParts.length === 0) {
-                container.innerHTML = '<span style="color:var(--text-secondary);font-size:12px;">No parts added</span>';
-                return;
-            }
-            let html = '';
-            currentParts.forEach(p => {
-                html += `
-                            <span style="display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.04);padding:2px 10px;border-radius:16px;border:1px solid var(--border-color);font-size:12px;">
-                                Part ${p.number} ${p.title ? ': ' + p.title : ''}
-                                <button onclick="adminRemovePart(${p.number})" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:12px;">×</button>
-                            </span>
-                        `;
-            });
-            container.innerHTML = html;
-        }
-
-        // ============================================================
-        // RENDER VIDEO BUTTONS - ALL PARTS IN ONE BOX
-        // ============================================================
-        function renderVideoButtons(parts) {
-            const container = document.getElementById('videoButtons');
-            
-            if (!parts || parts.length === 0) {
-                container.innerHTML = '';
-                return;
-            }
-            
-            const sortedParts = [...parts].sort((a, b) => a.number - b.number);
-            let html = '';
-            
-            sortedParts.forEach((p, index) => {
-                const isFirst = index === 0;
-                const btnClass = isFirst ? 'video-btn active' : 'video-btn part-' + (index + 1);
-                const partLabel = p.title ? p.title : 'Part ' + p.number;
-                
-                html += `
-                    <button class="${btnClass}" onclick="switchVideoPart(${p.number}, '${p.link}', this)">
-                        <i class="fab fa-telegram-plane"></i>
-                        <span>${isFirst ? '▶ Go to Video' : partLabel}</span>
-                        ${isFirst ? '<span class="part-badge">MAIN</span>' : '<span class="part-badge">PART ' + p.number + '</span>'}
-                        <span class="arrow">→</span>
-                    </button>
-                `;
-            });
-            
-            container.innerHTML = html;
-            
-            // Set first part as active
-            if (sortedParts.length > 0) {
-                selectedPart = sortedParts[0].number;
-                currentTelegramLink = sortedParts[0].link;
-                const goVideoBtn = document.getElementById('goVideoBtn');
-                if (goVideoBtn) goVideoBtn.href = sortedParts[0].link;
-            }
-        }
-
-        function switchVideoPart(number, link, btnElement) {
-            selectedPart = number;
-            currentTelegramLink = link;
-            
-            // Update active state
-            document.querySelectorAll('.video-btn').forEach(btn => btn.classList.remove('active'));
-            if (btnElement) {
-                btnElement.classList.add('active');
-            } else {
-                // Find and activate the button
-                document.querySelectorAll('.video-btn').forEach(btn => {
-                    if (btn.textContent.includes('Part ' + number) || btn.textContent.includes('▶ Go to Video')) {
-                        btn.classList.add('active');
-                    }
-                });
-            }
-            
-            // Update main button link
-            const goVideoBtn = document.getElementById('goVideoBtn');
-            if (goVideoBtn) goVideoBtn.href = link;
-            
-            showToast('info', `📺 ${number === 1 ? 'Main' : 'Part ' + number} selected`);
-        }
-
-        // ============================================================
         // IMAGE DROP
         // ============================================================
         const dropArea = document.getElementById('dropArea');
@@ -2829,7 +2651,7 @@
         }
 
         // ============================================================
-        // ADMIN CRUD - UPDATED FOR PARTS WITH TITLE
+        // ADMIN CRUD - SIMPLE DIRECT LINK (NO PARTS)
         // ============================================================
         function adminAddAnime() {
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
@@ -2839,35 +2661,17 @@
             const editId = document.getElementById('adminEditId').value.trim();
             
             if (!title) { showToast('error', '⚠️ Title required!'); return; }
-            if (!telegramLink && currentParts.length === 0) { 
-                showToast('error', '⚠️ At least one part link required!'); 
-                return; 
-            }
+            if (!telegramLink) { showToast('error', '⚠️ Telegram link required!'); return; }
 
             let image = uploadedImages.length > 0 ? uploadedImages[0] :
                 'https://via.placeholder.com/300x400/1a1a1a/8b5cf6?text=' + encodeURIComponent(title);
-
-            const partsObj = {};
-            currentParts.forEach(p => {
-                partsObj[p.number] = {
-                    link: p.link,
-                    title: p.title || 'Part ' + p.number
-                };
-            });
-            
-            if (telegramLink && !currentParts.find(p => p.number === 1)) {
-                partsObj[1] = {
-                    link: telegramLink,
-                    title: 'Main Video'
-                };
-            }
 
             const data = {
                 id: editId || 'content_' + Date.now(),
                 title: { romaji: title, english: title },
                 coverImage: { large: image },
                 type: type,
-                parts: partsObj,
+                telegramLink: telegramLink,
                 addedBy: currentAdminUser === 'admin' ? 'admin' : 'mod',
                 createdAt: Date.now()
             };
@@ -2899,12 +2703,7 @@
             document.getElementById('adminType').value = 'series';
             document.getElementById('adminTelegramLink').value = '';
             document.getElementById('adminEditId').value = '';
-            document.getElementById('adminPartNumber').value = '';
-            document.getElementById('adminPartTitle').value = '';
-            document.getElementById('adminPartLink').value = '';
-            currentParts = [];
             uploadedImages = [];
-            renderPartsList();
             updatePreview();
         }
 
@@ -2971,25 +2770,7 @@
             document.getElementById('adminTitle').value = item.title.romaji || item.title.english || '';
             document.getElementById('adminType').value = item.type || 'series';
             document.getElementById('adminEditId').value = id;
-            
-            currentParts = [];
-            if (item.parts) {
-                Object.keys(item.parts).forEach(key => {
-                    const partData = item.parts[key];
-                    currentParts.push({ 
-                        number: parseInt(key), 
-                        title: partData.title || 'Part ' + key,
-                        link: partData.link || partData 
-                    });
-                });
-                currentParts.sort((a, b) => a.number - b.number);
-            }
-            renderPartsList();
-            
-            if (item.parts && item.parts[1]) {
-                const part1 = item.parts[1];
-                document.getElementById('adminTelegramLink').value = part1.link || part1;
-            }
+            document.getElementById('adminTelegramLink').value = item.telegramLink || '';
             
             uploadedImages = [];
             updatePreview();
@@ -3012,14 +2793,12 @@
                 const canEdit = isAdminLoggedIn || (isModLoggedIn && item.addedBy !== 'admin');
                 const id = item.id || Object.keys(allContentData).find(key => allContentData[key] === item);
                 const stats = statsCache[id] || { views: 0, likes: 0 };
-                const partsCount = item.parts ? Object.keys(item.parts).length : 0;
                 html += `
                             <div class="content-item">
                                 <div class="item-info">
                                     <img src="${img}" alt="${title}" loading="lazy">
                                     <span><strong>${title}</strong> (${item.type || 'series'}) 
-                                    <span style="color:var(--text-secondary);font-size:12px;">${addedBy}</span>
-                                    ${partsCount > 0 ? `<span style="color:var(--cyan);font-size:11px;">📦 ${partsCount} parts</span>` : ''}</span>
+                                    <span style="color:var(--text-secondary);font-size:12px;">${addedBy}</span></span>
                                     <span style="color:var(--text-secondary);font-size:11px;"><i class="fas fa-eye" style="color:#f59e0b;"></i> ${stats.views || 0} <i class="fas fa-heart" style="color:var(--danger);margin-left:4px;"></i> ${stats.likes || 0}</span>
                                 </div>
                                 <div class="item-actions">
@@ -3367,15 +3146,14 @@
                 const isModContent = item.addedBy === 'mod';
                 const stats = statsCache[id] || { views: 0, likes: 0 };
                 const liked = currentUser ? (stats.likedUsers || []).includes(currentUser.email) : false;
-                const partsCount = item.parts ? Object.keys(item.parts).length : 0;
 
                 html += `
                             <div class="content-card" onclick="openAnime('${id}', '${title.replace(/'/g, "\\'")}')">
                                 <img src="${image}" alt="${title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/8b5cf6?text=No+Image'"/>
                                 <div class="info">
                                     <h4>${title}</h4>
-                                    <p>${item.type || 'Series'} ${partsCount > 0 ? '📦' : ''}</p>
-                                    <span class="badge">${partsCount > 0 ? partsCount + ' Parts' : '100% Free'}</span>
+                                    <p>${item.type || 'Series'}</p>
+                                    <span class="badge">100% Free</span>
                                     <div class="card-stats">
                                         <span><i class="fas fa-eye views-icon"></i> ${stats.views || 0}</span>
                                         <span><i class="fas fa-heart ${liked ? 'liked' : ''}" style="color:${liked ? 'var(--danger)' : 'var(--text-secondary)'}"></i> ${stats.likes || 0}</span>
@@ -3392,7 +3170,7 @@
         }
 
         // ============================================================
-        // CONTENT MODAL - UPDATED FOR ALL PARTS IN ONE BOX
+        // CONTENT MODAL - SIMPLE DIRECT LINK
         // ============================================================
         async function openAnime(id, title) {
             if (!currentUser) {
@@ -3458,7 +3236,6 @@
             
             const finalTitle = title || item.title?.romaji || item.title?.english || 'Unknown';
             currentTitle = finalTitle;
-            selectedPart = 1;
 
             modalTitle.textContent = `📺 ${finalTitle}`;
             playerStatus.textContent = '📽️ Video Ready';
@@ -3469,59 +3246,21 @@
             await fetchAllStats();
             await updateLikeUI(finalId);
 
-            // Handle parts - ALL PARTS IN ONE BOX
-            const parts = item.parts || {};
-            let partsArray = Object.keys(parts).map(key => {
-                const partData = parts[key];
-                return { 
-                    number: parseInt(key), 
-                    title: partData.title || 'Part ' + key,
-                    link: partData.link || partData 
-                };
-            });
-            
-            // Sort parts
-            partsArray.sort((a, b) => a.number - b.number);
-            
-            // If no parts, try fallback
-            if (partsArray.length === 0 && item.telegramLink) {
-                partsArray = [{
-                    number: 1,
-                    title: 'Main Video',
-                    link: item.telegramLink
-                }];
-            }
-            
-            // Set main link (first part)
-            if (partsArray.length > 0) {
-                currentTelegramLink = partsArray[0].link;
-                selectedPart = partsArray[0].number;
+            // Get link
+            let tgLink = '';
+            if (item && item.telegramLink) {
+                tgLink = item.telegramLink;
             } else {
-                currentTelegramLink = '#';
-                selectedPart = 1;
+                tgLink = '#';
+                playerStatus.textContent = '⚠️ Link not found!';
+                playerStatus.style.color = '#ef4444';
             }
-            
-            // Render all video buttons in one box
-            renderVideoButtons(partsArray);
-            
-            // Store reference for reload
-            window._currentPartsArray = partsArray;
+
+            currentTelegramLink = tgLink;
+            goVideoBtn.href = tgLink;
 
             saveHistoryItem(finalId, finalTitle);
-        }
-
-        // ============================================================
-        // RELOAD VIDEO - FIXED
-        // ============================================================
-        function reloadVideo() {
-            if (currentTelegramLink && currentTelegramLink !== '#') {
-                // Open the current part link
-                window.open(currentTelegramLink, '_blank');
-                showToast('info', '🔄 Opening video...');
-                playerStatus.textContent = '✅ Opening...';
-            } else {
-                showToast('error', '⚠️ No link available');
-            }
+            document.getElementById('goVideoSection').style.display = 'flex';
         }
 
         async function toggleLike() {
@@ -3530,6 +3269,16 @@
             await fetchAllStats();
             await updateLikeUI(currentAnimeId);
             loadAnime();
+        }
+
+        function reloadVideo() {
+            if (currentTelegramLink && currentTelegramLink !== '#') {
+                window.open(currentTelegramLink, '_blank');
+                showToast('info', '🔄 Opening video...');
+                playerStatus.textContent = '✅ Opening...';
+            } else {
+                showToast('error', '⚠️ No link');
+            }
         }
 
         function shareVideo() {
@@ -3553,8 +3302,8 @@
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
             updateAdminStats();
+            goVideoBtn.href = '#';
             currentTelegramLink = '';
-            document.getElementById('videoButtons').innerHTML = '';
         }
 
         modal.addEventListener('click', e => { if (e.target === modal) closeModal(); }, { passive: true });
@@ -3640,10 +3389,6 @@
             document.querySelector('.nav-links a[data-type="all"]').click();
             document.getElementById('sectionTitle').scrollIntoView({ behavior: 'smooth' });
         }, { passive: true });
-
-        // ============================================================
-        // NO AUTO-REFRESH - Only manual refresh
-        // ============================================================
     </script>
 </body>
 </html>
