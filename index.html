@@ -195,21 +195,6 @@
             letter-spacing: 2px;
             text-transform: uppercase;
         }
-        .logo .live-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: #fff;
-            font-size: 8px;
-            font-weight: 700;
-            padding: 1px 8px;
-            border-radius: 12px;
-            margin-left: 4px;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.9); }
-        }
 
         .nav-links {
             display: flex;
@@ -1423,7 +1408,7 @@
                 <div class="logo">
                     <img src="https://iili.io/Cvl1XIa.png" alt="JOD MODS OTT" onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block';" />
                     <span style="display:none;">JOD MODS OTT</span>
-                    <span class="brand-name">JOD MODS OTT <span class="live-badge">● LIVE</span></span>
+                    <span class="brand-name">JOD MODS OTT</span>
                 </div>
             </div>
             <div class="navbar-right">
@@ -1972,6 +1957,7 @@
         let allContentData = {};
         let statsCache = {};
         let statsCacheTime = 0;
+        let currentEditId = null;
 
         const container = document.getElementById('contentContainer');
         const modal = document.getElementById('contentModal');
@@ -2651,7 +2637,7 @@
         }
 
         // ============================================================
-        // ADMIN CRUD - SIMPLE DIRECT LINK (NO PARTS)
+        // ADMIN CRUD - FIXED
         // ============================================================
         function adminAddAnime() {
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
@@ -2663,6 +2649,7 @@
             if (!title) { showToast('error', '⚠️ Title required!'); return; }
             if (!telegramLink) { showToast('error', '⚠️ Telegram link required!'); return; }
 
+            // Use existing uploaded image or default
             let image = uploadedImages.length > 0 ? uploadedImages[0] :
                 'https://via.placeholder.com/300x400/1a1a1a/8b5cf6?text=' + encodeURIComponent(title);
 
@@ -2705,6 +2692,7 @@
             document.getElementById('adminEditId').value = '';
             uploadedImages = [];
             updatePreview();
+            currentEditId = null;
         }
 
         function adminDeleteItem(id) {
@@ -2748,32 +2736,44 @@
 
         function adminEditItem(id) {
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
-            const item = allContentData[id];
+            
+            // Find the item
+            let item = allContentData[id];
             if (!item) { 
                 const found = Object.values(allContentData).find(v => v.id === id);
                 if (found) {
                     const key = Object.keys(allContentData).find(k => allContentData[k] === found);
                     if (key) {
                         allContentData[key] = found;
-                        adminEditItem(id);
-                        return;
+                        item = found;
                     }
                 }
+            }
+            
+            if (!item) {
                 showToast('error', '❌ Content not found!'); 
                 return; 
             }
+            
             if (isModLoggedIn && item.addedBy === 'admin') {
                 showToast('error', '⚠️ Admin content!');
                 return;
             }
+            
+            currentEditId = id;
             
             document.getElementById('adminTitle').value = item.title.romaji || item.title.english || '';
             document.getElementById('adminType').value = item.type || 'series';
             document.getElementById('adminEditId').value = id;
             document.getElementById('adminTelegramLink').value = item.telegramLink || '';
             
+            // Load existing thumbnail
             uploadedImages = [];
-            updatePreview();
+            if (item.coverImage && item.coverImage.large) {
+                uploadedImages.push(item.coverImage.large);
+                updatePreview();
+            }
+            
             document.querySelector('.admin-panel').scrollIntoView({ behavior: 'smooth' });
             showToast('info', '✏️ Editing!');
         }
@@ -3170,7 +3170,7 @@
         }
 
         // ============================================================
-        // CONTENT MODAL - SIMPLE DIRECT LINK
+        // CONTENT MODAL
         // ============================================================
         async function openAnime(id, title) {
             if (!currentUser) {
@@ -3246,7 +3246,6 @@
             await fetchAllStats();
             await updateLikeUI(finalId);
 
-            // Get link
             let tgLink = '';
             if (item && item.telegramLink) {
                 tgLink = item.telegramLink;
