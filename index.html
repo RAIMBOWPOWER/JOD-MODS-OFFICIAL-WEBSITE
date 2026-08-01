@@ -1685,14 +1685,14 @@
             <div id="adminControls">
                 <h3><i class="fas fa-plus-circle"></i> Add Content</h3>
                 <div style="display:flex; gap:6px; flex-wrap:wrap; margin:6px 0;">
-                    <input type="text" id="adminTitle" placeholder="Title" style="flex:2;min-width:120px;">
-                    <input type="text" id="adminType" placeholder="Type" style="flex:1;min-width:70px;" value="series">
-                    <input type="text" id="adminEditId" placeholder="Edit ID" style="flex:1;min-width:80px;background:rgba(255,255,255,0.03);color:var(--text-secondary);" readonly>
+                    <input type="text" id="adminTitle" placeholder="🎬 Title" style="flex:3;min-width:120px;">
+                    <input type="text" id="adminType" placeholder="📁 Type (Movie, Series, Anime, Cartoon, etc.)" style="flex:2;min-width:100px;" value="Movie">
+                    <input type="text" id="adminEditId" placeholder="🆔 Edit ID" style="flex:1;min-width:80px;background:rgba(255,255,255,0.03);color:var(--text-secondary);" readonly>
                 </div>
 
                 <div class="drop-area" id="dropArea">
                     <i class="fas fa-cloud-upload-alt" style="font-size:20px;color:var(--primary);"></i>
-                    <p style="color:var(--text-secondary);font-size:13px;margin-top:4px;">Drag & Drop Thumbnail</p>
+                    <p style="color:var(--text-secondary);font-size:13px;margin-top:4px;">🖼️ Drag & Drop Thumbnail</p>
                     <input type="file" id="fileInput" accept="image/*" style="display:none;" multiple>
                     <div class="preview-container" id="previewContainer"></div>
                 </div>
@@ -1964,6 +1964,48 @@
         const modalTitle = document.getElementById('modalTitle');
         const goVideoBtn = document.getElementById('goVideoBtn');
         const playerStatus = document.getElementById('playerStatus');
+
+        const typeEmojis = {
+            'movie': '🎬',
+            'series': '📺',
+            'anime': '🌸',
+            'cartoon': '🎨',
+            'web series': '🌐',
+            'documentary': '📹',
+            'reality show': '🎪',
+            'stand-up': '🎤',
+            'short film': '🎥',
+            'kids show': '🧸',
+            'educational': '📚',
+            'sports': '⚽',
+            'music': '🎵',
+            'thriller': '🔪',
+            'horror': '👻',
+            'action': '💥',
+            'comedy': '😂',
+            'drama': '🎭',
+            'sci-fi': '🚀',
+            'fantasy': '🧙',
+            'romance': '❤️',
+            'adventure': '🗺️',
+            'mystery': '🕵️',
+            'crime': '🚔',
+            'history': '📜',
+            'war': '⚔️',
+            'western': '🤠',
+            'musical': '🎶',
+            'biography': '📖',
+            'news': '📰',
+            'talk show': '🎙️',
+            'game show': '🎮',
+            'cooking show': '🍳',
+            'travel show': '✈️',
+            'nature': '🌿',
+            'technology': '💻',
+            'gaming': '🎮',
+            'animation': '🎞️',
+            'superhero': '🦸'
+        };
 
         // ============================================================
         // FIREBASE HELPERS
@@ -2642,14 +2684,13 @@
         function adminAddAnime() {
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
             const title = document.getElementById('adminTitle').value.trim();
-            const type = document.getElementById('adminType').value.trim() || 'series';
+            const type = document.getElementById('adminType').value.trim() || 'Movie';
             const telegramLink = document.getElementById('adminTelegramLink').value.trim();
             const editId = document.getElementById('adminEditId').value.trim();
             
             if (!title) { showToast('error', '⚠️ Title required!'); return; }
             if (!telegramLink) { showToast('error', '⚠️ Telegram link required!'); return; }
 
-            // Use existing uploaded image or default
             let image = uploadedImages.length > 0 ? uploadedImages[0] :
                 'https://via.placeholder.com/300x400/1a1a1a/8b5cf6?text=' + encodeURIComponent(title);
 
@@ -2687,7 +2728,7 @@
 
         function adminClearForm() {
             document.getElementById('adminTitle').value = '';
-            document.getElementById('adminType').value = 'series';
+            document.getElementById('adminType').value = 'Movie';
             document.getElementById('adminTelegramLink').value = '';
             document.getElementById('adminEditId').value = '';
             uploadedImages = [];
@@ -2737,7 +2778,6 @@
         function adminEditItem(id) {
             if (!isAdminLoggedIn && !isModLoggedIn) { showToast('error', '❌ Login required!'); return; }
             
-            // Find the item
             let item = allContentData[id];
             if (!item) { 
                 const found = Object.values(allContentData).find(v => v.id === id);
@@ -2763,11 +2803,10 @@
             currentEditId = id;
             
             document.getElementById('adminTitle').value = item.title.romaji || item.title.english || '';
-            document.getElementById('adminType').value = item.type || 'series';
+            document.getElementById('adminType').value = item.type || 'Movie';
             document.getElementById('adminEditId').value = id;
             document.getElementById('adminTelegramLink').value = item.telegramLink || '';
             
-            // Load existing thumbnail
             uploadedImages = [];
             if (item.coverImage && item.coverImage.large) {
                 uploadedImages.push(item.coverImage.large);
@@ -2793,12 +2832,14 @@
                 const canEdit = isAdminLoggedIn || (isModLoggedIn && item.addedBy !== 'admin');
                 const id = item.id || Object.keys(allContentData).find(key => allContentData[key] === item);
                 const stats = statsCache[id] || { views: 0, likes: 0 };
+                const typeDisplay = item.type || 'Movie';
+                const typeEmoji = getTypeEmoji(typeDisplay);
                 html += `
                             <div class="content-item">
                                 <div class="item-info">
                                     <img src="${img}" alt="${title}" loading="lazy">
-                                    <span><strong>${title}</strong> (${item.type || 'series'}) 
-                                    <span style="color:var(--text-secondary);font-size:12px;">${addedBy}</span></span>
+                                    <span><strong>${title}</strong> <span style="color:var(--text-secondary);font-size:11px;">${typeEmoji} ${typeDisplay}</span>
+                                    <span style="color:var(--text-secondary);font-size:10px;">${addedBy}</span></span>
                                     <span style="color:var(--text-secondary);font-size:11px;"><i class="fas fa-eye" style="color:#f59e0b;"></i> ${stats.views || 0} <i class="fas fa-heart" style="color:var(--danger);margin-left:4px;"></i> ${stats.likes || 0}</span>
                                 </div>
                                 <div class="item-actions">
@@ -2809,6 +2850,16 @@
                         `;
             });
             container.innerHTML = html;
+        }
+
+        function getTypeEmoji(type) {
+            const lowerType = type.toLowerCase();
+            for (let key in typeEmojis) {
+                if (lowerType.includes(key)) {
+                    return typeEmojis[key];
+                }
+            }
+            return '🎬';
         }
 
         // ============================================================
@@ -3011,7 +3062,8 @@
             
             const results = list.filter(a => {
                 const title = (a.title?.romaji || a.title?.english || '').toLowerCase();
-                return title.includes(query);
+                const type = (a.type || '').toLowerCase();
+                return title.includes(query) || type.includes(query);
             });
             
             results.sort((a, b) => {
@@ -3032,8 +3084,9 @@
             if (results.length === 0) {
                 const fuzzyResults = list.filter(a => {
                     const title = (a.title?.romaji || a.title?.english || '').toLowerCase();
+                    const type = (a.type || '').toLowerCase();
                     const words = title.split(' ');
-                    return words.some(word => word.startsWith(query) || word.includes(query));
+                    return words.some(word => word.startsWith(query) || word.includes(query)) || type.includes(query);
                 });
                 
                 if (fuzzyResults.length > 0) {
@@ -3123,7 +3176,7 @@
                             <div class="empty-state">
                                 <i class="fas fa-folder-open"></i>
                                 <h3>No content</h3>
-                                <p>No movies or series uploaded yet</p>
+                                <p>No content uploaded yet</p>
                             </div>
                         `;
                 return;
@@ -3146,13 +3199,15 @@
                 const isModContent = item.addedBy === 'mod';
                 const stats = statsCache[id] || { views: 0, likes: 0 };
                 const liked = currentUser ? (stats.likedUsers || []).includes(currentUser.email) : false;
+                const typeDisplay = item.type || 'Movie';
+                const typeEmoji = getTypeEmoji(typeDisplay);
 
                 html += `
                             <div class="content-card" onclick="openAnime('${id}', '${title.replace(/'/g, "\\'")}')">
                                 <img src="${image}" alt="${title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400/1a1a1a/8b5cf6?text=No+Image'"/>
                                 <div class="info">
                                     <h4>${title}</h4>
-                                    <p>${item.type || 'Series'}</p>
+                                    <p>${typeEmoji} ${typeDisplay}</p>
                                     <span class="badge">100% Free</span>
                                     <div class="card-stats">
                                         <span><i class="fas fa-eye views-icon"></i> ${stats.views || 0}</span>
@@ -3237,7 +3292,9 @@
             const finalTitle = title || item.title?.romaji || item.title?.english || 'Unknown';
             currentTitle = finalTitle;
 
-            modalTitle.textContent = `📺 ${finalTitle}`;
+            const typeDisplay = item.type || 'Movie';
+            const typeEmoji = getTypeEmoji(typeDisplay);
+            modalTitle.textContent = `${typeEmoji} ${finalTitle}`;
             playerStatus.textContent = '📽️ Video Ready';
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
