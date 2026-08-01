@@ -490,29 +490,18 @@
         .backup-indicator {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             font-size: 11px;
             color: var(--text-secondary);
-            padding: 4px 12px;
+            padding: 4px 8px;
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-color);
+            cursor: default;
         }
         .backup-indicator i {
-            color: var(--accent);
-            font-size: 12px;
-        }
-        .backup-indicator .backup-dot {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--accent);
-            animation: pulse-dot 2s ease-in-out infinite;
-        }
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(0.7); }
+            color: var(--cyan);
+            font-size: 13px;
         }
 
         /* ===== CONTENT GRID ===== */
@@ -1454,10 +1443,9 @@
 
                 <button class="btn-primary" onclick="openAdminAuth()"><i class="fas fa-upload"></i> Upload</button>
 
-                <div class="backup-indicator" id="backupIndicator">
-                    <span class="backup-dot"></span>
+                <!-- Backup Indicator - Simple Icon Only -->
+                <div class="backup-indicator" id="backupIndicator" title="Auto Backup Active">
                     <i class="fas fa-cloud-upload-alt"></i>
-                    <span id="backupStatus">Auto Backup</span>
                 </div>
 
                 <div class="auth-section" id="authSection">
@@ -1732,7 +1720,7 @@
                 <h3><i class="fas fa-plus-circle"></i> Add Content</h3>
                 <div style="display:flex; gap:6px; flex-wrap:wrap; margin:6px 0;">
                     <input type="text" id="adminTitle" placeholder="🎬 Title" style="flex:3;min-width:120px;">
-                    <input type="text" id="adminType" placeholder="📁 Type (Movie, Series, Anime, Cartoon, etc.)" style="flex:2;min-width:100px;" value="Movie">
+                    <input type="text" id="adminType" placeholder="📁 Type (Movie, Series, Anime, etc.)" style="flex:2;min-width:100px;" value="Movie">
                     <input type="text" id="adminEditId" placeholder="🆔 Edit ID" style="flex:1;min-width:80px;background:rgba(255,255,255,0.03);color:var(--text-secondary);" readonly>
                 </div>
 
@@ -2065,12 +2053,10 @@
         };
 
         // ============================================================
-        // BACKUP SYSTEM
+        // BACKUP SYSTEM - OPTIMIZED
         // ============================================================
         async function performBackup() {
             try {
-                showToast('backup', '🔄 Creating backup...');
-                
                 // Get current content
                 const contentSnapshot = await window._db.ref('content').once('value');
                 const content = contentSnapshot.val() || {};
@@ -2088,7 +2074,7 @@
                 // Get history
                 const history = JSON.parse(localStorage.getItem('jodmods_history') || '{}');
                 
-                // Create backup object
+                // Create backup object - only essential data
                 const backupData = {
                     timestamp: Date.now(),
                     date: new Date().toISOString(),
@@ -2117,9 +2103,14 @@
                     commentsCount: backupData.commentsCount
                 });
                 
-                // Keep only last 50 backups
-                if (backupHistory.length > 50) {
-                    backupHistory.length = 50;
+                // Keep only last 10 backups (optimized storage)
+                if (backupHistory.length > 10) {
+                    // Delete old backups from Firebase
+                    for (let i = 10; i < backupHistory.length; i++) {
+                        const oldId = backupHistory[i].id;
+                        await window._db.ref('backups/' + oldId).remove().catch(() => {});
+                    }
+                    backupHistory.length = 10;
                 }
                 localStorage.setItem('jodmods_backup_history', JSON.stringify(backupHistory));
                 
@@ -2128,11 +2119,8 @@
                 loadBackupList();
                 updateAdminStats();
                 
-                showToast('success', '✅ Backup created successfully!');
                 return true;
             } catch (e) {
-                console.error('Backup error:', e);
-                showToast('error', '❌ Backup failed!');
                 return false;
             }
         }
@@ -2142,20 +2130,17 @@
                 showToast('error', '❌ Login required!');
                 return;
             }
-            performBackup();
+            showToast('backup', '🔄 Creating backup...');
+            performBackup().then(success => {
+                if (success) showToast('success', '✅ Backup created!');
+                else showToast('error', '❌ Backup failed!');
+            });
         }
 
         function updateBackupIndicator() {
-            const status = document.getElementById('backupStatus');
             const history = JSON.parse(localStorage.getItem('jodmods_backup_history') || '[]');
             backupCount = history.length;
-            if (backupCount > 0) {
-                const last = history[0];
-                const time = new Date(last.timestamp).toLocaleString();
-                status.textContent = `💾 ${backupCount} backups (Last: ${time})`;
-            } else {
-                status.textContent = '💾 Auto Backup';
-            }
+            // Just a simple icon, no text
         }
 
         function loadBackupList() {
@@ -2177,7 +2162,6 @@
                             ${isLatest ? '🟢 ' : '📦 '}
                             ${date}
                             <span style="color:var(--text-primary); font-weight:600;">${b.contentCount}</span> items
-                            <span style="color:var(--text-secondary);font-size:10px;">👤${b.usersCount} 💬${b.commentsCount}</span>
                         </span>
                         <button onclick="restoreBackup(${index})" style="background:rgba(6,182,212,0.1); border:1px solid var(--cyan); color:var(--cyan); padding:2px 12px; border-radius:30px; cursor:pointer; font-size:10px; transition:0.2s;" onmouseover="this.style.background='rgba(6,182,212,0.2)'" onmouseout="this.style.background='rgba(6,182,212,0.1)'">
                             <i class="fas fa-undo"></i> Restore
@@ -2252,18 +2236,17 @@
             }
         }
 
-        // Auto backup every 5 minutes
+        // Auto backup every 15 minutes (reduced frequency)
         setInterval(() => {
             if (isAdminLoggedIn || isModLoggedIn) {
                 performBackup().catch(() => {});
             }
-        }, 300000); // 5 minutes
+        }, 900000); // 15 minutes
 
         // Backup on page unload
         window.addEventListener('beforeunload', function() {
             if (isAdminLoggedIn || isModLoggedIn) {
                 navigator.sendBeacon = navigator.sendBeacon || function() {};
-                // Try to backup
                 performBackup().catch(() => {});
             }
         });
@@ -2755,6 +2738,7 @@
             const user = document.getElementById('adminUserInput').value.trim();
             const pass = document.getElementById('adminPassInput').value.trim();
             const error = document.getElementById('adminAuthError');
+            // ADMIN PANEL CREDENTIALS: JOD / ARYAN
             if (user === 'JOD' && pass === 'ARYAN') {
                 isAdminLoggedIn = true;
                 isModLoggedIn = false;
@@ -2980,7 +2964,6 @@
                     adminClearForm();
                     loadAdminContentList();
                     loadAnime();
-                    // Auto backup after change
                     performBackup().catch(() => {});
                 });
             } else {
@@ -2993,7 +2976,6 @@
                     adminClearForm();
                     loadAdminContentList();
                     loadAnime();
-                    // Auto backup after change
                     performBackup().catch(() => {});
                 });
             }
@@ -3045,7 +3027,6 @@
                 updateAdminStats();
                 loadHistory();
                 loadAnime();
-                // Auto backup after change
                 performBackup().catch(() => {});
             });
         }
@@ -3724,14 +3705,12 @@
             document.getElementById('sectionTitle').scrollIntoView({ behavior: 'smooth' });
         }, { passive: true });
 
-        // ============================================================
-        // AUTO BACKUP ON STARTUP (for admins)
-        // ============================================================
+        // Auto backup on startup (for admins) - after 15 seconds
         setTimeout(() => {
             if (isAdminLoggedIn || isModLoggedIn) {
                 performBackup().catch(() => {});
             }
-        }, 10000);
+        }, 15000);
     </script>
 </body>
 </html>
