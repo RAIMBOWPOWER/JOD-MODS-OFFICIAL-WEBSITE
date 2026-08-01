@@ -90,6 +90,57 @@
             display: none !important;
         }
 
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 14px;
+            z-index: 9999;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+            transform: translateY(60px);
+            opacity: 0;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 90%;
+        }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .toast.success {
+            border-color: var(--accent);
+        }
+        .toast.success i {
+            color: var(--accent);
+        }
+        .toast.error {
+            border-color: var(--danger);
+        }
+        .toast.error i {
+            color: var(--danger);
+        }
+        .toast.info {
+            border-color: #f59e0b;
+        }
+        .toast.info i {
+            color: #f59e0b;
+        }
+        .toast.backup {
+            border-color: var(--cyan);
+        }
+        .toast.backup i {
+            color: var(--cyan);
+        }
+
         /* ===== SOCIAL LINKS ===== */
         .social-links {
             display: flex;
@@ -433,6 +484,35 @@
             color: var(--text-primary);
             border-color: var(--cyan);
             background: rgba(6, 182, 212, 0.05);
+        }
+
+        /* ===== BACKUP INDICATOR ===== */
+        .backup-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+        }
+        .backup-indicator i {
+            color: var(--accent);
+            font-size: 12px;
+        }
+        .backup-indicator .backup-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.7); }
         }
 
         /* ===== CONTENT GRID ===== */
@@ -1154,51 +1234,6 @@
         .footer .social-footer a.youtube:hover { color: #ff0000; }
         .footer .social-footer a.telegram:hover { color: #0088cc; }
 
-        /* ===== TOAST ===== */
-        .toast {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            padding: 12px 20px;
-            border-radius: 14px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            font-size: 14px;
-            z-index: 9999;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
-            transform: translateY(60px);
-            opacity: 0;
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            max-width: 90%;
-        }
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        .toast.success {
-            border-color: var(--accent);
-        }
-        .toast.success i {
-            color: var(--accent);
-        }
-        .toast.error {
-            border-color: var(--danger);
-        }
-        .toast.error i {
-            color: var(--danger);
-        }
-        .toast.info {
-            border-color: #f59e0b;
-        }
-        .toast.info i {
-            color: #f59e0b;
-        }
-
         /* ===== AUTH MODALS ===== */
         .auth-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.94); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(16px); padding: 14px; }
         .auth-modal.active { display: flex; }
@@ -1418,6 +1453,12 @@
                 </div>
 
                 <button class="btn-primary" onclick="openAdminAuth()"><i class="fas fa-upload"></i> Upload</button>
+
+                <div class="backup-indicator" id="backupIndicator">
+                    <span class="backup-dot"></span>
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span id="backupStatus">Auto Backup</span>
+                </div>
 
                 <div class="auth-section" id="authSection">
                     <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
@@ -1680,6 +1721,11 @@
                     <div class="stat-number" id="statLikes">0</div>
                     <div class="stat-label">Likes</div>
                 </div>
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="fas fa-cloud-upload-alt" style="color:var(--cyan);"></i></span>
+                    <div class="stat-number" id="statBackups" style="color:var(--cyan);">0</div>
+                    <div class="stat-label">Backups</div>
+                </div>
             </div>
 
             <div id="adminControls">
@@ -1705,6 +1751,7 @@
                     <button onclick="adminAddAnime()"><i class="fas fa-save"></i> Save</button>
                     <button onclick="adminClearForm()" style="background:#6b7280;"><i class="fas fa-undo"></i> Clear</button>
                     <button onclick="adminResetAll()" style="background:var(--danger);"><i class="fas fa-power-off"></i> Logout All</button>
+                    <button onclick="manualBackup()" style="background:linear-gradient(135deg, var(--cyan), #0891b2);"><i class="fas fa-cloud-upload-alt"></i> Backup Now</button>
                 </div>
 
                 <div id="modSection" style="display:none; margin-top:14px; border-top: 2px solid #f59e0b; padding-top:12px;">
@@ -1722,6 +1769,14 @@
                 <div class="admin-content-list">
                     <h3><i class="fas fa-list"></i> Content List</h3>
                     <div id="adminContentList"><p style="color:var(--text-secondary); padding:10px;">Loading...</p></div>
+                </div>
+
+                <!-- Backup List -->
+                <div style="margin-top:14px; border-top: 1px solid var(--border-color); padding-top:12px;">
+                    <h3 style="color:var(--cyan);"><i class="fas fa-cloud-upload-alt"></i> Backup History</h3>
+                    <div id="backupList" style="max-height:200px; overflow-y:auto; padding:6px 0;">
+                        <p style="color:var(--text-secondary); padding:8px;">No backups yet</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1829,6 +1884,7 @@
             if (type === 'success') toast.classList.add('success');
             else if (type === 'error') toast.classList.add('error');
             else if (type === 'info') toast.classList.add('info');
+            else if (type === 'backup') toast.classList.add('backup');
             toastMsg.textContent = message;
             toast.classList.add('show');
             clearTimeout(toastTimeout);
@@ -1958,6 +2014,7 @@
         let statsCache = {};
         let statsCacheTime = 0;
         let currentEditId = null;
+        let backupCount = 0;
 
         const container = document.getElementById('contentContainer');
         const modal = document.getElementById('contentModal');
@@ -2006,6 +2063,210 @@
             'animation': '🎞️',
             'superhero': '🦸'
         };
+
+        // ============================================================
+        // BACKUP SYSTEM
+        // ============================================================
+        async function performBackup() {
+            try {
+                showToast('backup', '🔄 Creating backup...');
+                
+                // Get current content
+                const contentSnapshot = await window._db.ref('content').once('value');
+                const content = contentSnapshot.val() || {};
+                
+                // Get current stats
+                const statsSnapshot = await window._db.ref('stats').once('value');
+                const stats = statsSnapshot.val() || {};
+                
+                // Get users (from localStorage)
+                const users = JSON.parse(localStorage.getItem('jodmods_users') || '[]');
+                
+                // Get comments
+                const comments = JSON.parse(localStorage.getItem('jodmods_comments') || '[]');
+                
+                // Get history
+                const history = JSON.parse(localStorage.getItem('jodmods_history') || '{}');
+                
+                // Create backup object
+                const backupData = {
+                    timestamp: Date.now(),
+                    date: new Date().toISOString(),
+                    content: content,
+                    stats: stats,
+                    users: users,
+                    comments: comments,
+                    history: history,
+                    contentCount: Object.keys(content).length,
+                    usersCount: users.length,
+                    commentsCount: comments.length
+                };
+                
+                // Save backup to Firebase
+                const backupId = 'backup_' + Date.now();
+                await window._db.ref('backups/' + backupId).set(backupData);
+                
+                // Also save to localStorage for quick access
+                const backupHistory = JSON.parse(localStorage.getItem('jodmods_backup_history') || '[]');
+                backupHistory.unshift({
+                    id: backupId,
+                    timestamp: backupData.timestamp,
+                    date: backupData.date,
+                    contentCount: backupData.contentCount,
+                    usersCount: backupData.usersCount,
+                    commentsCount: backupData.commentsCount
+                });
+                
+                // Keep only last 50 backups
+                if (backupHistory.length > 50) {
+                    backupHistory.length = 50;
+                }
+                localStorage.setItem('jodmods_backup_history', JSON.stringify(backupHistory));
+                
+                backupCount = backupHistory.length;
+                updateBackupIndicator();
+                loadBackupList();
+                updateAdminStats();
+                
+                showToast('success', '✅ Backup created successfully!');
+                return true;
+            } catch (e) {
+                console.error('Backup error:', e);
+                showToast('error', '❌ Backup failed!');
+                return false;
+            }
+        }
+
+        function manualBackup() {
+            if (!isAdminLoggedIn && !isModLoggedIn) {
+                showToast('error', '❌ Login required!');
+                return;
+            }
+            performBackup();
+        }
+
+        function updateBackupIndicator() {
+            const status = document.getElementById('backupStatus');
+            const history = JSON.parse(localStorage.getItem('jodmods_backup_history') || '[]');
+            backupCount = history.length;
+            if (backupCount > 0) {
+                const last = history[0];
+                const time = new Date(last.timestamp).toLocaleString();
+                status.textContent = `💾 ${backupCount} backups (Last: ${time})`;
+            } else {
+                status.textContent = '💾 Auto Backup';
+            }
+        }
+
+        function loadBackupList() {
+            const container = document.getElementById('backupList');
+            const history = JSON.parse(localStorage.getItem('jodmods_backup_history') || '[]');
+            
+            if (history.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-secondary); padding:8px;">No backups yet</p>';
+                return;
+            }
+            
+            let html = '';
+            history.forEach((b, index) => {
+                const date = new Date(b.timestamp).toLocaleString();
+                const isLatest = index === 0;
+                html += `
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 12px; background:rgba(255,255,255,0.02); border-radius:6px; margin:2px 0; border-left:2px solid ${isLatest ? 'var(--cyan)' : 'var(--border-color)'};">
+                        <span style="font-size:12px; color:var(--text-secondary);">
+                            ${isLatest ? '🟢 ' : '📦 '}
+                            ${date}
+                            <span style="color:var(--text-primary); font-weight:600;">${b.contentCount}</span> items
+                            <span style="color:var(--text-secondary);font-size:10px;">👤${b.usersCount} 💬${b.commentsCount}</span>
+                        </span>
+                        <button onclick="restoreBackup(${index})" style="background:rgba(6,182,212,0.1); border:1px solid var(--cyan); color:var(--cyan); padding:2px 12px; border-radius:30px; cursor:pointer; font-size:10px; transition:0.2s;" onmouseover="this.style.background='rgba(6,182,212,0.2)'" onmouseout="this.style.background='rgba(6,182,212,0.1)'">
+                            <i class="fas fa-undo"></i> Restore
+                        </button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        async function restoreBackup(index) {
+            if (!isAdminLoggedIn) {
+                showToast('error', '❌ Admin only!');
+                return;
+            }
+            
+            const history = JSON.parse(localStorage.getItem('jodmods_backup_history') || '[]');
+            if (index >= history.length) return;
+            
+            const backupId = history[index].id;
+            
+            if (!confirm(`⚠️ Restore backup from ${new Date(history[index].timestamp).toLocaleString()}? This will overwrite current data!`)) {
+                return;
+            }
+            
+            try {
+                showToast('backup', '🔄 Restoring backup...');
+                
+                const snapshot = await window._db.ref('backups/' + backupId).once('value');
+                const backup = snapshot.val();
+                
+                if (!backup) {
+                    showToast('error', '❌ Backup not found!');
+                    return;
+                }
+                
+                // Restore content
+                if (backup.content) {
+                    await window._db.ref('content').set(backup.content);
+                }
+                
+                // Restore stats
+                if (backup.stats) {
+                    await window._db.ref('stats').set(backup.stats);
+                }
+                
+                // Restore users
+                if (backup.users) {
+                    localStorage.setItem('jodmods_users', JSON.stringify(backup.users));
+                }
+                
+                // Restore comments
+                if (backup.comments) {
+                    localStorage.setItem('jodmods_comments', JSON.stringify(backup.comments));
+                }
+                
+                // Restore history
+                if (backup.history) {
+                    localStorage.setItem('jodmods_history', JSON.stringify(backup.history));
+                }
+                
+                showToast('success', '✅ Backup restored successfully!');
+                
+                // Reload everything
+                setTimeout(() => {
+                    location.reload();
+                }, 1500);
+                
+            } catch (e) {
+                console.error('Restore error:', e);
+                showToast('error', '❌ Restore failed!');
+            }
+        }
+
+        // Auto backup every 5 minutes
+        setInterval(() => {
+            if (isAdminLoggedIn || isModLoggedIn) {
+                performBackup().catch(() => {});
+            }
+        }, 300000); // 5 minutes
+
+        // Backup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (isAdminLoggedIn || isModLoggedIn) {
+                navigator.sendBeacon = navigator.sendBeacon || function() {};
+                // Try to backup
+                performBackup().catch(() => {});
+            }
+        });
 
         // ============================================================
         // FIREBASE HELPERS
@@ -2505,6 +2766,8 @@
                 loadAdminContentList();
                 loadModeratorList();
                 updateAdminStats();
+                updateBackupIndicator();
+                loadBackupList();
                 showToast('success', '👑 Admin!');
                 error.textContent = '';
                 return;
@@ -2521,6 +2784,8 @@
                 document.getElementById('modSection').style.display = 'none';
                 loadAdminContentList();
                 updateAdminStats();
+                updateBackupIndicator();
+                loadBackupList();
                 showToast('success', '🛠️ Mod!');
                 error.textContent = '';
                 return;
@@ -2624,6 +2889,10 @@
             }
             document.getElementById('statViews').textContent = totalViews;
             document.getElementById('statLikes').textContent = totalLikes;
+            
+            // Update backup count
+            const history = JSON.parse(localStorage.getItem('jodmods_backup_history') || '[]');
+            document.getElementById('statBackups').textContent = history.length;
         }
 
         // ============================================================
@@ -2711,6 +2980,8 @@
                     adminClearForm();
                     loadAdminContentList();
                     loadAnime();
+                    // Auto backup after change
+                    performBackup().catch(() => {});
                 });
             } else {
                 const newId = 'content_' + Date.now();
@@ -2722,6 +2993,8 @@
                     adminClearForm();
                     loadAdminContentList();
                     loadAnime();
+                    // Auto backup after change
+                    performBackup().catch(() => {});
                 });
             }
         }
@@ -2772,6 +3045,8 @@
                 updateAdminStats();
                 loadHistory();
                 loadAnime();
+                // Auto backup after change
+                performBackup().catch(() => {});
             });
         }
 
@@ -3405,6 +3680,8 @@
             if (isAdminLoggedIn || isModLoggedIn) {
                 loadAdminContentList();
                 updateAdminStats();
+                updateBackupIndicator();
+                loadBackupList();
             }
             checkSharedVideo();
             renderCommentPreview();
@@ -3415,6 +3692,7 @@
         renderCommentPreview();
         renderFullComments();
         updateAdminStats();
+        updateBackupIndicator();
 
         // ============================================================
         // ADMIN ACCOUNT
@@ -3445,6 +3723,15 @@
             document.querySelector('.nav-links a[data-type="all"]').click();
             document.getElementById('sectionTitle').scrollIntoView({ behavior: 'smooth' });
         }, { passive: true });
+
+        // ============================================================
+        // AUTO BACKUP ON STARTUP (for admins)
+        // ============================================================
+        setTimeout(() => {
+            if (isAdminLoggedIn || isModLoggedIn) {
+                performBackup().catch(() => {});
+            }
+        }, 10000);
     </script>
 </body>
 </html>
